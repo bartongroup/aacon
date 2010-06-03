@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project default="build-jar" name="Build annotations jar" basedir=".">
+
+	<!-- java -->
+	<property name="java.src" location="${basedir}/src" />
+	<property name="classes" location="${basedir}/bin" />
+	<property name="lib.path" location="${basedir}/lib" />
+	<property name="jar.version" value="1.1" />
+	<property name="jar.name" value="compbio-util-${jar.version}.jar" />
+	<property name="jar.path" value="${basedir}/${jar.name}" />
+	
+	<!-- add libraries -->
+	<path id="lib.classpath">
+		<fileset dir="${lib.path}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="compile" depends="clean">
+		<javac srcdir="${basedir}/src" destdir="${classes}" target="1.5"
+			source="1.5" debug="on" encoding="UTF-8" sourcepath="" >
+			<classpath refid="lib.classpath"></classpath>
+		</javac>
+	</target>
+
+ <!-- Clean temp directories -->
+    <target name="clean">
+        <delete dir="${classes}" />
+        <mkdir dir="${classes}" />
+    </target>
+
+<!-- <zipfileset excludes="META-INF/*.SF" src="jarfilename.jar"/> -->
+	
+	<target name="build-jar" description="Pack utils in a jar" depends="compile">
+		<echo>Jar file: ${jar.name}</echo>
+		<delete file="${jar.path}" failonerror="false"></delete>
+		<jar jarfile="${jar.path}" >
+			<fileset dir="${basedir}/bin/" includes="compbio/**" />
+			<manifest>
+				<attribute name="Built-By" value="Petr V Troshin" />
+				<attribute name="Class-Path" value="." />
+				<attribute name="Implementation-Title" value="Compbio group commonly used utilities" />
+				<attribute name="Implementation-Vendor" value="Petr V Troshin" />
+				<attribute name="Implementation-URL" value="http://www.compbio.dundee.ac.uk/user/pvtroshin" />
+			</manifest>
+		</jar>
+	</target>
+
+</project>
