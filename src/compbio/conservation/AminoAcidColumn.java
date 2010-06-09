@@ -2,6 +2,10 @@ package compbio.conservation;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
+import compbio.util.SequenceUtilTester;
+
 //this is class Column, the objects created represent columns of an alignment
 //column collection will be created
 //columns are than used in various calculations
@@ -11,6 +15,8 @@ import java.util.*;
 
 public class AminoAcidColumn {
 	
+   private final static Logger log = Logger.getLogger(AminoAcidColumn.class);
+
 	private char[] columnArr;
 	private AminoAcidOccurance[] aaOcc;
 	
@@ -18,6 +24,8 @@ public class AminoAcidColumn {
 // TO BE DELETED, THIS CONSTRUCTOR USED FOR TESTS ONLY
 	
 	public AminoAcidColumn( char a, char b, char c, char d, char e, char f, char g, char h, char i, char j){
+		
+		columnArr = new char[10];
 		
 		columnArr[0] = a;
 		columnArr[1] = b;
@@ -200,7 +208,7 @@ public class AminoAcidColumn {
 		
 	AminoAcidAlphabet alp = new AminoAcidAlphabet(); 
 	
-	char aAcids[] = alp.getAlphabet();
+	char[] aAcids = alp.getAlphabet();
 	
     for( int i = 0; i < columnArr.length; i++) {
 
