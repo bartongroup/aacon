@@ -38,7 +38,7 @@ public class ConservationCounter {
 				final ALPHABET key = ALPHABET.valueOf(Character.toString(ch));
 				Integer count = occ.get(key);
 				if (count == null) {
-					count = new Integer(1);
+					count = new Integer(0);
 				}
 				occ.put(key, ++count);
 			}
@@ -69,6 +69,6 @@ public class ConservationCounter {
 			map = ALPHABET.occurenceCounter(chars);
 		}
 		System.out.println(map);
-		System.out.println((System.nanoTime() - st) / 1000000000);
+		System.out.println((System.nanoTime() - st) / 1000000000 + "s");
 	}
 }
