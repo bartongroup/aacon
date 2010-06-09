@@ -53,6 +53,47 @@ public double[] jores() {
 		}
 	
 	    }
+		
+
+	
+	    }
+
+        }
+	
+	return result;
+	
+	}
+
+
+
+public static double[] jores2( AminoAcidColumn[] cols) {
+	
+	double[] result = new double[cols[0].length()];
+	
+	for (int i = 0; i < result.length; i++) {
+		
+		if (cols[i].isEmpty() == true)
+			result[i] = 0;
+		else {
+		
+		if (cols[i].allButOneGaps() == true)
+			result[i] = 0;
+		else {
+		
+		if (cols[i].onlyOneResType() == true)
+			result[i] = 1;
+		
+		else { 
+		
+			PairCollection pair = cols[i].pairs2();
+		
+		    result[i] = (pair.getNrPairs() / pair.getMostFrequent()) * (cols[i].length() * (cols[i].length() - 1) / 2);
+		    
+		}
+	
+	    }
+		
+
 	
 	    }
 
