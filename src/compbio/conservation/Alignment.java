@@ -26,4 +26,27 @@ public double[] kabat() {
 	return result;
 	
 }
+
+public double[] jores() {
+	
+	double[] result = new double[cols[0].length()];
+	
+	for (int i = 0; i < result.length; i++) {
+		
+		if (cols[i].onlyOneResType() == true)
+			result[i] = 1;
+		
+		else { 
+		
+			PairCollection pair = cols[i].pairs2();
+		
+		    result[i] = (pair.getNrPairs() / pair.getMostFrequent()) * (cols[i].length() * (cols[i].length() - 1) / 2);
+		    
+		}
+	
+	}
+	
+	return result;
+}
+
 }
