@@ -1,10 +1,15 @@
 package compbio.conservation;
 
-public class AminoAcidAlphabet {
+import java.util.HashMap;
+import java.util.Map;
 
-	private char[] alph;
+class AminoAcidAlphabet {
 
-	public AminoAcidAlphabet() {
+    private final char[] alph;
+    private final Map<Character, Integer> charCount;
+
+    AminoAcidAlphabet() {
+	charCount = new HashMap<Character, Integer>();
 
 	alph = new char[21];
 
@@ -30,20 +35,36 @@ public class AminoAcidAlphabet {
 	alph[19] = 'V';
 	alph[20] = '-';
 
-	}
+    }
 
-	public char[] getAlphabet() {
+    Map<Character, Integer> calculateOccurance(char[] column) {
+	for (char ch : column) {
+	    addToOccurance(ch);
+	}
+	return charCount;
+    }
+
+    void addToOccurance(char ch) {
+	Integer count = charCount.get(ch);
+	if (count == null) {
+	    charCount.put(ch, new Integer(1));
+	} else {
+	    charCount.put(ch, count + 1);
+	}
+    }
+
+    public char[] getAlphabet() {
 
 	return alph;
 
-	}
-	
-	public int length() {
-		
+    }
+
+    public int length() {
+
 	int len = 21;
-	
+
 	return len;
-	
-	}
+
+    }
 
 }

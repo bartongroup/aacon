@@ -44,7 +44,12 @@ public class AminoAcidColumn {
 
     // constructor, 
 
-    public AminoAcidColumn(AminoAcidMatrix m, int c) {
+    public AminoAcidColumn(AminoAcidMatrix m, int column) {
+
+	if (m == null) {
+	    throw new IllegalArgumentException("Matrix must not be null");
+	}
+	assert column >= 0 && column <= m.numberOfColumns();
 
 	int colLength = m.numberOfRows();
 
@@ -56,7 +61,7 @@ public class AminoAcidColumn {
 
 	for (int i = 0; i < colLength; i++) {
 
-	    char aacid = m.getMatrixPosition(i, c);
+	    char aacid = m.getMatrixPosition(i, column);
 	    s = s.append(aacid);
 	}
 
@@ -401,15 +406,11 @@ public class AminoAcidColumn {
 
 	    int big2 = 0;
 
-	    //ArrayList<AminoAcidOccurance> arr = new ArrayList<AminoAcidOccurance>(aaOcc.length);
-
+	    log.debug(Arrays.toString(aaOcc));
 	    ArrayList<AminoAcidOccurance> arr = new ArrayList<AminoAcidOccurance>(
 		    Arrays.asList(aaOcc));
 
 	    assert aaOcc.length == 21;
-	    //for (int i = 0; i < aaOcc.length; i++) {
-	    //		arr.add(i, aaOcc[i]);
-	    //	}
 
 	    // search the list to find and remove the biggest element 
 
@@ -447,11 +448,11 @@ public class AminoAcidColumn {
 
 		int most2 = big1 * big2;
 
-		if (most1 > most2)
+		if (most1 > most2) {
 		    mostFreqPair = most1;
-
-		else
+		} else {
 		    mostFreqPair = most2;
+		}
 
 	    }
 

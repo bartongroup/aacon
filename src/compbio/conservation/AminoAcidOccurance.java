@@ -4,45 +4,40 @@ package compbio.conservation;
 //in particulat columns
 
 public class AminoAcidOccurance {
-	
-	char id;
 
-	int freq;
+    char id;
 
-	public AminoAcidOccurance(){
+    int freq;
+
+    public AminoAcidOccurance() {
 
 	id = ' ';
 
 	freq = 0;
 
-	}
+    }
 
-	public AminoAcidOccurance( char id) {
-
+    public AminoAcidOccurance(char id) {
 	this.id = id;
-
 	freq = 0;
+    }
 
-	}
-
-    public void addToOccurance( int a ) {
-
+    public void addToOccurance(int a) {
+	assert a > 0;
 	freq = freq + a;
 
-	}
+    }
 
-	public int getOccurance() {
+    public int getOccurance() {
 
-	int occ = freq;
+	return freq;
 
-	return occ;
+    }
 
-	}
-
-	public char getId() {
+    public char getId() {
 
 	return id;
 
-	}
+    }
 
 }
