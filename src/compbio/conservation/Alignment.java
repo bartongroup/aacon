@@ -33,6 +33,14 @@ public double[] jores() {
 	
 	for (int i = 0; i < result.length; i++) {
 		
+		if (cols[i].isEmpty() == true)
+			result[i] = 0;
+		else {
+		
+		if (cols[i].allButOneGaps() == true)
+			result[i] = 0;
+		else {
+		
 		if (cols[i].onlyOneResType() == true)
 			result[i] = 1;
 		
@@ -44,9 +52,14 @@ public double[] jores() {
 		    
 		}
 	
-	}
+	    }
+	
+	    }
+
+        }
 	
 	return result;
-}
+	
+	}
 
 }
