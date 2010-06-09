@@ -358,17 +358,22 @@ public class AminoAcidColumn {
 // think agin about threreturns of the special cases, maybe sth better can be done
 public PairCollection pairs2() {
 	
+	PairCollection p;
+	
 // special case #1 column is empty, only gaps
+
 	
 	if(this.isEmpty() == true) {
 		System.out.println("Column is empty");
-		return null;
+		p = new PairCollection(0,0);
+		return p;
 		
 	}
-	
+// special case #2	
 	if(this.allButOneGaps() == true) {
 		System.out.println("Only one residue in the column - no pairs formed");
-		return null;
+		p = new PairCollection(0,0);
+		return p;
  
 	}
 	
@@ -376,6 +381,8 @@ public PairCollection pairs2() {
 	int pairTypes = 0;
 	
 	int mostFreqPair = 0;
+	
+// 	special case # 3
 	
 	if(this.onlyOneResType() == true) {
 		
@@ -447,7 +454,7 @@ public PairCollection pairs2() {
 			}
 			
 		}
-	PairCollection p = new PairCollection(pairTypes, mostFreqPair);
+	p = new PairCollection(pairTypes, mostFreqPair);
 	
 	return p; 
 	
