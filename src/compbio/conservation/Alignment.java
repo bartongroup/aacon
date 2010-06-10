@@ -2,24 +2,34 @@ package compbio.conservation;
 
 public class Alignment {
 	
-	private AminoAcidColumn[] cols;
+	private ColumnCollection cols;
+	
 	
 	public Alignment (AminoAcidMatrix m){
 		
-	ColumnCollection col = new ColumnCollection(m);
+		if (m == null) {
+			
+			throw new IllegalArgumentException("matrix must not be zero");
+		}
+		
+		
+	cols = new ColumnCollection(m);
 	
-	cols = col.getColumnCollection();
 	
 	}
 
 	
-public double[] kabat() {
+double[] kabat() {
 	 
-	double[] result = new double[cols[0].length()];
+	double[] result = new double[cols.getColumnCollection().length];
+	
+	Column[] columns = cols.getColumnCollection();
+	
+	assert columns.length > 0 ;
 	
 	for (int i = 0; i < result.length; i++ ) {
 		
-		result[i] = cols[i].length() * cols[i].howManyResidueTypes() / cols[i].length(); 
+		result[i] = columns[i].length() * columns[i].numberOfAcids()/ columns[i].mostCommonNumber(); 
 		
 	}
 	
@@ -27,80 +37,64 @@ public double[] kabat() {
 	
 }
 
-public double[] jores() {
+double[] schneider() {
 	
-	double[] result = new double[cols[0].length()];
+	double[] result = new double[cols.getColumnCollection().length]; // might change for matrix length if matrix will get a set size
 	
-	for (int i = 0; i < result.length; i++) {
-		
-		if (cols[i].isEmpty() == true)
-			result[i] = 0;
-		else {
-		
-		if (cols[i].allButOneGaps() == true)
-			result[i] = 0;
-		else {
-		
-		if (cols[i].onlyOneResType() == true)
-			result[i] = 1;
-		
-		else { 
-		
-			PairCollection pair = cols[i].pairs2();
-		
-		    result[i] = (pair.getNrPairs() / pair.getMostFrequent()) * (cols[i].length() * (cols[i].length() - 1) / 2);
-		    
-		}
+	double normal = 1.0 / 20.0;
 	
-	    }
-		
-
+	Column[] columns = cols.getColumnCollection();
 	
-	    }
-
-        }
-	
-	return result;
-	
-	}
-
-
-
-public static double[] jores2( AminoAcidColumn[] cols) {
-	
-	double[] result = new double[cols[0].length()];
+	assert columns.length > 0 ;
 	
 	for (int i = 0; i < result.length; i++) {
 		
-		if (cols[i].isEmpty() == true)
-			result[i] = 0;
-		else {
+		result[i] = ShannonEnthropy.ShannonLn(columns[i].getAcidsIntMap(), columns[i].length()) * normal;
 		
-		if (cols[i].allButOneGaps() == true)
-			result[i] = 0;
-		else {
-		
-		if (cols[i].onlyOneResType() == true)
-			result[i] = 1;
-		
-		else { 
-		
-			PairCollection pair = cols[i].pairs2();
-		
-		    result[i] = (pair.getNrPairs() / pair.getMostFrequent()) * (cols[i].length() * (cols[i].length() - 1) / 2);
-		    
-		}
-	
-	    }
-		
+	}
 
-	
-	    }
+	return result;
+}
 
-        }
+
+double[] shenkin() {
+	
+	double[] result = new double[cols.getColumnCollection().length]; 
+	
+	Column[] columns = cols.getColumnCollection();
+	
+	assert columns.length > 0 ;
+	
+	for (int i = 0; i < result.length; i++) {
+		
+		result[i] = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(columns[i].getAcidsIntMap(), columns[i].length())) * 6.0;
+		
+	}
+
+	return result;
+}
+
+double[] gerstein() {
+	
+	double[] result = new double[cols.getColumnCollection().length]; 
+	
+	Column[] columns = cols.getColumnCollection();
+	
+	assert columns.length > 0 ;
+	
+	for (int i = 0; i < result.length; i++) {
+		
+		result[i] = ShannonEnthropy.ShannonLn(cols.TotalAcids(), cols.getColumnCollection().length * columns[0].length() ) - ShannonEnthropy.ShannonLn(columns[i].getAcidsIntMap(), columns[i].length());
+		 
+	}
 	
 	return result;
 	
-	}
+}
+
+
+
+
 
 }
+
