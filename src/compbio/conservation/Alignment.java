@@ -1,5 +1,7 @@
 package compbio.conservation;
 
+import java.util.*;
+
 public class Alignment {
 	
 	private ColumnCollection cols;
@@ -29,13 +31,24 @@ double[] kabat() {
 	
 	for (int i = 0; i < result.length; i++ ) {
 		
-		result[i] = columns[i].length() * columns[i].numberOfAcids()/ columns[i].mostCommonNumber(); 
+		if (columns[i].isEmpty() == true) {
+			
+			result[i] = 0;
+			
+		}
+	
+		else {
+			
+		result[i] = columns[i].length() * columns[i].numberOfAcidsNoGap()/ columns[i].mostCommonNumber(); 
 		
+		}
 	}
 	
 	return result;
 	
 }
+
+// Symbol Enthropy Scores
 
 double[] schneider() {
 	
@@ -92,9 +105,36 @@ double[] gerstein() {
 	
 }
 
+// stereochemical poperty scores
 
 
+// have to figure out where to get the sets from
+// initially create an object with sets, maybe something else, but the important part 
+// is that we need a hashmap of sets
+// sets used here might actually get stored as the instance variable of alignmanet class
+// will see, ahve to think about it
+// thoght about it, will create a text file with sets and a class and a staic method
+// that reads in the sets an dputs thatm in hashmaps
 
+int[] taylor() {
+	
+int[] result = new int[cols.getColumnCollection().length]; 
+	
+	Column[] columns = cols.getColumnCollection();
+	
+	assert columns.length > 0 ;
+	
+	Map<String, HashSet<Character>> set = new HashMap<String, HashSet<Character>>();
+	
+	for (int i = 0; i < result.length; i++) {
+		
+		//result[i] = columns[i].SmallestTaylorSet(set);
+		
+	}
+	
+	return result;
+	
+	}
 
 }
 

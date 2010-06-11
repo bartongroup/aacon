@@ -1,8 +1,8 @@
 package compbio.conservation;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 import org.testng.Assert;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 
@@ -99,6 +99,7 @@ public class Column {
 	
     }
     // returns true if there is only one residue type in the column
+    // this residue is not a gap
     boolean oneResidueType() {
     	
     	if (acidsIntMap.size() == 1 && acidsIntMap.containsKey('-') == false) {
@@ -114,32 +115,69 @@ public class Column {
     	}
     	
     }
+    
+    // returns true if column contains gaps 
+    
+    boolean containsGaps() {
+    	
+    	if (acidsIntMap.containsKey('-')) {
+    		
+    		return true;
+    	}
+    	
+    	else {
+    		
+    		return false;
+    		
+    	}
+    	
+    }
  
     // returns the nr of aa types in the column
-    int numberOfAcids() {
+    // counts gap as 21 aminoacid
+    int numberOfAcidsWithGap() {
     	
     	return acidsIntMap.size(); 
     	
     }
     
+    //don't want gap to count gaps as 21 amino acids
+    //does not coutn gap
+    
+    int numberOfAcidsNoGap() {
+    
+    if(this.containsGaps() == true) {
+    	
+    	return acidsIntMap.size() - 1;
+    }
+    
+    else {
+    	
+    	return acidsIntMap.size();
+    
+    }
+    
+    }
+    // look out fo this mathod if column empty return most common nr as 0
+    
     int mostCommonNumber() {
     	
     	int max = 0;
     	
-    	Collection<Integer> values = acidsIntMap.values();
+    	Set<Character> keys = acidsIntMap.keySet();
     	
-    	Iterator<Integer> itr = values.iterator();
+    	Iterator<Character> itr = keys.iterator();
     	
     	while(itr.hasNext()) {
     		
-    		int val = itr.next();
+    	Character key = itr.next();
     		
-    		if (val > max) {
+    		if (key != '-' && acidsIntMap.get(key) > max) {
     			
-    			max = val;
+    			max = acidsIntMap.get(key);
     			
     		}
-    		
+    	
     	}
     	
     	assert max != 0 : "Zero in the most Common Number";
@@ -160,7 +198,109 @@ public class Column {
 	 return columnArr.length;
 	 
  }
- }
+ 
+ // this method gets the number of elements in the smallest set  
+ // among the Taylor sets that covers all the aa in the column
+ 
+ int SmallestTaylorSetGaps(Map<String, HashSet<Character>> setMap) {
+ 
+	if (setMap == null) {
+		
+		throw new IllegalArgumentException("setMap must not be null");
+	}
+	
+	Map<String,Integer> repSets = new HashMap<String,Integer>();
+	
+	Set<String> setMapKeys = setMap.keySet();
+	
+	Iterator<String> itr = setMapKeys.iterator();
+	
+	while(itr.hasNext()) {
+		
+		Object key = itr.next();
+		
+		if (setMap.get(key).contains(acidsIntMap.keySet())) {
+			
+			repSets.put((String) key, new Integer(setMap.get(key).size()));
+				
+		}
+	}
+		
+	int smallestSetSize = Collections.min(repSets.values());
+	
+	assert smallestSetSize > 0 && smallestSetSize < 21;
+	
+	return smallestSetSize;
+	
+	}
+ 
+ int SmallestTaylorSetNoGaps(Map<String, HashSet<Character>> setMap) {
+	 
+		if (setMap == null) {
+			
+			throw new IllegalArgumentException("setMap must not be null");
+		}
+		Alphabet alp = new Alphabet();
+		
+		Map<Character, Integer> acidsMapNoGaps = alp.calculateOccuranceNoGaps(columnArr);
+		
+		Map<String,Integer> repSets = new HashMap<String,Integer>();
+		
+		Set<String> setMapKeys = setMap.keySet();
+		
+		Iterator<String> itr = setMapKeys.iterator();
+		
+		while(itr.hasNext()) {
+			
+			Object key = itr.next();
+			
+			if (setMap.get(key).contains(acidsMapNoGaps.keySet())) {
+				
+				repSets.put((String) key, new Integer(setMap.get(key).size()));
+					
+			}
+		}
+			
+		int smallestSetSize = Collections.min(repSets.values());
+		
+		assert smallestSetSize > 0 && smallestSetSize < 21;
+		
+		return smallestSetSize;
+		
+		}
+	
+ 	int zvelibilScore(Map<String, HashSet<Character>> setMap){
+ 		
+ 		int result = 0;
+ 		
+ 		if (setMap == null) {
+ 			
+ 			throw new IllegalArgumentException("setMap must not be null");
+ 		}
+ 		
+ 		Set<String> keys = setMap.keySet();
+ 		
+ 		Iterator<String> itr = keys.iterator();
+ 		
+ 		while(itr.hasNext()) {
+ 			
+ 			if(setMap.get(itr.next()).contains(acidsIntMap.keySet())) {
+ 				
+ 				result++;
+ 			}
+ 			
+ 		}
+ 		
+ 		assert result > 0 && result < 11;
+ 		
+ 		return result;
+ 	}
+
+
+
+
+}
+ 
   
     	
     	

@@ -9,11 +9,15 @@ class Alphabet {
 	
 	private final Map<Character,Integer> charCount;
 	
+	private final Map<Character,Integer> charCountNoGaps;
+	
 	Alphabet() {
 		
 		alph = new HashSet<Character>();
 		
 		charCount = new HashMap<Character,Integer>();
+		
+		charCountNoGaps = new HashMap<Character,Integer>();
 		
 		alph.add('R');
 		alph.add('H');
@@ -71,13 +75,41 @@ class Alphabet {
     	}
     	
         }
+        
+        Map<Character, Integer> calculateOccuranceNoGaps( final char[] column) {
+        	
+        	if (column == null) {
+        		
+        		throw new IllegalArgumentException("Column must not be  null");
+        	}
+        		
+        	for (char ch : column) {
+        	
+        	assert alph.contains(ch) : "Illegal character in the column";
+        			
+        	    addToOccurance(ch);
+        	    
+        		}
+        	    
+        	
+            assert !charCountNoGaps.isEmpty();
+            
+        	return charCountNoGaps;
+            }
 
-		
-		
-		
-		
-		
-		
+        void addToOccuranceNoGaps(char ch) {
+        	
+        	Integer count = charCountNoGaps.get(ch);
+        	
+        	if (count == null) {
+        	    charCountNoGaps.put(ch, new Integer(1));
+        	    
+        	} else {
+        	    charCountNoGaps.put(ch, count + 1);
+        	}
+        	
+            }
+
 }
 	
 	
