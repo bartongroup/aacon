@@ -5,19 +5,19 @@ import java.util.*;
 
 class Alphabet {
 	
-	private final Set<Character> alph;
+	//private final Set<Character> alph;
 	
-	private final Map<Character,Integer> charCount;
+	///private final Map<Character,Integer> charCount;
 	
-	private final Map<Character,Integer> charCountNoGaps;
+	//private final Map<Character,Integer> charCountNoGaps;
 	
-	Alphabet() {
+	static Set<Character> alphabet() {
 		
-		alph = new HashSet<Character>();
+		Set<Character> alph = new HashSet<Character>();
 		
-		charCount = new HashMap<Character,Integer>();
+	//	charCount = new HashMap<Character,Integer>();
 		
-		charCountNoGaps = new HashMap<Character,Integer>();
+	//	charCountNoGaps = new HashMap<Character,Integer>();
 		
 		alph.add('R');
 		alph.add('H');
@@ -40,32 +40,31 @@ class Alphabet {
 		alph.add('V');
 		alph.add('-');
 		
+		return alph;
+		
 		}
 	
-    Map<Character, Integer> calculateOccurance( final char[] column) {
+   static Map<Character, Integer> calculateOccurance( final char[] column) {
     	
     	if (column == null) {
     		
     		throw new IllegalArgumentException("Column must not be  null");
     	}
     		
+        Set<Character> alph = Alphabet.alphabet();
+    	
+    	Map<Character,Integer> charCount = new HashMap<Character,Integer>();
+    	
     	for (char ch : column) {
+    		
+    	if(ch == '.' || ch == '*' || ch == ' ') {
+    		
+    		ch = '-';
+    	}
     	
     	assert alph.contains(ch) : "Illegal character in the column";
-    			
-    	    addToOccurance(ch);
-    	    
-    		}
-    	    
     	
-        assert !charCount.isEmpty();
-        
-    	return charCount;
-        }
-
-        void addToOccurance(char ch) {
-        	
-    	Integer count = charCount.get(ch);
+        Integer count = charCount.get(ch);
     	
     	if (count == null) {
     	    charCount.put(ch, new Integer(1));
@@ -74,43 +73,66 @@ class Alphabet {
     	    charCount.put(ch, count + 1);
     	}
     	
-        }
+    			
+    	}
+    	
+    	//addToOccurance(ch);
+    	    
+        assert !charCount.isEmpty();
         
-        Map<Character, Integer> calculateOccuranceNoGaps( final char[] column) {
-        	
-        	if (column == null) {
-        		
-        		throw new IllegalArgumentException("Column must not be  null");
-        	}
-        		
-        	for (char ch : column) {
-        	
-        	assert alph.contains(ch) : "Illegal character in the column";
-        			
-        	    addToOccurance(ch);
-        	    
-        		}
-        	    
-        	
-            assert !charCountNoGaps.isEmpty();
-            
-        	return charCountNoGaps;
-            }
+    	return charCount;
+    	
+        }
 
-        void addToOccuranceNoGaps(char ch) {
+       // void addToOccurance(char ch) {
         	
-        	Integer count = charCountNoGaps.get(ch);
+    	//Integer count = charCount.get(ch);
+    	
+    	//if (count == null) {
+    	   // charCount.put(ch, new Integer(1));
+    	    
+    	//} else {
+    	   // charCount.put(ch, count + 1);
+    	//}
+    	
+        //}
+        
+  //      Map<Character, Integer> calculateOccuranceNoGaps( final char[] column) {
+  //    	
+  //  	if (column == null) {
+        		
+  //      		throw new IllegalArgumentException("Column must not be  null");
+  //      	}
+  //     		
+  //      	for (char ch : column) {
         	
-        	if (count == null) {
-        	    charCountNoGaps.put(ch, new Integer(1));
+  //      	assert alph.contains(ch) : "Illegal character in the column";
+        			
+  //      	    addToOccurance(ch);
         	    
-        	} else {
-        	    charCountNoGaps.put(ch, count + 1);
-        	}
+  //      		}
+        	    
         	
-            }
+  //          assert !charCountNoGaps.isEmpty();
+            
+  //      	return charCountNoGaps;
+  //          }
+
+  //       void addToOccuranceNoGaps(char ch) {
+        	
+  //      	Integer count = charCountNoGaps.get(ch);
+        	
+  //      	if (count == null) {
+  //      	    charCountNoGaps.put(ch, new Integer(1));
+        	    
+  //      	} else {
+  //      	    charCountNoGaps.put(ch, count + 1);
+  //      	}
+        	
+  //          }
 
 }
+
 	
 	
 

@@ -1,9 +1,6 @@
 package compbio.conservation;
 import java.util.*;
-import org.testng.Assert;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
+
 
 
 
@@ -61,9 +58,9 @@ public class Column {
 
 // calls mathod to create a map
 	
-	Alphabet alp = new Alphabet();
+	//Alphabet alp = new Alphabet();
 	
-	acidsIntMap = alp.calculateOccurance(columnArr);
+	acidsIntMap = Alphabet.calculateOccurance(columnArr);
 	
 	}
 	
@@ -217,11 +214,11 @@ public class Column {
 	
 	while(itr.hasNext()) {
 		
-		Object key = itr.next();
+		String key = itr.next();
 		
-		if (setMap.get(key).contains(acidsIntMap.keySet())) {
+		if (setMap.get(key).containsAll(acidsIntMap.keySet())) {
 			
-			repSets.put((String) key, new Integer(setMap.get(key).size()));
+			repSets.put(key, new Integer(setMap.get(key).size()));
 				
 		}
 	}
@@ -240,9 +237,15 @@ public class Column {
 			
 			throw new IllegalArgumentException("setMap must not be null");
 		}
-		Alphabet alp = new Alphabet();
+		//Alphabet alp = new Alphabet();
 		
-		Map<Character, Integer> acidsMapNoGaps = alp.calculateOccuranceNoGaps(columnArr);
+		Map<Character,Integer> acidsMapNoGaps = new HashMap<Character,Integer>(acidsIntMap);
+		
+		if(acidsMapNoGaps.containsKey('-')) {
+			
+			acidsMapNoGaps.remove('-');
+			
+		}
 		
 		Map<String,Integer> repSets = new HashMap<String,Integer>();
 		
@@ -252,11 +255,11 @@ public class Column {
 		
 		while(itr.hasNext()) {
 			
-			Object key = itr.next();
+			String key = itr.next();
 			
-			if (setMap.get(key).contains(acidsMapNoGaps.keySet())) {
+			if (setMap.get(key).containsAll(acidsMapNoGaps.keySet())) {
 				
-				repSets.put((String) key, new Integer(setMap.get(key).size()));
+				repSets.put(key, new Integer(setMap.get(key).size()));
 					
 			}
 		}
@@ -284,7 +287,7 @@ public class Column {
  		
  		while(itr.hasNext()) {
  			
- 			if(setMap.get(itr.next()).contains(acidsIntMap.keySet())) {
+ 			if(setMap.get(itr.next()).containsAll(acidsIntMap.keySet())) {
  				
  				result++;
  			}
@@ -296,12 +299,176 @@ public class Column {
  		return result;
  	}
 
-
-
-
+ 	// done exactly like in jon's code: gaps not counted, if all but 1 gaps conservation score 0
+ 	// although it looks to me that the formula suggests that if one doesn't count gaps
+ 	// than the score of all but one gaps would be undefined
+ 	// will read the original paper
+ 	
+ 	double karlinScore() {
+ 		
+ 		double blosumSum = 0;
+ 		
+ 		double finalSum = 0;
+ 		
+ 		for( int a = 0; a < columnArr.length; a++) {
+ 			
+ 			if(columnArr[a] != '-') {
+ 				
+ 				for(int b = a + 1; b < columnArr.length; b++) {
+ 					
+ 					if(columnArr[b] != '-') {
+ 						
+ 						int pairScore = ConservationAccessory.BlosumPair(columnArr[a], columnArr[b]);
+ 						
+ 						int aSelf = ConservationAccessory.BlosumPair(columnArr[a], columnArr[a]);
+ 						
+ 						int bSelf = ConservationAccessory.BlosumPair(columnArr[a], columnArr[b]);
+ 						
+ 						blosumSum = blosumSum + (pairScore / (Math.sqrt(aSelf * bSelf)));
+ 					
+ 					}
+ 					
+ 				}
+ 			}
+ 		}
+ 		
+ 		finalSum = blosumSum * (2/ (columnArr.length * (columnArr.length - 1)));
+ 		
+ 		assert finalSum >= -1 && finalSum <= 1;
+ 		
+ 		return finalSum;
+ 	}
+ 	
+ // creates an array containg all the aminoacids and gaps present in the colum
+ // iterates through that array twice(nested loops), finds all the possible pairs 
+ // that can be formed by aa present
+ // gap is considered the 21 aminoacid
+ 	double armonScore() {
+ 		
+ 		double scoreSum = 0;
+ 		
+ 		//Object[] acidsPresent = acidsIntMap.keySet().toArray();
+ 		
+ 		int arrayLength = acidsIntMap.keySet().size();
+ 		
+ 		Character[] acidsPresent = new Character[arrayLength];
+ 		
+ 		int arrayIndex = 0;
+ 		
+ 		Set<Character> keys = acidsIntMap.keySet();
+ 		
+ 		Iterator<Character> itr = keys.iterator();
+ 		
+ 		while(itr.hasNext()) {
+ 			
+ 			acidsPresent[arrayIndex] = itr.next();
+ 		}
+ 		
+ 		for ( int a = 0; a < acidsPresent.length; a++ ) {
+ 			
+ 			char charA = acidsPresent[a];
+ 			
+ 			for (int b = a + 1; b < acidsPresent.length; b++) {
+ 				
+ 				char charB = acidsPresent[b];
+ 				
+ 				scoreSum = scoreSum + ConservationAccessory.BlosumPair(charA, charB);
+ 				
+ 			}
+ 		}
+ 		
+ 		return scoreSum;
+ 		
+ 	}
+// amino acids are viewed as points in k dimensional space
+ 	
+ 	double thompsonScore(){
+ 		
+ 		int[] sum = null;
+ 		
+ 		double[] meanPoint = null;
+ 		
+ 		double distance = 0;
+ 		
+ 		char[] alp = ConservationAccessory.alphabetArray();
+ 		
+ 		int[][] points = new int[columnArr.length][alp.length];
+ 		
+ 		for (int i = 0; i < columnArr.length; i++) {
+ 			
+ 			for (int j = 0; j < alp.length; j++) {
+ 				
+ 				points[i][j] = ConservationAccessory.BlosumPair(columnArr[i], alp[j]);
+ 				
+ 			}
+ 			
+ 			if (sum == null) {
+ 				
+ 				sum = points[i];
+ 				
+ 			}
+ 				
+ 				else {
+ 					
+ 					sum = ConservationAccessory.addPoints(sum, points[i]);
+ 				}
+ 			
+ 		}
+ 		
+ 		assert sum != null;
+ 		
+ 		meanPoint = ConservationAccessory.multPointByScalar(sum, 1.0/(double) columnArr.length);
+ 		
+ 		for (int i = 0; i < columnArr.length; i++) {
+ 			
+ 			distance = distance + ConservationAccessory.pointDistance(meanPoint, points[i]);
+ 			
+ 		}
+ 		
+ 		double nonGapsFraction = (columnArr.length - acidsIntMap.get('-')) / columnArr.length;
+ 		
+ 		double result = nonGapsFraction * 1/columnArr.length * distance;
+ 		
+ 		return result;
+ 			
+ 		}
+ 		
+ 		
+	double lancetScore() {
+		
+		double result = 0.0;
+		
+		Set<Character> keys = acidsIntMap.keySet();
+		
+		Iterator<Character> itr1 = keys.iterator();
+		
+		Iterator<Character> itr2 = keys.iterator();
+		
+		while (itr1.hasNext()) {
+			
+			char key1 = itr1.next();
+			
+			while (itr2.hasNext()) {
+				
+				char key2 = itr2.next();
+				
+				double blosum = ConservationAccessory.BlosumPair(key1, key2);
+				
+				if (blosum == 0) { blosum = 0.000000000000001;}
+				
+				result = result + ((acidsIntMap.get(key1)/columnArr.length * acidsIntMap.get(key1)/columnArr.length)/blosum);
+			}
+		}
+	
+	return result;
+	
+	}
+	
+	
 }
+
  
-  
+
     	
     	
  

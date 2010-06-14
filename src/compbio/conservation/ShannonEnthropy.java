@@ -23,9 +23,11 @@ public class ShannonEnthropy {
     	
     	while(itr.hasNext()) {
     		
-    		if (itr.next() != '-') {
+    		Character key = itr.next();
+    		
+    		if (key != '-') {
     			
-    			double value = map.get(itr.next()) / nrSequences;
+    			double value = map.get(key) / nrSequences;
     			
     			sum = sum + (value * (Math.log(value)/Math.log(2.0)));
     			
@@ -58,9 +60,11 @@ static double ShannonLn(final Map<Character,Integer> map, int nrSequences) {
     	
     	while(itr.hasNext()) {
     		
-    		if (itr.next() != '-') {
+    		Character key = itr.next();
+    		
+    		if (key != '-') {
     			
-    			double value = map.get(itr.next()) / (double) nrSequences;
+    			double value = map.get(key) / (double) nrSequences;
     			
     			sum = sum + (value * Math.log(value));
     			
