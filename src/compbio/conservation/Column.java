@@ -161,7 +161,7 @@ public class Column {
     }
     
     }
-    // look out fo this mathod if column empty return most common nr as 0
+    // look out for this method if column empty return most common nr as 0
     
     int mostCommonNumber() {
     	
@@ -204,6 +204,7 @@ public class Column {
  
  // this method gets the number of elements in the smallest set  
  // among the Taylor sets that covers all the aa in the column
+ // the set that includes a gap symbol, is the biggest set of all(all aa + gap symbol) 
  
  int SmallestTaylorSetGaps(Map<String, HashSet<Character>> setMap) {
  
@@ -237,6 +238,7 @@ public class Column {
 	
 	}
  
+ // does a very similar thing as a previous one, but does not take gaps into account
  int SmallestTaylorSetNoGaps(Map<String, HashSet<Character>> setMap) {
 	 
 		if (setMap == null) {
@@ -277,7 +279,8 @@ public class Column {
 		return smallestSetSize;
 		
 		}
-	
+	// gives score 0-10 based on the fact that all the characters belong to certain sets
+ 	// there are 20 sets(they consist of 10 sets based on characteristics and 10 complements
  	int zvelibilScore(Map<String, HashSet<Character>> setMap){
  		
  		int result = 0;
@@ -350,15 +353,13 @@ public class Column {
  		return finalSum;
  	}
  	
- // creates an array containg all the aminoacids and gaps present in the colum
+ // creates an array containing all the amino acids and gaps present in the column
  // iterates through that array twice(nested loops), finds all the possible pairs 
  // that can be formed by aa present
  // gap is considered the 21 aminoacid
  	double armonScore() {
  		
  		double scoreSum = 0;
- 		
- 		//Object[] acidsPresent = acidsIntMap.keySet().toArray();
  		
  		int arrayLength = acidsIntMap.keySet().size();
  		
@@ -395,6 +396,8 @@ public class Column {
  		
  	}
 // amino acids are viewed as points in k dimensional space
+// an average point is calculated
+// score is the distance between the av point and the actual point
  	
  	double thompsonScore(){
  		
@@ -460,9 +463,8 @@ public class Column {
  			
  		}
  		
- 		
-	// FIX ME nested iterator
- 	
+ 	// causes some math problem because denominator can be 0, that's a formula flaw
+ 	// nothing can be done about it
  	double lancetScore() {
 		
 		double result = 0.0;
@@ -483,7 +485,7 @@ public class Column {
 				
 				double blosum = ConservationAccessory.BlosumPair(key1, key2);
 				
-				if (blosum == 0.0) { blosum = 0.000000000000001;}
+				if (blosum == 0.0) { blosum = 0.00000000000000000000000001;}
 				
 				result = result + ((((double) acidsIntMap.get(key1)/ (double) columnArr.length * (double) acidsIntMap.get(key1)/ (double) columnArr.length)) / blosum);
 			}
@@ -493,6 +495,10 @@ public class Column {
 	
 	}
 	
+ 	//calculates shannon enthropy but based on the sets, has to calculate number of amino acids tat belong 
+ 	//a particular set, stores them in a hashmap
+ 	//reads in a hashmap with the sets needed and creates a hashmap with set names as keys and number of aa belonging to set as value
+ 	
 	double mirnyScore() {
 		
 		double mirnySum = 0.0;
@@ -562,6 +568,81 @@ public class Column {
 		return mirnySum;
 		
 	}
+	
+
+double williamsonScore() {
+		  
+		double willSum = 0.0;
+		
+		Map<String, HashSet<Character>> willSets= ConservationAccessory.mirnySets();
+		
+		assert willSets != null && ! willSets.isEmpty();
+		
+		Set<String> willKeys = willSets.keySet();
+		
+		assert !willKeys.isEmpty();
+		
+		Iterator<String> willKeysItr = willKeys.iterator();
+		
+		Set<Character> acInKeys = acidsIntMap.keySet(); 
+		
+		assert !acInKeys.isEmpty();
+		
+		Map<String,Integer> setsFreq = new HashMap<String,Integer>();  
+		
+		while (willKeysItr.hasNext()) {
+			
+			String willKey = willKeysItr.next();
+			
+			Iterator<Character> acInKeysItr = acInKeys.iterator();
+			
+			while (acInKeysItr.hasNext()) {
+				
+				Character acInKey = acInKeysItr.next();
+				
+				if (willSets.get(willKey).contains(acInKey)) {
+					
+					Integer count = setsFreq.get(willKey);
+					
+					if (count == null) {
+						
+						setsFreq.put(willKey, acidsIntMap.get(acInKey));
+					}
+					
+					else {
+						
+						setsFreq.put(willKey, count + acidsIntMap.get(acInKey));
+						
+					}
+				}
+			}
+		}
+		
+		// this assertion will not work if we feed an empty column
+		
+		assert !setsFreq.isEmpty();
+		
+		Set<String> setsFreqKeys = setsFreq.keySet();
+		
+		Iterator<String> setsFreqKeysItr = setsFreqKeys.iterator();
+		
+		while(setsFreqKeysItr.hasNext()) {
+			
+			String setFreqKey = setsFreqKeysItr.next();
+			
+			// FIXME Pi in the logarithm needs to be divided by average pi, do it once u get classes to be nested
+			
+			double pI = (double) setsFreq.get(setFreqKey) / (double) columnArr.length; 
+			
+			willSum = willSum + (pI * Math.log(pI));
+			
+		}
+		
+		return willSum;
+		
+	}
+
+
 	
 	
 }

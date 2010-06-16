@@ -284,5 +284,72 @@ class ConservationAccessory {
 		return sets;
 		
 	}
+	
+	static Map<String,HashSet<Character>> williamsonSets() {
+		
+		Map<String,HashSet<Character>> sets = new HashMap<String,HashSet<Character>>();
+		
+		HashSet<Character> set1 = new HashSet<Character>();
+		
+		set1.add('V');
+		set1.add('L');
+		set1.add('I');
+		set1.add('M');
+		
+		HashSet<Character> set2 = new HashSet<Character>();
+		
+		set2.add('F');
+		set2.add('W');
+		set2.add('Y');
+		
+		HashSet<Character> set3 = new HashSet<Character>();
+		
+		set3.add('S');
+		set3.add('T');
+		
+		HashSet<Character> set4 = new HashSet<Character>();
+		
+		set4.add('N');
+		set4.add('Q');
+		
+		HashSet<Character> set5 = new HashSet<Character>();
+		
+		set5.add('H');
+		set5.add('K');
+		set5.add('R');
+		
+		HashSet<Character> set6 = new HashSet<Character>();
+		
+		set6.add('D');
+		set6.add('E');
+		
+		HashSet<Character> set7 = new HashSet<Character>();
+		
+		set7.add('A');
+		set7.add('G');
+		
+		HashSet<Character> set8 = new HashSet<Character>();
+		
+		set8.add('P');
+		
+		HashSet<Character> set9 = new HashSet<Character>();
+		
+		set9.add('C');
+		
+		sets.put("set1", set1);
+		sets.put("set2", set2);
+		sets.put("set3", set3);
+		sets.put("set4", set4);
+		sets.put("set5", set5);
+		sets.put("set6", set6);
+		sets.put("set7", set7);
+		sets.put("set8", set8);
+		sets.put("set9", set9);
+		
+		return sets;
+		
+		
+		}
+	
 }
 
