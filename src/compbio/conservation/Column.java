@@ -12,24 +12,28 @@ public class Column {
 
     // TO BE DELETED, THIS CONSTRUCTOR USED FOR TESTS ONLY
 
-    //public Column(char a, char b, char c, char d, char e, char f,
-	 //  char g, char h, char i, char j) {
+    public Column(char a, char b, char c, char d, char e, char f,
+	  char g, char h, char i, char j) {
 
-	//columnArr = new char[10];
+	columnArr = new char[10];
 
-	//columnArr[0] = a;
-	//columnArr[1] = b;
-	//columnArr[2] = c;
-	//columnArr[3] = d;
-	//columnArr[4] = e;
-	//columnArr[5] = f;
-	//columnArr[6] = g;
-	//columnArr[7] = h;
-	//columnArr[8] = i;
-	//columnArr[9] = j;
+	columnArr[0] = a;
+	columnArr[1] = b;
+	columnArr[2] = c;
+	columnArr[3] = d;
+	columnArr[4] = e;
+	columnArr[5] = f;
+	columnArr[6] = g;
+	columnArr[7] = h;
+	columnArr[8] = i;
+	columnArr[9] = j;
 
 
-    //}
+    acidsIntMap = Alphabet.calculateOccurance(columnArr);
+    
+    assert !acidsIntMap.isEmpty() && acidsIntMap != null;
+    
+    }
 
     // constructor, 
 
@@ -61,6 +65,8 @@ public class Column {
 	//Alphabet alp = new Alphabet();
 	
 	acidsIntMap = Alphabet.calculateOccurance(columnArr);
+	
+	assert acidsIntMap != null && !acidsIntMap.isEmpty();
 	
 	}
 	
@@ -308,33 +314,38 @@ public class Column {
  		
  		double blosumSum = 0;
  		
- 		double finalSum = 0;
- 		
  		for( int a = 0; a < columnArr.length; a++) {
  			
  			if(columnArr[a] != '-') {
- 				
+ 			
  				for(int b = a + 1; b < columnArr.length; b++) {
  					
  					if(columnArr[b] != '-') {
  						
- 						int pairScore = ConservationAccessory.BlosumPair(columnArr[a], columnArr[b]);
+ 						double pairScore =  ConservationAccessory.BlosumPair(columnArr[a], columnArr[b]);
  						
- 						int aSelf = ConservationAccessory.BlosumPair(columnArr[a], columnArr[a]);
+ 						double aSelf =  ConservationAccessory.BlosumPair(columnArr[a], columnArr[a]);
  						
- 						int bSelf = ConservationAccessory.BlosumPair(columnArr[a], columnArr[b]);
+ 						assert aSelf > 0;
  						
- 						blosumSum = blosumSum + (pairScore / (Math.sqrt(aSelf * bSelf)));
+ 						double bSelf = ConservationAccessory.BlosumPair(columnArr[b], columnArr[b]);
+ 						
+ 						assert bSelf > 0;
+ 						
+ 						blosumSum = blosumSum + ((pairScore) / (Math.sqrt(aSelf * bSelf)));
  					
  					}
  					
  				}
+ 		
  			}
+ 			
  		}
  		
- 		finalSum = blosumSum * (2/ (columnArr.length * (columnArr.length - 1)));
  		
- 		assert finalSum >= -1 && finalSum <= 1;
+ 		double finalSum = blosumSum * (2.0 / ( columnArr.length * (columnArr.length - 1)));
+ 		
+ 	    assert finalSum >= -1 && finalSum <= 1;
  		
  		return finalSum;
  	}
@@ -362,6 +373,9 @@ public class Column {
  		while(itr.hasNext()) {
  			
  			acidsPresent[arrayIndex] = itr.next();
+ 			
+ 			arrayIndex++;
+ 			
  		}
  		
  		for ( int a = 0; a < acidsPresent.length; a++ ) {
@@ -388,9 +402,13 @@ public class Column {
  		
  		double[] meanPoint = null;
  		
- 		double distance = 0;
+ 		double distance = 0.0;
+ 		
+ 		double nonGapsFraction = 0.0;
  		
  		char[] alp = ConservationAccessory.alphabetArray();
+ 		
+ 		assert alp != null && alp.length != 0;
  		
  		int[][] points = new int[columnArr.length][alp.length];
  		
@@ -421,20 +439,31 @@ public class Column {
  		
  		for (int i = 0; i < columnArr.length; i++) {
  			
- 			distance = distance + ConservationAccessory.pointDistance(meanPoint, points[i]);
+ 			distance = distance + ConservationAccessory.pointDistance(points[i], meanPoint);
  			
  		}
  		
- 		double nonGapsFraction = (columnArr.length - acidsIntMap.get('-')) / columnArr.length;
+ 		if (acidsIntMap.keySet().contains('-')) {
+ 			
+ 			nonGapsFraction = (double) (columnArr.length - acidsIntMap.get('-')) / (double) columnArr.length;
+ 			
+ 		}
  		
- 		double result = nonGapsFraction * 1/columnArr.length * distance;
+ 		else {
+ 			
+ 			nonGapsFraction = 1.0;
+ 			
+ 		}
+ 		double result = nonGapsFraction * 1.0/columnArr.length * distance;
  		
  		return result;
  			
  		}
  		
  		
-	double lancetScore() {
+	// FIX ME nested iterator
+ 	
+ 	double lancetScore() {
 		
 		double result = 0.0;
 		
@@ -442,11 +471,11 @@ public class Column {
 		
 		Iterator<Character> itr1 = keys.iterator();
 		
-		Iterator<Character> itr2 = keys.iterator();
-		
 		while (itr1.hasNext()) {
 			
 			char key1 = itr1.next();
+			
+			Iterator<Character> itr2 = keys.iterator();
 			
 			while (itr2.hasNext()) {
 				
@@ -454,14 +483,84 @@ public class Column {
 				
 				double blosum = ConservationAccessory.BlosumPair(key1, key2);
 				
-				if (blosum == 0) { blosum = 0.000000000000001;}
+				if (blosum == 0.0) { blosum = 0.000000000000001;}
 				
-				result = result + ((acidsIntMap.get(key1)/columnArr.length * acidsIntMap.get(key1)/columnArr.length)/blosum);
+				result = result + ((((double) acidsIntMap.get(key1)/ (double) columnArr.length * (double) acidsIntMap.get(key1)/ (double) columnArr.length)) / blosum);
 			}
 		}
 	
 	return result;
 	
+	}
+	
+	double mirnyScore() {
+		
+		double mirnySum = 0.0;
+		
+		Map<String, HashSet<Character>> mirnySets= ConservationAccessory.mirnySets();
+		
+		assert mirnySets != null && !mirnySets.isEmpty();
+		
+		Set<String> mirnyKeys = mirnySets.keySet();
+		
+		assert !mirnyKeys.isEmpty();
+		
+		Iterator<String> mirnyKeysItr = mirnyKeys.iterator();
+		
+		Set<Character> acInKeys = acidsIntMap.keySet(); 
+		
+		assert !acInKeys.isEmpty();
+		
+		Map<String,Integer> setsFreq = new HashMap<String,Integer>();  
+		
+		while (mirnyKeysItr.hasNext()) {
+			
+			String mirnyKey = mirnyKeysItr.next();
+			
+			Iterator<Character> acInKeysItr = acInKeys.iterator();
+			
+			while (acInKeysItr.hasNext()) {
+				
+				Character acInKey = acInKeysItr.next();
+				
+				if (mirnySets.get(mirnyKey).contains(acInKey)) {
+					
+					Integer count = setsFreq.get(mirnyKey);
+					
+					if (count == null) {
+						
+						setsFreq.put(mirnyKey, acidsIntMap.get(acInKey));
+					}
+					
+					else {
+						
+						setsFreq.put(mirnyKey, count + acidsIntMap.get(acInKey));
+						
+					}
+				}
+			}
+		}
+		
+		// this assertion will not work if we feed an empty column
+		
+		assert !setsFreq.isEmpty();
+		
+		Set<String> setsFreqKeys = setsFreq.keySet();
+		
+		Iterator<String> setsFreqKeysItr = setsFreqKeys.iterator();
+		
+		while(setsFreqKeysItr.hasNext()) {
+			
+			String setFreqKey = setsFreqKeysItr.next();
+			
+			double pI = (double) setsFreq.get(setFreqKey) / (double) columnArr.length; 
+			
+			mirnySum = mirnySum + (pI * Math.log(pI));
+			
+		}
+		
+		return mirnySum;
+		
 	}
 	
 	
