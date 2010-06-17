@@ -17,6 +17,23 @@ public class AminoAcidMatrix {
 // this constructor will be use for testign solely
 // it lest the user enter aa into matrix manually 
 	
+public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10){
+		
+		matrix = new char[1][10];
+		                        
+		matrix[0][0] = p1;
+		matrix[0][1] = p2;
+		matrix[0][2] = p3;
+		matrix[0][3] = p4;
+		matrix[0][4] = p5;
+		matrix[0][5] = p6;
+		matrix[0][6] = p7;
+		matrix[0][7] = p8;
+		matrix[0][8] = p9;
+		matrix[0][9] = p10;
+		
+}
+	
 	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10, char p11, char p12, char p13, char p14, char p15, char p16, char p17 ,char p18 ,char p19 ,char p20,char p21, char p22, char p23, char p24, char p25, char p26, char p27 ,char p28 ,char p29 ,char p30,char p31, char p32, char p33, char p34, char p35, char p36,char p37 , char p38 ,char p39 ,char p40,char p41, char p42, char p43, char p44, char p45, char p46,char p47 , char p48 ,char p49 ,char p50,char p51, char p52, char p53, char p54, char p55, char p56,char p57 , char p58 ,char p59 ,char p60, char p61, char p62, char p63, char p64, char p65, char p66,char p67 , char p68 ,char p69 ,char p70,char p71, char p72, char p73, char p74, char p75, char p76,char p77 , char p78 ,char p79 ,char p80,char p81, char p82, char p83, char p84, char p85, char p86,char p87 , char p88 ,char p89 ,char p90,char p91, char p92, char p93, char p94, char p95, char p96,char p97 , char p98 ,char p99 ,char p100){
 		
 		matrix = new char[10][10];
@@ -123,6 +140,7 @@ public class AminoAcidMatrix {
 		matrix[9][9] = p100;
 	}
 	
+	// check tah all the fasta sequences are equal length, otherwise u can't have an alignment
 		
 	public AminoAcidMatrix(InputStream inStream){
 		
@@ -188,6 +206,22 @@ public class AminoAcidMatrix {
 
 	return position;
 
+	}
+	
+	public char[] getColumn(int number) {
+
+		char[] column = new char[this.numberOfRows()];
+		
+		return column;
+		
+	}
+	
+	public char[] getRow(int number) {
+		
+		char[] row = new char[this.numberOfColumns()];
+		
+		return row;
+	
 	}
 	       
 }

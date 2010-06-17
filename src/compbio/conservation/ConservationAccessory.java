@@ -35,8 +35,68 @@ class ConservationAccessory {
 	return matrix;
 
 	}
+	
+	// gonnet matrix yet to be created
 			
+	private static double[][] gonnetMatrix() {
+		
+		double[][] matrix = new double[1][1];
+		
+		return matrix;
+		
+	}
+	// gonnet pair, yet to be created
+	static double gonnetPair(char a, char b) {
+		
+		double [][] mat = ConservationAccessory.gonnetMatrix();
+		
+		double pair = 0.0;
+		
+		return pair;
+		
+	}
 
+	
+	// pam250 matrix yet to be created
+	
+	private static double[][] pam250Matrix() {
+		
+		double[][] matrix = new double[1][1];
+		
+		return matrix;
+		
+	}
+	// pam250 pair, yet to be created
+	static double pam250Pair(char a, char b) {
+		
+		double [][] mat = ConservationAccessory.pam250Matrix();
+		
+		double pair = 0.0;
+		
+		return pair;
+		
+	}
+	
+// pet91 matrix yet to be created
+	
+	private static double[][] pet91Matrix() {
+		
+		double[][] matrix = new double[1][1];
+		
+		return matrix;
+		
+	}
+	// pam250 pair, yet to be created
+	static double pet91Pair(char a, char b) {
+		
+		double [][] mat = ConservationAccessory.pam250Matrix();
+		
+		double pair = 0.0;
+		
+		return pair;
+		
+	}
+	
 	static int BlosumPair(char a, char b) {
 
 	int[][] mat = ConservationAccessory.blosumMatrix();
@@ -348,8 +408,142 @@ class ConservationAccessory {
 		
 		return sets;
 		
-		
 		}
 	
+	// percentage identity method yet to be written
+	
+	static double percentIdentity(char[] a, char[] b) {
+		
+		double ident = 0;
+		
+		return ident;
+		
+	}
+	
+	
+	static double[] voronoiWeights(AminoAcidMatrix m, int iter) {
+		
+		AminoAcidMatrix matrix = m;
+		
+		int iterations = iter;
+		
+		Random rgen = new Random();
+		
+		double[] weights = new double[m.numberOfRows()];
+		
+		char[] randSeq = new char[m.numberOfColumns()];
+		
+		// satts iterations, doan't really know what does it to, but jon set up the oterations to 1000
+		
+		for ( int i = 0; i < iterations; i++) {
+		
+			// generates a random sequence, equal in length to the sequences in the alignment
+			
+			for (int j = 0; j < matrix.numberOfColumns(); j++) {
+				
+				int random = rgen.nextInt(matrix.numberOfRows());
+				
+				randSeq[i] = matrix.getMatrixPosition(random, j);
+				
+			}
+			
+			// measure the distance between each sequence and a random sequence generated
+			// distance measured as percentage identity
+			
+			double[] distances = new double[matrix.numberOfRows()];
+			
+			double closestValue = 0;
+			
+			for (int a = 0; a < matrix.numberOfRows(); a++) {
+				
+				distances[a] = 1.0 - ConservationAccessory.percentIdentity(matrix.getRow(a), randSeq);
+				
+				if(distances[a] < closestValue) {
+					
+					closestValue = distances[a];
+					
+				}
+				
+			}
+			
+			// collect all the sequences with the closest distance 
+			
+			List<Integer> closestSeqs = new ArrayList<Integer>();
+			
+			for (int b = 0; b < distances.length; b++) {
+				
+				double dis = distances[b];
+				
+				if ( dis == closestValue) {
+					
+					closestSeqs.add(b);
+				}
+			}
+			
+			// increase by one the weight of the closest sequence
+			
+			double increase = 1.0 / closestSeqs.size();
+			
+			for (int c = 0; c < closestSeqs.size(); c++ ) {
+				
+				int cs = closestSeqs.get(c);
+				
+				weights[cs] += increase;
+				
+			}
+			
+			// repeat iterations times
+			
+		}
+		
+		// normalize weights so they sum up to N
+		
+		double weightSum = 0.0;
+		
+		for (int d = 0; d < weights.length; d++) {
+			
+			weightSum += weights[d];
+			
+		}
+		
+		double scaleFactor = weightSum / matrix.numberOfRows();
+		
+		for (int e = 0; e < weights.length; e++) {
+			
+			weights[e] = weights[e] + scaleFactor;
+			
+		}
+		
+		return weights;
+		
+	}
+	
+	static double weightOfSequenceVingronArgos (int seqNr, AminoAcidMatrix m) {
+		
+		double weight = 0.0;
+		
+		for( int i = 0; i < m.numberOfRows(); i++) {
+			
+			if (i != seqNr) {
+				
+				weight += ConservationAccessory.percentIdentity(m.getColumn(seqNr), m.getColumn(i));
+				
+			}
+		
+		}
+		
+		double result  = (1.0 / m.numberOfRows()) * weight ;
+		
+		return result;
+		
+	}
+	
+	static double dissimilarity(char a, char b) {
+		
+		double dis = (ConservationAccessory.gonnetPair(a,a) - ConservationAccessory.gonnetPair(a,b)) / ConservationAccessory.gonnetPair(a,a);
+		
+		return dis;
+		
+		}
 }
 

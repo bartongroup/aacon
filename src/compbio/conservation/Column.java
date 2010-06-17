@@ -9,6 +9,9 @@ public class Column {
 
 	private final char[] columnArr;
     private final Map<Character,Integer> acidsIntMap;
+    // a reference to a matrix a column is based on is stored as instance variable 
+    // not sure I like this idea, have to think about some better one, but don't have it yet
+    private final AminoAcidMatrix matrix;
 
     // TO BE DELETED, THIS CONSTRUCTOR USED FOR TESTS ONLY
 
@@ -33,15 +36,23 @@ public class Column {
     
     assert !acidsIntMap.isEmpty() && acidsIntMap != null;
     
+    matrix = new AminoAcidMatrix(a, b, c, d, e, f,
+	  g, h, i, j);
+    
     }
 
     // constructor, 
 
     public Column(AminoAcidMatrix m, int column) {
+    	
+    // 
 
 	if (m == null) {
 	    throw new IllegalArgumentException("Matrix must not be null");
 	}
+	
+	matrix  = m;
+	
 	assert column >= 0 && column <= m.numberOfColumns();
 
 	int colLength = m.numberOfRows();
@@ -60,7 +71,7 @@ public class Column {
 
 	columnArr = columnStr.toCharArray();
 
-// calls mathod to create a map
+// calls method to create a map
 	
 	//Alphabet alp = new Alphabet();
 	
@@ -570,7 +581,7 @@ public class Column {
 	}
 	
 
-double williamsonScore() {
+	double williamsonScore() {
 		  
 		double willSum = 0.0;
 		
@@ -641,13 +652,91 @@ double williamsonScore() {
 		return willSum;
 		
 	}
+	
+	double landgrafScore() {
+		
+		double sum = 0.0;
+		
+		for (int i = 0; i < columnArr.length; i++) {
+			
+			for (int j = i + 1; j < columnArr.length; j++) {
+				
+				double disIJ = ConservationAccessory.dissimilarity(columnArr[i], columnArr[j]);
+				
+				double disJI = ConservationAccessory.dissimilarity(columnArr[j], columnArr[i]);
+				
+				sum = sum + (ConservationAccessory.voronoiWeights(matrix, 1000)[i] * disIJ) + (ConservationAccessory.voronoiWeights(matrix, 1000)[j] * disJI);
+			}
+			
+		}
+		
+		double result = sum / columnArr.length;
+		
+		return result;
+	}
+	
+	double sanderScore() {
+		
+		double sum = 0.0;
+		
+		double moderator = 0.0;
+		
+		for (int i = 0; i < columnArr.length; i++) {
+			
+			for (int j = i + 1; j < columnArr.length; j++) {
+				
+				sum = sum + (1 - ConservationAccessory.percentIdentity(matrix.getRow(i), matrix.getRow(j)) * ConservationAccessory.pam250Pair(columnArr[i], columnArr[j]));
+			}
+			
+		}
+		
+		for (int i = 0; i < columnArr.length; i++) {
+			
+			for (int j = i + 1; j < columnArr.length; j++) {
+			
+			moderator = moderator + (1 - ConservationAccessory.percentIdentity(matrix.getRow(i), matrix.getRow(j)));
+			
+			}
+		}
 
+		double result = sum * moderator;
+		
+		return result;
+		
+		}
 
 	
+	double valdarScore() {
+		
+		double sum = 0.0;
+		
+		double moderator = 0.0;
+		
+		for (int i = 0; i < columnArr.length; i++) {
+			
+			for (int j = i + 1; j < columnArr.length; j++) {
+				
+				sum = sum + ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationAccessory.pet91Pair(columnArr[i], columnArr[j]);
+			}
+			
+		}
+		
+		for (int i = 0; i < columnArr.length; i++) {
+			
+			for (int j = i + 1; j < columnArr.length; j++) {
+			
+				moderator = moderator + ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationAccessory.weightOfSequenceVingronArgos(i, matrix);
+			}
+			
+		}
+		
+		double result = sum * moderator;
+		
+		return result;
+		
+	}
 	
-}
-
- 
+} 
 
     	
     	
