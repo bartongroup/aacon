@@ -4,7 +4,8 @@ package compbio.conservation;
 //gets fasta sequences and puts them into matrix 
 //might have to check if all sequences are equal length(ask)
 
-import java.util.List;
+import java.util.*;
+
 import compbio.util.SequenceUtil;
 import compbio.util.FastaSequence;
 import java.io.InputStream;
@@ -224,4 +225,83 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 	
 	}
 	       
+	public Map<Character,Integer> totalAcidsFrequency() {
+		
+		Map<Character,Integer> totalFreq = new HashMap<Character,Integer>();
+		
+		for (int i = 0; i < this.numberOfRows(); i++) {
+			
+			for (int j = 0; j < this.numberOfColumns(); i++) {
+				
+				Character ch = matrix[i][j];
+				
+				Integer count = totalFreq.get(ch);
+				
+				if (count == null) {
+					
+					totalFreq.put(ch, 1);
+				}
+				
+				else {
+					
+					totalFreq.put(ch, count + 1);
+				}
+			}
+		}
+		
+		return totalFreq;
+	}
+
+	Map<String,Integer> TotalAcidsWillSets() {
+		
+		Map<String,HashSet<Character>> sets = ConservationAccessory.williamsonSets();
+
+		Map<String,Integer> setsFreq = new HashMap<String,Integer>();
+		
+		Set<String> setsKeys = sets.keySet();
+		
+		Iterator<String> setsKeysItr = setsKeys.iterator();
+		
+		Map<Character,Integer> totalFreq = this.totalAcidsFrequency();
+		
+		Set<Character> totalFreqKeys = totalFreq.keySet();
+		
+		while(setsKeysItr.hasNext()) {
+			
+			String setsKey = setsKeysItr.next();
+		
+			Iterator<Character> totalFreqItr = totalFreqKeys.iterator();
+		
+				while(totalFreqItr.hasNext()) {
+					
+	                Character totalFreqKey = totalFreqItr.next();
+					
+					if (sets.get(setsKey).contains(totalFreqKey)) {
+						
+						Integer count = setsFreq.get(setsKey);
+						
+						if (count == null) {
+							
+							setsFreq.put(setsKey, totalFreq.get(totalFreqKey));
+						}
+						
+						else {
+							
+							setsFreq.put(setsKey, count + totalFreq.get(totalFreqKey));
+							
+						}
+					
+					}
+				
+				}
+			
+		}
+		
+		return setsFreq;
+		
+		}
+
+
 }
+
+

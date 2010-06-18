@@ -213,10 +213,47 @@ public class Column {
 	 
  }
  
+ double kabat() {
+	 
+        assert this.mostCommonNumber() != 0;	 
+         		
+		double result = this.length() * this.numberOfAcidsNoGap()/ this.mostCommonNumber(); 
+	
+		return result;
+		
+	}
+
+	// Symbol Enthropy Scores
+
+	double schneider() {
+		
+		double normal = 1.0 / 20.0;
+		
+		double result = ShannonEnthropy.ShannonLn(acidsIntMap, columnArr.length) * normal;
+			
+		return result;
+	}
+
+
+	double shenkin() {
+		
+		double result = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(acidsIntMap, columnArr.length)) * 6.0;
+			
+		return result;
+	}
+
+	double gerstein() {
+		
+		double result = ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(), matrix.numberOfColumns() * matrix.numberOfRows()) - ShannonEnthropy.ShannonLn(acidsIntMap, columnArr.length);
+		
+		return result;
+		
+	}
+
+ 
  // this method gets the number of elements in the smallest set  
  // among the Taylor sets that covers all the aa in the column
  // the set that includes a gap symbol, is the biggest set of all(all aa + gap symbol) 
- 
  int SmallestTaylorSetGaps(Map<String, HashSet<Character>> setMap) {
  
 	if (setMap == null) {
@@ -398,7 +435,7 @@ public class Column {
  				
  				char charB = acidsPresent[b];
  				
- 				scoreSum = scoreSum + ConservationAccessory.BlosumPair(charA, charB);
+ 				scoreSum = scoreSum + ConservationAccessory.miyataArmonPair(charA, charB);
  				
  			}
  		}
@@ -412,7 +449,7 @@ public class Column {
  	
  	double thompsonScore(){
  		
- 		int[] sum = null;
+ 		double[] sum = null;
  		
  		double[] meanPoint = null;
  		
@@ -424,7 +461,7 @@ public class Column {
  		
  		assert alp != null && alp.length != 0;
  		
- 		int[][] points = new int[columnArr.length][alp.length];
+ 		double[][] points = new double[columnArr.length][alp.length];
  		
  		for (int i = 0; i < columnArr.length; i++) {
  			
@@ -585,7 +622,7 @@ public class Column {
 		  
 		double willSum = 0.0;
 		
-		Map<String, HashSet<Character>> willSets= ConservationAccessory.mirnySets();
+		Map<String, HashSet<Character>> willSets= ConservationAccessory.williamsonSets();
 		
 		assert willSets != null && ! willSets.isEmpty();
 		
