@@ -213,9 +213,9 @@ public class Column {
 	 
  }
  
- double kabat() {
+ double kabatScore() {
 	 
-        assert this.mostCommonNumber() != 0;	 
+        assert this.mostCommonNumber() > 0 && this.mostCommonNumber() < columnArr.length + 1;	 
          		
 		double result = this.length() * this.numberOfAcidsNoGap()/ this.mostCommonNumber(); 
 	
@@ -225,7 +225,7 @@ public class Column {
 
 	// Symbol Enthropy Scores
 
-	double schneider() {
+	double schneiderScore() {
 		
 		double normal = 1.0 / 20.0;
 		
@@ -235,14 +235,14 @@ public class Column {
 	}
 
 
-	double shenkin() {
+	double shenkinScore() {
 		
 		double result = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(acidsIntMap, columnArr.length)) * 6.0;
 			
 		return result;
 	}
 
-	double gerstein() {
+	double gersteinScore() {
 		
 		double result = ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(), matrix.numberOfColumns() * matrix.numberOfRows()) - ShannonEnthropy.ShannonLn(acidsIntMap, columnArr.length);
 		
@@ -254,12 +254,14 @@ public class Column {
  // this method gets the number of elements in the smallest set  
  // among the Taylor sets that covers all the aa in the column
  // the set that includes a gap symbol, is the biggest set of all(all aa + gap symbol) 
- int SmallestTaylorSetGaps(Map<String, HashSet<Character>> setMap) {
+ int SmallestTaylorSetGaps() {
  
-	if (setMap == null) {
+	//if (setMap == null) {
 		
-		throw new IllegalArgumentException("setMap must not be null");
-	}
+		//throw new IllegalArgumentException("setMap must not be null");
+	//}
+	
+	Map<String, HashSet<Character>> setMap = ConservationAccessory.taylorSets();
 	
 	Map<String,Integer> repSets = new HashMap<String,Integer>();
 	
@@ -280,20 +282,22 @@ public class Column {
 		
 	int smallestSetSize = Collections.min(repSets.values());
 	
-	assert smallestSetSize > 0 && smallestSetSize < 21;
+	assert smallestSetSize > 0 && smallestSetSize < 25;
 	
 	return smallestSetSize;
 	
 	}
  
  // does a very similar thing as a previous one, but does not take gaps into account
- int SmallestTaylorSetNoGaps(Map<String, HashSet<Character>> setMap) {
+ int SmallestTaylorSetNoGaps() {
 	 
-		if (setMap == null) {
+		//if (setMap == null) {
 			
-			throw new IllegalArgumentException("setMap must not be null");
-		}
+			//throw new IllegalArgumentException("setMap must not be null");
+		//}
 		//Alphabet alp = new Alphabet();
+	 
+	    Map<String, HashSet<Character>> setMap = ConservationAccessory.taylorSets();
 		
 		Map<Character,Integer> acidsMapNoGaps = new HashMap<Character,Integer>(acidsIntMap);
 		
@@ -322,7 +326,7 @@ public class Column {
 			
 		int smallestSetSize = Collections.min(repSets.values());
 		
-		assert smallestSetSize > 0 && smallestSetSize < 21;
+		assert smallestSetSize > 0 && smallestSetSize < 25;
 		
 		return smallestSetSize;
 		

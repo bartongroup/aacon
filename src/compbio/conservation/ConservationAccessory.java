@@ -692,5 +692,291 @@ class ConservationAccessory {
 		return dis;
 		
 		}
-}
+	
+	static Map<String, HashSet<Character>> taylorSets() {
+		
+		Map<String, HashSet<Character>> taySets = new HashMap<String, HashSet<Character>>();
+
+		HashSet<Character> positive = new HashSet<Character>();
+
+		positive.add('R');
+		positive.add('K');
+		positive.add('H');
+
+		HashSet<Character> charged = new HashSet<Character>();
+
+		charged.add('D');
+		charged.add('E');
+		charged.add('R');
+		charged.add('K');
+		charged.add('H');
+
+		HashSet<Character> chargedNonH = new HashSet<Character>();
+
+		chargedNonH.add('D');
+		chargedNonH.add('E');
+		chargedNonH.add('R');
+		chargedNonH.add('K');
+
+		HashSet<Character> negative = new HashSet<Character>();
+
+		negative.add('D');
+		negative.add('E');
+
+		HashSet<Character> hydrophilicNonPositive = new HashSet<Character>();
+
+		hydrophilicNonPositive.add('S');
+		hydrophilicNonPositive.add('N');
+		hydrophilicNonPositive.add('D');
+		hydrophilicNonPositive.add('E');
+		hydrophilicNonPositive.add('Q');
+
+		HashSet<Character> hydrophilic = new HashSet<Character>();
+
+
+		hydrophilic.add('S');
+		hydrophilic.add('N');
+		hydrophilic.add('D');
+		hydrophilic.add('E');
+		hydrophilic.add('Q');
+		hydrophilic.add('R');
+
+		HashSet<Character> chargedOrHydrophilic = new HashSet<Character>();
+
+		chargedOrHydrophilic.add('S');
+		chargedOrHydrophilic.add('N');
+		chargedOrHydrophilic.add('D');
+		chargedOrHydrophilic.add('E');
+		chargedOrHydrophilic.add('Q');
+		chargedOrHydrophilic.add('R');
+		chargedOrHydrophilic.add('K');
+		chargedOrHydrophilic.add('H');
+
+		HashSet<Character> chargedOrHydrophilicOrP = new HashSet<Character>();
+
+
+		chargedOrHydrophilicOrP.add('S');
+		chargedOrHydrophilicOrP.add('N');
+		chargedOrHydrophilicOrP.add('D');
+		chargedOrHydrophilicOrP.add('E');
+		chargedOrHydrophilicOrP.add('Q');
+		chargedOrHydrophilicOrP.add('R');
+		chargedOrHydrophilicOrP.add('K');
+		chargedOrHydrophilicOrP.add('H');
+		chargedOrHydrophilicOrP.add('P');
+
+		HashSet<Character> polarNonAromaticOrChargedOrP = new HashSet<Character>();
+
+		polarNonAromaticOrChargedOrP.add('P');
+		polarNonAromaticOrChargedOrP.add('T');
+		polarNonAromaticOrChargedOrP.add('S');
+		polarNonAromaticOrChargedOrP.add('N');
+		polarNonAromaticOrChargedOrP.add('D');
+		polarNonAromaticOrChargedOrP.add('E');
+		polarNonAromaticOrChargedOrP.add('Q');
+		polarNonAromaticOrChargedOrP.add('R');
+		polarNonAromaticOrChargedOrP.add('K');
+		polarNonAromaticOrChargedOrP.add('H');
+
+		HashSet<Character> polar = new HashSet<Character>();
+
+		polar.add('T');
+		polar.add('S');
+		polar.add('N');
+		polar.add('D');
+		polar.add('E');
+		polar.add('Q');
+		polar.add('R');
+		polar.add('K');
+		polar.add('H');
+		polar.add('W');
+		polar.add('Y');
+
+		HashSet<Character> polarOrP = new HashSet<Character>();
+
+		polarOrP.add('T');
+		polarOrP.add('S');
+		polarOrP.add('N');
+		polarOrP.add('D');
+		polarOrP.add('E');
+		polarOrP.add('Q');
+		polarOrP.add('R');
+		polarOrP.add('K');
+		polarOrP.add('H');
+		polarOrP.add('W');
+		polarOrP.add('Y');
+		polarOrP.add('P');
+
+		HashSet<Character> polarNonAromaticOrCharged = new HashSet<Character>();
+
+		polarNonAromaticOrCharged.add('T');
+		polarNonAromaticOrCharged.add('S');
+		polarNonAromaticOrCharged.add('N');
+		polarNonAromaticOrCharged.add('D');
+		polarNonAromaticOrCharged.add('E');
+		polarNonAromaticOrCharged.add('Q');
+		polarNonAromaticOrCharged.add('R');
+		polarNonAromaticOrCharged.add('K');
+		polarNonAromaticOrCharged.add('H');
+
+		HashSet<Character> polarNonAromaticNonPositiveOrP = new HashSet<Character>();
+
+		polarNonAromaticNonPositiveOrP.add('T');
+		polarNonAromaticNonPositiveOrP.add('S');
+		polarNonAromaticNonPositiveOrP.add('N');
+		polarNonAromaticNonPositiveOrP.add('D');
+		polarNonAromaticNonPositiveOrP.add('E');
+		polarNonAromaticNonPositiveOrP.add('Q');
+		polarNonAromaticNonPositiveOrP.add('P');
+
+		HashSet<Character> polarNonAromaticNonPositive = new HashSet<Character>();
+
+		polarNonAromaticNonPositive.add('T');
+		polarNonAromaticNonPositive.add('S');
+		polarNonAromaticNonPositive.add('N');
+		polarNonAromaticNonPositive.add('D');
+		polarNonAromaticNonPositive.add('E');
+		polarNonAromaticNonPositive.add('Q');
+
+		HashSet<Character> smallPolarOrP = new HashSet<Character>();
+
+		smallPolarOrP.add('P');
+		smallPolarOrP.add('T');
+		smallPolarOrP.add('S');
+		smallPolarOrP.add('N');
+		smallPolarOrP.add('D');
+
+		HashSet<Character> smallPolar = new HashSet<Character>();
+
+		smallPolar.add('T');
+		smallPolar.add('S');
+		smallPolar.add('N');
+		smallPolar.add('D');
+
+		HashSet<Character> smallHydrophilic = new HashSet<Character>();
+
+		smallHydrophilic.add('S');
+		smallHydrophilic.add('N');
+		smallHydrophilic.add('D');
+
+		HashSet<Character> tiny = new HashSet<Character>();
+
+		tiny.add('A');
+		tiny.add('G');
+		tiny.add('S');
+
+		HashSet<Character> tinyOrSmallOrPolar = new HashSet<Character>();
+
+		tinyOrSmallOrPolar.add('A');
+		tinyOrSmallOrPolar.add('G');
+		tinyOrSmallOrPolar.add('S');
+		tinyOrSmallOrPolar.add('T');
+		tinyOrSmallOrPolar.add('N');
+		tinyOrSmallOrPolar.add('D');
+
+		HashSet<Character> tinyOrSmallOrPolarOrP = new HashSet<Character>();
+
+		tinyOrSmallOrPolarOrP.add('A');
+		tinyOrSmallOrPolarOrP.add('G');
+		tinyOrSmallOrPolarOrP.add('S');
+		tinyOrSmallOrPolarOrP.add('T');
+		tinyOrSmallOrPolarOrP.add('N');
+		tinyOrSmallOrPolarOrP.add('D');
+		tinyOrSmallOrPolarOrP.add('P');
+
+		HashSet<Character> tinyOrNegativeHydrophilicOrT = new HashSet<Character>();
+
+		tinyOrNegativeHydrophilicOrT.add('A');
+		tinyOrNegativeHydrophilicOrT.add('G');
+		tinyOrNegativeHydrophilicOrT.add('T');
+		tinyOrNegativeHydrophilicOrT.add('S');
+		tinyOrNegativeHydrophilicOrT.add('N');
+		tinyOrNegativeHydrophilicOrT.add('D');
+		tinyOrNegativeHydrophilicOrT.add('E');
+		tinyOrNegativeHydrophilicOrT.add('Q');
+
+		HashSet<Character> tinyOrNegativeHydrophilicOrTOrP = new HashSet<Character>();
+
+		tinyOrNegativeHydrophilicOrTOrP.add('A');
+		tinyOrNegativeHydrophilicOrTOrP.add('G');
+		tinyOrNegativeHydrophilicOrTOrP.add('T');
+		tinyOrNegativeHydrophilicOrTOrP.add('S');
+		tinyOrNegativeHydrophilicOrTOrP.add('N');
+		tinyOrNegativeHydrophilicOrTOrP.add('D');
+		tinyOrNegativeHydrophilicOrTOrP.add('E');
+		tinyOrNegativeHydrophilicOrTOrP.add('Q');
+		tinyOrNegativeHydrophilicOrTOrP.add('P');
+
+		HashSet<Character> tinyOrPolarNonAromatic = new HashSet<Character>();
+
+		tinyOrPolarNonAromatic.add('A');
+		tinyOrPolarNonAromatic.add('G');
+		tinyOrPolarNonAromatic.add('T');
+		tinyOrPolarNonAromatic.add('S');
+		tinyOrPolarNonAromatic.add('N');
+		tinyOrPolarNonAromatic.add('D');
+		tinyOrPolarNonAromatic.add('E');
+		tinyOrPolarNonAromatic.add('Q');
+		tinyOrPolarNonAromatic.add('R');
+		tinyOrPolarNonAromatic.add('K');
+
+		HashSet<Character> all = new HashSet<Character>();
+
+		all.add('A');
+		all.add('R');
+		all.add('N');
+		all.add('D');
+		all.add('C');
+		all.add('Q');
+		all.add('E');
+		all.add('G');
+		all.add('H');
+		all.add('I');
+		all.add('L');
+		all.add('K');
+		all.add('M');
+		all.add('F');
+		all.add('P');
+		all.add('S');
+		all.add('T');
+		all.add('W');
+		all.add('Y');
+		all.add('V');
+		all.add('B');
+		all.add('Z');
+		all.add('X');
+		all.add('-');
+
+		taySets.put("positive", positive);
+		taySets.put("charged", charged);
+		taySets.put("chargedNonH", chargedNonH);
+		taySets.put("negative", negative);
+		taySets.put("hydrophilicNonPositive", hydrophilicNonPositive);
+		taySets.put("hydrophilic", hydrophilic);
+		taySets.put("chargedOrHydrophilic", chargedOrHydrophilic);
+		taySets.put("chargedOrHydrophilicOrP", chargedOrHydrophilicOrP);
+		taySets.put("polarNonAromaticOrChargedOrP", polarNonAromaticOrChargedOrP);
+		taySets.put("polar", polar);
+		taySets.put("polarOrP", polarOrP);
+		taySets.put("polarNonAromaticOrCharged", polarNonAromaticOrCharged);
+		taySets.put("polarNonAromaticNonPositiveOrP", polarNonAromaticNonPositiveOrP);
+		taySets.put("polarNoAromaticNonPositive", polarNonAromaticNonPositive);
+		taySets.put("smallPolarOrP", smallPolarOrP);
+		taySets.put("smallPolar", smallPolar);
+		taySets.put("smallHydrophilic", smallHydrophilic);
+		taySets.put("tiny", tiny);
+		taySets.put("tinyOrSmallOrPolar", tinyOrSmallOrPolar);
+		taySets.put("tinyOrSmallOrPolarOrP", tinyOrSmallOrPolarOrP);
+		taySets.put("tinyOrNegativeHydrophilicOrT", tinyOrNegativeHydrophilicOrT);
+		taySets.put("tinyOrNegativeHydrophilicOrTOrP", tinyOrNegativeHydrophilicOrTOrP);
+		taySets.put("tinyOrPolarNonAromatic", tinyOrPolarNonAromatic);
+		taySets.put("all", all);
+
+		return taySets;
+
+		}
+
+	}
+
+
 

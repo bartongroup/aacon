@@ -73,7 +73,7 @@ static double ShannonLn(final Map<Character,Integer> map, int nrSequences) {
     	}
     		
     	
-    	assert sum > 0 : "Shannon enthropy has been fed an empty column";
+    	//assert sum > 0 : "Shannon enthropy has been fed an empty column";
     	
     	return  -sum;
     	

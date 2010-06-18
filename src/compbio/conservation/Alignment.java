@@ -97,7 +97,7 @@ double[] gerstein() {
 	
 	for (int i = 0; i < result.length; i++) {
 		
-		result[i] = ShannonEnthropy.ShannonLn(cols.TotalAcids(), cols.getColumnCollection().length * columns[0].length() ) - ShannonEnthropy.ShannonLn(columns[i].getAcidsIntMap(), columns[i].length());
+	//	result[i] = ShannonEnthropy.ShannonLn(cols.TotalAcids(), cols.getColumnCollection().length * columns[0].length() ) - ShannonEnthropy.ShannonLn(columns[i].getAcidsIntMap(), columns[i].length());
 		 
 	}
 	
@@ -124,7 +124,7 @@ int[] result = new int[cols.getColumnCollection().length];
 	
 	assert columns.length > 0 ;
 	
-	Map<String, HashSet<Character>> set = new HashMap<String, HashSet<Character>>();
+	//Map<String, HashSet<Character>> set = new HashMap<String, HashSet<Character>>();
 	
 	for (int i = 0; i < result.length; i++) {
 		

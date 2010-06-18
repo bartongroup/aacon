@@ -44,7 +44,9 @@ class Alphabet {
 		
 		}
 	
-   static Map<Character, Integer> calculateOccurance( final char[] column) {
+	// calculates occurance of aa, aa not defined treats as gap
+	
+	static Map<Character, Integer> calculateOccurance( final char[] column) {
     	
     	if (column == null) {
     		
@@ -57,7 +59,7 @@ class Alphabet {
     	
     	for (char ch : column) {
     		
-    	if(ch == '.' || ch == '*' || ch == ' ') {
+    	if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
     		
     		ch = '-';
     	}
