@@ -5,6 +5,8 @@ public class ColumnCollection {
 	private final Column[] cols;
 	
 	private double[] kabat = null;
+	
+	private double[] jores = null;
 
 	private double[] schneider = null;
 
@@ -420,6 +422,28 @@ public class ColumnCollection {
 		
 	}
 
+	void calculateJores() {
+		
+		jores = new double[cols.length];
+		
+		for (int i = 0; i < cols.length; i++) {
+			
+			jores[i] = cols[i].joresScore();
+			
+		}
+		
+	}
+	
+	double[] getJores() {
+		
+		if( jores == null) {
+			
+			this.calculateJores();
+		}
+	
+		return jores;
+	}
+	
 }
 
 

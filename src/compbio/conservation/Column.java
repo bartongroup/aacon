@@ -1,6 +1,9 @@
 package compbio.conservation;
 import java.util.*;
 
+// This class provides all the basic calculations on column level
+// Has all the methods for calculating conservation scores
+
 
 
 
@@ -43,7 +46,7 @@ public class Column {
 
     // constructor, 
 
-    public Column(AminoAcidMatrix m, int column) {
+    public Column(AminoAcidMatrix m, int columnNr) {
     	
     // 
 
@@ -53,29 +56,21 @@ public class Column {
 	
 	matrix  = m;
 	
-	assert column >= 0 && column <= m.numberOfColumns();
+	assert columnNr >= 0 && columnNr <= m.numberOfColumns();
 
-	int colLength = m.numberOfRows();
+	String columnStr = new String(matrix.getColumn(columnNr));
 
-	StringBuilder s = new StringBuilder();
+	String upColumnString = columnStr.toUpperCase();
 
-	// creates a string 
-
-	for (int i = 0; i < colLength; i++) {
-
-	    char aacid = m.getMatrixPosition(i, column);
-	    s = s.append(aacid);
-	}
-
-	String columnStr = s.toString().toUpperCase();
-
-	columnArr = columnStr.toCharArray();
+	columnArr = upColumnString.toCharArray();
 
 // calls method to create a map
 	
 	//Alphabet alp = new Alphabet();
 	
-	acidsIntMap = Alphabet.calculateOccurance(columnArr);
+	Map<Character, Integer> map = Alphabet.calculateOccurance(columnArr);
+	
+	acidsIntMap = Collections.unmodifiableMap(map);
 	
 	assert acidsIntMap != null && !acidsIntMap.isEmpty();
 	
@@ -114,7 +109,7 @@ public class Column {
     }
     // returns true if there is only one residue type in the column
     // this residue is not a gap
-    boolean oneResidueType() {
+    boolean oneResidueTypeNoGaps() {
     	
     	if (acidsIntMap.size() == 1 && acidsIntMap.containsKey('-') == false) {
     		
@@ -129,6 +124,7 @@ public class Column {
     	}
     	
     }
+    
     
     // returns true if column contains gaps 
     
@@ -222,7 +218,135 @@ public class Column {
 		return result;
 		
 	}
-
+ 
+ double joresScore() {
+	 
+	 double result = 0.0;
+	 
+	 if (this.oneResidueTypeNoGaps() == true) {
+		 
+		 result = 1.0;
+		 
+		 return result;
+	 
+	 }
+	 
+	 if (this.allButOneGaps() == true) {
+		 
+		 return result;
+		 
+	 }
+	 
+	 int samePairs = 0;
+	 
+	 int differentPairs = 0;
+	 
+	 Map<Character,Integer> acidsIntMapCopy = new HashMap<Character,Integer>(acidsIntMap);
+	 
+	 Set<Character> keys = acidsIntMapCopy.keySet();
+	 
+	 keys.remove('-');
+	 
+	 int types = keys.size();
+	 
+	 differentPairs = types * (types - 1) / 2;
+	 
+	 Iterator<Integer> itr = acidsIntMapCopy.values().iterator();
+	 
+	 while (itr.hasNext()) {
+		 
+		 if (itr.next() > 1) {
+			 
+			 samePairs++;
+			 
+		 }
+		 
+	 }
+	 
+	 int totalPairs = samePairs + differentPairs;
+	 
+	 Iterator<Character> itr2 = acidsIntMapCopy.keySet().iterator();
+	 
+	 int max1 = 0;
+	 
+	 Character maxKey = null;
+	 
+	 while(itr2.hasNext()) {
+		 
+		 Character key = itr2.next();
+		 
+		 if (acidsIntMapCopy.get(key) > max1) {
+			 
+			 maxKey = key;
+			 
+			 max1 = acidsIntMapCopy.get(key);
+			 
+		 }
+		 
+	 }
+	 
+	 acidsIntMapCopy.remove(maxKey);
+	 
+	 Iterator<Integer> itr3 = acidsIntMapCopy.values().iterator();
+	 
+	 int max2 = 0;
+	 
+	 while(itr3.hasNext()) {
+		 
+		 int value = itr3.next();
+		 
+		 if(value > max2) {
+			 
+			 max2 = value;
+			 
+		 }
+		 
+	 }
+	 
+	 int mostFreqNr = 0;
+	 
+	 if (max2 == 0) {
+		 
+		 mostFreqNr = (max1) * (max1 - 1) / 2;
+		 
+	 }
+	 
+	 else {
+		 
+		 if (max1 == max2) {
+			 
+			 mostFreqNr = max1 * max2;
+			 
+		 }
+		 
+		 else {
+			 
+			 int same = (max1) * (max1 - 1) / 2;
+			 
+			 int diff = max1 * max2;
+			 
+			 if (same > diff) {
+				 
+				 mostFreqNr = same;
+				 
+			 }
+				 
+			 else {
+					 
+					 mostFreqNr = diff;
+				 }
+			 
+		 	}
+		 
+	 	}
+		 
+ 	result = ((double) totalPairs / (double) mostFreqNr) * ((columnArr.length) * (columnArr.length -1 ) / 2); 
+ 
+ 	return result;
+ 	
+ 	}
+	 
+	 
 	// Symbol Enthropy Scores
 
 	double schneiderScore() {
@@ -261,7 +385,7 @@ public class Column {
 		//throw new IllegalArgumentException("setMap must not be null");
 	//}
 	
-	Map<String, HashSet<Character>> setMap = ConservationAccessory.taylorSets();
+	Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 	
 	Map<String,Integer> repSets = new HashMap<String,Integer>();
 	
@@ -297,7 +421,7 @@ public class Column {
 		//}
 		//Alphabet alp = new Alphabet();
 	 
-	    Map<String, HashSet<Character>> setMap = ConservationAccessory.taylorSets();
+	    Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 		
 		Map<Character,Integer> acidsMapNoGaps = new HashMap<Character,Integer>(acidsIntMap);
 		
@@ -333,14 +457,11 @@ public class Column {
 		}
 	// gives score 0-10 based on the fact that all the characters belong to certain sets
  	// there are 20 sets(they consist of 10 sets based on characteristics and 10 complements
- 	int zvelibilScore(Map<String, HashSet<Character>> setMap){
+ 	int zvelibilScore(){
  		
  		int result = 0;
  		
- 		if (setMap == null) {
- 			
- 			throw new IllegalArgumentException("setMap must not be null");
- 		}
+ 		Map<String, HashSet<Character>> setMap = ConservationSets.zvelibilSets();
  		
  		Set<String> keys = setMap.keySet();
  		
@@ -377,13 +498,13 @@ public class Column {
  					
  					if(columnArr[b] != '-') {
  						
- 						double pairScore =  ConservationAccessory.BlosumPair(columnArr[a], columnArr[b]);
+ 						double pairScore =  ConservationMatrices.BlosumPair(columnArr[a], columnArr[b]);
  						
- 						double aSelf =  ConservationAccessory.BlosumPair(columnArr[a], columnArr[a]);
+ 						double aSelf =  ConservationMatrices.BlosumPair(columnArr[a], columnArr[a]);
  						
  						assert aSelf > 0;
  						
- 						double bSelf = ConservationAccessory.BlosumPair(columnArr[b], columnArr[b]);
+ 						double bSelf = ConservationMatrices.BlosumPair(columnArr[b], columnArr[b]);
  						
  						assert bSelf > 0;
  						
@@ -439,7 +560,7 @@ public class Column {
  				
  				char charB = acidsPresent[b];
  				
- 				scoreSum = scoreSum + ConservationAccessory.miyataArmonPair(charA, charB);
+ 				scoreSum = scoreSum + ConservationMatrices.miyataArmonPair(charA, charB);
  				
  			}
  		}
@@ -461,7 +582,7 @@ public class Column {
  		
  		double nonGapsFraction = 0.0;
  		
- 		char[] alp = ConservationAccessory.alphabetArray();
+ 		char[] alp = Alphabet.alphabetArray();
  		
  		assert alp != null && alp.length != 0;
  		
@@ -471,7 +592,7 @@ public class Column {
  			
  			for (int j = 0; j < alp.length; j++) {
  				
- 				points[i][j] = ConservationAccessory.BlosumPair(columnArr[i], alp[j]);
+ 				points[i][j] = ConservationMatrices.BlosumPair(columnArr[i], alp[j]);
  				
  			}
  			
@@ -535,7 +656,7 @@ public class Column {
 				
 				char key2 = itr2.next();
 				
-				double blosum = ConservationAccessory.BlosumPair(key1, key2);
+				double blosum = ConservationMatrices.BlosumPair(key1, key2);
 				
 				if (blosum == 0.0) { blosum = 0.00000000000000000000000001;}
 				
@@ -555,7 +676,7 @@ public class Column {
 		
 		double mirnySum = 0.0;
 		
-		Map<String, HashSet<Character>> mirnySets= ConservationAccessory.mirnySets();
+		Map<String, HashSet<Character>> mirnySets= ConservationSets.mirnySets();
 		
 		assert mirnySets != null && !mirnySets.isEmpty();
 		
@@ -626,7 +747,7 @@ public class Column {
 		  
 		double willSum = 0.0;
 		
-		Map<String, HashSet<Character>> willSets= ConservationAccessory.williamsonSets();
+		Map<String, HashSet<Character>> willSets= ConservationSets.williamsonSets();
 		
 		assert willSets != null && ! willSets.isEmpty();
 		
@@ -686,7 +807,9 @@ public class Column {
 			
 			double pI = (double) setsFreq.get(setFreqKey) / (double) columnArr.length; 
 			
-			willSum = willSum + (pI * Math.log(pI));
+			double piAve = (double) matrix.TotalAcidsWillSets().get(setFreqKey);
+			
+			willSum = willSum + (pI * Math.log(pI/piAve));
 			
 		}
 		
@@ -702,9 +825,9 @@ public class Column {
 			
 			for (int j = i + 1; j < columnArr.length; j++) {
 				
-				double disIJ = ConservationAccessory.dissimilarity(columnArr[i], columnArr[j]);
+				double disIJ = ConservationMatrices.dissimilarity(columnArr[i], columnArr[j]);
 				
-				double disJI = ConservationAccessory.dissimilarity(columnArr[j], columnArr[i]);
+				double disJI = ConservationMatrices.dissimilarity(columnArr[j], columnArr[i]);
 				
 				sum = sum + (ConservationAccessory.voronoiWeights(matrix, 1000)[i] * disIJ) + (ConservationAccessory.voronoiWeights(matrix, 1000)[j] * disJI);
 			}
@@ -726,7 +849,7 @@ public class Column {
 			
 			for (int j = i + 1; j < columnArr.length; j++) {
 				
-				sum = sum + (1 - ConservationAccessory.percentIdentity(matrix.getRow(i), matrix.getRow(j)) * ConservationAccessory.pam250Pair(columnArr[i], columnArr[j]));
+				sum = sum + (1 - ConservationAccessory.percentIdentity(matrix.getRow(i), matrix.getRow(j)) * ConservationMatrices.pam250Pair(columnArr[i], columnArr[j]));
 			}
 			
 		}
@@ -757,7 +880,7 @@ public class Column {
 			
 			for (int j = i + 1; j < columnArr.length; j++) {
 				
-				sum = sum + ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationAccessory.pet91Pair(columnArr[i], columnArr[j]);
+				sum = sum + ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationMatrices.pet91Pair(columnArr[i], columnArr[j]);
 			}
 			
 		}

@@ -3,7 +3,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ShannonEnthropy {
+	class ShannonEnthropy {
 
 	
 	static double ShannonLog2(final Map<Character,Integer> map, double nrSequences) {
@@ -43,7 +43,7 @@ public class ShannonEnthropy {
     	
 	}
 
-static double ShannonLn(final Map<Character,Integer> map, int nrSequences) {
+	static double ShannonLn(final Map<Character,Integer> map, int nrSequences) {
 		
 		if (map == null) {
 			throw new IllegalArgumentException("Map must not be null");

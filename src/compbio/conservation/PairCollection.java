@@ -49,7 +49,7 @@ import java.util.Set;
 
 	Map<String,Integer> TotalAcidsWillSets() {
 		
-		Map<String,HashSet<Character>> sets = ConservationAccessory.williamsonSets();
+		Map<String,HashSet<Character>> sets = ConservationSets.williamsonSets();
 
 		Map<String,Integer> setsFreq = new HashMap<String,Integer>();
 		

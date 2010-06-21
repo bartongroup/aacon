@@ -171,7 +171,7 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 	         
 	                char[] sequenceChars = s.getSequence().toCharArray();
 	                   
-			              for ( int j = 0; j < sequenceLength; i++) {
+			              for ( int j = 0; j < sequenceLength; j++) {
 				
 	                                 matrix[i][j] = sequenceChars[j];
 	                        
@@ -211,7 +211,24 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 	
 	public char[] getColumn(int number) {
 
+		Set<Character> alph = Alphabet.alphabet();
+		
 		char[] column = new char[this.numberOfRows()];
+
+		for (int i = 0; i < this.numberOfRows(); i++) {
+
+			char ch = matrix[i][number];
+
+			if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
+    		
+    			ch = '-';
+
+    			}
+    	
+    			assert alph.contains(ch) : "Illegal character in the column";
+
+			column[i] = ch;
+		}
 		
 		return column;
 		
@@ -219,21 +236,32 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 	
 	public char[] getRow(int number) {
 		
-		char[] row = new char[this.numberOfColumns()];
+		char[] row = matrix[number];
 		
 		return row;
-	
+		
 	}
+	
+	
 	       
 	public Map<Character,Integer> totalAcidsFrequency() {
 		
 		Map<Character,Integer> totalFreq = new HashMap<Character,Integer>();
 		
+		Set<Character> alph = Alphabet.alphabet();
+		
 		for (int i = 0; i < this.numberOfRows(); i++) {
 			
-			for (int j = 0; j < this.numberOfColumns(); i++) {
+			for (int j = 0; j < this.numberOfColumns(); j++) {
 				
 				Character ch = matrix[i][j];
+				
+				if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
+		    		
+					ch = '-';
+				}
+	
+				assert alph.contains(ch) : "Illegal character in the matrix";
 				
 				Integer count = totalFreq.get(ch);
 				
@@ -252,9 +280,10 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 		return totalFreq;
 	}
 
+	
 	Map<String,Integer> TotalAcidsWillSets() {
 		
-		Map<String,HashSet<Character>> sets = ConservationAccessory.williamsonSets();
+		Map<String,HashSet<Character>> sets = ConservationSets.williamsonSets();
 
 		Map<String,Integer> setsFreq = new HashMap<String,Integer>();
 		
