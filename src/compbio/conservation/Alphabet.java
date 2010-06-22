@@ -2,16 +2,24 @@ package compbio.conservation;
 
 import java.util.*;
 
-// This class provides an amino acid alphabet
-// Alphabet comes in two varieties as a set, containing a gap character and as an array that contain only 20 basic amino acids
-// There is no special character for unknown amino acid, it is treated as a gap
-
+/** 
+ * This class provides an amino acid alphabet
+*  There is no special character for unknown amino acid, it is treated as a gap
+*
+*   @Author Agnieszka Golicz
+*/
 
 class Alphabet {
 	
+	/** 
+	 * A set containing the amino acid alphabet
+	 */
+	
 	private static final Set<Character> ALPHABET;
 	
-	// takes into consideration only basic 20 amino acids and no gaps
+	/** 
+	 * An array containing 20 basic amino acids, no gap character
+	 */
 	
 	private static final char[] alpArray = {'A','R','N','D','C','Q','E','G','H','I','L','K','M','F','P','S','T','W','Y','V'};
 
@@ -44,13 +52,22 @@ class Alphabet {
 			ALPHABET = Collections.unmodifiableSet(alph);
 			
 			}
-	
+	/** 
+	 * Returns the array of 20 basic amino acids
+	 * 
+	 * @return alphabet array
+	 */
 	static char[] alphabetArray() {
 
 		return alpArray;
 
 		}
-	
+	/** 
+	 * Returns a set of amino acids in the alphabet.
+	 * Gap represented as a dash
+	 * 
+	 * @return the alphabet set
+	 */
 
 	static Set<Character> alphabet() {
 		
@@ -58,9 +75,12 @@ class Alphabet {
 	
 		}
 	
-	// calculates occurance of aa, aa not defined treats as gap
-	
-// calculates occurance of aa, aa not defined treats as gap
+	/** 
+	 * Calculates how many times a particular amino acid is present in a given array of characters representing amino acids.
+	 * 
+	 * @param column
+	 * @return A Map, amino acid characters are keys, the frequencies are values
+	 */
 	
 	static Map<Character, Integer> calculateOccurance( final char[] column) {
     	

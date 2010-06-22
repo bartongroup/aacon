@@ -806,7 +806,7 @@ public class Column {
 			
 			double pI = (double) setsFreq.get(setFreqKey) / (double) columnArr.length; 
 			
-			double piAve = (double) matrix.TotalAcidsWillSets().get(setFreqKey);
+			double piAve = (double) matrix.totalAcidsWillSets().get(setFreqKey);
 			
 			willSum = willSum + (pI * Math.log(pI/piAve));
 			
@@ -828,7 +828,7 @@ public class Column {
 				
 				double disJI = ConservationMatrices.dissimilarity(columnArr[j], columnArr[i]);
 				
-				sum = sum + (ConservationAccessory.voronoiWeights(matrix, 1000)[i] * disIJ) + (ConservationAccessory.voronoiWeights(matrix, 1000)[j] * disJI);
+				sum = sum + (matrix.getVoronoiWeights(1000)[i] * disIJ) + (matrix.getVoronoiWeights(1000)[j] * disJI);
 			}
 			
 		}
@@ -848,7 +848,7 @@ public class Column {
 			
 			for (int j = i + 1; j < columnArr.length; j++) {
 				
-				sum = sum + (1 - ConservationAccessory.percentIdentity(matrix.getRow(i), matrix.getRow(j)) * ConservationMatrices.pam250Pair(columnArr[i], columnArr[j]));
+				sum = sum + (1 - matrix.getPercentIdentity()[i][j]) * ConservationMatrices.pam250Pair(columnArr[i], columnArr[j]);
 			}
 			
 		}
@@ -857,7 +857,7 @@ public class Column {
 			
 			for (int j = i + 1; j < columnArr.length; j++) {
 			
-			moderator = moderator + (1 - ConservationAccessory.percentIdentity(matrix.getRow(i), matrix.getRow(j)));
+			moderator = moderator + (1 - matrix.getPercentIdentity()[i][j]);
 			
 			}
 		}
@@ -879,7 +879,7 @@ public class Column {
 			
 			for (int j = i + 1; j < columnArr.length; j++) {
 				
-				sum = sum + ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationMatrices.pet91Pair(columnArr[i], columnArr[j]);
+				sum = sum + matrix.vingronArgosWeights()[i] * matrix.vingronArgosWeights()[j] * ConservationMatrices.pet91Pair(columnArr[i], columnArr[j]);
 			}
 			
 		}
@@ -888,7 +888,7 @@ public class Column {
 			
 			for (int j = i + 1; j < columnArr.length; j++) {
 			
-				moderator = moderator + ConservationAccessory.weightOfSequenceVingronArgos(i, matrix) * ConservationAccessory.weightOfSequenceVingronArgos(i, matrix);
+				moderator = moderator + matrix.vingronArgosWeights()[i] * matrix.vingronArgosWeights()[j];
 			}
 			
 		}

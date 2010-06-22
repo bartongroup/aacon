@@ -11,14 +11,70 @@ import compbio.util.FastaSequence;
 import java.io.InputStream;
 import java.io.IOException;
 
+/** 
+ *  This class provides representation of an alignment as a matrix implemented as 2D array.
+ *  Rows correspond to the sequences. Columns correspond to the vertical columns in the alignment consisting of amino acids with the same index in all the   sequences.
+ *  The only condition is that all the the sequences in the fasta file are  of the   same length.
+ * 	
+ * @author agolicz
+ *
+ */
+
+
 public class AminoAcidMatrix {
 	
-	private char[][] matrix;
+	/** 
+	 * Stores the matrix.
+	 */
 	
-// this constructor will be use for testign solely
-// it lest the user enter aa into matrix manually 
+	private final char[][] matrix;
 	
-public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10){
+	/**
+	 * The total occurrence of amino acids in the whole alignment.
+	 */
+	
+	private Map<Character,Integer> totalFrequency = null;
+	
+	/**
+	 * The total number of amino acids in the whole alignment belonging to each Williamson Set.
+	 */
+	
+	private Map<String, Integer> willSetsTotal = null;
+	
+	/** 
+	 * Vingron Argos weights of the the sequences. 
+	 */
+	
+	private double[] vingronArgosWeights = null;
+	
+	/**
+	 * Percent identity.
+	 */
+	
+	private double[][] percentIdentity = null;
+	
+	/**
+	 * Weights according to Voronoi.
+	 */
+	private double[] voronoiWeighths = null;
+	
+	/** 
+	 * This constructor constructor allows manual creation of only one column.
+	 * Might be of help if somebody wants to check the the functionality of the class without feeding it the whole alignment.
+	 * 
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param p4
+	 * @param p5
+	 * @param p6
+	 * @param p7
+	 * @param p8
+	 * @param p9
+	 * @param p10
+	 */
+	
+	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10){
 		
 		matrix = new char[10][1];
 		                        
@@ -33,7 +89,111 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 		matrix[8][0] = p9;
 		matrix[9][0] = p10;
 		
-}
+	}
+	
+	/**
+	 * This constructor allows manual creation of a 10 by 10 matrix.
+	 * @param p1
+	 * @param p2
+	 * @param p3
+	 * @param p4
+	 * @param p5
+	 * @param p6
+	 * @param p7
+	 * @param p8
+	 * @param p9
+	 * @param p10
+	 * @param p11
+	 * @param p12
+	 * @param p13
+	 * @param p14
+	 * @param p15
+	 * @param p16
+	 * @param p17
+	 * @param p18
+	 * @param p19
+	 * @param p20
+	 * @param p21
+	 * @param p22
+	 * @param p23
+	 * @param p24
+	 * @param p25
+	 * @param p26
+	 * @param p27
+	 * @param p28
+	 * @param p29
+	 * @param p30
+	 * @param p31
+	 * @param p32
+	 * @param p33
+	 * @param p34
+	 * @param p35
+	 * @param p36
+	 * @param p37
+	 * @param p38
+	 * @param p39
+	 * @param p40
+	 * @param p41
+	 * @param p42
+	 * @param p43
+	 * @param p44
+	 * @param p45
+	 * @param p46
+	 * @param p47
+	 * @param p48
+	 * @param p49
+	 * @param p50
+	 * @param p51
+	 * @param p52
+	 * @param p53
+	 * @param p54
+	 * @param p55
+	 * @param p56
+	 * @param p57
+	 * @param p58
+	 * @param p59
+	 * @param p60
+	 * @param p61
+	 * @param p62
+	 * @param p63
+	 * @param p64
+	 * @param p65
+	 * @param p66
+	 * @param p67
+	 * @param p68
+	 * @param p69
+	 * @param p70
+	 * @param p71
+	 * @param p72
+	 * @param p73
+	 * @param p74
+	 * @param p75
+	 * @param p76
+	 * @param p77
+	 * @param p78
+	 * @param p79
+	 * @param p80
+	 * @param p81
+	 * @param p82
+	 * @param p83
+	 * @param p84
+	 * @param p85
+	 * @param p86
+	 * @param p87
+	 * @param p88
+	 * @param p89
+	 * @param p90
+	 * @param p91
+	 * @param p92
+	 * @param p93
+	 * @param p94
+	 * @param p95
+	 * @param p96
+	 * @param p97
+	 * @param p98
+	 * @param p99
+	 * @param p100
+	 */
 	
 	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10, char p11, char p12, char p13, char p14, char p15, char p16, char p17 ,char p18 ,char p19 ,char p20,char p21, char p22, char p23, char p24, char p25, char p26, char p27 ,char p28 ,char p29 ,char p30,char p31, char p32, char p33, char p34, char p35, char p36,char p37 , char p38 ,char p39 ,char p40,char p41, char p42, char p43, char p44, char p45, char p46,char p47 , char p48 ,char p49 ,char p50,char p51, char p52, char p53, char p54, char p55, char p56,char p57 , char p58 ,char p59 ,char p60, char p61, char p62, char p63, char p64, char p65, char p66,char p67 , char p68 ,char p69 ,char p70,char p71, char p72, char p73, char p74, char p75, char p76,char p77 , char p78 ,char p79 ,char p80,char p81, char p82, char p83, char p84, char p85, char p86,char p87 , char p88 ,char p89 ,char p90,char p91, char p92, char p93, char p94, char p95, char p96,char p97 , char p98 ,char p99 ,char p100){
 		
@@ -141,7 +301,11 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 		matrix[9][9] = p100;
 	}
 	
-	// check tah all the fasta sequences are equal length, otherwise u can't have an alignment
+	/**
+	 * Constructor that reads in a fasta file and creates an amino acid matrix.
+	 * 
+	 * @param inStream
+	 */
 		
 	public AminoAcidMatrix(InputStream inStream){
 		
@@ -179,15 +343,27 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 	          }
 	}           
 
-	public int numberOfColumns() {
+	/**
+	 * Gets the number of columns.
+	 * 
+	 * @return number of columns
+	 * 
+	 */
+	
+	int numberOfColumns() {
 
 	int nrColumns = matrix[0].length;
 
 	return nrColumns;
 
 	}
-
-	public int numberOfRows() {
+	/**
+	 * Gets the number of rows.
+	 * 
+	 * @return number of rows
+	 */
+	
+	int numberOfRows() {
 
 	int nrRows = matrix.length;
 
@@ -195,13 +371,26 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 
 	}
 
-	public char[][] getMatrix() {
+	/** 
+	 * Gets the whole matrix
+	 * 
+	 * @return matrix
+	 */
+	char[][] getMatrix() {
 
 	return matrix;
 
 	}
 
-	public char getMatrixPosition(int row, int column) {
+	/** 
+	 * Returns character at a specified position.
+	 * 
+	 * @param row
+	 * @param column
+	 * @return character
+	 */
+	
+	char getMatrixPosition(int row, int column) {
 
 	char position = matrix[row][column];
 
@@ -209,7 +398,14 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 
 	}
 	
-	public char[] getColumn(int number) {
+	/** 
+	 * Gets a column specified by given number. Indexing starts with 0.
+	 * 
+	 * @param number
+	 * @return column as an array of characters
+	 */
+	
+	char[] getColumn(int number) {
 
 		Set<Character> alph = Alphabet.alphabet();
 		
@@ -234,7 +430,13 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 		
 	}
 	
-	public char[] getRow(int number) {
+	/**
+	 * Gets row specified by a given number. Indexing starts with 0.
+	 * @param number
+	 * @return row as an array of characters
+	 */
+	
+	char[] getRow(int number) {
 		
 		assert number < this.numberOfRows();
 		
@@ -244,9 +446,43 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 		
 	}
 	
+	/**
+	 * Gets the total amino acid occurrence in the whole alignment.
+	 *  
+	 * @return map with characters as keys and occurrence as values.
+	 */
+	Map<Character, Integer> totalAcidsFrequency() {
+		
+		if (totalFrequency == null) {
+			
+			this.calTotalAcidsFrequency();
+		}
+		
+		return totalFrequency;
+	}
 	
-	       
-	public Map<Character,Integer> totalAcidsFrequency() {
+	/** 
+	 * Gets the total number of amino acids belonging to particular Williamson sets.
+	 * 
+	 * @return map with set names as keys and number of amino acids belonging to the set as value.
+	 * 
+	 */
+	
+	Map<String,Integer> totalAcidsWillSets() {
+		
+		if(willSetsTotal == null) {
+			
+			this.calTotalAcidsWillSets();
+		}
+	
+		return willSetsTotal;
+	}
+	
+	/**
+	 * Calculates the total amino acid occurrence in the whole alignment.
+	 */
+	
+	    private void calTotalAcidsFrequency() {
 		
 		Map<Character,Integer> totalFreq = new HashMap<Character,Integer>();
 		
@@ -279,11 +515,14 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 			}
 		}
 		
-		return totalFreq;
+		totalFrequency = totalFreq;
 	}
+	    
+	    /**
+	     * Calculates the total number of amino acids belonging to particular Williamson sets.
+	     */
 
-	
-	Map<String,Integer> TotalAcidsWillSets() {
+	    private void calTotalAcidsWillSets() {
 		
 		Map<String,HashSet<Character>> sets = ConservationSets.williamsonSets();
 
@@ -293,7 +532,12 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 		
 		Iterator<String> setsKeysItr = setsKeys.iterator();
 		
-		Map<Character,Integer> totalFreq = this.totalAcidsFrequency();
+		if (totalFrequency == null) { 
+			
+			this.calTotalAcidsFrequency();
+		}
+		
+		Map<Character,Integer> totalFreq = totalFrequency;
 		
 		Set<Character> totalFreqKeys = totalFreq.keySet();
 		
@@ -328,11 +572,246 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 			
 		}
 		
-		return setsFreq;
+		willSetsTotal = setsFreq;
 		
 		}
-
-
+	    
+	    /**
+	     * Calculates a weight of particular sequence according to Vingron-Argos model.
+	     * @param seqNr
+	     * @return sequence weight
+	     */
+	    
+	    private double weightOfSequenceVingronArgos (int seqNr) {
+			
+			double weight = 0.0;
+			
+			for( int i = 0; i < this.numberOfRows(); i++) {
+				
+				if (i != seqNr) {
+					
+					weight += ConservationAccessory.percentIdentity(this.getRow(seqNr), this.getRow(i));
+					
+				}
+			
+			}
+			
+			double result  = (1.0 / this.numberOfRows()) * weight ;
+			
+			return result;
+			
+		}
+		
+		/**
+		 * Calculates the weight for all the sequences in the alignment.
+		 * Weight calculated according to Vingron-Argos model
+		 * 
+		 */
+	    
+	    private void weightOfSequencesVingronArgos() {
+	    	
+	    	vingronArgosWeights = new double[this.numberOfRows()];
+	    	
+	    	for (int i = 0; i < this.numberOfRows(); i++) {
+	    		
+	    		vingronArgosWeights[i] = this.weightOfSequenceVingronArgos(i);
+	    	}
+	    }
+	    
+	    /**
+	     * Gets the values of  Vingron-Argos weights for the whole alignment.
+	     * Indices in the weights array correspond to the indices of the sequences in the matrix.  
+	     * 
+	     * @return an array of weights, indices correspond to sequence numbers
+	     */
+	    
+	    double[] vingronArgosWeights() {
+	    	
+	    	if (vingronArgosWeights == null) {
+	    		
+	    		this.weightOfSequencesVingronArgos();
+	    		
+	    	}
+	    	
+	    	return vingronArgosWeights;
+	    	
+	    	}
+	    
+	    /**
+	     * Calculates percent identity for all the sequences in the alignment.
+	     * Stores calculated values in a 2D array. The sequence number index the values in the array.
+	     * For example percentage identity of sequence 0 and 5 perIden[0][5] 
+	     */
+	    
+	    private void calPercentIdentity() {
+	    	
+	    	percentIdentity = new double[this.numberOfRows()][this.numberOfRows()];
+	    	
+	    	int ident = 0;
+			
+	    		for( int i = 0; i < this.numberOfRows(); i++) {
+	    		
+	    			for(int j = i + 1; j < this.numberOfRows(); j++){
+			
+	    				for (int a = 0; a < this.numberOfColumns(); a++) {
+				
+	    					if (this.getRow(i) == this.getRow(j)) {
+					
+	    							ident++;
+	    					}
+			
+	    				}
+	    				
+	    				double result = (double) ident / this.numberOfColumns();
+	    				
+	    				percentIdentity[i][j] = result;
+	    				
+	    			}
+	    		
+	    		}
+	    		
+	    }
+	    
+	    /**
+	     * Gets percentage identity for the whole alignment.
+	     * @return 2D array; the sequences' numbers index the values in the array.
+	     */
+			
+			double[][] getPercentIdentity() {
+				
+				if(percentIdentity == null) {
+					
+					this.calPercentIdentity();
+					
+				}
+				
+				return percentIdentity;
+				
+			}
+				
+			/**
+			 * Scary, scary method. Calculates weights according to Voronoi scheme.
+			 * @param iter
+			 */
+		
+			void voronoiWeights( int iterNr) {
+				
+				
+				int iterations = iterNr;
+				
+				Random rgen = new Random();
+				
+				double[] weights = new double[numberOfRows()];
+				
+				char[] randSeq = new char[numberOfColumns()];
+				
+				// sets iterations, don't really know what does it to, but jon set up the iterations to 1000
+				
+				for ( int i = 0; i < iterations; i++) {
+				
+					// generates a random sequence, equal in length to the sequences in the alignment
+					
+					for (int j = 0; j < numberOfColumns(); j++) {
+						
+						int random = rgen.nextInt(numberOfRows());
+						
+						randSeq[j] = getMatrixPosition(random, j);
+						
+					}
+					
+					// measure the distance between each sequence and a random sequence generated
+					// distance measured as percentage identity
+					
+					double[] distances = new double[numberOfRows()];
+					
+					double closestValue = 0;
+					
+					for (int a = 0; a < numberOfRows(); a++) {
+						
+						distances[a] = 1.0 - ConservationAccessory.percentIdentity(getRow(a), randSeq);
+						
+						if(distances[a] < closestValue) {
+							
+							closestValue = distances[a];
+							
+						}
+						
+					}
+					
+					// collect all the sequences with the closest distance 
+					
+					List<Integer> closestSeqs = new ArrayList<Integer>();
+					
+					for (int b = 0; b < distances.length; b++) {
+						
+						double dis = distances[b];
+						
+						if ( dis == closestValue) {
+							
+							closestSeqs.add(b);
+						}
+					}
+					
+					// increase by one the weight of the closest sequence
+					
+					double increase = 1.0 / closestSeqs.size();
+					
+					for (int c = 0; c < closestSeqs.size(); c++ ) {
+						
+						int cs = closestSeqs.get(c);
+						
+						weights[cs] += increase;
+						
+					}
+					
+					// repeat iterations times
+					
+				}
+				
+				// normalize weights so they sum up to N
+				
+				double weightSum = 0.0;
+				
+				for (int d = 0; d < weights.length; d++) {
+					
+					weightSum += weights[d];
+					
+				}
+				
+				double scaleFactor = weightSum / numberOfRows();
+				
+				for (int e = 0; e < weights.length; e++) {
+					
+					weights[e] = weights[e] + scaleFactor;
+					
+				}
+				
+				voronoiWeighths = weights;
+				
+			}
+			
+			/** 
+			 * Gets Voronoi weights.
+			 * @param iterNr
+			 * @return array containing voronoi weights, indices correspond to sequence indices in matrix
+			 */
+			double[] getVoronoiWeights(int iterNr) {
+				
+				if (voronoiWeighths == null) {
+					
+					this.voronoiWeights(iterNr);
+				}
+			
+			return voronoiWeighths;
+			
+			}
+			
+			
+			
+			
+			
 }
+
+
 
 
