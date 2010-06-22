@@ -20,18 +20,18 @@ public class AminoAcidMatrix {
 	
 public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10){
 		
-		matrix = new char[1][10];
+		matrix = new char[10][1];
 		                        
 		matrix[0][0] = p1;
-		matrix[0][1] = p2;
-		matrix[0][2] = p3;
-		matrix[0][3] = p4;
-		matrix[0][4] = p5;
-		matrix[0][5] = p6;
-		matrix[0][6] = p7;
-		matrix[0][7] = p8;
-		matrix[0][8] = p9;
-		matrix[0][9] = p10;
+		matrix[1][0] = p2;
+		matrix[2][0] = p3;
+		matrix[3][0] = p4;
+		matrix[4][0] = p5;
+		matrix[5][0] = p6;
+		matrix[6][0] = p7;
+		matrix[7][0] = p8;
+		matrix[8][0] = p9;
+		matrix[9][0] = p10;
 		
 }
 	
@@ -235,6 +235,8 @@ public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char
 	}
 	
 	public char[] getRow(int number) {
+		
+		assert number < this.numberOfRows();
 		
 		char[] row = matrix[number];
 		

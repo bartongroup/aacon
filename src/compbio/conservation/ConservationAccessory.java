@@ -203,7 +203,7 @@ class ConservationAccessory {
 			
 			if (i != seqNr) {
 				
-				weight += ConservationAccessory.percentIdentity(m.getColumn(seqNr), m.getColumn(i));
+				weight += ConservationAccessory.percentIdentity(m.getRow(seqNr), m.getRow(i));
 				
 			}
 		

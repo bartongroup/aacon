@@ -19,7 +19,7 @@ public class Column {
     // TO BE DELETED, THIS CONSTRUCTOR USED FOR TESTS ONLY
 
     public Column(char a, char b, char c, char d, char e, char f,
-	  char g, char h, char i, char j) {
+	  char g, char h, char i, char j, AminoAcidMatrix m) {
 
 	columnArr = new char[10];
 
@@ -39,8 +39,7 @@ public class Column {
     
     assert !acidsIntMap.isEmpty() && acidsIntMap != null;
     
-    matrix = new AminoAcidMatrix(a, b, c, d, e, f,
-	  g, h, i, j);
+    matrix = m;
     
     }
 
