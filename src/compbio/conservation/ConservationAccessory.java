@@ -5,7 +5,12 @@ import java.util.*;
 class ConservationAccessory {
 
 	
-	// Methods created to do operations on points in N dimensional space
+	/**
+	 * Adds two points in N dimmentional space.
+	 * @param a
+	 * @param b
+	 * @return sum of points
+	 */
 
 	static double[] addPoints(double[] a, double[] b) {
 
@@ -28,6 +33,13 @@ class ConservationAccessory {
 	return aPlusB;
 
 	}
+	
+	/**
+	 * Multiplies point by scalar.
+	 * @param point
+	 * @param scalar
+	 * @return
+	 */
 
 	static double[] multPointByScalar(double[] point, double scalar) {
 
@@ -42,6 +54,13 @@ class ConservationAccessory {
 	return pointByScalar;
 
 	}  
+	
+	/**
+	 * Calculates Euclidean distance between two points in N dimmensional space.
+	 * @param a
+	 * @param b
+	 * @return distance
+	 */
 
 	static double pointDistance(double[] a, double[] b) {
 
@@ -68,7 +87,13 @@ class ConservationAccessory {
 
 	}
 
-	// percentage identity method yet to be written
+	/**
+	 * Calculates percentage identity of two sequences. If two amino acids are identical they get a score of 1, if not a score of 0.
+	 * The sum of scores divided by the length of the sequences. Sequences have to be the same length.
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	
 	static double percentIdentity(char[] a, char[] b) {
 		
@@ -97,6 +122,12 @@ class ConservationAccessory {
 		
 	}
 	
+	/**
+	 * Calculates Voronoi weights for all the sequences in the alignment.
+	 * @param m
+	 * @param iter
+	 * @return
+	 */
 	
 	static double[] voronoiWeights(AminoAcidMatrix m, int iter) {
 		
@@ -194,6 +225,13 @@ class ConservationAccessory {
 		return weights;
 		
 	}
+	
+	/**
+	 * Calculates Vingron and Argos sequence weight for a particular sequence.
+	 * @param seqNr
+	 * @param m
+	 * @return sequence weight
+	 */
 	
 	static double weightOfSequenceVingronArgos (int seqNr, AminoAcidMatrix m) {
 		

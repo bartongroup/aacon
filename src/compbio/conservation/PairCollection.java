@@ -1,10 +1,13 @@
 package compbio.conservation;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import compbio.util.SequenceUtil;
 
 
 // some of the methods from column collection got dumped here in case they will be needed, not likely though
@@ -96,6 +99,44 @@ import java.util.Set;
 		
 		}
 	}
+	//}
+	
+ // check whether column is empty 
+    
+  //  boolean isEmpty() {
+    	
+    	//if (acidsIntMap.containsKey('-') && acidsIntMap.get('-') == columnArr.length) {
+    			
+    			//return true;
+    		//}
+    	
+    	//else {
+    		
+    		//return false;
+    		
+   // 	}
+    	
+   // }
+   // }
+	
+	// try {
+        // seqs = SequenceUtil.readFasta(inStream);
+     // }
+ // catch (IOException e) 
+     // {
+       //  System.out.println("Can not read input Stream");
+     // }
+  
+ // int sequenceCounter = 1;
+  
+ // for ( int i = 1; i < seqs.size(); i++) {
+	   
+	 //  if (seqs.get(0)== seqs.get(i) {
+		   
+		//   sequenceCounter++
+	  // }
+  //}
+  
 
 
 

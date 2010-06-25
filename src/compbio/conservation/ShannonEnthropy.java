@@ -6,6 +6,12 @@ import java.util.Map;
 	class ShannonEnthropy {
 
 	
+	/**
+	 * Calculates Shanon enthropy. Uses logarithm with base 2.
+	 * @param map
+	 * @param nrSequences
+	 * @return
+	 */
 	static double ShannonLog2(final Map<Character,Integer> map, double nrSequences) {
 		
 		if (map == null) {
@@ -42,6 +48,13 @@ import java.util.Map;
     	
     	
 	}
+	
+	/**
+	 * Calculates Shannon enthropy. Uses natural logarithm
+	 * @param map
+	 * @param nrSequences
+	 * @return
+	 */
 
 	static double ShannonLn(final Map<Character,Integer> map, int nrSequences) {
 		

@@ -29,6 +29,14 @@ public class AminoAcidMatrix {
 	
 	private final char[][] matrix;
 	
+	
+	/**
+	 * Holds the in the indices of Xs changed to gaps.
+	 * The row number is a key and the column number is value.
+	 */
+	
+	private List<HashMap<Integer, Integer>> xToGapSubs = null;
+	
 	/**
 	 * The total occurrence of amino acids in the whole alignment.
 	 */
@@ -303,21 +311,15 @@ public class AminoAcidMatrix {
 	
 	/**
 	 * Constructor that reads in a fasta file and creates an amino acid matrix.
+	 * Gaps indicated by any sign are now indicated by a dash.
+	 * The unknown amino acid X is replaced by a dash.
 	 * 
 	 * @param inStream
 	 */
 		
-	public AminoAcidMatrix(InputStream inStream){
+	public AminoAcidMatrix(List<FastaSequence> seqs){
 		
-	   List<FastaSequence> seqs = null;
-	   
-	   try {
-	          seqs = SequenceUtil.readFasta(inStream);
-	       }
-	   catch (IOException e) 
-	       {
-	          System.out.println("Can not read input Stream");
-	       }
+			  Set<Character> alph = Alphabet.alphabet();
 	          
 	          int sequenceNr = seqs.size();
 	           
@@ -336,8 +338,28 @@ public class AminoAcidMatrix {
 	                char[] sequenceChars = s.getSequence().toCharArray();
 	                   
 			              for ( int j = 0; j < sequenceLength; j++) {
+			            	  
+			            	  		char ch = sequenceChars[j];
+			            	  		
+			            	  		if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
+			        		    		
+			        					ch = '-';
+			        				}
+			            	  		
+			            	  		if (ch == 'X') {
+			            	  			
+			            	  			this.xToGapSubs.add(new HashMap<Integer, Integer>());
+			            	  			
+			            	  			this.xToGapSubs.get(this.xToGapSubs.size() - 1).put(i, j);
+			            	  			
+			            	  			ch = '-';
+			            	  			
+			            	  		}
+			        	
+			        				assert alph.contains(ch) : "Illegal character in the matrix";
+			        				
 				
-	                                 matrix[i][j] = sequenceChars[j];
+	                                 matrix[i][j] = ch;
 	                        
 	                      }
 	          }
@@ -406,6 +428,8 @@ public class AminoAcidMatrix {
 	 */
 	
 	char[] getColumn(int number) {
+		
+		assert number < this.numberOfColumns();
 
 		Set<Character> alph = Alphabet.alphabet();
 		
@@ -694,7 +718,7 @@ public class AminoAcidMatrix {
 			 * @param iter
 			 */
 		
-			void voronoiWeights( int iterNr) {
+		void voronoiWeights( int iterNr) {
 				
 				
 				int iterations = iterNr;
@@ -805,12 +829,18 @@ public class AminoAcidMatrix {
 			return voronoiWeighths;
 			
 			}
+		
+	
+		
+		
+	}
 			
 			
 			
 			
 			
-}
+			
+
 
 
 

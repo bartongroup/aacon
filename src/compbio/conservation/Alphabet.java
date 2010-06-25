@@ -6,7 +6,7 @@ import java.util.*;
  * This class provides an amino acid alphabet
 *  There is no special character for unknown amino acid, it is treated as a gap
 *
-*   @Author Agnieszka Golicz
+*   @Author agolicz
 */
 
 class Alphabet {
@@ -47,6 +47,7 @@ class Alphabet {
 			alph.add('W');
 			alph.add('Y');
 			alph.add('V');
+			alph.add('N');
 			alph.add('-');
 			
 			ALPHABET = Collections.unmodifiableSet(alph);

@@ -4,11 +4,27 @@ import java.util.*;
 
 public class ConservationSets {
 	
+	/**
+	 * Holds Mirny sets.
+	 */
+	
 	private static final Map<String, HashSet<Character>> MIRNY;
+	
+	/**
+	 * Holds Taylor sets.
+	 */
 	
 	private static final Map<String, HashSet<Character>> TAYLOR;
 	
+	/**
+	 * Holds Wiliamson sets.
+	 */
+	
 	private static final Map<String, HashSet<Character>> WILLIAMSON;
+	
+	/**
+	 * Holds Zvelibil sets.
+	 */
 	
 	private static final Map<String, HashSet<Character>> ZVELIBIL;
 	
@@ -379,9 +395,6 @@ public class ConservationSets {
 		all.add('W');
 		all.add('Y');
 		all.add('V');
-		all.add('B');
-		all.add('Z');
-		all.add('X');
 		all.add('-');
 
 		taySets.put("positive", tayPositive);
@@ -765,11 +778,21 @@ public class ConservationSets {
 
 
 	}
+	
+	/**
+	 * Gets Taylor sets
+	 * @return sets
+	 */
 	static Map<String, HashSet<Character>> taylorSets() {
 		
 		return TAYLOR;
 		
 	}
+	
+	/**
+	 * Gets Mirny sets.
+	 * @return sets
+	 */
 	
 	static Map<String,HashSet<Character>> mirnySets() {
 		
@@ -777,11 +800,21 @@ public class ConservationSets {
 		
 	}
 	
+	/**
+	 * Gets Williamson sets.
+	 * @return sets
+	 */
+	
 	static Map<String,HashSet<Character>> williamsonSets() {
 		
 		return WILLIAMSON;
 		
 	}
+	
+	/**
+	 * Gets Zvelibil sets.
+	 * @return sets
+	 */
 	
 	static Map<String, HashSet<Character>> zvelibilSets() {
 		

@@ -1,6 +1,10 @@
 package compbio.conservation;
 
 public class ConservationMatrices {
+	
+	/**
+	 * Blosum matrix, normalized.
+	 */
 
 	private static final double[] blosum = { 6,   -2,   -2,   -3,   -1,   -1,   -1,    0,   -2,   -2,   -2,   -1,   -1,   -3,   -1,    2,    0,   -4,   -3,    0,   -2.5, -2.5, -6,   -6,
 		   -2,    8,   -1,   -2,   -5,    1,    0,   -3,    0,   -4,   -3,    3,   -2,   -4,   -3,   -1,   -2,   -4,   -3,   -4,   -1.5, -1.5, -6,   -6,
@@ -28,6 +32,10 @@ public class ConservationMatrices {
 		   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6,   -6  };       
 
 	
+	/**
+	 * Gonnet matrix, normalized.
+	 */
+	
 	private static final double[] gonnet = {  2.4,  -0.6,  -0.3,  -0.3,   0.5,  -0.2,   0.0,   0.5,  -0.8,  -0.8,  -1.2,  -0.4,  -0.7,  -2.3,   0.3,   1.1,   0.6,  -3.6,   -2.2,   0.1,  -0.3,  -0.3,  -5.2,  -5.2,
 			-0.6,   4.7,   0.3,  -0.3,  -2.2,   1.5,   0.4,  -1.0,   0.6,  -2.4,  -2.2,   2.7,  -1.7,  -3.2,  -0.9,  -0.2,  -0.2,  -1.6,  -1.8,  -2.0,   0  ,   0  ,  -5.2,  -5.2,
  			-0.3,   0.3,   3.8,   2.2,  -1.8,   0.7,   0.9,   0.4,   1.2,  -2.8,  -3.0,   0.8,  -2.2,  -3.1,  -0.9,   0.9,   0.5,  -3.6,  -1.4,  -2.2,   3  ,   3  ,  -5.2,  -5.2,
@@ -54,6 +62,10 @@ public class ConservationMatrices {
  			-5.2,  -5.2,  -5.2,  -5.2 , -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2,  -5.2 } ;
 
 
+	/**
+	 * Pam250 matrix, normalized.
+	 */
+	
 	private static final double[] pam250 = { 2,   -2,    0,    0,   -2,    0,    0,    1,   -1,   -1,   -2,   -1,   -1,   -4,    1,    1,    1,   -6,   -3,    0,    0,    0 ,  -8,   -8,
 		   -2,    6,    0,   -1,   -4,    1,   -1,   -3,    2,   -2,   -3,    3,    0,   -4,    0,    0,   -1,    2,   -4,   -2,   -0.5, -0.5, -8,   -8,
 			0,    0,    2,    2,   -4,    1,    1,    0,    2,   -2,   -3,    1,   -2,   -4,   -1,    1,    0,   -4,   -2,   -2,    2,    2,   -8,   -8,
@@ -79,6 +91,10 @@ public class ConservationMatrices {
           -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,
           -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8,   -8 };
 
+	/**
+	 * Pet91 matrix, normalized.
+	 */
+	
 	private static final double[] pet91 = {     1.00,   0.36,   0.45,   0.45,   0.36,   0.36,   0.36,   0.55,   0.27,   0.45,   0.36,   0.36,   0.36,   0.18,   0.55,   0.55,   0.64,   0.09,   0.18,   0.55,   0.45 ,  0.45 ,  0.00, 0.00,
         0.36,   1.00,   0.45,   0.36,   0.36,   0.64,   0.45,   0.45,   0.64,   0.18,   0.18,   0.82,   0.27,   0.09,   0.36,   0.36,   0.36,   0.45,   0.27,   0.18,   0.405,  0.405,  0.00, 0.00,
         0.45,   0.45,   1.00,   0.64,   0.36,   0.45,   0.55,   0.45,   0.55,   0.27,   0.18,   0.55,   0.27,   0.18,   0.36,   0.55,   0.55,   0.00,   0.36,   0.27,   0.82,   0.82 ,  0.00, 0.00,
@@ -104,6 +120,10 @@ public class ConservationMatrices {
         0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0   ,   0    ,  0.00, 0.00,
         0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0.00,   0   ,   0    ,  0.00, 0.00  } ;
 
+	/**
+	 * Miyata and Armon matrix, normalized.
+	 */
+	
 	private static final double[] miyataArmon = { 0, 2.92, 1.78, 2.37, 1.39, 1.92, 2.46, 0.91, 2.17, 2.69, 2.76, 2.96, 2.42, 3.23, 0.06, 0.51, 0.90, 4.23, 3.18, 1.85, 2.075, 2.075, 6, 6,
         2.92, 0, 2.04, 2.34, 3.06, 1.13, 1.45, 3.58, 0.82, 2.49, 2.62, 0.40, 2.29, 2.47, 2.90, 2.74, 2.03, 2.72, 2.02, 2.43, 2.19, 2.19, 6, 6, 
 		   1.78, 2.04, 0, 0.65, 2.83, 0.99, 0.85, 1.96, 1.29, 3.37, 3.49, 1.84, 3.08, 3.70, 1.80, 1.31, 1.40, 4.39, 3.42, 2.76, 0.325, 0.325, 6, 6,
@@ -129,6 +149,13 @@ public class ConservationMatrices {
 		   6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0.5, 0.5,
            6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0.5, 0.5 } ;
 
+	/**
+	 * Given to characters that represent amino acids, finds indices of corresponding entry in 2D matrix.
+	 * @param a
+	 * @param b
+	 * @return indices
+	 */
+	
 	private static int[] pairIndex(char a, char b) {
 		
 		int hor = 0;
@@ -253,6 +280,13 @@ public class ConservationMatrices {
 
 		}
 	
+	/**
+	 * Finds correspondig value in the matrix for the two amino acids supplied.
+	 * @param a
+	 * @param b
+	 * @return Blosum value
+	 */
+	
 	static double BlosumPair(char a, char b) {
 
 		double[] mat = blosum;
@@ -266,6 +300,13 @@ public class ConservationMatrices {
 		return pairValue;
 		
 		}
+	
+	/**
+	 * Finds correspondig value in the matrix for the two amino acids supplied.
+	 * @param a
+	 * @param b
+	 * @return Gonnet value
+	 */
 
 	static double gonnetPair(char a, char b) {
 		
@@ -282,6 +323,13 @@ public class ConservationMatrices {
 		return pairValue;
 		
 	}
+	
+	/**
+	 * Finds correspondig value in the matrix for the two amino acids supplied.
+	 * @param a
+	 * @param b
+	 * @return pam250 value
+	 */
 
 	static double pam250Pair(char a, char b) {
 		
@@ -298,6 +346,13 @@ public class ConservationMatrices {
 		
 	}
 	
+	/**
+	 * Finds correspondig value in the matrix for the two amino acids supplied.
+	 * @param a
+	 * @param b
+	 * @return pet91 value
+	 */
+	
 	static double pet91Pair(char a, char b) {
 		
 		double [] mat = pet91;
@@ -311,6 +366,13 @@ public class ConservationMatrices {
 		return pairValue;
 		
 	}
+	
+	/**
+	 * Finds correspondig value in the matrix for the two amino acids supplied.
+	 * @param a
+	 * @param b
+	 * @return MiyataArmon value
+	 */
 	
 	static double miyataArmonPair(char a, char b) {
 		
@@ -326,6 +388,13 @@ public class ConservationMatrices {
 		
 		
 	}
+	
+	/**
+	 * Calculates dissimilarity of the two amino acids supplied.
+	 * @param a
+	 * @param b
+	 * @return dissimilarity
+	 */
 	
 	static double dissimilarity(char a, char b) {
 		

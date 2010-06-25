@@ -15,7 +15,7 @@ public class Alignment {
 		}
 		
 		
-	cols = new ColumnCollection(m);
+	//cols = new ColumnCollection(m);
 	
 	
 	}
@@ -31,18 +31,18 @@ double[] kabat() {
 	
 	for (int i = 0; i < result.length; i++ ) {
 		
-		if (columns[i].isEmpty() == true) {
+		//if (columns[i].isEmpty() == true) {
 			
 			result[i] = 0;
 			
 		}
 	
-		else {
+		//else {
 			
-		result[i] = columns[i].length() * columns[i].numberOfAcidsNoGap()/ columns[i].mostCommonNumber(); 
+		//result[i] = columns[i].length() * columns[i].numberOfAcidsNoGap()/ columns[i].mostCommonNumber(); 
 		
-		}
-	}
+		//}
+	//}
 	
 	return result;
 	
