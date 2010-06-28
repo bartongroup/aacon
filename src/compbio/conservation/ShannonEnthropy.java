@@ -42,7 +42,7 @@ import java.util.Map;
     	}
     		
     	
-    	assert sum > 0 : "Shannon has been fed an empty column";
+    	//assert sum > 0 : "Shannon has been fed an empty column";
     	
     	return  -sum;
     	

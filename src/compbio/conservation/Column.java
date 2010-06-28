@@ -97,6 +97,17 @@ public class Column {
 	assert acidsIntMap != null && !acidsIntMap.isEmpty();
 	
 	}
+    
+    /**
+     * Return array of characters representing amino acids in the column.
+     */
+    
+    char[] getColumnAcids() {
+    	
+    	return this.columnArr;
+    }
+    
+    
 	/**
 	 * Checks if all but one residues in the column are gaps.
 	 * 
@@ -254,7 +265,7 @@ public class Column {
 	 
         assert this.mostCommonNumber() > 0 && this.mostCommonNumber() < columnArr.length + 1;	 
          		
-		double result = this.length() * this.numberOfAcidsNoGap()/ this.mostCommonNumber(); 
+		double result = this.length() * (double) this.numberOfAcidsNoGap()/ (double) this.mostCommonNumber(); 
 	
 		return result;
 		
@@ -407,9 +418,11 @@ public class Column {
      */
 	double schneiderScore() {
 		
-		double normal = 1.0 / 20.0;
+		double normal = 1.0 / Math.log(20.0);
 		
 		double result = ShannonEnthropy.ShannonLn(acidsIntMap, columnArr.length) * normal;
+		
+		assert result >= 0 && result <= 1;
 			
 		return result;
 	}
@@ -423,6 +436,8 @@ public class Column {
 		
 		double result = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(acidsIntMap, columnArr.length)) * 6.0;
 			
+		assert result >= 6 && result <= 120;
+		
 		return result;
 	}
 
@@ -721,7 +736,7 @@ public class Column {
  		
  	// causes some math problem because denominator can be 0, that's a formula flaw
  	// nothing can be done about it
- 	double lancetScore() {
+ 	double notLancetScore() {
 		
 		double result = 0.0;
 		
@@ -741,9 +756,7 @@ public class Column {
 				
 				double blosum = ConservationMatrices.BlosumPair(key1, key2);
 				
-				if (blosum == 0.0) { blosum = 0.00000000000000000000000001;}
-				
-				result = result + ((((double) acidsIntMap.get(key1)/ (double) columnArr.length * (double) acidsIntMap.get(key1)/ (double) columnArr.length)) / blosum);
+				result = result + ((((double) acidsIntMap.get(key1)/ (double) columnArr.length * (double) acidsIntMap.get(key1)/ (double) columnArr.length)) * blosum);
 			}
 		}
 	

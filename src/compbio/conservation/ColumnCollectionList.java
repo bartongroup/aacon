@@ -365,7 +365,7 @@ public class ColumnCollectionList {
 			
 			for (int i = 0; i < cols.length; i++) {
 				
-				shenkin.add(cols[i].schneiderScore());
+				shenkin.add(cols[i].shenkinScore());
 			}
 		
 		}
@@ -582,7 +582,7 @@ public class ColumnCollectionList {
 			
 			for (int i = 0; i < cols.length; i++) {
 				
-				lancet.add(cols[i].lancetScore());
+				lancet.add(cols[i].notLancetScore());
 			}
 		
 		}

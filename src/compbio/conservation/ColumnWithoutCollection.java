@@ -461,7 +461,30 @@ public class ColumnWithoutCollection {
 	
 		this.kabat = result;
 		
+		this.kabatInitStat = true;
+		
 	}
+    
+    /**
+     * Gets Kabat score.
+     * 
+     * @return Kabat score 
+     */
+    
+    double getKabat() {
+    	
+    	if (this.kabatInitStat == false) {
+    		
+    		this.kabatScore();
+    		
+    		return this.kabat;
+    	}
+    	
+    	else {
+    		
+    		return this.kabat;
+    	}
+    }
  
     /**
      * Calculates Jores score for the column.
@@ -594,6 +617,8 @@ public class ColumnWithoutCollection {
 			 
 		 	}
 		 
+		 this.joresInitStat = true;
+		 
 	 	}
 		 
  	result = ((double) totalPairs / (double) mostFreqNr) * ((columnArr.length) * (columnArr.length -1 ) / 2); 
@@ -601,6 +626,28 @@ public class ColumnWithoutCollection {
  	this.jores = result;
  	
  	}
+    
+    /**
+     * Gets Jores score.
+     * 
+     * @return Jores score 
+     */
+    
+    double getJores() {
+    	
+    	if (this.joresInitStat == false) {
+    		
+    		this.joresScore();
+    		
+    		return this.jores;
+    	}
+    	
+    	else {
+    		
+    		return this.jores;
+    	}
+    }
+ 
 
     /**
      * Calculates Schneider score.
@@ -612,7 +659,31 @@ public class ColumnWithoutCollection {
 		double result = ShannonEnthropy.ShannonLn(acidsIntMap, columnArr.length) * normal;
 			
 		this.schneider = result;
+		
+		this.schneiderInitStat = true;
 	}
+	
+	 /**
+     * Gets Schneider score.
+     * 
+     * @return Schneider score 
+     */
+    
+    double getSchneider() {
+    	
+    	if (this.schneiderInitStat == false) {
+    		
+    		this.schneiderScore();
+    		
+    		return this.schneider;
+    	}
+    	
+    	else {
+    		
+    		return this.schneider;
+    	}
+    }
+ 
 	/**
 	 * Calculates Shenkin score.
 	 * 
@@ -624,7 +695,32 @@ public class ColumnWithoutCollection {
 		double result = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(acidsIntMap, columnArr.length)) * 6.0;
 			
 		this.shenkin = result;
+		
+		this.shenkinInitStat = true;
+		
 	}
+	
+	 /**
+     * Gets Shenkin score.
+     * 
+     * @return Shenkin score 
+     */
+    
+    double getShenkin() {
+    	
+    	if (this.shenkinInitStat == false) {
+    		
+    		this.shenkinScore();
+    		
+    		return this.shenkin;
+    	}
+    	
+    	else {
+    		
+    		return this.shenkin;
+    	}
+    }
+ 
 
 	/**
 	 * Calculates Gerstein score.
@@ -638,7 +734,31 @@ public class ColumnWithoutCollection {
 		
 		this.gerstein = result;
 		
+		this.gersteinInitStat = true;
+		
 	}
+	
+	 /**
+     * Gets Kabat score.
+     * 
+     * @return Kabat score 
+     */
+    
+    double getGerstein() {
+    	
+    	if (this.gersteinInitStat == false) {
+    		
+    		this.gersteinScore();
+    		
+    		return this.gerstein;
+    	}
+    	
+    	else {
+    		
+    		return this.gerstein;
+    	}
+    }
+ 
 
  
 	/**
@@ -675,7 +795,31 @@ public class ColumnWithoutCollection {
 	
 	this.taylorGaps = smallestSetSize;
 	
+	this.taylorGapsInitStat = true;
+	
 	}
+	
+	 /**
+     * Gets Kabat score.
+     * 
+     * @return Kabat score 
+     */
+    
+    double getTaylorGaps() {
+    	
+    	if (this.taylorGapsInitStat == false) {
+    		
+    		this.SmallestTaylorSetGaps();
+    		
+    		return this.taylorGaps;
+    	}
+    	
+    	else {
+    		
+    		return this.taylorGaps;
+    	}
+    }
+ 
  
 	/**
 	 * Does a very similar thing to SmallestTaylorSetGaps but does not take gaps into account at all.
@@ -717,7 +861,31 @@ public class ColumnWithoutCollection {
 		
 		this.taylorNoGaps = smallestSetSize;
 		
+		this.taylorNoGapsInitSatat = true;
+		
 		}
+	
+	 /**
+     * Gets TaylorNoGaps score.
+     * 
+     * @return TaylorNoGaps score 
+     */
+    
+    double getTaylorNoGaps() {
+    	
+    	if (this.taylorNoGapsInitSatat == false) {
+    		
+    		this.SmallestTaylorSetNoGaps();
+    		
+    		return this.taylorNoGaps;
+    	}
+    	
+    	else {
+    		
+    		return this.taylorNoGaps;
+    	}
+    }
+ 
 	/**
 	 * Gives a score of one to ten based on whether all the amino acids though the column
 	 * maintain or fail to maintain a certain trait.
@@ -746,7 +914,31 @@ public class ColumnWithoutCollection {
  		assert result >= 0 && result < 11;
  		
  		this.zvelibil = result;
+ 		
+ 		this.zvelibilInitStat = true;
  	}
+ 	
+ 	 /**
+     * Gets Zvelibil score.
+     * 
+     * @return Zvelibil score 
+     */
+    
+    double getZvalibil() {
+    	
+    	if (this.zvelibilInitStat == false) {
+    		
+    		this.zvelibilScore();
+    		
+    		return this.zvelibil;
+    	}
+    	
+    	else {
+    		
+    		return this.zvelibil;
+    	}
+    }
+ 
 
  	/**
  	 * Calculates Karlin score.
@@ -795,7 +987,31 @@ public class ColumnWithoutCollection {
  	    assert finalSum >= -1 && finalSum <= 1;
  		
  		this.karlin = finalSum;
+ 		
+ 		this.karlinInitStat = true;
  	}
+ 	
+ 	 /**
+     * Gets Karlin score.
+     * 
+     * @return Karlin score 
+     */
+    
+    double getKarlin() {
+    	
+    	if (this.karlinInitStat == false) {
+    		
+    		this.karlinScore();
+    		
+    		return this.karlin;
+    	}
+    	
+    	else {
+    		
+    		return this.karlin;
+    	}
+    }
+ 
  	
  	/**
  	 * Calculates Armon score.
@@ -843,7 +1059,30 @@ public class ColumnWithoutCollection {
  		
  		this.armon = scoreSum;
  		
+ 		this.armonInitStat = true;
  	}
+ 	
+ 	 /**
+     * Gets Armon score.
+     * 
+     * @return Armon score 
+     */
+    
+    double getArmon() {
+    	
+    	if (this.armonInitStat == false) {
+    		
+    		this.armonScore();
+    		
+    		return this.armon;
+    	}
+    	
+    	else {
+    		
+    		return this.armon;
+    	}
+    }
+ 
  	
  	/** 
  	 * Calculates Thompson score.
@@ -916,8 +1155,32 @@ public class ColumnWithoutCollection {
  		double result = nonGapsFraction * 1.0/columnArr.length * distance;
  		
  		this.thompson  = result;
+ 		
+ 		this.thompsonInitStat = true;
  			
  		}
+ 	
+ 	 /**
+     * Gets Thompson score.
+     * 
+     * @return Thompson score 
+     */
+    
+    double getThompson() {
+    	
+    	if (this.thompsonInitStat == false) {
+    		
+    		this.thompsonScore();
+    		
+    		return this.thompson;
+    	}
+    	
+    	else {
+    		
+    		return this.thompson;
+    	}
+    }
+ 
  		
  	// causes some math problem because denominator can be 0, that's a formula flaw
  	// nothing can be done about it
@@ -949,7 +1212,31 @@ public class ColumnWithoutCollection {
 	
 	this.lancet = result;
 	
+	this.lancetInitStat  = true;
+	
 	}
+ 	
+ 	 /**
+     * Gets Lancet score.
+     * 
+     * @return Lancet score 
+     */
+    
+    double getLancet() {
+    	
+    	if (this.lancetInitStat == false) {
+    		
+    		this.lancetScore();
+    		
+    		return this.lancet;
+    	}
+    	
+    	else {
+    		
+    		return this.lancet;
+    	}
+    }
+ 
 	/**
 	 * Calculates Mirny Score.
 	 * 
@@ -1027,7 +1314,31 @@ public class ColumnWithoutCollection {
 		
 		this.mirny = mirnySum;
 		
+		this.mirnyInitStat = true;
+		
 	}
+	
+	 /**
+     * Gets Mirny score.
+     * 
+     * @return Mirny score 
+     */
+    
+    double getMirny() {
+    	
+    	if (this.mirnyInitStat == false) {
+    		
+    		this.mirnyScore();
+    		
+    		return this.mirny;
+    	}
+    	
+    	else {
+    		
+    		return this.mirny;
+    	}
+    }
+ 
 	/**
 	 * Calculates Williamson score.
 	 * 
@@ -1107,7 +1418,31 @@ public class ColumnWithoutCollection {
 		
 		this.williamson = willSum;
 		
+		this.williamsonInitStat = true;
+		
 	}
+	
+	 /**
+     * Gets Williamson score.
+     * 
+     * @return Williamson score 
+     */
+    
+    double getWilliamson() {
+    	
+    	if (this.williamsonInitStat == false) {
+    		
+    		this.williamsonScore();
+    		
+    		return this.williamson;
+    	}
+    	
+    	else {
+    		
+    		return this.williamson;
+    	}
+    }
+ 
 	
 	/**
 	 * Calculates Landgraf score.
@@ -1134,7 +1469,31 @@ public class ColumnWithoutCollection {
 		double result = sum / columnArr.length;
 		
 		this.landgraf = result;
+		
+		 this.landgrafInitStat = true;
 	}
+	
+	 /**
+     * Gets Landgraf score.
+     * 
+     * @return Landgraf score 
+     */
+    
+    double getLandgraf() {
+    	
+    	if (this.landgrafInitStat == false) {
+    		
+    		this.landgrafScore();
+    		
+    		return this.landgraf;
+    	}
+    	
+    	else {
+    		
+    		return this.landgraf;
+    	}
+    }
+ 
 	
 	/** 
 	 * Calculates sander score.
@@ -1170,8 +1529,31 @@ public class ColumnWithoutCollection {
 		
 		this.sander = result;
 		
+		this.sanderInitStat = true;
+		
 		}
 
+	 /**
+     * Gets Sander score.
+     * 
+     * @return Sander score 
+     */
+    
+    double getSander() {
+    	
+    	if (this.sanderInitStat == false) {
+    		
+    		this.sanderScore();
+    		
+    		return this.sander;
+    	}
+    	
+    	else {
+    		
+    		return this.sander;
+    	}
+    }
+ 
 	/**
 	 * Calculates Valdar score.
 	 * 
@@ -1203,9 +1585,35 @@ public class ColumnWithoutCollection {
 		
 		double result = sum * moderator;
 		
+		this.valdar = result;
+		
+		this.valdarInitStat = true;
+		
 		//this.result;
 		
 	}
+	
+	 /**
+     * Gets Valdar score.
+     * 
+     * @return Valdar score 
+     */
+    
+    double getValdar() {
+    	
+    	if (this.valdarInitStat == false) {
+    		
+    		this.valdarScore();
+    		
+    		return this.valdar;
+    	}
+    	
+    	else {
+    		
+    		return this.valdar;
+    	}
+    }
+ 
 	
 } 
 

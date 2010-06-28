@@ -296,7 +296,7 @@ public class ColumnCollection {
 		
 		for (int i = 0; i < cols.length; i++) {
 			
-			lancet[i] = cols[i].lancetScore();
+			lancet[i] = cols[i].notLancetScore();
 		}
 	
 	}
