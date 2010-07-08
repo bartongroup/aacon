@@ -15,11 +15,12 @@ Comments on ColumnCollectionShortList:
 
 6) Methods names should be converted to enumeration (java enum). 
 cols.calculationInitializtion(kabat, jores, schneider, shenkin, gerstein, taylorNoGaps, taylorGaps, zvelibil, karlin, armon, thompson, lancet, mirny, williamson, landgraf, sander, valdar);
-are these supported methods? 
+are these the list of supported methods? 
 
 7) Can initialisation be completed when a particular calculation method is requested? 
 
-8) Can the result of calculation be store in memory and if required be written into a file?
+8) Can the result of calculation be stored in memory and if required be written into a file?
+They should not be written into a file to start with. 
 
 9) Please make sure your methods produce right values. I made a MethodTester class, 
 there are 3 sequences there, assume that they represent an alignment. Calculate values 
