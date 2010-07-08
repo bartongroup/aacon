@@ -1,0 +1,37 @@
+TODO: 
+
+1) WrapperClass2 should not throw exceptions if no parameters were provided
+
+2) If WrapperClass2 is supposed to be main application entry point, it should print help 
+on to what parameters it supports/expects. 
+
+3) The name of the class should be more telling about its functions
+
+4) No paths should be hard coded
+
+5) All the data which is used should be available within the project. (e.g. "/homes/agolicz/alignments/alignment1")
+
+Comments on ColumnCollectionShortList: 
+
+6) Methods names should be converted to enumeration (java enum). 
+cols.calculationInitializtion(kabat, jores, schneider, shenkin, gerstein, taylorNoGaps, taylorGaps, zvelibil, karlin, armon, thompson, lancet, mirny, williamson, landgraf, sander, valdar);
+are these supported methods? 
+
+7) Can initialisation be completed when a particular calculation method is requested? 
+
+8) Can the result of calculation be store in memory and if required be written into a file?
+
+9) Please make sure your methods produce right values. I made a MethodTester class, 
+there are 3 sequences there, assume that they represent an alignment. Calculate values 
+for each method manually, and compare them with what your method gives you. 
+Do you think you can do manual calculation for 3 colument with 3 AA each?   
+
+10) Please indicate which classes are not part of your resulting system, for example by prefixing them
+with underscore. 
+
+11) General recommendation - avoid methods/constructors with more then 5 parameters! 
+Talk to me if you feel you cannot get away without them. 
+
+
+  
+
