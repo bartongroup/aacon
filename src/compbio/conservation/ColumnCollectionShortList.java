@@ -265,7 +265,7 @@ public class ColumnCollectionShortList {
 			
 			matrix = m;
 			
-			cols = new ArrayList<Column>();
+			cols = new ArrayList<Column>(nrOfColumns);
 			
 			for (int i = 0; i < nrOfColumns; i++) {
 				
@@ -952,7 +952,8 @@ public class ColumnCollectionShortList {
 			
 			/**
 			 * Changes columns in the collection. Replaces current set of columns with a new one.
-			 * @param changeStart
+			 * 
+			 * @param newColumnIndex index of the new column which replaces the oldest in the collection
 			 */
 			
 			void changeColumns(int newColumnIndex) {
@@ -1139,7 +1140,7 @@ public class ColumnCollectionShortList {
 				
 				if (kabat) {
 					
-					this.kabat = new ArrayList<Double>();
+					this.kabat = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateKabat(this.changesOfColumns);
 					
@@ -1149,7 +1150,7 @@ public class ColumnCollectionShortList {
 				
 				if(jores) {
 					
-					this.jores = new ArrayList<Double>();
+					this.jores = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateJores(this.changesOfColumns);
 					
@@ -1159,7 +1160,7 @@ public class ColumnCollectionShortList {
 				
 				if(schneider) {
 					
-					this.schneider = new ArrayList<Double>();
+					this.schneider = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateSchneider(this.changesOfColumns);
 					
@@ -1169,7 +1170,7 @@ public class ColumnCollectionShortList {
 				
 				if(shenkin) {
 					
-					this.shenkin = new ArrayList<Double>();
+					this.shenkin = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateShenkin(this.changesOfColumns);
 					
@@ -1179,7 +1180,7 @@ public class ColumnCollectionShortList {
 				
 				if(gerstein) {
 					
-					this.gerstein = new ArrayList<Double>();
+					this.gerstein = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateGerstein(this.changesOfColumns);
 					
@@ -1189,7 +1190,7 @@ public class ColumnCollectionShortList {
 				
 				if (taylorNoGaps) {
 					
-					this.taylorNoGaps = new ArrayList<Integer>();
+					this.taylorNoGaps = new ArrayList<Integer>(this.cols.size());
 					
 					this.calculateTaylorNoGaps(this.changesOfColumns);
 					
@@ -1198,7 +1199,7 @@ public class ColumnCollectionShortList {
 				
 				if (taylorGaps) {
 					
-					this.taylorGaps = new ArrayList<Integer>();
+					this.taylorGaps = new ArrayList<Integer>(this.cols.size());
 					
 					this.calculateTaylorGaps(this.changesOfColumns);
 					
@@ -1208,7 +1209,7 @@ public class ColumnCollectionShortList {
 				
 				if (zvelibil) {
 					
-					this.zvelibil = new ArrayList<Integer>();
+					this.zvelibil = new ArrayList<Integer>(this.cols.size());
 					
 					this.calculateZvelibil(this.changesOfColumns);
 					
@@ -1218,7 +1219,7 @@ public class ColumnCollectionShortList {
 				
 				if (karlin) {
 					
-					this.karlin = new ArrayList<Double>();
+					this.karlin = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateKarlin(this.changesOfColumns);
 					
@@ -1228,7 +1229,7 @@ public class ColumnCollectionShortList {
 				
 				if(armon) {
 					
-					this.armon = new ArrayList<Double>();
+					this.armon = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateArmon(this.changesOfColumns);
 					
@@ -1238,7 +1239,7 @@ public class ColumnCollectionShortList {
 				
 				if(thompson) {
 					
-					this.thompson = new ArrayList<Double>();
+					this.thompson = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateThompson(this.changesOfColumns);
 					
@@ -1248,7 +1249,7 @@ public class ColumnCollectionShortList {
 				
 				if(lancet) {
 					
-					this.lancet = new ArrayList<Double>();
+					this.lancet = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateLancet(this.changesOfColumns);
 					
@@ -1258,7 +1259,7 @@ public class ColumnCollectionShortList {
 				
 				if(mirny) {
 					
-					this.mirny = new ArrayList<Double>();
+					this.mirny = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateMirny(this.changesOfColumns);
 					
@@ -1268,7 +1269,7 @@ public class ColumnCollectionShortList {
 				
 				if(williamson) {
 					
-					this.williamson = new ArrayList<Double>();
+					this.williamson = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateWilliamson(this.changesOfColumns);
 					
@@ -1278,7 +1279,7 @@ public class ColumnCollectionShortList {
 				
 				if(landgraf) {
 					
-					this.landgraf = new ArrayList<Double>();
+					this.landgraf = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateLandgarf(this.changesOfColumns);
 					
@@ -1288,7 +1289,7 @@ public class ColumnCollectionShortList {
 				
 				if(sander) {
 					
-					this.sander = new ArrayList<Double>();
+					this.sander = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateSander(this.changesOfColumns);
 					
@@ -1299,7 +1300,7 @@ public class ColumnCollectionShortList {
 				
 				if(valdar) {
 					
-					this.valdar = new ArrayList<Double>();
+					this.valdar = new ArrayList<Double>(this.cols.size());
 					
 					this.calculateValdar(this.changesOfColumns);
 					

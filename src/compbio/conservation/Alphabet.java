@@ -9,7 +9,7 @@ import java.util.*;
 *   @Author agolicz
 */
 
-class Alphabet {
+	class Alphabet {
 	
 	/** 
 	 * A set containing the amino acid alphabet

@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 
 
-public class AminoAcidMatrix {
+ class AminoAcidMatrix {
 	
 	/** 
 	 * Stores the matrix.
@@ -29,6 +29,17 @@ public class AminoAcidMatrix {
 	
 	private final char[][] matrix;
 	
+	/**
+	 * Stores inverse matrix
+	 */
+	
+	private final char[][] inverseMatrix;
+	
+	/**
+	 * Stores occurances of amino acids in columns, columns indexed starting fromm 0
+	 */
+	
+	private Map<Character, Integer>[] acidsIntMap; 
 	
 	/**
 	 * Holds the in the indices of Xs changed to gaps.
@@ -96,6 +107,8 @@ public class AminoAcidMatrix {
 		matrix[7][0] = p8;
 		matrix[8][0] = p9;
 		matrix[9][0] = p10;
+		
+		inverseMatrix = null;
 		
 	}
 	
@@ -307,6 +320,8 @@ public class AminoAcidMatrix {
 		matrix[9][7] = p98;
 		matrix[9][8] = p99;
 		matrix[9][9] = p100;
+		
+		inverseMatrix = null;
 	}
 	
 	/**
@@ -330,6 +345,8 @@ public class AminoAcidMatrix {
 	          int sequenceLength = firstSequence.length();
 	       
 	          matrix = new char[sequenceNr][sequenceLength];
+	          
+	          inverseMatrix = new char[sequenceLength][sequenceNr];
 
 	          for( int i = 0; i < sequenceNr; i++) {
 
@@ -360,9 +377,14 @@ public class AminoAcidMatrix {
 			        				
 				
 	                                 matrix[i][j] = ch;
+	                                 
+	                                 inverseMatrix[j][i] = ch;
 	                        
 	                      }
 	          }
+	          
+	          this.calTotalAcidsFreqByCol();
+	          
 	}           
 
 	/**
@@ -402,6 +424,17 @@ public class AminoAcidMatrix {
 
 	return matrix;
 
+	}
+	
+	/**
+	 * Gets the inverse matrix
+	 * 
+	 * @return inverseMatrix
+	 */
+	
+	char[][] getInverseMatrix() {
+		
+		return inverseMatrix;
 	}
 
 	/** 
@@ -468,6 +501,28 @@ public class AminoAcidMatrix {
 		
 		return row;
 		
+	}
+	
+	private void calTotalAcidsFreqByCol() {
+		
+		acidsIntMap = new Map[this.inverseMatrix.length];
+		
+		for (int i = 0; i < this.numberOfColumns(); i++) {
+			
+			acidsIntMap[i] = Alphabet.calculateOccurance(this.inverseMatrix[i]);
+		    
+		}
+		
+	}
+	
+	Map<Character, Integer>[] getTotalAcidsFreqByCol() {
+		
+		if(acidsIntMap == null) {
+			
+			this.calTotalAcidsFreqByCol();
+		}
+		
+		return acidsIntMap;
 	}
 	
 	/**
