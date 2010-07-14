@@ -34,5 +34,11 @@ with underscore.
 Talk to me if you feel you cannot get away without them. 
 
 
+NEW
+
+12) Why AminoAcidMatrix has a constructor with 10 chars? Does it have to be 10 chars? 
+Would not it be easier to accept an array of chars of arbitrary length? 
+
+
   
 
