@@ -68,7 +68,7 @@ public class WrapperClass2 {
 	
 	boolean schneider = false; 
 	
-	boolean shenkin = true; 
+	boolean shenkin = false; 
 	
 	boolean gerstein = false;
 	
@@ -76,7 +76,7 @@ public class WrapperClass2 {
 	
 	boolean taylorGaps = false;
 	
-	boolean zvelibil = true;
+	boolean zvelibil = false;
 	
 	boolean karlin = false;
 	
@@ -88,7 +88,7 @@ public class WrapperClass2 {
 	
 	boolean mirny = true;
 	
-	boolean williamson = true;
+	boolean williamson = false;
 	
 	boolean landgraf = false;
 	

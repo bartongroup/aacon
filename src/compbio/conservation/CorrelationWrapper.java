@@ -70,5 +70,6 @@ public class CorrelationWrapper {
 		
 		printCoeffs(coeffs);
 		
+		System.out.println(matrix.numberOfColumns());
 	}		
 }
