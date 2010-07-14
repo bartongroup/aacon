@@ -37,8 +37,14 @@ Talk to me if you feel you cannot get away without them.
 NEW
 
 12) Why AminoAcidMatrix has a constructor with 10 chars? Does it have to be 10 chars? 
-Would not it be easier to accept an array of chars of arbitrary length? 
+Would not it be easier to accept an array of chars of arbitrary length?
+Similar goes for Column class. 
 
+13) If your expected value is defined to the third point after the comma, e.g. -2.072,
+then, the difference between expected and actual value must be lesser then 0.001 
+In other words you can only expect the value to be rounded to -2.073 or -2.071,
+thus delta should be 0.001. Please do not use 0.1 as a uniform delta everywhere in 
+your test cases. 
 
   
 
