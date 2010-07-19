@@ -6,15 +6,34 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.*;
 
 public class ConservationScores {
 	
+	//private enum Method { kabatScore, joresScore, schneiderScore, shenkinScore, gersteinScore, SmallestTaylorSetGaps, SmallestTaylorSetNoGaps, zvelibilScore, karlinScore, armonscore, thompsonScore, notLancetScore, mirnyScore, williamsonScore, landgrafScore, sanderScore, valdarScore };
+	
+	/**
+	 * Stores a map of scores and method names. Scores stored are not normalized.
+	 */
+	
+	//private final Map<Method, double[]> scores; 
+	
+	/**
+	 * Stores reference to amino acid matrix
+	 */
 	
 	private AminoAcidMatrix matrix;
+	
+	/**
+	 * Constructor
+	 * @param matrix AminoAcidMatrix based on the alignment
+	 */
 	
 	public ConservationScores(AminoAcidMatrix matrix) {
 		
 		this.matrix = matrix;
+		
+		//scores = new EnumMap<Method, double[]>(Method.class);
 	}
 	
 	/**
@@ -25,7 +44,7 @@ public class ConservationScores {
 	
     private boolean allButOneGaps(int columnNr) {
     	
-    	if (matrix.getTotalAcidsFreqByCol()[columnNr].containsKey('-') && matrix.getTotalAcidsFreqByCol()[columnNr].get('-') == matrix.getInverseMatrix()[columnNr].length - 1) {
+    	if (matrix.getTotalAcidsFreqByCol().get(columnNr).containsKey('-') && matrix.getTotalAcidsFreqByCol().get(columnNr).get('-') == matrix.getInverseMatrix()[columnNr].length - 1) {
 			
 			return true;
 		}
@@ -44,7 +63,7 @@ public class ConservationScores {
      */
     private boolean oneResidueTypeNoGaps(int columnNr) {
     	
-    	if (matrix.getTotalAcidsFreqByCol()[columnNr].size() == 1 && matrix.getTotalAcidsFreqByCol()[columnNr].containsKey('-') == false) {
+    	if (matrix.getTotalAcidsFreqByCol().get(columnNr).size() == 1 && matrix.getTotalAcidsFreqByCol().get(columnNr).containsKey('-') == false) {
     		
     		return true;
     		
@@ -67,7 +86,7 @@ public class ConservationScores {
     
    private boolean containsGaps(int columnNr) {
     	
-    	if (matrix.getTotalAcidsFreqByCol()[columnNr].containsKey('-')) {
+    	if (matrix.getTotalAcidsFreqByCol().get(columnNr).containsKey('-')) {
     		
     		return true;
     	}
@@ -89,7 +108,7 @@ public class ConservationScores {
     
    private int numberOfAcidsWithGap(int columnNr) {
     	
-    	return matrix.getTotalAcidsFreqByCol()[columnNr].size(); 
+    	return matrix.getTotalAcidsFreqByCol().get(columnNr).size(); 
     	
     }
     
@@ -104,12 +123,12 @@ public class ConservationScores {
     
     if(this.containsGaps(columnNr) == true) {
     	
-    	return matrix.getTotalAcidsFreqByCol()[columnNr].size() - 1;
+    	return matrix.getTotalAcidsFreqByCol().get(columnNr).size() - 1;
     }
     
     else {
     	
-    	return matrix.getTotalAcidsFreqByCol()[columnNr].size();
+    	return matrix.getTotalAcidsFreqByCol().get(columnNr).size();
     
     }
     
@@ -125,7 +144,7 @@ public class ConservationScores {
     	
     	int max = 0;
     	
-    	Set<Character> keys = matrix.getTotalAcidsFreqByCol()[columnNr].keySet();
+    	Set<Character> keys = matrix.getTotalAcidsFreqByCol().get(columnNr).keySet();
     	
     	Iterator<Character> itr = keys.iterator();
     	
@@ -133,9 +152,9 @@ public class ConservationScores {
     		
     	Character key = itr.next();
     		
-    		if (key != '-' && matrix.getTotalAcidsFreqByCol()[columnNr].get(key) > max) {
+    		if (key != '-' && matrix.getTotalAcidsFreqByCol().get(columnNr).get(key) > max) {
     			
-    			max = matrix.getTotalAcidsFreqByCol()[columnNr].get(key);
+    			max = matrix.getTotalAcidsFreqByCol().get(columnNr).get(key);
     			
     		}
     	
@@ -166,11 +185,12 @@ public class ConservationScores {
     //}
  
     /**
-     * Calculates Kabat score for the column.
+     * Calculates Kabat score for the alignment.
      *  
-     * @return Kabat score
+     * @param normalize   to be set true if the results are to be normalized, false otherwise
+     * @return array of results, index corresponding to the column index, indexing starts with 0
      */
-    double[] kabatScore() {
+    double[] kabatScore(boolean normalize) {
     	
     	double[] result = new double[matrix.getInverseMatrix().length];
     	
@@ -181,20 +201,34 @@ public class ConservationScores {
 		result[i] = matrix.getInverseMatrix()[i].length * (double) numberOfAcidsNoGap(i)/ (double) mostCommonNumber(i); 
 		
     	}
+    	
+    	//scores.put(Method.kabatScore, result);
+    	
+    	if(normalize) {
+    	
+    		double[] normalized = ConservationAccessory.inversedNormalize01(result);
 	
-		return result;
+    		return normalized;
+    		
+    	}
 		
-	}
+		else {
+			
+			return result;
+		}
+		
+    }
  
     /**
-     * Calculates Jores score for the column.
-     * When calculating the number of distinct pair formed calculates a combination of two out of the aminoacid types
+     * Calculates Jores score for the alignment.
+     * When calculating the number of distinct pair formed calculates a combination of two out of the amino acid types
      * present in the column. Than adds the self pairs. However when there is only one of a type
-     * in the column ne self pair is formed. 
+     * in the column no self pair is formed. 
      * 
-     * @return Jores score 
+     * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Jores scores ,index correspond to the column index, indexing starts with 0 
      */
-    double[] joresScore() {
+    double[] joresScore(boolean normalize) {
 	 
     double[] result	= new double[matrix.getInverseMatrix().length];
     
@@ -219,13 +253,16 @@ public class ConservationScores {
 	 
 	 if (oneResidueTypeNoGaps(i) == true || allButOneGaps(i) == true) {
 		 
-		 if (oneResidueTypeNoGaps(i) == true) 
+		 if (oneResidueTypeNoGaps(i) == true) {
 				 
-				 result[i] = 1.0;
+			 result[i] = 1.0;
+		 		
+		 }
 		 
 		 else {
 			 
-			 result[i] = 0.0;
+			 result[i] = matrix.getInverseMatrix().length * (matrix.getInverseMatrix().length - 1) / 2;
+			 
 		 }
 	 
 	 }
@@ -236,7 +273,7 @@ public class ConservationScores {
 	 
 	 int differentPairs = 0;
 	 
-	 acidsIntMap = matrix.getTotalAcidsFreqByCol()[i]; 
+	 acidsIntMap = matrix.getTotalAcidsFreqByCol().get(i); 
 	 
 	 acidsIntMapCopy = new HashMap<Character,Integer>(acidsIntMap);
 	 
@@ -339,21 +376,37 @@ public class ConservationScores {
 		 
  	result[i] = ((double) totalPairs / (double) mostFreqNr) * ((matrix.getInverseMatrix()[i].length) * (matrix.getInverseMatrix()[i].length -1 ) / 2); 
  	
-	 }
+	}
 	 
 	}
+	
+	//scores.put(Method.joresScore, result);
  
- 	return result;
- 	
+	if(normalize) {
+    	
+		double[] normalized = ConservationAccessory.inversedNormalize01(result);
+
+		return normalized;
+		
+	}
+	
+	else {
+		
+		return result;
+	}
+	
  	}
 	 
 	 
 	// Symbol Enthropy Scores
 
     /**
-     * Calculates Schneider score.
+     * Calculates Schneider score for the alignment.
+     * 
+     * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Schneider scores ,index correspond to the column index, indexing starts with 0 
      */
-    double[] schneiderScore() {
+    double[] schneiderScore(boolean normalize) {
 		
 		double[] result = new double[matrix.getInverseMatrix().length];
 		
@@ -361,53 +414,96 @@ public class ConservationScores {
 		
 		double normal = 1.0 / Math.log(20.0);
 		
-		result[i] = ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol()[i], matrix.getInverseMatrix()[i].length) * normal;
+		result[i] = ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol().get(i), matrix.getInverseMatrix()[i].length) * normal;
 		
 		assert result[i] >= 0 && result[i] <= 1;
 		
 		}
+		
+		//scores.put(Method.schneiderScore, result);
+		
+		if(normalize) {
+	    	
+			double[] normalized = ConservationAccessory.inversedNormalize01(result);
+
+			return normalized;
 			
-		return result;
+		}
+		
+		else {
+			
+			return result;
+		}
+	
 	}
 	
 	/**
-	 * Calculates Shenkin score.
+	 * Calculates Shenkin score for the alignment.
 	 * 
-	 * @return Shenkin score
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Shenkin scores ,index correspond to the column index, indexing starts with 0 
 	 */
 
-	double[] shenkinScore() {
+	double[] shenkinScore(boolean normalize) {
 		
 		double[] result = new double[matrix.getInverseMatrix().length];
 		
 		for (int i = 0; i < matrix.getInverseMatrix().length; i++) {
 		
-		result[i] = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(matrix.getTotalAcidsFreqByCol()[i], matrix.getInverseMatrix()[i].length)) * 6.0;
+		result[i] = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(matrix.getTotalAcidsFreqByCol().get(i), matrix.getInverseMatrix()[i].length)) * 6.0;
 			
 		assert result[i] >= 6 && result[i] <= 120;
 		
 		}
 		
-		return result;
+		//scores.put(Method.shenkinScore, result);
+		
+		if(normalize) {
+	    	
+			double[] normalized = ConservationAccessory.inversedNormalize01(result);
+
+			return normalized;
+			
+		}
+		
+		else {
+			
+			return result;
+		}
+	
 	}
 
 	/**
 	 * Calculates Gerstein score.
 	 * 
-	 * @return Gerstein score
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Gerstein scores ,index correspond to the column index, indexing starts with 0 
 	 */
 	
-	double[] gersteinScore() {
+	double[] gersteinScore(boolean normalize) {
 		
 		double[] result = new double[matrix.getInverseMatrix().length];
 		
 		for (int i = 0; i < matrix.getInverseMatrix().length; i++) {
 		
-		result[i] = ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(), matrix.numberOfColumns() * matrix.numberOfRows()) - ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol()[i], matrix.getInverseMatrix()[i].length);
+		result[i] = - (ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(), matrix.numberOfColumns() * matrix.numberOfRows())) -( - ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol().get(i), matrix.getInverseMatrix()[i].length));
 		
 		}
 		
-		return result;
+		//scores.put(Method.gersteinScore, result);
+		
+		if(normalize) {
+	    	
+			double[] normalized = ConservationAccessory.inversedNormalize01(result);
+
+			return normalized;
+			
+		}
+		
+		else {
+			
+			return result;
+		}
 		
 	}
 
@@ -416,10 +512,11 @@ public class ConservationScores {
 	 * Calculates Taylor score. Returns the number of elements in the smallest set covering the whole
 	 * column. Gaps sore is included in the largest set. Therefore a column containing gaps is automatically given the lowest possibel score.  
 	 *
-	 * @return Taylor score
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Taylor scores ,index correspond to the column index, indexing starts with 0 
 	 */
 	
-	double[] SmallestTaylorSetGaps() {
+	double[] SmallestTaylorSetGaps(boolean normalize) {
 	
 	Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 	
@@ -443,7 +540,7 @@ public class ConservationScores {
 		
 		String key = itr.next();
 		
-		if (setMap.get(key).containsAll(matrix.getTotalAcidsFreqByCol()[i].keySet())) {
+		if (setMap.get(key).containsAll(matrix.getTotalAcidsFreqByCol().get(i).keySet())) {
 			
 			repSets.put(key, new Integer(setMap.get(key).size()));
 				
@@ -456,16 +553,30 @@ public class ConservationScores {
 	
 	}
 	
-	return smallestSetSize;
+	//scores.put(Method.SmallestTaylorSetGaps, smallestSetSize);
+	
+	if(normalize) {
+    	
+		double[] normalized = ConservationAccessory.inversedNormalize01(smallestSetSize);
+
+		return normalized;
+		
+	}
+	
+	else {
+		
+		return smallestSetSize;
+	}
 	
 	}
  
 	/**
 	 * Does a very similar thing to SmallestTaylorSetGaps but does not take gaps into account at all.
 	 *  
-	 * @return Taylor score
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Taylor scores ,index correspond to the column index, indexing starts with 0 
 	 */
-	double[] SmallestTaylorSetNoGaps() {
+	double[] SmallestTaylorSetNoGaps(boolean normalize) {
 	 
 	    Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 	    
@@ -481,7 +592,7 @@ public class ConservationScores {
 	    
 	    for(int i = 0; i < matrix.getInverseMatrix().length; i++) {
 		
-		acidsMapNoGaps = new HashMap<Character,Integer>(matrix.getTotalAcidsFreqByCol()[i]);
+		acidsMapNoGaps = new HashMap<Character,Integer>(matrix.getTotalAcidsFreqByCol().get(i));
 		
 		if(acidsMapNoGaps.containsKey('-')) {
 			
@@ -509,19 +620,38 @@ public class ConservationScores {
 		assert smallestSetSize[i] > 0 && smallestSetSize[i] < 25;
 		
 	    }
+	    
+	    //scores.put(Method.SmallestTaylorSetNoGaps, smallestSetSize);
 		
-		return smallestSetSize;
+	    if(normalize) {
+	    	
+			double[] normalized = ConservationAccessory.inversedNormalize01(smallestSetSize);
+
+			return normalized;
+			
+		}
+		
+		else {
+			
+			return smallestSetSize;
 		
 		}
+	    
+	}
 	/**
 	 * Gives a score of one to ten based on whether all the amino acids though the column
 	 * maintain or fail to maintain a certain trait.
 	 *  
-	 * @return
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Zvelibil scores ,index correspond to the column index, indexing starts with 0 
 	 */
- 	double[] zvelibilScore(){
+	
+	// this score does not need to normalized, it is normalizrd by dafault, I leave the normalization for clarity but it is not needed
+ 	double[] zvelibilScore(boolean normalize){
  		
  		double[] result = new double[matrix.getInverseMatrix().length];
+ 		
+ 		double[] finalResult = new double[matrix.getInverseMatrix().length];
  		
  		Map<String, HashSet<Character>> setMap = ConservationSets.zvelibilSets();
  		
@@ -533,7 +663,7 @@ public class ConservationScores {
  		
  		while(itr.hasNext()) {
  			
- 			if(setMap.get(itr.next()).containsAll(matrix.getTotalAcidsFreqByCol()[i].keySet())) {
+ 			if(setMap.get(itr.next()).containsAll(matrix.getTotalAcidsFreqByCol().get(i).keySet())) {
  				
  				result[i]++;
  			}
@@ -542,9 +672,25 @@ public class ConservationScores {
  		
  		assert result[i] >= 0 && result[i] < 11;
  		
+ 		finalResult[i] = result[i] * 0.1;
+ 		
  		}
  		
- 		return result;
+ 		//scores.put(Method.zvelibilScore, result);
+
+	    if(normalize) {
+	    	
+			double[] normalized = ConservationAccessory.normalize01(finalResult);
+
+			return normalized;
+			
+		}
+		
+		else {
+			
+			return finalResult;
+ 	}
+	    
  	}
 
  	/**
@@ -553,10 +699,11 @@ public class ConservationScores {
  	 *  although it looks to me that the formula suggests that if one doesn't count gaps
  	 *  than the score of all but one gaps would be undefined.
  	 *  
- 	 * @return Karlin score
+ 	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Karlin scores ,index correspond to the column index, indexing starts with 0 
  	 */
  	
- 	double[] karlinScore() {
+ 	double[] karlinScore(boolean normalize) {
  		
  		double[] finalSum = new double[matrix.getInverseMatrix().length];
  		
@@ -598,19 +745,33 @@ public class ConservationScores {
  	    
  	}
  		
- 		return finalSum;
+ 		//scores.put(Method.karlinScore, finalSum);
+ 		
+ 		 if(normalize) {
+ 	    	
+ 			double[] normalized = ConservationAccessory.normalize01(finalSum);
+
+ 			return normalized;
+ 			
+ 		}
+ 		
+ 		else {
+ 			
+ 			return finalSum;
+  	}
  	}
  	
  	/**
  	 * Calculates Armon score.
  	 * 
- 	 * @return Armon score.
+ 	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Armon scores ,index correspond to the column index, indexing starts with 0 
  	 */
  // creates an array containing all the amino acids and gaps present in the column
  // iterates through that array twice(nested loops), finds all the possible pairs 
  // that can be formed by aa present
  // gap is considered the 21 aminoacid
- 	double[] armonScore() {
+ 	double[] armonScore(boolean normalize) {
  		
  		double[] scoreSum = new double[matrix.getInverseMatrix().length];
  		
@@ -620,13 +781,13 @@ public class ConservationScores {
  		
  		for (int i = 0; i < matrix.getInverseMatrix().length; i++) {
  		
- 		int arrayLength = matrix.getTotalAcidsFreqByCol()[i].keySet().size();
+ 		int arrayLength = matrix.getTotalAcidsFreqByCol().get(i).keySet().size();
  		
  		Character[] acidsPresent = new Character[arrayLength];
  		
  		int arrayIndex = 0;
  		
- 		keys = matrix.getTotalAcidsFreqByCol()[i].keySet();
+ 		keys = matrix.getTotalAcidsFreqByCol().get(i).keySet();
  		
  		itr = keys.iterator();
  		
@@ -653,7 +814,20 @@ public class ConservationScores {
  		
  		}
  		
- 		return scoreSum;
+ 		//scores.put(Method.armonscore, scoreSum);
+
+		 if(normalize) {
+	    	
+			double[] normalized = ConservationAccessory.inversedNormalize01(scoreSum);
+
+			return normalized;
+			
+		}
+		
+		else {
+			
+			return scoreSum;
+ 	}
  		
  	}
  	
@@ -661,13 +835,14 @@ public class ConservationScores {
  	 * Calculates Thompson score.
  	 * Gaps are accounted for. 
  	 * 
- 	 * @return
+ 	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Thompson scores ,index correspond to the column index, indexing starts with 0 
  	 */
 // amino acids are viewed as points in k dimensional space
 // an average point is calculated
 // score is the distance between the av point and the actual point
  	
- 	double[] thompsonScore(){
+ 	double[] thompsonScore(boolean normalize){
  		
  		double[] sum = null;
  		
@@ -706,6 +881,7 @@ public class ConservationScores {
  					sum = ConservationAccessory.addPoints(sum, points[a]);
  				}
  			
+ 			
  		}
  		
  		assert sum != null;
@@ -718,9 +894,9 @@ public class ConservationScores {
  			
  		}
  		
- 		if (matrix.getTotalAcidsFreqByCol()[i].keySet().contains('-')) {
+ 		if (matrix.getTotalAcidsFreqByCol().get(i).keySet().contains('-')) {
  			
- 			nonGapsFraction = (double) (matrix.getInverseMatrix()[i].length - matrix.getTotalAcidsFreqByCol()[i].get('-')) / (double) matrix.getInverseMatrix()[i].length;
+ 			nonGapsFraction = (double) (matrix.getInverseMatrix()[i].length - matrix.getTotalAcidsFreqByCol().get(i).get('-')) / (double) matrix.getInverseMatrix()[i].length;
  			
  		}
  		
@@ -742,13 +918,33 @@ public class ConservationScores {
  		
  		}
  		
- 		return result;
+ 		//scores.put(Method.thompsonScore, result);
+ 		
+ 		 if(normalize) {
+ 	    	
+ 			double[] normalized = ConservationAccessory.inversedNormalize01(result);
+
+ 			return normalized;
+ 			
+ 		}
+ 		
+ 		else {
+ 			
+ 			return result;
+  	}
  			
  		}
  		
  	// causes some math problem because denominator can be 0, that's a formula flaw
  	// nothing can be done about it
- 	double[] notLancetScore() {
+ 	
+ 	/**
+ 	 * Calculates NotArmon score. Valdar's version of Armon score that does not deal with dividing by zero.
+ 	 * 
+ 	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of NotLancet scores ,index correspond to the column index, indexing starts with 0 
+ 	 */
+ 	double[] notLancetScore(boolean normalize) {
 		
 		double[] result = new double[matrix.getInverseMatrix().length];
 		
@@ -760,7 +956,7 @@ public class ConservationScores {
 		
 		for (int i = 0; i < matrix.getInverseMatrix().length; i++) {
 		
-		keys = matrix.getTotalAcidsFreqByCol()[i].keySet();
+		keys = matrix.getTotalAcidsFreqByCol().get(i).keySet();
 		
 		itr1 = keys.iterator();
 		
@@ -776,26 +972,40 @@ public class ConservationScores {
 				
 				double blosum = ConservationMatrices.BlosumPair(key1, key2);
 				
-				result[i] = result[i] + ((((double)matrix.getTotalAcidsFreqByCol()[i].get(key1)/ (double) matrix.getInverseMatrix()[i].length * (double) matrix.getTotalAcidsFreqByCol()[i].get(key2)/ (double) matrix.getInverseMatrix()[i].length)) * blosum);
+				result[i] = result[i] + ((((double)matrix.getTotalAcidsFreqByCol().get(i).get(key1)/ (double) matrix.getInverseMatrix()[i].length * (double) matrix.getTotalAcidsFreqByCol().get(i).get(key2)/ (double) matrix.getInverseMatrix()[i].length)) * blosum);
 			}
 		}
 		
 		}
+		
+		//scores.put(Method.notLancetScore, result);
 	
-	return result;
+		 if(normalize) {
+	 	    	
+	 			double[] normalized = ConservationAccessory.normalize01(result);
+
+	 			return normalized;
+	 			
+	 		}
+	 		
+	 		else {
+	 			
+	 			return result;
+	  	}
 	
 	}
  	
 	/**
 	 * Calculates Mirny Score.
 	 * 
-	 * @return mirny score
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Mirny scores ,index correspond to the column index, indexing starts with 0 
 	 */
  	//calculates shannon enthropy but based on the sets, has to calculate number of amino acids tat belong 
  	//a particular set, stores them in a hashmap
  	//reads in a hashmap with the sets needed and creates a hashmap with set names as keys and number of aa belonging to set as value
  	
-	double[] mirnyScore() {
+	double[] mirnyScore(boolean normalize) {
 		
 		double[] mirnySum = new double[matrix.getInverseMatrix().length];
 		
@@ -807,33 +1017,33 @@ public class ConservationScores {
 		
 		assert !mirnyKeys.isEmpty();
 		
-		Iterator<String> mirnyKeysItr = null;
+		//Iterator<String> mirnyKeysItr = null;
 		
-		Set<Character> acInKeys = null;
+		//Set<Character> acInKeys = null;
 		
-		Map<String,Integer> setsFreq = null;
+		//Map<String,Integer> setsFreq = null;
 		
-		Iterator<Character> acInKeysItr = null;
+		//Iterator<Character> acInKeysItr = null;
 		
-		Set<String> setsFreqKeys = null;
+		//Set<String> setsFreqKeys = null;
 		
-		Iterator<String> setsFreqKeysItr = null;
+		//Iterator<String> setsFreqKeysItr = null;
 		
 		for (int i = 0; i < matrix.getInverseMatrix().length; i++ ) {
 		
-		mirnyKeysItr = mirnyKeys.iterator();
+		Iterator<String> mirnyKeysItr = mirnyKeys.iterator();
 		
-		acInKeys = matrix.getTotalAcidsFreqByCol()[i].keySet(); 
+		Set<Character> acInKeys = matrix.getTotalAcidsFreqByCol().get(i).keySet(); 
 		
 		assert !acInKeys.isEmpty();
 		
-		setsFreq = new HashMap<String,Integer>();  
+		Map<String, Integer> setsFreq = new HashMap<String,Integer>();  
 		
 		while (mirnyKeysItr.hasNext()) {
 			
 			String mirnyKey = mirnyKeysItr.next();
 			
-			acInKeysItr = acInKeys.iterator();
+			Iterator<Character> acInKeysItr = acInKeys.iterator();
 			
 			while (acInKeysItr.hasNext()) {
 				
@@ -845,12 +1055,12 @@ public class ConservationScores {
 					
 					if (count == null) {
 						
-						setsFreq.put(mirnyKey, matrix.getTotalAcidsFreqByCol()[i].get(acInKey));
+						setsFreq.put(mirnyKey, matrix.getTotalAcidsFreqByCol().get(i).get(acInKey));
 					}
 					
 					else {
 						
-						setsFreq.put(mirnyKey, count + matrix.getTotalAcidsFreqByCol()[i].get(acInKey));
+						setsFreq.put(mirnyKey, count + matrix.getTotalAcidsFreqByCol().get(i).get(acInKey));
 						
 					}
 				}
@@ -861,13 +1071,15 @@ public class ConservationScores {
 		
 		assert !setsFreq.isEmpty();
 		
-		setsFreqKeys = setsFreq.keySet();
+		//setsFreqKeys = setsFreq.keySet();
 		
-		setsFreqKeysItr = setsFreqKeys.iterator();
+		Iterator<String> setsFreqKeysItr = setsFreq.keySet().iterator();
 		
 		while(setsFreqKeysItr.hasNext()) {
 			
 			String setFreqKey = setsFreqKeysItr.next();
+			
+			System.out.println( i + " " + "Sets tester1 " + " key " + setFreqKey + " value "  + setsFreq.get(setFreqKey) );
 			
 			double pI = (double) setsFreq.get(setFreqKey) / (double) matrix.getInverseMatrix()[i].length; 
 			
@@ -877,17 +1089,55 @@ public class ConservationScores {
 		
 		}
 		
-		return mirnySum;
+		//scores.put(Method.mirnyScore, mirnySum);
+
+		 if(normalize) {
+	 	    	
+	 			double[] normalized = ConservationAccessory.normalize01(mirnySum);
+
+	 			return normalized;
+	 			
+	 		}
+	 		
+	 		else {
+	 			
+	 			return mirnySum;
+	  	}
 		
 	}
+	
+	//double[] mirnyScore2(boolean normalize) {
+		
+		//double[] mirnySum = new double[matrix.getInverseMatrix().length];
+		
+		//for(int i = 0; i < matrix.getInverseMatrix().length; i++) {
+			
+			//mirnySum[i] = Column.mirnyScore(matrix.getTotalAcidsFreqByCol().get(i), matrix.getInverseMatrix()[i]);
+		//}
+		
+		 //if(normalize) {
+	 	    	
+	 			//double[] normalized = ConservationAccessory.normalize01(mirnySum);
+
+	 			//return normalized;
+	 			
+	 		//}
+	 		
+	 		//else {
+	 			
+	 			//return mirnySum;
+	  	//}
+		
+	//}
 	/**
 	 * Calculates Williamson score.
 	 * 
 	 * 
-	 * @return Williamson score.
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Williamson scores ,index correspond to the column index, indexing starts with 0 
 	 */
 
-	double[] williamsonScore() {
+	double[] williamsonScore(boolean normalize) {
 		  
 		double[] willSum = new double[matrix.getInverseMatrix().length];
 		
@@ -916,7 +1166,7 @@ public class ConservationScores {
 		
 		willKeysItr = willKeys.iterator();
 		
-		acInKeys = matrix.getTotalAcidsFreqByCol()[i].keySet(); 
+		acInKeys = matrix.getTotalAcidsFreqByCol().get(i).keySet(); 
 		
 		assert !acInKeys.isEmpty();
 		
@@ -938,12 +1188,13 @@ public class ConservationScores {
 					
 					if (count == null) {
 						
-						setsFreq.put(willKey, matrix.getTotalAcidsFreqByCol()[i].get(acInKey));
+						setsFreq.put(willKey, matrix.getTotalAcidsFreqByCol().get(i).get(acInKey));
+						
 					}
 					
 					else {
 						
-						setsFreq.put(willKey, count + matrix.getTotalAcidsFreqByCol()[i].get(acInKey));
+						setsFreq.put(willKey, count + matrix.getTotalAcidsFreqByCol().get(i).get(acInKey));
 						
 					}
 				}
@@ -962,11 +1213,13 @@ public class ConservationScores {
 			
 			String setFreqKey = setsFreqKeysItr.next();
 			
+			System.out.println("Sets tester " + " key " + setFreqKey + " value "  + setsFreq.get(setFreqKey) );
+			
 			// FIXME Pi in the logarithm needs to be divided by average pi, do it once u get classes to be nested
 			
 			double pI = (double) setsFreq.get(setFreqKey) / (double) matrix.getInverseMatrix()[i].length; 
 			
-			double piAve = (double) matrix.totalAcidsWillSets().get(setFreqKey);
+			double piAve = (double) matrix.totalAcidsWillSets().get(setFreqKey)/ matrix.numberOfRows();
 			
 			willSum[i] = willSum[i] + (pI * Math.log(pI/piAve));
 			
@@ -974,16 +1227,30 @@ public class ConservationScores {
 		
 		}
 		
-		return willSum;
+		//scores.put(Method.williamsonScore, willSum);
+		
+		 if(normalize) {
+	 	    	
+	 			double[] normalized = ConservationAccessory.normalize01(willSum);
+
+	 			return normalized;
+	 			
+	 		}
+	 		
+	 		else {
+	 			
+	 			return willSum;
+	  	}
 		
 	}
 	
 	/**
 	 * Calculates Landgraf score.
 	 * 
-	 * @return landgraf score
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Landgraf scores ,index correspond to the column index, indexing starts with 0 
 	 */
-	double[] landgrafScore() {
+	double[] landgrafScore(boolean normalize) {
 		
 		double sum = 0;
 		
@@ -1010,16 +1277,30 @@ public class ConservationScores {
 		
 		}
 		
-		return result;
+		//scores.put(Method.landgrafScore, result);
+		
+		 if(normalize) {
+	 	    	
+	 			double[] normalized = ConservationAccessory.inversedNormalize01(result);
+
+	 			return normalized;
+	 			
+	 		}
+	 		
+	 		else {
+	 			
+	 			return result;
+	  	}
 	}
 	
 	/** 
 	 * Calculates sander score.
 	 * 
-	 * @return sander score
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Sander scores ,index correspond to the column index, indexing starts with 0 
 	 */ 
 	
-	double[] sanderScore() {
+	double[] sanderScore(boolean normalize) {
 		
 		double sum = 0.0;
 		
@@ -1055,16 +1336,31 @@ public class ConservationScores {
 		
 		}
 		
-		return result;
+		//scores.put(Method.sanderScore, result);
+		
+
+		 if(normalize) {
+	 	    	
+	 			double[] normalized = ConservationAccessory.normalize01(result);
+
+	 			return normalized;
+	 			
+	 		}
+	 		
+	 		else {
+	 			
+	 			return result;
+	  	}
 		
 		}
 
 	/**
 	 * Calculates Valdar score.
 	 * 
-	 * @return Valdar score
+	 * @param normalize  is to be set true if data is to be normalized false otherwise
+     * @return array of Sander scores ,index correspond to the column index, indexing starts with 0 
 	 */
-	double[] valdarScore() {
+	double[] valdarScore(boolean normalize) {
 		
 		double sum = 0.0;
 		
@@ -1100,7 +1396,21 @@ public class ConservationScores {
 		
 		}
 		
-		return result;
+		//scores.put(Method.valdarScore, result);
+
+		 if(normalize) {
+	 	    	
+	 			double[] normalized = ConservationAccessory.normalize01(result);
+
+	 			return normalized;
+	 			
+	 		}
+	 		
+	 		else {
+	 			
+	 			return result;
+	  	}
+		
 		
 	}
 	

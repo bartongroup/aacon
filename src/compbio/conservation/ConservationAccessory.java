@@ -253,8 +253,170 @@ class ConservationAccessory {
 		
 	}
 	
+	/**
+	 * Returns scores normalized form 0 to 1.
+	 * 
+	 * @param scores array of scores to be normalized
+	 * @return array of normalized scores
+	 */
+	
+	static double[] normalize01(double[] scores) {
+		
+		double[] normalized = new double[scores.length];
+		
+		double max = scores[0];
+		
+		double min = scores[0];
+		
+		for (int i = 0 ; i < scores.length; i++) {
+			
+			if (scores[i] > max) {
+				
+				max = scores[i];
+				
+			}
+			
+			if (scores[i] < min) {
+				
+				min = scores[i];
+				
+			}
+			
+		}
+		
+		if(max == 0 && min == 0) {
+			
+			normalized = scores;
+		}
+		
+		else {
+			
+			if (min < 0) {
+				
+				double minAbs = min * -1;
+				
+				double[] shifted = new double[scores.length];
+				
+				for(int i = 0; i < shifted.length; i++) {
+					
+					shifted[i] = scores[i] + minAbs;
+					
+				}
+				
+				max = max + minAbs;
+				
+				min = min + minAbs;
+				
+				for (int i = 0; i < normalized.length; i++) {
+					
+					normalized[i] = ((shifted[i] - min) / (max - min));
+					
+				}
+				
+			}
+			
+			else {
+				
+				for (int i = 0; i < scores.length; i++) {
+					
+					normalized[i] = (scores[i] - min) / (max - min);
+				}
+			}
+		
+		}
+		
+	return normalized;
+		
+	}
+	
+	/**
+	 * Returns inversed version of the normalized scores. for each score gives a score equal to  1 - the original score. 
+	 * 
+	 * @param scores the array of scores supplied.
+	 * 
+	 * @return the array of numbers equal 1 - normalized score.
+	 */
+	
+	static double[] inversedNormalize01(double[] scores) {
+		
+		double[] normalized = new double[scores.length];
+		
+		double max = scores[0];
+		
+		double min = scores[0];
+		
+		for (int i = 0 ; i < scores.length; i++) {
+			
+			if (scores[i] > max) {
+				
+				max = scores[i];
+				
+			}
+			
+			if (scores[i] < min) {
+				
+				min = scores[i];
+				
+			}
+			
+		}
+		
+		if(max == 0 && min == 0) {
+			
+			normalized = scores;
+		}
+		
+		else {
+			
+			if (min < 0) {
+				
+				double minAbs = min * -1;
+				
+				double[] shifted = new double[scores.length];
+				
+				for(int i = 0; i < shifted.length; i++) {
+					
+					shifted[i] = scores[i] + minAbs;
+					
+				}
+				
+				max = max + minAbs;
+				
+				min = min + minAbs;
+				
+				for (int i = 0; i < normalized.length; i++) {
+					
+					normalized[i] = ((shifted[i] - min) / (max - min));
+					
+				}
+				
+			}
+			
+			else {
+				
+				for (int i = 0; i < scores.length; i++) {
+					
+					normalized[i] = (scores[i] - min) / (max - min);
+				}
+			
+			}
+		
+		}
+		
+		
+		double[] inversed = new double[normalized.length];
+		
+		for (int i = 0; i < inversed.length; i++) {
+			
+			inversed[i] =  1 - normalized[i];
+		}
+		
+		return inversed;
+
+	}
 	
 }
+
 
 
 

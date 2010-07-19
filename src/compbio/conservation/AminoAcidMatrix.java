@@ -39,7 +39,7 @@ import java.io.IOException;
 	 * Stores occurances of amino acids in columns, columns indexed starting fromm 0
 	 */
 	
-	private Map<Character, Integer>[] acidsIntMap; 
+	private List<Map<Character, Integer>> acidsIntMap; 
 	
 	/**
 	 * Holds the in the indices of Xs changed to gaps.
@@ -95,6 +95,58 @@ import java.io.IOException;
 	
 	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10){
 		
+		Set<Character> alp = Alphabet.alphabet();
+		
+		if(alp.contains(p1) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p2) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p3) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p4) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p5) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p6) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p7) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p8) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p9) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p10) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
 		matrix = new char[10][1];
 		                        
 		matrix[0][0] = p1;
@@ -112,217 +164,82 @@ import java.io.IOException;
 		
 	}
 	
-	/**
-	 * This constructor allows manual creation of a 10 by 10 matrix.
-	 * @param p1
-	 * @param p2
-	 * @param p3
-	 * @param p4
-	 * @param p5
-	 * @param p6
-	 * @param p7
-	 * @param p8
-	 * @param p9
-	 * @param p10
-	 * @param p11
-	 * @param p12
-	 * @param p13
-	 * @param p14
-	 * @param p15
-	 * @param p16
-	 * @param p17
-	 * @param p18
-	 * @param p19
-	 * @param p20
-	 * @param p21
-	 * @param p22
-	 * @param p23
-	 * @param p24
-	 * @param p25
-	 * @param p26
-	 * @param p27
-	 * @param p28
-	 * @param p29
-	 * @param p30
-	 * @param p31
-	 * @param p32
-	 * @param p33
-	 * @param p34
-	 * @param p35
-	 * @param p36
-	 * @param p37
-	 * @param p38
-	 * @param p39
-	 * @param p40
-	 * @param p41
-	 * @param p42
-	 * @param p43
-	 * @param p44
-	 * @param p45
-	 * @param p46
-	 * @param p47
-	 * @param p48
-	 * @param p49
-	 * @param p50
-	 * @param p51
-	 * @param p52
-	 * @param p53
-	 * @param p54
-	 * @param p55
-	 * @param p56
-	 * @param p57
-	 * @param p58
-	 * @param p59
-	 * @param p60
-	 * @param p61
-	 * @param p62
-	 * @param p63
-	 * @param p64
-	 * @param p65
-	 * @param p66
-	 * @param p67
-	 * @param p68
-	 * @param p69
-	 * @param p70
-	 * @param p71
-	 * @param p72
-	 * @param p73
-	 * @param p74
-	 * @param p75
-	 * @param p76
-	 * @param p77
-	 * @param p78
-	 * @param p79
-	 * @param p80
-	 * @param p81
-	 * @param p82
-	 * @param p83
-	 * @param p84
-	 * @param p85
-	 * @param p86
-	 * @param p87
-	 * @param p88
-	 * @param p89
-	 * @param p90
-	 * @param p91
-	 * @param p92
-	 * @param p93
-	 * @param p94
-	 * @param p95
-	 * @param p96
-	 * @param p97
-	 * @param p98
-	 * @param p99
-	 * @param p100
-	 */
-	
-	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10, char p11, char p12, char p13, char p14, char p15, char p16, char p17 ,char p18 ,char p19 ,char p20,char p21, char p22, char p23, char p24, char p25, char p26, char p27 ,char p28 ,char p29 ,char p30,char p31, char p32, char p33, char p34, char p35, char p36,char p37 , char p38 ,char p39 ,char p40,char p41, char p42, char p43, char p44, char p45, char p46,char p47 , char p48 ,char p49 ,char p50,char p51, char p52, char p53, char p54, char p55, char p56,char p57 , char p58 ,char p59 ,char p60, char p61, char p62, char p63, char p64, char p65, char p66,char p67 , char p68 ,char p69 ,char p70,char p71, char p72, char p73, char p74, char p75, char p76,char p77 , char p78 ,char p79 ,char p80,char p81, char p82, char p83, char p84, char p85, char p86,char p87 , char p88 ,char p89 ,char p90,char p91, char p92, char p93, char p94, char p95, char p96,char p97 , char p98 ,char p99 ,char p100){
+	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9){
 		
-		matrix = new char[10][10];
+		Set<Character> alp = Alphabet.alphabet();
+		
+		if(alp.contains(p1) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p2) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p3) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p4) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p5) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p6) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p7) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p8) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		if(alp.contains(p9) == false) {
+			
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		
+		
+		matrix = new char[3][3];
 		                        
 		matrix[0][0] = p1;
 		matrix[0][1] = p2;
 		matrix[0][2] = p3;
-		matrix[0][3] = p4;
-		matrix[0][4] = p5;
-		matrix[0][5] = p6;
-		matrix[0][6] = p7;
-		matrix[0][7] = p8;
-		matrix[0][8] = p9;
-		matrix[0][9] = p10;
-		matrix[1][0] = p11;
-		matrix[1][1] = p12;
-		matrix[1][2] = p13;
-		matrix[1][3] = p14;
-		matrix[1][4] = p15;
-		matrix[1][5] = p16;
-		matrix[1][6] = p17;
-		matrix[1][7] = p18;
-		matrix[1][8] = p19;
-		matrix[1][9] = p20;
-		matrix[2][0] = p21;
-		matrix[2][1] = p22;
-		matrix[2][2] = p23;
-		matrix[2][3] = p24;
-		matrix[2][4] = p25;
-		matrix[2][5] = p26;
-		matrix[2][6] = p27;
-		matrix[2][7] = p28;
-		matrix[2][8] = p29;
-		matrix[2][9] = p30;
-		matrix[3][0] = p31;
-		matrix[3][1] = p32;
-		matrix[3][2] = p33;
-		matrix[3][3] = p34;
-		matrix[3][4] = p35;
-		matrix[3][5] = p36;
-		matrix[3][6] = p37;
-		matrix[3][7] = p38;
-		matrix[3][8] = p39;
-		matrix[3][9] = p40;
-		matrix[4][0] = p41;
-		matrix[4][1] = p42;
-		matrix[4][2] = p43;
-		matrix[4][3] = p44;
-		matrix[4][4] = p45;
-		matrix[4][5] = p46;
-		matrix[4][6] = p47;
-		matrix[4][7] = p48;
-		matrix[4][8] = p49;
-		matrix[4][9] = p50;
-		matrix[5][0] = p51;
-		matrix[5][1] = p52;
-		matrix[5][2] = p53;
-		matrix[5][3] = p54;
-		matrix[5][4] = p55;
-		matrix[5][5] = p56;
-		matrix[5][6] = p57;
-		matrix[5][7] = p58;
-		matrix[5][8] = p59;
-		matrix[5][9] = p60;
-		matrix[6][0] = p61;
-		matrix[6][1] = p62;
-		matrix[6][2] = p63;
-		matrix[6][3] = p64;
-		matrix[6][4] = p65;
-		matrix[6][5] = p66;
-		matrix[6][6] = p67;
-		matrix[6][7] = p68;
-		matrix[6][8] = p69;
-		matrix[6][9] = p70;
-		matrix[7][0] = p71;
-		matrix[7][1] = p72;
-		matrix[7][2] = p73;
-		matrix[7][3] = p74;
-		matrix[7][4] = p75;
-		matrix[7][5] = p76;
-		matrix[7][6] = p77;
-		matrix[7][7] = p78;
-		matrix[7][8] = p79;
-		matrix[7][9] = p80;
-		matrix[8][0] = p81;
-		matrix[8][1] = p82;
-		matrix[8][2] = p83;
-		matrix[8][3] = p84;
-		matrix[8][4] = p85;
-		matrix[8][5] = p86;
-		matrix[8][6] = p87;
-		matrix[8][7] = p88;
-		matrix[8][8] = p89;
-		matrix[8][9] = p90;
-		matrix[9][0] = p91;
-		matrix[9][1] = p92;
-		matrix[9][2] = p93;
-		matrix[9][3] = p94;
-		matrix[9][4] = p95;
-		matrix[9][5] = p96;
-		matrix[9][6] = p97;
-		matrix[9][7] = p98;
-		matrix[9][8] = p99;
-		matrix[9][9] = p100;
+		matrix[1][0] = p4;
+		matrix[1][1] = p5;
+		matrix[1][2] = p6;
+		matrix[2][0] = p7;
+		matrix[2][1] = p8;
+		matrix[2][2] = p9;
 		
-		inverseMatrix = null;
+		inverseMatrix = new char[3][3];
+		
+		inverseMatrix[0][0] = p1;
+		inverseMatrix[0][1] = p4;
+		inverseMatrix[0][2] = p7;
+		inverseMatrix[1][0] = p2;
+		inverseMatrix[1][1] = p5;
+		inverseMatrix[1][2] = p8;
+		inverseMatrix[2][0] = p3;
+		inverseMatrix[2][1] = p6;
+		inverseMatrix[2][2] = p9;
+		
 	}
+	
 	
 	/**
 	 * Constructor that reads in a fasta file and creates an amino acid matrix.
@@ -372,8 +289,13 @@ import java.io.IOException;
 			            	  			ch = '-';
 			            	  			
 			            	  		}
+			            	  		
+			            	  		if (alph.contains(ch) == false) {
+			            	  			
+			            	  			throw new NotAnAminoAcidException("Illegal characetr in the allignment");
+			            	  		}
 			        	
-			        				assert alph.contains(ch) : "Illegal character in the matrix";
+			        				//assert alph.contains(ch) : "Illegal character in the matrix";
 			        				
 				
 	                                 matrix[i][j] = ch;
@@ -505,17 +427,17 @@ import java.io.IOException;
 	
 	private void calTotalAcidsFreqByCol() {
 		
-		acidsIntMap = new Map[this.inverseMatrix.length];
+		acidsIntMap = new ArrayList<Map<Character, Integer>>(this.numberOfColumns());
 		
 		for (int i = 0; i < this.numberOfColumns(); i++) {
 			
-			acidsIntMap[i] = Alphabet.calculateOccurance(this.inverseMatrix[i]);
+			acidsIntMap.add(Alphabet.calculateOccurance(this.inverseMatrix[i]));
 		    
 		}
 		
 	}
 	
-	Map<Character, Integer>[] getTotalAcidsFreqByCol() {
+	List<Map<Character, Integer>> getTotalAcidsFreqByCol() {
 		
 		if(acidsIntMap == null) {
 			

@@ -46,39 +46,39 @@ public class ConservationScoresWrapper {
 			
 		ConservationScores scores = new ConservationScores(matrix);
 		
-		double[] kabat = scores.kabatScore(); 
+		//double[] kabat = scores.kabatScore(); 
 		
-		double[] jores = scores.joresScore();
+		//double[] jores = scores.joresScore();
 		
-		double[] schneider = scores.schneiderScore();
+		//double[] schneider = scores.schneiderScore();
 		
-		double[] shenkin = scores.shenkinScore();
+		//double[] shenkin = scores.shenkinScore();
 		
-		double[] gerstein = scores.gersteinScore();
+		//double[] gerstein = scores.gersteinScore();
 		
-		double[] taylorNoGaps = scores.SmallestTaylorSetNoGaps();
+		//double[] taylorNoGaps = scores.SmallestTaylorSetNoGaps();
 		
-		double[] taylorGaps = scores.SmallestTaylorSetGaps();
+		//double[] taylorGaps = scores.SmallestTaylorSetGaps();
 		
-		double[] zvelibil = scores.zvelibilScore();
+		//double[] zvelibil = scores.zvelibilScore();
 		
-		double[] karlin = scores.karlinScore();
+		//double[] karlin = scores.karlinScore();
 		
-		double[] armon = scores.armonScore();
+		//double[] armon = scores.armonScore();
 		
-		double[] thompson = scores.thompsonScore();
+		//double[] thompson = scores.thompsonScore();
 		
-		double[] lancet  = scores.notLancetScore();
+		//double[] lancet  = scores.notLancetScore();
 		
-		double[] mirny = scores.mirnyScore();
+		//double[] mirny = scores.mirnyScore();
 		
-		double[] williamson = scores.williamsonScore();
+		//double[] williamson = scores.williamsonScore();
 		
-		double[] landgraf = scores.landgrafScore();
+		//double[] landgraf = scores.landgrafScore();
 		
-		double[] sander = scores.landgrafScore();
+		//double[] sander = scores.landgrafScore();
 		
-		double[] valdar = scores.valdarScore();
+		//double[] valdar = scores.valdarScore();
 		
 		}
 		

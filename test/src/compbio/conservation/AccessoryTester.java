@@ -24,5 +24,36 @@ public class AccessoryTester {
 		
 		Assert.assertEquals(result, 1.0, 0.1);
 	}
+	
+	
+	@Test
+	public void normalizationTester() {
+		
+		double[] scores = {15, 13, 13, -32, 0};
+		
+		double[] normalized = ConservationAccessory.normalize01(scores);
+		
+		System.out.println("normal");
+		
+		for (int i = 0; i < normalized.length; i++) {
+			
+			System.out.println(normalized[i]);
+		}
+	}
+	
+	@Test
+	public void inversedNormalizationTester() {
+		
+		double[] scores = {15, 13, 13, -32, 0};
+		
+		double[] normalized = ConservationAccessory.inversedNormalize01(scores);
+		
+		System.out.println("inversed");
+		
+		for (int i = 0; i < normalized.length; i++) {
+			
+			System.out.println(normalized[i]);
+		}
+	}
 
 }

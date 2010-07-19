@@ -832,6 +832,8 @@ public class Column {
 			
 			String setFreqKey = setsFreqKeysItr.next();
 			
+			System.out.println("Sets tester1 " + " key " + setFreqKey + " value "  + setsFreq.get(setFreqKey) );
+			
 			double pI = (double) setsFreq.get(setFreqKey) / (double) columnArr.length; 
 			
 			mirnySum = mirnySum + (pI * Math.log(pI));
