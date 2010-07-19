@@ -71,8 +71,9 @@ Exception in thread "main" java.lang.NullPointerException
 16) According to java naming conventions Enum constrains should be defined in capital case 
 with underscore as a separator between words. Please read on java enum naming convention. 
 
-17) ConservationClient.scores should not be statically defined. It means that only one client can be run 
-at one time. 
+17) ConservationClient.scores should not be statically defined. As if it is left 
+like it is only one client can be run at one time. This is ok for the command line 
+client, but we will need to be able to execute conservation prediction methods from java too.  
 
 18) I suggest Format to be defined as enum too. 
 
