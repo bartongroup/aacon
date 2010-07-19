@@ -2,12 +2,12 @@ package compbio.conservation;
 
 import java.util.*;
 
-public class Alignment {
+public class _Alignment {
 	
-	private ColumnCollection cols;
+	private _ColumnCollection cols;
 	
 	
-	public Alignment (AminoAcidMatrix m){
+	public _Alignment (AminoAcidMatrix m){
 		
 		if (m == null) {
 			
@@ -25,7 +25,7 @@ double[] kabat() {
 	 
 	double[] result = new double[cols.getColumnCollection().length];
 	
-	Column[] columns = cols.getColumnCollection();
+	_Column[] columns = cols.getColumnCollection();
 	
 	assert columns.length > 0 ;
 	
@@ -56,7 +56,7 @@ double[] schneider() {
 	
 	double normal = 1.0 / 20.0;
 	
-	Column[] columns = cols.getColumnCollection();
+	_Column[] columns = cols.getColumnCollection();
 	
 	assert columns.length > 0 ;
 	
@@ -74,7 +74,7 @@ double[] shenkin() {
 	
 	double[] result = new double[cols.getColumnCollection().length]; 
 	
-	Column[] columns = cols.getColumnCollection();
+	_Column[] columns = cols.getColumnCollection();
 	
 	assert columns.length > 0 ;
 	
@@ -91,7 +91,7 @@ double[] gerstein() {
 	
 	double[] result = new double[cols.getColumnCollection().length]; 
 	
-	Column[] columns = cols.getColumnCollection();
+	_Column[] columns = cols.getColumnCollection();
 	
 	assert columns.length > 0 ;
 	
@@ -120,7 +120,7 @@ int[] taylor() {
 	
 int[] result = new int[cols.getColumnCollection().length]; 
 	
-	Column[] columns = cols.getColumnCollection();
+	_Column[] columns = cols.getColumnCollection();
 	
 	assert columns.length > 0 ;
 	

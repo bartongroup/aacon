@@ -24,7 +24,7 @@ public class ColumnTester {
 	
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double kar = col.karlinScore();
 	
@@ -49,7 +49,7 @@ public class ColumnTester {
 	
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double arm = col.armonScore();
 	
@@ -73,7 +73,7 @@ public class ColumnTester {
 	
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double thom = col.thompsonScore();
 	
@@ -97,7 +97,7 @@ public class ColumnTester {
 		
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double lan = col.notLancetScore();
 	
@@ -121,7 +121,7 @@ public class ColumnTester {
 	
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double mirny = col.mirnyScore();
 	
@@ -147,7 +147,7 @@ public class ColumnTester {
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);
 	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double will = col.williamsonScore();
 	
@@ -173,7 +173,7 @@ public class ColumnTester {
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);	
 	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	int tay = col.SmallestTaylorSetGaps();
 	Assert.assertEquals(tay, 21);
@@ -196,7 +196,7 @@ public class ColumnTester {
 	
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double kab = col.kabatScore();
 	
@@ -221,7 +221,7 @@ public class ColumnTester {
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);	
 	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double sch = col.schneiderScore();
 	
@@ -246,7 +246,7 @@ public class ColumnTester {
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);	
 	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double jor = col.joresScore();
 	
@@ -272,7 +272,7 @@ public class ColumnTester {
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);
 	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double san = col.sanderScore();
 	
@@ -297,7 +297,7 @@ public class ColumnTester {
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);
 	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double val = col.valdarScore();
 	
@@ -322,7 +322,7 @@ public class ColumnTester {
 	AminoAcidMatrix matrix = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i, j);
 	
 		
-	Column col = new Column(a, b, c, d, e, f, g, h, i, j, matrix);
+	_Column col = new _Column(a, b, c, d, e, f, g, h, i, j, matrix);
 	
 	double lan = col.landgrafScore();
 	

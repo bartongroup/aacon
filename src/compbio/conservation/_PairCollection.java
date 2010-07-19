@@ -12,13 +12,13 @@ import compbio.util.SequenceUtil;
 
 // some of the methods from column collection got dumped here in case they will be needed, not likely though
 
-	public class PairCollection {
+	public class _PairCollection {
 		
 		private int nrPairs;
 
 		private int mostFreqPair;
 
-		public PairCollection(int p, int m) {
+		public _PairCollection(int p, int m) {
 			
 			nrPairs = p;
 			

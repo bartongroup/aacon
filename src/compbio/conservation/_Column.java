@@ -1,14 +1,15 @@
 package compbio.conservation;
+import java.util.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+/**
+ * This class provides all the basic calculations on column level.
+ * Has all the methods for calculating conservation scores.
+ * The conservation scorse are based on Valdar's paper
+ * 
+ * @author agolicz
+ */
 
-public class ColumnWithoutCollection {
+public class _Column {
 
 	/**
 	 * Array consisting of character representation of amino acids in the column
@@ -24,211 +25,7 @@ public class ColumnWithoutCollection {
      * Reference to the matrix object the column was taken from. Indices of the amino acids in the column correspond to the indices of the the sequences they belong to in this matrix.
      */
     private final AminoAcidMatrix matrix;
-    
-    /**
-	 * Holds the of Kabat result.
-	 */
-	
-	private double kabat = 0;
-	
-	/**
-	 * Kabat initialization status
-	 */
-	
-	private boolean kabatInitStat = false;
-	
-	/**
-	 * Holds Jores result.
-	 */
-	
-	private double jores = 0;
-	
-	/**
-	 * Jores initialization status.
-	 */
-	
-	private boolean joresInitStat = false;
-	
-	/**
-	 * Holds Schneider result.
-	 */
 
-	private double schneider = 0;
-	
-	/**
-	 * Schneider initialization status.
-	 */
-	
-	private boolean schneiderInitStat = false;
-	
-	/**
-	 * Holds Shenkin result.
-	 */
-
-	private double shenkin = 0;
-	
-	/**
-	 * Shenkin initialization status.
-	 */
-	
-	private boolean shenkinInitStat = false;
-	
-	/**
-	 * Holds Gerstein result.
-	 */
-
-	private double gerstein = 0;
-	
-	/**
-	 * Gerstein initialization status.
-	 */
-	
-	private boolean gersteinInitStat = false;
-	
-	/**
-	 * Holds Taylor result.
-	 */
-
-	private int taylorNoGaps = 0;
-	
-	/**
-	 * Taylor initialization status.
-	 */
-	
-	private boolean taylorNoGapsInitSatat = false;
-	
-	/**
-	 * Holds Taylor result.
-	 */
-
-	private int taylorGaps = 0;
-	
-	/**
-	 * Taylor initialization status.
-	 */
-	
-	private boolean taylorGapsInitStat = false;
-	
-	/**
-	 * Holds Zvelibil result.
-	 */
-
-	private int zvelibil = 0;
-	
-	/**
-	 * Zvelibil initialization status.
-	 */
-	
-	private boolean zvelibilInitStat = false;
-	
-	/**
-	 * Holds Karlin result.
-	 */
-
-	private double karlin = 0;
-	
-	/** 
-	 * Karlin initialization status.
-	 */
-	
-	private boolean karlinInitStat = false;
-	
-	/**
-	 * Holds Armon result.
-	 */
-
-	private double armon = 0;
-	
-	/**
-	 * Armon initialization status.
-	 */
-	
-	private boolean armonInitStat = false;
-	
-	/**
-	 * Holds Thompson Result.
-	 */
-
-	private double thompson = 0;
-	
-	/**
-	 * Thompson initialization status.
-	 */
-	
-	private boolean thompsonInitStat = false;
-	
-	/**
-	 * Holds Lancet result.
-	 */
-
-	private double lancet = 0;
-	
-	/**
-	 * Lancet initialization status.
-	 */
-	
-	private boolean lancetInitStat = false;
-	
-	/**
-	 * Holds Mirny result.
-	 */
-
-	private double mirny = 0;
-	
-	/**
-	 * Mirny initialization status.
-	 */
-	
-	private boolean mirnyInitStat = false;
-	
-	/**
-	 * List Williamson result.
-	 */
-
-	private double williamson = 0;
-	
-	/**
-	 * Williamson initialization status.
-	 */
-	
-	private boolean williamsonInitStat = false;
-	
-	/**
-	 * Holds landgraf result.
-	 */
-
-	private double landgraf = 0;
-	
-	/**
-	 * Landgraf initialization status.
-	 */
-	
-	private boolean landgrafInitStat = false;
-	
-	/**
-	 * Holds Sander result.
-	 */
-
-	private double sander = 0;
-	
-	/**
-	 * Sander initialization status.
-	 */
-	
-	private boolean sanderInitStat = false;
-	
-	/**
-	 * Holds  Valdar result.
-	 */
-
-	private double valdar = 0;
-	
-	/**
-	 * Valdar initialization status.
-	 */
-	
-	private boolean valdarInitStat = false;
-	
     /**
      * Constructor that allows manual creation of the column of the length of 10.
      * @param a
@@ -244,7 +41,7 @@ public class ColumnWithoutCollection {
      * @param m
      */
 
-    public ColumnWithoutCollection(char a, char b, char c, char d, char e, char f,
+    public _Column(char a, char b, char c, char d, char e, char f,
 	  char g, char h, char i, char j, AminoAcidMatrix m) {
 
 	columnArr = new char[10];
@@ -276,7 +73,7 @@ public class ColumnWithoutCollection {
      * @param mmatrix
      * @param columnNr
      */
-    public ColumnWithoutCollection(AminoAcidMatrix matrix, int columnNr) {
+    public _Column(AminoAcidMatrix matrix, int columnNr) {
     	 
 
 	if (matrix == null) {
@@ -300,6 +97,17 @@ public class ColumnWithoutCollection {
 	assert acidsIntMap != null && !acidsIntMap.isEmpty();
 	
 	}
+    
+    /**
+     * Return array of characters representing amino acids in the column.
+     */
+    
+    char[] getColumnAcids() {
+    	
+    	return this.columnArr;
+    }
+    
+    
 	/**
 	 * Checks if all but one residues in the column are gaps.
 	 * 
@@ -453,38 +261,15 @@ public class ColumnWithoutCollection {
      *  
      * @return Kabat score
      */
-    void kabatScore() {
+    double kabatScore() {
 	 
         assert this.mostCommonNumber() > 0 && this.mostCommonNumber() < columnArr.length + 1;	 
          		
-		double result = this.length() * this.numberOfAcidsNoGap()/ this.mostCommonNumber(); 
+		double result = this.length() * (double) this.numberOfAcidsNoGap()/ (double) this.mostCommonNumber(); 
 	
-		this.kabat = result;
-		
-		this.kabatInitStat = true;
+		return result;
 		
 	}
-    
-    /**
-     * Gets Kabat score.
-     * 
-     * @return Kabat score 
-     */
-    
-    double getKabat() {
-    	
-    	if (this.kabatInitStat == false) {
-    		
-    		this.kabatScore();
-    		
-    		return this.kabat;
-    	}
-    	
-    	else {
-    		
-    		return this.kabat;
-    	}
-    }
  
     /**
      * Calculates Jores score for the column.
@@ -494,7 +279,7 @@ public class ColumnWithoutCollection {
      * 
      * @return Jores score 
      */
-    void joresScore() {
+    double joresScore() {
 	 
 	 double result = 0.0;
 	 
@@ -504,7 +289,7 @@ public class ColumnWithoutCollection {
 		 
 		 result = 1.0;
 		 
-		 this.jores = result;
+		 return result;
 	 
 	 }
 	
@@ -512,7 +297,7 @@ public class ColumnWithoutCollection {
 	 
 	 if (this.allButOneGaps() == true) {
 		 
-		 this.jores = result;
+		 return result;
 		 
 	 }
 	 
@@ -617,110 +402,44 @@ public class ColumnWithoutCollection {
 			 
 		 	}
 		 
-		 this.joresInitStat = true;
-		 
 	 	}
 		 
  	result = ((double) totalPairs / (double) mostFreqNr) * ((columnArr.length) * (columnArr.length -1 ) / 2); 
  
- 	this.jores = result;
+ 	return result;
  	
  	}
-    
-    /**
-     * Gets Jores score.
-     * 
-     * @return Jores score 
-     */
-    
-    double getJores() {
-    	
-    	if (this.joresInitStat == false) {
-    		
-    		this.joresScore();
-    		
-    		return this.jores;
-    	}
-    	
-    	else {
-    		
-    		return this.jores;
-    	}
-    }
- 
+	 
+	 
+	// Symbol Enthropy Scores
 
     /**
      * Calculates Schneider score.
      */
-	void schneiderScore() {
+	double schneiderScore() {
 		
-		double normal = 1.0 / 20.0;
+		double normal = 1.0 / Math.log(20.0);
 		
 		double result = ShannonEnthropy.ShannonLn(acidsIntMap, columnArr.length) * normal;
-			
-		this.schneider = result;
 		
-		this.schneiderInitStat = true;
+		assert result >= 0 && result <= 1;
+			
+		return result;
 	}
-	
-	 /**
-     * Gets Schneider score.
-     * 
-     * @return Schneider score 
-     */
-    
-    double getSchneider() {
-    	
-    	if (this.schneiderInitStat == false) {
-    		
-    		this.schneiderScore();
-    		
-    		return this.schneider;
-    	}
-    	
-    	else {
-    		
-    		return this.schneider;
-    	}
-    }
- 
 	/**
 	 * Calculates Shenkin score.
 	 * 
 	 * @return Shenkin score
 	 */
 
-	void shenkinScore() {
+	double shenkinScore() {
 		
 		double result = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(acidsIntMap, columnArr.length)) * 6.0;
 			
-		this.shenkin = result;
+		assert result >= 6 && result <= 120;
 		
-		this.shenkinInitStat = true;
-		
+		return result;
 	}
-	
-	 /**
-     * Gets Shenkin score.
-     * 
-     * @return Shenkin score 
-     */
-    
-    double getShenkin() {
-    	
-    	if (this.shenkinInitStat == false) {
-    		
-    		this.shenkinScore();
-    		
-    		return this.shenkin;
-    	}
-    	
-    	else {
-    		
-    		return this.shenkin;
-    	}
-    }
- 
 
 	/**
 	 * Calculates Gerstein score.
@@ -728,37 +447,13 @@ public class ColumnWithoutCollection {
 	 * @return Gerstein score
 	 */
 	
-	void gersteinScore() {
+	double gersteinScore() {
 		
 		double result = ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(), matrix.numberOfColumns() * matrix.numberOfRows()) - ShannonEnthropy.ShannonLn(acidsIntMap, columnArr.length);
 		
-		this.gerstein = result;
-		
-		this.gersteinInitStat = true;
+		return result;
 		
 	}
-	
-	 /**
-     * Gets Kabat score.
-     * 
-     * @return Kabat score 
-     */
-    
-    double getGerstein() {
-    	
-    	if (this.gersteinInitStat == false) {
-    		
-    		this.gersteinScore();
-    		
-    		return this.gerstein;
-    	}
-    	
-    	else {
-    		
-    		return this.gerstein;
-    	}
-    }
- 
 
  
 	/**
@@ -768,7 +463,7 @@ public class ColumnWithoutCollection {
 	 * @return Taylor score
 	 */
 	
-	void SmallestTaylorSetGaps() {
+	int SmallestTaylorSetGaps() {
 	
 	Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 	
@@ -793,40 +488,16 @@ public class ColumnWithoutCollection {
 	
 	assert smallestSetSize > 0 && smallestSetSize < 25;
 	
-	this.taylorGaps = smallestSetSize;
-	
-	this.taylorGapsInitStat = true;
+	return smallestSetSize;
 	
 	}
-	
-	 /**
-     * Gets Kabat score.
-     * 
-     * @return Kabat score 
-     */
-    
-    double getTaylorGaps() {
-    	
-    	if (this.taylorGapsInitStat == false) {
-    		
-    		this.SmallestTaylorSetGaps();
-    		
-    		return this.taylorGaps;
-    	}
-    	
-    	else {
-    		
-    		return this.taylorGaps;
-    	}
-    }
- 
  
 	/**
 	 * Does a very similar thing to SmallestTaylorSetGaps but does not take gaps into account at all.
 	 *  
 	 * @return Taylor score
 	 */
-	void SmallestTaylorSetNoGaps() {
+	int SmallestTaylorSetNoGaps() {
 	 
 	    Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 		
@@ -859,40 +530,16 @@ public class ColumnWithoutCollection {
 		
 		assert smallestSetSize > 0 && smallestSetSize < 25;
 		
-		this.taylorNoGaps = smallestSetSize;
-		
-		this.taylorNoGapsInitSatat = true;
+		return smallestSetSize;
 		
 		}
-	
-	 /**
-     * Gets TaylorNoGaps score.
-     * 
-     * @return TaylorNoGaps score 
-     */
-    
-    double getTaylorNoGaps() {
-    	
-    	if (this.taylorNoGapsInitSatat == false) {
-    		
-    		this.SmallestTaylorSetNoGaps();
-    		
-    		return this.taylorNoGaps;
-    	}
-    	
-    	else {
-    		
-    		return this.taylorNoGaps;
-    	}
-    }
- 
 	/**
 	 * Gives a score of one to ten based on whether all the amino acids though the column
 	 * maintain or fail to maintain a certain trait.
 	 *  
 	 * @return
 	 */
- 	void zvelibilScore(){
+ 	int zvelibilScore(){
  		
  		int result = 0;
  		
@@ -913,32 +560,8 @@ public class ColumnWithoutCollection {
  		
  		assert result >= 0 && result < 11;
  		
- 		this.zvelibil = result;
- 		
- 		this.zvelibilInitStat = true;
+ 		return result;
  	}
- 	
- 	 /**
-     * Gets Zvelibil score.
-     * 
-     * @return Zvelibil score 
-     */
-    
-    double getZvalibil() {
-    	
-    	if (this.zvelibilInitStat == false) {
-    		
-    		this.zvelibilScore();
-    		
-    		return this.zvelibil;
-    	}
-    	
-    	else {
-    		
-    		return this.zvelibil;
-    	}
-    }
- 
 
  	/**
  	 * Calculates Karlin score.
@@ -949,7 +572,7 @@ public class ColumnWithoutCollection {
  	 * @return Karlin score
  	 */
  	
- 	void karlinScore() {
+ 	double karlinScore() {
  		
  		double blosumSum = 0;
  		
@@ -986,32 +609,8 @@ public class ColumnWithoutCollection {
  		
  	    assert finalSum >= -1 && finalSum <= 1;
  		
- 		this.karlin = finalSum;
- 		
- 		this.karlinInitStat = true;
+ 		return finalSum;
  	}
- 	
- 	 /**
-     * Gets Karlin score.
-     * 
-     * @return Karlin score 
-     */
-    
-    double getKarlin() {
-    	
-    	if (this.karlinInitStat == false) {
-    		
-    		this.karlinScore();
-    		
-    		return this.karlin;
-    	}
-    	
-    	else {
-    		
-    		return this.karlin;
-    	}
-    }
- 
  	
  	/**
  	 * Calculates Armon score.
@@ -1022,7 +621,7 @@ public class ColumnWithoutCollection {
  // iterates through that array twice(nested loops), finds all the possible pairs 
  // that can be formed by aa present
  // gap is considered the 21 aminoacid
- 	void armonScore() {
+ 	double armonScore() {
  		
  		double scoreSum = 0;
  		
@@ -1057,32 +656,9 @@ public class ColumnWithoutCollection {
  			}
  		}
  		
- 		this.armon = scoreSum;
+ 		return scoreSum;
  		
- 		this.armonInitStat = true;
  	}
- 	
- 	 /**
-     * Gets Armon score.
-     * 
-     * @return Armon score 
-     */
-    
-    double getArmon() {
-    	
-    	if (this.armonInitStat == false) {
-    		
-    		this.armonScore();
-    		
-    		return this.armon;
-    	}
-    	
-    	else {
-    		
-    		return this.armon;
-    	}
-    }
- 
  	
  	/** 
  	 * Calculates Thompson score.
@@ -1094,7 +670,7 @@ public class ColumnWithoutCollection {
 // an average point is calculated
 // score is the distance between the av point and the actual point
  	
- 	void thompsonScore(){
+ 	double thompsonScore(){
  		
  		double[] sum = null;
  		
@@ -1154,37 +730,13 @@ public class ColumnWithoutCollection {
  		}
  		double result = nonGapsFraction * 1.0/columnArr.length * distance;
  		
- 		this.thompson  = result;
- 		
- 		this.thompsonInitStat = true;
+ 		return result;
  			
  		}
- 	
- 	 /**
-     * Gets Thompson score.
-     * 
-     * @return Thompson score 
-     */
-    
-    double getThompson() {
-    	
-    	if (this.thompsonInitStat == false) {
-    		
-    		this.thompsonScore();
-    		
-    		return this.thompson;
-    	}
-    	
-    	else {
-    		
-    		return this.thompson;
-    	}
-    }
- 
  		
  	// causes some math problem because denominator can be 0, that's a formula flaw
  	// nothing can be done about it
- 	void lancetScore() {
+ 	double notLancetScore() {
 		
 		double result = 0.0;
 		
@@ -1204,39 +756,13 @@ public class ColumnWithoutCollection {
 				
 				double blosum = ConservationMatrices.BlosumPair(key1, key2);
 				
-				if (blosum == 0.0) { blosum = 0.00000000000000000000000001;}
-				
-				result = result + ((((double) acidsIntMap.get(key1)/ (double) columnArr.length * (double) acidsIntMap.get(key1)/ (double) columnArr.length)) / blosum);
+				result = result + ((((double) acidsIntMap.get(key1)/ (double) columnArr.length * (double) acidsIntMap.get(key1)/ (double) columnArr.length)) * blosum);
 			}
 		}
 	
-	this.lancet = result;
-	
-	this.lancetInitStat  = true;
+	return result;
 	
 	}
- 	
- 	 /**
-     * Gets Lancet score.
-     * 
-     * @return Lancet score 
-     */
-    
-    double getLancet() {
-    	
-    	if (this.lancetInitStat == false) {
-    		
-    		this.lancetScore();
-    		
-    		return this.lancet;
-    	}
-    	
-    	else {
-    		
-    		return this.lancet;
-    	}
-    }
- 
 	/**
 	 * Calculates Mirny Score.
 	 * 
@@ -1246,7 +772,7 @@ public class ColumnWithoutCollection {
  	//a particular set, stores them in a hashmap
  	//reads in a hashmap with the sets needed and creates a hashmap with set names as keys and number of aa belonging to set as value
  	
-	void mirnyScore() {
+	double mirnyScore() {
 		
 		double mirnySum = 0.0;
 		
@@ -1306,39 +832,17 @@ public class ColumnWithoutCollection {
 			
 			String setFreqKey = setsFreqKeysItr.next();
 			
+			System.out.println("Sets tester1 " + " key " + setFreqKey + " value "  + setsFreq.get(setFreqKey) );
+			
 			double pI = (double) setsFreq.get(setFreqKey) / (double) columnArr.length; 
 			
 			mirnySum = mirnySum + (pI * Math.log(pI));
 			
 		}
 		
-		this.mirny = mirnySum;
-		
-		this.mirnyInitStat = true;
+		return mirnySum;
 		
 	}
-	
-	 /**
-     * Gets Mirny score.
-     * 
-     * @return Mirny score 
-     */
-    
-    double getMirny() {
-    	
-    	if (this.mirnyInitStat == false) {
-    		
-    		this.mirnyScore();
-    		
-    		return this.mirny;
-    	}
-    	
-    	else {
-    		
-    		return this.mirny;
-    	}
-    }
- 
 	/**
 	 * Calculates Williamson score.
 	 * 
@@ -1346,7 +850,7 @@ public class ColumnWithoutCollection {
 	 * @return Williamson score.
 	 */
 
-	void williamsonScore() {
+	double williamsonScore() {
 		  
 		double willSum = 0.0;
 		
@@ -1416,40 +920,16 @@ public class ColumnWithoutCollection {
 			
 		}
 		
-		this.williamson = willSum;
-		
-		this.williamsonInitStat = true;
+		return willSum;
 		
 	}
-	
-	 /**
-     * Gets Williamson score.
-     * 
-     * @return Williamson score 
-     */
-    
-    double getWilliamson() {
-    	
-    	if (this.williamsonInitStat == false) {
-    		
-    		this.williamsonScore();
-    		
-    		return this.williamson;
-    	}
-    	
-    	else {
-    		
-    		return this.williamson;
-    	}
-    }
- 
 	
 	/**
 	 * Calculates Landgraf score.
 	 * 
 	 * @return landgraf score
 	 */
-	void landgrafScore() {
+	double landgrafScore() {
 		
 		double sum = 0.0;
 		
@@ -1468,32 +948,8 @@ public class ColumnWithoutCollection {
 		
 		double result = sum / columnArr.length;
 		
-		this.landgraf = result;
-		
-		 this.landgrafInitStat = true;
+		return result;
 	}
-	
-	 /**
-     * Gets Landgraf score.
-     * 
-     * @return Landgraf score 
-     */
-    
-    double getLandgraf() {
-    	
-    	if (this.landgrafInitStat == false) {
-    		
-    		this.landgrafScore();
-    		
-    		return this.landgraf;
-    	}
-    	
-    	else {
-    		
-    		return this.landgraf;
-    	}
-    }
- 
 	
 	/** 
 	 * Calculates sander score.
@@ -1501,7 +957,7 @@ public class ColumnWithoutCollection {
 	 * @return sander score
 	 */ 
 	
-	void sanderScore() {
+	double sanderScore() {
 		
 		double sum = 0.0;
 		
@@ -1527,39 +983,16 @@ public class ColumnWithoutCollection {
 
 		double result = sum * moderator;
 		
-		this.sander = result;
-		
-		this.sanderInitStat = true;
+		return result;
 		
 		}
 
-	 /**
-     * Gets Sander score.
-     * 
-     * @return Sander score 
-     */
-    
-    double getSander() {
-    	
-    	if (this.sanderInitStat == false) {
-    		
-    		this.sanderScore();
-    		
-    		return this.sander;
-    	}
-    	
-    	else {
-    		
-    		return this.sander;
-    	}
-    }
- 
 	/**
 	 * Calculates Valdar score.
 	 * 
 	 * @return Valdar score
 	 */
-	void valdarScore() {
+	double valdarScore() {
 		
 		double sum = 0.0;
 		
@@ -1585,36 +1018,13 @@ public class ColumnWithoutCollection {
 		
 		double result = sum * moderator;
 		
-		this.valdar = result;
-		
-		this.valdarInitStat = true;
-		
-		//this.result;
+		return result;
 		
 	}
 	
-	 /**
-     * Gets Valdar score.
-     * 
-     * @return Valdar score 
-     */
-    
-    double getValdar() {
-    	
-    	if (this.valdarInitStat == false) {
-    		
-    		this.valdarScore();
-    		
-    		return this.valdar;
-    	}
-    	
-    	else {
-    		
-    		return this.valdar;
-    	}
-    }
- 
-	
 } 
 
+    	
+    	
+ 
 

@@ -12,7 +12,7 @@ import java.util.*;
  *
  */
 
-public class ColumnCollectionList {
+public class _ColumnCollectionList {
 		/**
 		 * Keeps track of how many changes of columns took place.
 		 */
@@ -26,7 +26,7 @@ public class ColumnCollectionList {
 		/**
 		 * Holds the columns currently present in the window.
 		 */
-		private final Column[] cols;
+		private final _Column[] cols;
 		
 		/**
 		 * Holds information whether calculations were initialized after constructor was called. 
@@ -251,7 +251,7 @@ public class ColumnCollectionList {
 		 */
 
 		
-		public ColumnCollectionList(AminoAcidMatrix m, int nrOfColumns) {
+		public _ColumnCollectionList(AminoAcidMatrix m, int nrOfColumns) {
 		
 		if (m == null) {
 			
@@ -264,11 +264,11 @@ public class ColumnCollectionList {
 		
 		matrix = m;
 		
-		cols = new Column[nrOfColumns];
+		cols = new _Column[nrOfColumns];
 		
 		for (int i = 0; i < nrOfColumns; i++) {
 			
-			cols[i] = new Column(matrix, i);
+			cols[i] = new _Column(matrix, i);
 			
 		}
 		
@@ -280,7 +280,7 @@ public class ColumnCollectionList {
 		 * @return column collection
 		 */
 		
-		Column[] getColumnCollection () {
+		_Column[] getColumnCollection () {
 		
 		return cols;
 		
@@ -776,7 +776,7 @@ public class ColumnCollectionList {
 			
 			for (int i = 0; i < cols.length; i++) {
 				
-				cols[i] = new Column(matrix, changeStart + i);
+				cols[i] = new _Column(matrix, changeStart + i);
 			}
 			
 			changesOfColumns++;

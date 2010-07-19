@@ -14,7 +14,7 @@ import java.util.*;
 	 *
 	 */
 
-public class ColumnCollectionShortList {
+public class _ColumnCollectionShortList {
 	
 			
 			private int changesOfColumns = 0;
@@ -27,7 +27,7 @@ public class ColumnCollectionShortList {
 			/**
 			 * Holds the columns currently present in the window.
 			 */
-			private final List<Column> cols;
+			private final List<_Column> cols;
 			
 			/**
 			 * Holds information whether calculations were initialized after constructor was called. 
@@ -252,7 +252,7 @@ public class ColumnCollectionShortList {
 			 */
 
 			
-			public ColumnCollectionShortList(AminoAcidMatrix m, int nrOfColumns) {
+			public _ColumnCollectionShortList(AminoAcidMatrix m, int nrOfColumns) {
 			
 			if (m == null) {
 				
@@ -265,11 +265,11 @@ public class ColumnCollectionShortList {
 			
 			matrix = m;
 			
-			cols = new ArrayList<Column>(nrOfColumns);
+			cols = new ArrayList<_Column>(nrOfColumns);
 			
 			for (int i = 0; i < nrOfColumns; i++) {
 				
-				cols.add(new Column(matrix, i));
+				cols.add(new _Column(matrix, i));
 				
 			}
 			
@@ -281,7 +281,7 @@ public class ColumnCollectionShortList {
 			 * @return column collection
 			 */
 			
-			List<Column> getColumnCollection () {
+			List<_Column> getColumnCollection () {
 			
 			return cols;
 			
@@ -964,7 +964,7 @@ public class ColumnCollectionShortList {
 				
 					this.cols.remove(0);
 				
-					cols.add(new Column(matrix, newColumnIndex));
+					cols.add(new _Column(matrix, newColumnIndex));
 				
 				changesOfColumns++;
 				
@@ -1312,7 +1312,7 @@ public class ColumnCollectionShortList {
 				this.calcsInitialized = true;
 			}
 			
-			Column getNewestColumn() {
+			_Column getNewestColumn() {
 				
 				return this.cols.get(this.cols.size() - 1);
 			}

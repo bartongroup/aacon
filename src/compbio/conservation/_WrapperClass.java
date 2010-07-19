@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import compbio.util.*;
 
-public class WrapperClass {
+public class _WrapperClass {
 	
 	static void printListToFileDoub(List<Double> listName, String fileName, String scoreName) {
 		
@@ -151,9 +151,9 @@ public class WrapperClass {
 	boolean valdar = true;
 	
 	
-	ColumnCollectionList cols = new ColumnCollectionList(matrix,winWidth);
+	_ColumnCollectionList cols = new _ColumnCollectionList(matrix,winWidth);
 	
-	ColumnCollectionList colsRem = null;
+	_ColumnCollectionList colsRem = null;
 	
 	cols.calculationInitializtion(kabat, jores, schneider, shenkin, gerstein, taylorNoGaps, taylorGaps, zvelibil, karlin, armon, thompson, lancet, mirny, williamson, landgraf, sander, valdar);
 	
@@ -309,7 +309,7 @@ public class WrapperClass {
 	
 	else {
 		
-		colsRem = new ColumnCollectionList(matrix, rem);
+		colsRem = new _ColumnCollectionList(matrix, rem);
 		
 		colsRem.calculationInitializtion(kabat, jores, schneider, shenkin, gerstein, taylorNoGaps, taylorGaps, zvelibil, karlin, armon, thompson, lancet, mirny, williamson, landgraf, sander, valdar);
 

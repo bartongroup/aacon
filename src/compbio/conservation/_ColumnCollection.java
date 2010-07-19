@@ -1,8 +1,8 @@
 package compbio.conservation;
 
-public class ColumnCollection {
+public class _ColumnCollection {
 
-	private final Column[] cols;
+	private final _Column[] cols;
 	
 	private double[] kabat = null;
 	
@@ -38,7 +38,7 @@ public class ColumnCollection {
 
 	private double[] valdar = null;
 
-	public ColumnCollection(AminoAcidMatrix m, int nrOfColumns) {
+	public _ColumnCollection(AminoAcidMatrix m, int nrOfColumns) {
 	
 	if (m == null) {
 		
@@ -47,17 +47,17 @@ public class ColumnCollection {
 	
 	assert m.numberOfColumns() != 0 : "Sth wrong with the matrix, not null but doesn't have any residues";
 	
-	cols = new Column[nrOfColumns];
+	cols = new _Column[nrOfColumns];
 	
 	for (int i = 0; i < nrOfColumns; i++) {
 		
-		cols[i] = new Column(m, i);
+		cols[i] = new _Column(m, i);
 		
 	}
 	
 	}	
 	
-	Column[] getColumnCollection () {
+	_Column[] getColumnCollection () {
 	
 	return cols;
 	

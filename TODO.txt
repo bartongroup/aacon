@@ -1,33 +1,37 @@
 TODO: 
 
-1) WrapperClass2 should not throw exceptions if no parameters were provided
+
+DONE: Wrapper class is not an application entry point any more. There is an ConservationClient class now.
+1) WrapperClass2 should not throw exceptions if no parameters were provided DONE
 
 2) If WrapperClass2 is supposed to be main application entry point, it should print help 
-on to what parameters it supports/expects. 
+on to what parameters it supports/expects.  DONE
 
-3) The name of the class should be more telling about its functions
+3) The name of the class should be more telling about its functions DONE
 
-4) No paths should be hard coded
+4) No paths should be hard coded DONE
 
-5) All the data which is used should be available within the project. (e.g. "/homes/agolicz/alignments/alignment1")
+5) All the data which is used should be available within the project. (e.g. "/homes/agolicz/alignments/alignment1") NOT DONE YET
 
 Comments on ColumnCollectionShortList: 
 
-6) Methods names should be converted to enumeration (java enum). 
+This class is not used any more.
+
+6) Methods names should be converted to enumeration (java enum). DONE
 cols.calculationInitializtion(kabat, jores, schneider, shenkin, gerstein, taylorNoGaps, taylorGaps, zvelibil, karlin, armon, thompson, lancet, mirny, williamson, landgraf, sander, valdar);
 are these the list of supported methods? 
 
-7) Can initialisation be completed when a particular calculation method is requested? 
+7) Can initialisation be completed when a particular calculation method is requested? DONE
 
-8) Can the result of calculation be stored in memory and if required be written into a file?
+8) Can the result of calculation be stored in memory and if required be written into a file? DONE
 They should not be written into a file to start with. 
 
-9) Please make sure your methods produce right values. I made a MethodTester class, 
+9) Please make sure your methods produce right values. I made a MethodTester class, DONE : Tester has three column with three examples. Two extreme(column fully conserved and all but one gaps) and one semiconserved column.
 there are 3 sequences there, assume that they represent an alignment. Calculate values 
 for each method manually, and compare them with what your method gives you. 
 Do you think you can do manual calculation for 3 colument with 3 AA each?   
 
-10) Please indicate which classes are not part of your resulting system, for example by prefixing them
+10) Please indicate which classes are not part of your resulting system, for example by prefixing them DONE
 with underscore. 
 
 11) General recommendation - avoid methods/constructors with more then 5 parameters! 

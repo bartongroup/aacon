@@ -3,12 +3,12 @@ package compbio.conservation;
 import java.util.HashMap;
 import java.util.Map;
 
-class AminoAcidAlphabet {
+class _AminoAcidAlphabet {
 
     private final char[] alph;
     private final Map<Character, Integer> charCount;
 
-    AminoAcidAlphabet() {
+    _AminoAcidAlphabet() {
 	charCount = new HashMap<Character, Integer>();
 
 	alph = new char[21];

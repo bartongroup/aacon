@@ -12,16 +12,16 @@ import org.apache.log4j.Logger;
 //that array will be created as instantiation of ColumnCollection class
 //will see what's gonna happen
 
-public class AminoAcidColumn {
+public class _AminoAcidColumn {
 
-    private final static Logger log = Logger.getLogger(AminoAcidColumn.class);
+    private final static Logger log = Logger.getLogger(_AminoAcidColumn.class);
 
     private char[] columnArr;
-    private AminoAcidOccurance[] aaOcc;
+    private _AminoAcidOccurance[] aaOcc;
 
     // TO BE DELETED, THIS CONSTRUCTOR USED FOR TESTS ONLY
 
-    public AminoAcidColumn(char a, char b, char c, char d, char e, char f,
+    public _AminoAcidColumn(char a, char b, char c, char d, char e, char f,
 	    char g, char h, char i, char j) {
 
 	columnArr = new char[10];
@@ -44,7 +44,7 @@ public class AminoAcidColumn {
 
     // constructor, 
 
-    public AminoAcidColumn(AminoAcidMatrix m, int column) {
+    public _AminoAcidColumn(AminoAcidMatrix m, int column) {
 
 	if (m == null) {
 	    throw new IllegalArgumentException("Matrix must not be null");
@@ -91,7 +91,7 @@ public class AminoAcidColumn {
 
     //returns occurance
 
-    public AminoAcidOccurance[] getOccuranceArray() {
+    public _AminoAcidOccurance[] getOccuranceArray() {
 
 	return aaOcc;
 
@@ -207,7 +207,7 @@ public class AminoAcidColumn {
 
     private void countOccurance() {
 
-	AminoAcidAlphabet alp = new AminoAcidAlphabet();
+	_AminoAcidAlphabet alp = new _AminoAcidAlphabet();
 
 	char[] aAcids = alp.getAlphabet();
 
@@ -252,15 +252,15 @@ public class AminoAcidColumn {
     //FIXME
     private void createOccurance() {
 
-	AminoAcidAlphabet alp = new AminoAcidAlphabet();
+	_AminoAcidAlphabet alp = new _AminoAcidAlphabet();
 
 	char[] aAcids = alp.getAlphabet();
 
-	aaOcc = new AminoAcidOccurance[alp.length()];
+	aaOcc = new _AminoAcidOccurance[alp.length()];
 
 	for (int i = 0; i < alp.length(); i++) {
 
-	    aaOcc[i] = new AminoAcidOccurance(aAcids[i]);
+	    aaOcc[i] = new _AminoAcidOccurance(aAcids[i]);
 
 	}
 
@@ -284,7 +284,7 @@ public class AminoAcidColumn {
     }
 
     //calculates pairs used for Jores
-    public PairCollection pairs() {
+    public _PairCollection pairs() {
 
 	if (this.allButOneGaps() == true) {
 	    System.out.println("No pairs in this column");
@@ -348,7 +348,7 @@ public class AminoAcidColumn {
 	    else
 		highestFreq = highestFreqDiff;
 
-	    PairCollection pair = new PairCollection(sumPairs, highestFreq);
+	    _PairCollection pair = new _PairCollection(sumPairs, highestFreq);
 
 	    return pair;
 
@@ -359,15 +359,15 @@ public class AminoAcidColumn {
     // anoter way  to calculate pairs used for Jores
     // all teh special cases checked against in Jores, will be checked against here again
     // think agin about threreturns of the special cases, maybe sth better can be done
-    public PairCollection pairs2() {
+    public _PairCollection pairs2() {
 
-	PairCollection p;
+	_PairCollection p;
 
 	// special case #1 column is empty, only gaps
 
 	if (this.isEmpty() == true) {
 	    System.out.println("Column is empty");
-	    p = new PairCollection(0, 0);
+	    p = new _PairCollection(0, 0);
 	    return p;
 
 	}
@@ -375,7 +375,7 @@ public class AminoAcidColumn {
 	if (this.allButOneGaps() == true) {
 	    System.out
 		    .println("Only one residue in the column - no pairs formed");
-	    p = new PairCollection(0, 0);
+	    p = new _PairCollection(0, 0);
 	    return p;
 
 	}
@@ -407,7 +407,7 @@ public class AminoAcidColumn {
 	    int big2 = 0;
 
 	    log.debug(Arrays.toString(aaOcc));
-	    ArrayList<AminoAcidOccurance> arr = new ArrayList<AminoAcidOccurance>(
+	    ArrayList<_AminoAcidOccurance> arr = new ArrayList<_AminoAcidOccurance>(
 		    Arrays.asList(aaOcc));
 
 	    assert aaOcc.length == 21;
@@ -457,7 +457,7 @@ public class AminoAcidColumn {
 	    }
 
 	}
-	p = new PairCollection(pairTypes, mostFreqPair);
+	p = new _PairCollection(pairTypes, mostFreqPair);
 
 	return p;
 

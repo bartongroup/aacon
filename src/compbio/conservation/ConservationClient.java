@@ -8,120 +8,6 @@ import compbio.util.SequenceUtil;
 
 class ConservationClient {
 	
-	//static enum Method { kabatScore, joresScore, schneiderScore, shenkinScore, gersteinScore, SmallestTaylorSetGaps, SmallestTaylorSetNoGaps, zvelibilScore, karlinScore, armonScore, thompsonScore, notLancetScore, mirnyScore, williamsonScore, landgrafScore, sanderScore, valdarScore;
-	
-		//static Method getMethod(String meth) {
-		
-			//meth = meth.trim().toLowerCase();
-		
-			//if(meth.equalsIgnoreCase(kabatScore.toString())) {
-			
-				//return kabatScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(joresScore.toString())) {
-				
-				//return joresScore;
-				
-			///}
-			
-			//if(meth.equalsIgnoreCase(schneiderScore.toString())) {
-				
-				//return schneiderScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(shenkinScore.toString())) {
-				
-				//return shenkinScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(gersteinScore.toString())) {
-				
-				//return gersteinScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(SmallestTaylorSetGaps.toString())) {
-				
-				//return SmallestTaylorSetGaps;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(SmallestTaylorSetNoGaps.toString())) {
-				
-				//return SmallestTaylorSetNoGaps;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(zvelibilScore.toString())) {
-				
-				//return zvelibilScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(karlinScore.toString())) {
-				
-				//return karlinScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(armonScore.toString())) {
-				
-				//return armonScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(thompsonScore.toString())) {
-				
-				//return thompsonScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(notLancetScore.toString())) {
-				
-				//return notLancetScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(mirnyScore.toString())) {
-				
-				//return mirnyScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(williamsonScore.toString())) {
-				
-				//return williamsonScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(landgrafScore.toString())) {
-				
-				//return landgrafScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(sanderScore.toString())) {
-				
-				//return sanderScore;
-				
-			//}
-			
-			//if(meth.equalsIgnoreCase(valdarScore.toString())) {
-				
-				//return valdarScore;
-				
-			//}
-			
-			//return null;
-	
-		//}
-	
-	//}
-	
 	private final Map<Method, double[]> scores = new EnumMap<Method, double[]>(Method.class);
 	
 	final static String pseparator = "=";
@@ -135,6 +21,13 @@ class ConservationClient {
 	final static String inputKey = "-i";
 	
 	final static String outputKey = "-o";
+	
+	/**
+	 * Gets method name from the command line
+	 * 
+	 * @param cmd array of cmd arguments
+	 * @return method name or null if no method name provided
+	 */
 	
 	static String[] getMethodNames(String[] cmd) {
 		
@@ -152,6 +45,13 @@ class ConservationClient {
 		
 	}
 	
+	/**
+	 * Gets the normalization status from the command line.
+	 * 
+	 * @param cmd array of cmd arguments
+	 * @return true if results to be normalized false if else, returns false if no normalization status provided
+	 */
+	
 	static boolean getNormalize(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
@@ -168,6 +68,13 @@ class ConservationClient {
 		
 	}
 	
+	/**
+	 * Gets the format of the file for the output.
+	 * 
+	 * @param cmd array of cmd arguments
+	 * @return format of null if format not provided
+	 */
+	
 	static String getFormat(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
@@ -183,6 +90,11 @@ class ConservationClient {
 		return null;
 	}
 	
+	/**
+	 * Gets output file path
+	 * @param cmd
+	 * @return null if not provided
+	 */
 	static String getOutputFilePath(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
@@ -198,6 +110,11 @@ class ConservationClient {
 		return null;
 	}
 	
+	/**
+	 * Input file path. 
+	 * @param cmd
+	 * @return null if not provided
+	 */
 	static String getInputFilePath(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
@@ -220,7 +137,11 @@ class ConservationClient {
 	// waiting for suggestions
 	// formats not yet decided
 	
-	double[] calculateMethod(Method method, AminoAcidMatrix matrix, boolean normalize) {
+	/**
+	 * Returns the results of method calculation.
+	 */
+	
+	double[] getMethod(Method method, AminoAcidMatrix matrix, boolean normalize) {
 		
 		double[] result = null;
 		
@@ -233,98 +154,19 @@ class ConservationClient {
 	
 		else {
 			
-			ConservationScores scores = new ConservationScores(matrix);
+			ConservationScores2 scores = new ConservationScores2(matrix);
 			
-			if(method.equals(Method.kabatScore)) {
-				
-				result =  scores.kabatScore(normalize);
-			}
-			
-			if(method.equals(Method.joresScore)) {
-				
-				result =  scores.joresScore(normalize);
-			}
-			
-			if(method.equals(Method.schneiderScore)) {
-				
-				result =  scores.schneiderScore(normalize);
-			}
-			
-			if(method.equals(Method.shenkinScore)) {
-				
-				result =  scores.shenkinScore(normalize);
-			}
-			
-			if(method.equals(Method.gersteinScore)) {
-				
-				result =  scores.gersteinScore(normalize);
-			}
-			
-			if(method.equals(Method.SmallestTaylorSetGaps)) {
-				
-				result =  scores.SmallestTaylorSetGaps(normalize);
-			}
-			
-			if(method.equals(Method.SmallestTaylorSetNoGaps)) {
-				
-				result=  scores.SmallestTaylorSetNoGaps(normalize);
-			}
-			
-			if(method.equals(Method.zvelibilScore)) {
-				
-				result =  scores.zvelibilScore(normalize);
-			}
-			
-			if(method.equals(Method.karlinScore)) {
-				
-				result =  scores.karlinScore(normalize);
-			}
-			
-			if(method.equals(Method.armonScore)) {
-				
-				result =  scores.armonScore(normalize);
-			}
-			
-			if(method.equals(Method.thompsonScore)) {
-				
-				result =  scores.thompsonScore(normalize);
-			}
-			
-			if(method.equals(Method.notLancetScore)) {
-				
-				result =  scores.notLancetScore(normalize);
-			}
-			
-			if(method.equals(Method.mirnyScore)) {
-				
-				result =  scores.mirnyScore(normalize);
-			}
-			
-			if(method.equals(Method.williamsonScore)) {
-				
-				result =  scores.williamsonScore(normalize);
-			}
-			
-			if(method.equals(Method.landgrafScore)) {
-				
-				result =  scores.landgrafScore(normalize);
-			}
-			
-			if(method.equals(Method.sanderScore)) {
-				
-				result =  scores.sanderScore(normalize);
-			}
-			
-			if(method.equals(Method.valdarScore)) {
-				
-				result =  scores.valdarScore(normalize);
-			}
-			
+			result = scores.calculateScore(method, normalize);
+
 			return result;
 			
 		}
-	
+		
 	}
+	/**
+	 * Constructor
+	 * @param cmd command line arguments
+	 */
 	
 	ConservationClient(String[] cmd) {
 		
@@ -395,13 +237,25 @@ class ConservationClient {
 			
 			Method meth = Method.getMethod(methods[i]);
 			
-			scores.put(meth, this.calculateMethod(meth, alignment, normalize));
+			scores.put(meth, this.getMethod(meth, alignment, normalize));
 			
 		}
 		
 		ConservationFormatter.formatResults(scores);
 		
 		}
+	
+	/**
+	 * Application entry point. 
+	 * Command line format looks like.
+	 * -m=method1,method2,method3 - method names
+	 * -n normalization factor
+	 * -f=format
+	 * -i=inputPath - inputfile path
+	 * -o=outputPath - outputfikw path
+	 * 
+	 * @param args command line arguments
+	 */
 	
 	public static void main(String[] args) {
 		
@@ -410,9 +264,9 @@ class ConservationClient {
 			System.out.println ("No parameters were suppled");
 		}
 		
-		if(args.length < 6) {
+		if(args.length < 5) {
 			
-			System.out.println("Method names, normalizetion status, output format, input and output file paths are required.");
+			System.out.println("Method names, output format, input and output file paths are required.");
 		}
 		
 		ConservationClient cons = new ConservationClient(args);

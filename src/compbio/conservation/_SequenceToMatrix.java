@@ -2,11 +2,11 @@ package compbio.conservation;
 
 import compbio.util.FastaSequence;
 
-public class SequenceToMatrix {
+public class _SequenceToMatrix {
 
 	FastaSequence fsequence; 
 	
-	public SequenceToMatrix(FastaSequence fsequence) {
+	public _SequenceToMatrix(FastaSequence fsequence) {
 		this.fsequence = fsequence;
 	}
 
@@ -27,7 +27,7 @@ public class SequenceToMatrix {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SequenceToMatrix other = (SequenceToMatrix) obj;
+		_SequenceToMatrix other = (_SequenceToMatrix) obj;
 		if (fsequence == null) {
 			if (other.fsequence != null)
 				return false;

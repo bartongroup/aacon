@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import compbio.util.*;
 
-public class WrapperClass2 {
+public class _WrapperClass2 {
 	
 	
 	
@@ -226,7 +226,7 @@ public class WrapperClass2 {
 	
 	print.println("");
 	
-	ColumnCollectionShortList cols = new ColumnCollectionShortList(matrix,winWidth);
+	_ColumnCollectionShortList cols = new _ColumnCollectionShortList(matrix,winWidth);
 	
 	//ColumnCollectionList colsRem = null;
 	

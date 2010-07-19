@@ -3,13 +3,13 @@ package compbio.conservation;
 //class for objects that represent amino acid occurnce 
 //in particulat columns
 
-public class AminoAcidOccurance {
+public class _AminoAcidOccurance {
 
     char id;
 
     int freq;
 
-    public AminoAcidOccurance() {
+    public _AminoAcidOccurance() {
 
 	id = ' ';
 
@@ -17,7 +17,7 @@ public class AminoAcidOccurance {
 
     }
 
-    public AminoAcidOccurance(char id) {
+    public _AminoAcidOccurance(char id) {
 	this.id = id;
 	freq = 0;
     }
