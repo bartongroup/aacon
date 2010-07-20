@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ConservationScores2 {
 	
-	private final Map<Method, double[]> scores = new EnumMap<Method, double[]>(Method.class);
+	//private final Map<Method, double[]> scores = new EnumMap<Method, double[]>(Method.class);
 	
 	private final AminoAcidMatrix alignment;
 	
@@ -27,7 +27,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.KABAT_SCORE, result);
+			//scores.put(Method.KABAT_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -53,7 +53,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.JORES_SCORE, result);
+			//scores.put(Method.JORES_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -79,7 +79,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.SCHNEIDER_SCORE, result);
+			//scores.put(Method.SCHNEIDER_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -105,7 +105,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.SHENKIN_SCORE, result);
+			//scores.put(Method.SHENKIN_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -131,7 +131,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.GERSTEIN_SCORE, result);
+			//scores.put(Method.GERSTEIN_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -157,7 +157,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.TAYLOR_SCORE_GAPS, result);
+			//scores.put(Method.TAYLOR_SCORE_GAPS, result);
 			
 			if (normalize == true) {
 				
@@ -183,7 +183,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.TAYLOR_SCORE_NO_GAPS, result);
+			//scores.put(Method.TAYLOR_SCORE_NO_GAPS, result);
 			
 			if (normalize == true) {
 				
@@ -209,7 +209,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.ZVELIBIL_SCORE, result);
+			//scores.put(Method.ZVELIBIL_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -235,7 +235,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.ZVELIBIL_SCORE, result);
+			//scores.put(Method.ZVELIBIL_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -261,7 +261,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.KARLIN_SCORE, result);
+			//scores.put(Method.KARLIN_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -287,7 +287,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.ARMON_SCORE, result);
+			//scores.put(Method.ARMON_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -313,7 +313,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.THOMPSON_SCORE, result);
+			//scores.put(Method.THOMPSON_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -339,7 +339,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.NOT_LANCET_SCORE, result);
+			//scores.put(Method.NOT_LANCET_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -365,7 +365,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.MIRNY_SCORE, result);
+			//scores.put(Method.MIRNY_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -391,7 +391,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.MIRNY_SCORE, result);
+			//scores.put(Method.MIRNY_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -417,7 +417,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.WILLIAMSON_SCORE, result);
+			//scores.put(Method.WILLIAMSON_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -443,7 +443,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.LANDGRAF_SCORE, result);
+			//scores.put(Method.LANDGRAF_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -469,7 +469,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.SANDER_SCORE, result);
+			//scores.put(Method.SANDER_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -495,7 +495,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.VALDAR_SCORE, result);
+			//scores.put(Method.VALDAR_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -517,9 +517,9 @@ double[] calculateScore(Method method, boolean normalize) {
 		
 		}
 
-	Map<Method, double[]> getScores() {
+	//Map<Method, double[]> getScores() {
 		
-		return this.scores;
-	}
+		//return this.scores;
+	//}
 
 	}

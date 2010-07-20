@@ -8,7 +8,7 @@ import compbio.util.SequenceUtil;
 
 class ConservationClient {
 	
-	//private final Map<Method, double[]> scores = new EnumMap<Method, double[]>(Method.class);
+	private final Map<Method, double[]> results = new EnumMap<Method, double[]>(Method.class);
 	
 	final static String pseparator = "=";
 	
@@ -29,7 +29,7 @@ class ConservationClient {
 	 * @return method name or null if no method name provided
 	 */
 	
-	static String[] getMethodNames(String[] cmd) {
+	private static String[] getMethodNames(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
 			
@@ -52,7 +52,7 @@ class ConservationClient {
 	 * @return true if results to be normalized false if else, returns false if no normalization status provided
 	 */
 	
-	static boolean getNormalize(String[] cmd) {
+	private static boolean getNormalize(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
 			
@@ -75,7 +75,7 @@ class ConservationClient {
 	 * @return format of null if format not provided
 	 */
 	
-	static String getFormat(String[] cmd) {
+	private static String getFormat(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
 			
@@ -95,7 +95,7 @@ class ConservationClient {
 	 * @param cmd
 	 * @return null if not provided
 	 */
-	static String getOutputFilePath(String[] cmd) {
+	private static String getOutputFilePath(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
 			
@@ -115,7 +115,7 @@ class ConservationClient {
 	 * @param cmd
 	 * @return null if not provided
 	 */
-	static String getInputFilePath(String[] cmd) {
+	private static String getInputFilePath(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
 			
@@ -141,7 +141,7 @@ class ConservationClient {
 	 * Returns the results of method calculation.
 	 */
 	
-	double[] getMethod(Method method, AminoAcidMatrix matrix, boolean normalize) {
+	private double[] getMethod(Method method, AminoAcidMatrix matrix, boolean normalize) {
 		
 		double[] result = null;
 		
@@ -249,6 +249,8 @@ class ConservationClient {
 			
 			result = scores.calculateScore(meth, normalize);
 			
+			results.put(meth, this.getMethod(meth, alignment, normalize));
+			
 			if (outFilePath != null && format != null) {
 				
 				if(Format.getFormat(format) == Format.RESULT_WITH_ALIGNMENT) {
@@ -262,8 +264,6 @@ class ConservationClient {
 					ConservationFormatter.printResultNoAlignment(alignment, meth, result, 20, 10, 3, outFilePath);
 				}
 			}
-			
-			//scores.put(meth, this.getMethod(meth, alignment, normalize));
 			
 		}
 		
@@ -298,6 +298,7 @@ class ConservationClient {
 		}
 		
 		ConservationClient cons = new ConservationClient(args);
+		
 	}
 
 }

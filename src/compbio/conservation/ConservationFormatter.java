@@ -5,13 +5,13 @@ import java.io.*;
 
 public class ConservationFormatter {
 	
-	static void formatResultWithNumbers(Method method,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
+	static <T> void formatResultWithNumbers(T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
 		
 		String tagFormat = "%-" + tagWidth + "s";
 		
 		String resultFormat = "%-" + resultWidth + "." + resultPrecision + "f";
 		
-		print.printf(tagFormat, method.toString());
+		print.printf(tagFormat, tag.toString());
 		
 		print.println();
 		
@@ -25,13 +25,13 @@ public class ConservationFormatter {
 		print.println();
 	}
 	
-	static void formatResultNoNumbers(Method method,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
+	static <T> void formatResultNoNumbers(T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
 		
 		String tagFormat = "%-" + tagWidth + "s";
 		
 		String resultFormat = "%-" + resultWidth + "." + resultPrecision + "f";
 		
-		print.printf(tagFormat, method.toString());
+		print.printf(tagFormat, tag.toString());
 		
 		for (int i = 0; i < result.length; i++) {
 			
@@ -41,7 +41,7 @@ public class ConservationFormatter {
 		print.println();
 	}
 	
-	static void printResultWithAlignment(AminoAcidMatrix alignment, Method method,  double[] result, int tagWidth, int resultWidth, int resultPrecision, String outputFile) {
+	static <T> void printResultWithAlignment(AminoAcidMatrix alignment, T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, String outputFile) {
 		
 		boolean first = true;
 		
@@ -65,14 +65,14 @@ public class ConservationFormatter {
 			first = false;
 		}
 		
-		formatResultNoNumbers(method, result,tagWidth, resultWidth, resultPrecision, print);
+		formatResultNoNumbers(tag, result,tagWidth, resultWidth, resultPrecision, print);
 		
 		print.close();
 		
 		
 	}
 	
-	static void printResultNoAlignment(AminoAcidMatrix alignment, Method method,  double[] result, int tagWidth, int resultWidth, int resultPrecision, String outputFile) {
+	static <T> void printResultNoAlignment(AminoAcidMatrix alignment, T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, String outputFile) {
 		
 		PrintWriter print = null;
 		
@@ -87,7 +87,7 @@ public class ConservationFormatter {
 			
 		}
 		
-		formatResultWithNumbers(method, result, tagWidth, resultWidth, resultPrecision, print);
+		formatResultWithNumbers(tag, result, tagWidth, resultWidth, resultPrecision, print);
 		
 		print.close();
 		

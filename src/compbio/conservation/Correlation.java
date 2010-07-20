@@ -16,6 +16,8 @@ public class Correlation {
 	 * @return  similarity score
 	 */
 	
+	
+	
 	static int sequenceSimilartyBlosum(char [] seq1, char[] seq2) {
 		
 		assert seq1.length == seq2.length;
@@ -1072,6 +1074,49 @@ public class Correlation {
 		
 		return coeffs;
 
+	}
+	
+	static double[] getCorrelationScore(AminoAcidMatrix alignment, Integer width) {
+		
+		if (alignment == null) {
+			
+			throw new IllegalArgumentException("Alignment must not be null");
+			
+		}
+		
+		double[] results = null;
+		
+		assert width > 0;
+		
+		if (alignment.numberOfRows() < 500) {
+			
+			results = calcPearsonCoeff3(alignment, width); 
+			
+		}
+		
+		else {
+			
+			results = calcPearson4(alignment, width);
+		}
+		
+		double[] columnResults = new double[alignment.numberOfColumns()];
+		
+		int ends = (width - 1) / 2;
+		
+		for (int i = 0; i < ends; i ++) {
+			
+			columnResults[i] = results[0];
+			
+			columnResults[(columnResults.length - 1) - i] = results[results.length - 1];
+		}
+		
+		for (int i = 0; i < results.length; i++) {
+			
+			columnResults[i + ends] = results[i];
+		}
+		
+		return columnResults;
+		
 	}
 	
 	
