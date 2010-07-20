@@ -144,4 +144,7 @@ by the message which is currently provided.
       
 Please review all your error messages asking one question - Is the error message 
 sufficiently detailed to identify the problem?
-       
+
+29) Are all the methods support nucleotide alignments as well or some may not? 
+If some does not support them would they throw an appropriate exception?      
+   
