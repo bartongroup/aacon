@@ -5,7 +5,27 @@ import java.io.*;
 
 public class ConservationFormatter {
 	
-	static void formatResult(Method method,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
+	static void formatResultWithNumbers(Method method,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
+		
+		String tagFormat = "%-" + tagWidth + "s";
+		
+		String resultFormat = "%-" + resultWidth + "." + resultPrecision + "f";
+		
+		print.printf(tagFormat, method.toString());
+		
+		print.println();
+		
+		for (int i = 0; i < result.length; i++) {
+			
+			print.print("Columnn number: " + i + ": ");
+			print.printf(resultFormat, result[i] );
+			print.println();
+		}
+		
+		print.println();
+	}
+	
+	static void formatResultNoNumbers(Method method,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
 		
 		String tagFormat = "%-" + tagWidth + "s";
 		
@@ -18,7 +38,7 @@ public class ConservationFormatter {
 			print.printf(resultFormat, result[i] );
 		}
 		
-		print.println("");
+		print.println();
 	}
 	
 	static void printResultWithAlignment(AminoAcidMatrix alignment, Method method,  double[] result, int tagWidth, int resultWidth, int resultPrecision, String outputFile) {
@@ -45,7 +65,9 @@ public class ConservationFormatter {
 			first = false;
 		}
 		
-		formatResult(method, result,tagWidth, resultWidth, resultPrecision, print);
+		formatResultNoNumbers(method, result,tagWidth, resultWidth, resultPrecision, print);
+		
+		print.close();
 		
 		
 	}
@@ -65,7 +87,9 @@ public class ConservationFormatter {
 			
 		}
 		
-		formatResult(method, result, tagWidth, resultWidth, resultPrecision, print);
+		formatResultWithNumbers(method, result, tagWidth, resultWidth, resultPrecision, print);
+		
+		print.close();
 		
 		
 	}

@@ -58,7 +58,7 @@ class ConservationClient {
 			
 			String norm = cmd[i];
 			
-			if(norm.trim().toLowerCase().equals(normalizationKey + pseparator)) {
+			if(norm.trim().toLowerCase().equals(normalizationKey)) {
 				
 				return true;
 			}
@@ -179,26 +179,28 @@ class ConservationClient {
 			Method.supportedMethods();
 			
 		}
-		
-		String format = getFormat(cmd);
-		
-		if (format == null) {
-			
-			System.out.println("Format not provided. Please provide format in format -f=format.");
-			
-		}
-		
+
 		String inFilePath = getInputFilePath(cmd);
-		
+
 		if (inFilePath == null) {
 			
 			System.out.println("Input file path not provided. Please provide input file path in format -i=inputFile - where inputFile is a full path to FASTA formatted file.");
 			
 		}
 		
+		String format = getFormat(cmd);
+		
 		String outFilePath = getOutputFilePath(cmd);
 		
-		if (outFilePath == null) {
+		if (format == null && outFilePath != null) {
+			
+			System.out.println("Format not provided. Please provide format in format -f=format.");
+			
+			Format.supportedFormats();
+			
+		}
+		
+		if (outFilePath == null && format != null) {
 			
 			System.out.println("Output file path not provided. Please provide output file path in format -o=outputFile - where outputFile is a full path to the file where the results are to be printed.");
 			
@@ -206,7 +208,7 @@ class ConservationClient {
 		
 		boolean normalize = getNormalize(cmd);
 		
-		if (methods != null && format != null && inFilePath != null && outFilePath != null) {
+		if (methods != null && inFilePath != null) {
 		
 		InputStream inStr = null;
 		
@@ -237,19 +239,38 @@ class ConservationClient {
 		
 		AminoAcidMatrix alignment = new AminoAcidMatrix(fastaSeqs);
 		
+		ConservationScores2 scores = new ConservationScores2(alignment);
+		
+		double[] result = null;
+		
 		for (int i = 0; i < methods.length; i++) {
 			
 			Method meth = Method.getMethod(methods[i]);
+			
+			result = scores.calculateScore(meth, normalize);
+			
+			if (outFilePath != null && format != null) {
+				
+				if(Format.getFormat(format) == Format.RESULT_WITH_ALIGNMENT) {
+			
+					ConservationFormatter.printResultWithAlignment(alignment, meth, result, 20, 10, 3, outFilePath);
+			
+				}
+				
+				else {
+					
+					ConservationFormatter.printResultNoAlignment(alignment, meth, result, 20, 10, 3, outFilePath);
+				}
+			}
 			
 			//scores.put(meth, this.getMethod(meth, alignment, normalize));
 			
 		}
 		
 		//ConservationFormatter.formatResults(scores);
-		
 		}
 		
-		}
+	}
 	
 	/**
 	 * Application entry point. 
@@ -270,9 +291,10 @@ class ConservationClient {
 			System.out.println ("No parameters were suppled");
 		}
 		
-		if(args.length < 5) {
+		if(args.length < 2) {
 			
-			System.out.println("Method names, output format, input and output file paths are required. Application will not run until these four arguments are provided.");
+			System.out.println("Method names, input file paths are required. Application will not run until these 2 arguments are provided.");
+			System.out.println("If you want results printed, both format an input file path have to be provided");
 		}
 		
 		ConservationClient cons = new ConservationClient(args);
