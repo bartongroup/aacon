@@ -81,8 +81,9 @@ NEW
 
 
 19) Usability issue (low priority): From the user point of view, it is not convenient to enter XXX_SCORE all the time
-It would be better to enter one word method name. The program should convert input string to appropriate enumeration 
-internally. I'd suggest to make method name case insensitive.   
+It would be better to enter one word method name. The program should convert input string to the appropriate enumeration 
+internally. I'd suggest to make method name case insensitive. For the enum, may be leaving the method name only, 
+and getting rid of _SCORE will do the trick?   
 
 20) If no output is specified what is the point of running the program? I would suggest output to the System.out, 
 if no output file was provided
