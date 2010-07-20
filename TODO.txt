@@ -108,5 +108,40 @@ The exact same output then, can be used with alignment option too.
 on the data file available from test\data\TO1296.fasta.align
 All score values were 0.000 is this the output you would expect? 
 
-25) Is the output normalized? If so can I get not normalized output? 
+25) Is the output normalized? If so can I get not normalized output? Remember, the main point of having
+output normalized is to be able to compare different scores. Can you handle this for negative scores? 
+
+26) How do I request more than one conservation method to be run? 
+
+27) ArrayIndexOutofBoundsException is thrown if the number of letters in one of the sequences 
+in the alignment is not the same as in other sequences.   
  
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 327
+        at compbio.conservation.AminoAcidMatrix.<init>(AminoAcidMatrix.java:223)
+        at compbio.conservation.ConservationClient.<init>(ConservationClient.java:240)
+        at compbio.conservation.ConservationClient.main(ConservationClient.java:300)
+
+This is a precondition for all of your conservation analyses, thus you program must insure that 
+the input data meets all precondition requirements before embarking on the calculation. 
+It would be appropriate to throw IllegalAgrumentException, or even some more specific 
+exception if you have created one to indicate that the precondition does not hold. 
+The error message should contain sufficient details, so that non technical user can 
+have an idea what the problem might be and how to solve it.
+
+28) Exception in thread "main" compbio.conservation.NotAnAminoAcidException: Illegal characetr in the allignment
+        at compbio.conservation.AminoAcidMatrix.<init>(AminoAcidMatrix.java:242)
+        at compbio.conservation.ConservationClient.<init>(ConservationClient.java:240)
+        at compbio.conservation.ConservationClient.main(ConservationClient.java:300) 
+    
+    Please consider adding the following information to help user to identify the problematic sequence. 
+    - sequence name
+    - sequence position (optional, do this if its not hard)
+    - violating character
+    - list of valid characters
+    - fix the grammar
+Given a large number of sequences in the input, it will be impossible to identify the problem 
+by the message which is currently provided.
+      
+Please review all your error messages asking one question - Is the error message 
+sufficiently detailed to identify the problem?
+       
