@@ -11,13 +11,13 @@ import compbio.util.SequenceUtil;
 
 public class CorrelationWrapper {
 	
-	static void printCoeffs(double[] coeffs) {
+	static void printCoeffs(double[] coeffs, double[] coeffs2) {
 		
 		//assert coeffs.length == coeffs2.length;
 		
 		for (int i = 0; i < coeffs.length; i++){
 			
-			System.out.println( i + ":" + coeffs[i]);
+			System.out.println( i + ":" + coeffs[i] + "-" + coeffs[i]);
 		}
 		
 	}
@@ -25,7 +25,7 @@ public class CorrelationWrapper {
 	public static void main (String[] args) {
 
 		
-		String filePath  = "/homes/agolicz/alignments/prot2";
+		String filePath  = "/homes/agolicz/alignments/alignment1";
 		
 		InputStream inStr = null;
 		
@@ -56,9 +56,11 @@ public class CorrelationWrapper {
 			
 		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
 		
-		double[] coeffs = Correlation.calcPearson4(matrix);
+		// FIXME the width should not be hard coded it will come form the command line
 		
-		//double[] coeffs2 = Correlation.calcPearsonCoeff3(matrix);
+		double[] coeffs = Correlation.calcPearson4(matrix, 7);
+		
+		double[] coeffs2 = Correlation.calcPearsonCoeff3(matrix, 7);
 		
 		//int[][] localSim = Correlation.localSimilarity2(matrix);
 		
@@ -68,7 +70,7 @@ public class CorrelationWrapper {
 		
 		//printCoeffs(localSim[0]);
 		
-		printCoeffs(coeffs);
+		printCoeffs(coeffs, coeffs2);
 		
 		System.out.println(matrix.numberOfColumns());
 	}		

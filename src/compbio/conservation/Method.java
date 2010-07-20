@@ -1,115 +1,125 @@
 package compbio.conservation;
 
-	enum Method { kabatScore, joresScore, schneiderScore, shenkinScore, gersteinScore, SmallestTaylorSetGaps, SmallestTaylorSetNoGaps, zvelibilScore, karlinScore, armonScore, thompsonScore, notLancetScore, mirnyScore, williamsonScore, landgrafScore, sanderScore, valdarScore;
+	enum Method { KABAT_SCORE, JORES_SCORE, SCHNEIDER_SCORE, SHENKIN_SCORE, GERSTEIN_SCORE, TAYLOR_SCORE_GAPS, TAYLOR_SCORE_NO_GAPS, ZVELIBIL_SCORE, KARLIN_SCORE, ARMON_SCORE, THOMPSON_SCORE, NOT_LANCET_SCORE, MIRNY_SCORE, WILLIAMSON_SCORE, LANDGRAF_SCORE, SANDER_SCORE, VALDAR_SCORE;
 
 	static Method getMethod(String meth) {
 
 		meth = meth.trim().toLowerCase();
 
-		if(meth.equalsIgnoreCase(kabatScore.toString())) {
+		if(meth.equalsIgnoreCase(KABAT_SCORE.toString())) {
 	
-			return kabatScore;
+			return KABAT_SCORE;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(joresScore.toString())) {
+		if(meth.equalsIgnoreCase(JORES_SCORE.toString())) {
 		
-			return joresScore;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(schneiderScore.toString())) {
-		
-			return schneiderScore;
+			return JORES_SCORE;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(shenkinScore.toString())) {
+		if(meth.equalsIgnoreCase(SCHNEIDER_SCORE.toString())) {
 		
-			return shenkinScore;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(gersteinScore.toString())) {
-		
-			return gersteinScore;
+			return SCHNEIDER_SCORE;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(SmallestTaylorSetGaps.toString())) {
+		if(meth.equalsIgnoreCase(SHENKIN_SCORE.toString())) {
 		
-			return SmallestTaylorSetGaps;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(SmallestTaylorSetNoGaps.toString())) {
-		
-			return SmallestTaylorSetNoGaps;
+			return SHENKIN_SCORE;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(zvelibilScore.toString())) {
+		if(meth.equalsIgnoreCase(GERSTEIN_SCORE.toString())) {
 		
-		return zvelibilScore;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(karlinScore.toString())) {
-		
-			return karlinScore;
+			return GERSTEIN_SCORE;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(armonScore.toString())) {
+		if(meth.equalsIgnoreCase(TAYLOR_SCORE_GAPS.toString())) {
 		
-			return armonScore;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(thompsonScore.toString())) {
-		
-			return thompsonScore;
+			return TAYLOR_SCORE_GAPS;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(notLancetScore.toString())) {
+		if(meth.equalsIgnoreCase(TAYLOR_SCORE_NO_GAPS.toString())) {
 		
-			return notLancetScore;
+			return TAYLOR_SCORE_NO_GAPS;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(mirnyScore.toString())) {
+		if(meth.equalsIgnoreCase(ZVELIBIL_SCORE.toString())) {
 		
-			return mirnyScore;
+		return ZVELIBIL_SCORE;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(KARLIN_SCORE.toString())) {
+		
+			return KARLIN_SCORE;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(ARMON_SCORE.toString())) {
+		
+			return ARMON_SCORE;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(THOMPSON_SCORE.toString())) {
+		
+			return THOMPSON_SCORE;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(NOT_LANCET_SCORE.toString())) {
+		
+			return NOT_LANCET_SCORE;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(MIRNY_SCORE.toString())) {
+		
+			return MIRNY_SCORE;
 		
 		}
 		
-		if(meth.equalsIgnoreCase(williamsonScore.toString())) {
+		if(meth.equalsIgnoreCase(WILLIAMSON_SCORE.toString())) {
 			
-			return williamsonScore;
+			return WILLIAMSON_SCORE;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(landgrafScore.toString())) {
+		if(meth.equalsIgnoreCase(LANDGRAF_SCORE.toString())) {
 		
-			return landgrafScore;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(sanderScore.toString())) {
-		
-			return sanderScore;
+			return LANDGRAF_SCORE;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(valdarScore.toString())) {
+		if(meth.equalsIgnoreCase(SANDER_SCORE.toString())) {
 		
-			return valdarScore;
+			return SANDER_SCORE;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(VALDAR_SCORE.toString())) {
+		
+			return VALDAR_SCORE;
 		
 		}
 		
 	return null;
 
+	}
+	
+	static void supportedMethods() {
+		
+		System.out.println("Supported methods:");
+		
+		for(Method method : Method.values()) {
+			
+			System.out.println(method.toString());
+		}
 	}
 
 }

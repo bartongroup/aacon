@@ -596,11 +596,11 @@ public class Correlation {
 	
 }
 	
-	static double[] calcPearsonCoeff3(AminoAcidMatrix matrix) {
+	static double[] calcPearsonCoeff3(AminoAcidMatrix matrix, int width) {
 		
 		int[] global = Correlation.globalSimilarity(matrix);
 		
-		int[][] locals = Correlation.localSimilarity2(matrix);
+		int[][] locals = Correlation.localSimilarity2(matrix, width);
 		
 		double[] coeffs = new double[locals.length];
 		
@@ -662,9 +662,9 @@ public class Correlation {
 	}
 	
 	
-	static int[][] localSimilarity2(AminoAcidMatrix matrix) {
+	static int[][] localSimilarity2(AminoAcidMatrix matrix, int colWidth) {
 
-		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%7)/7 + ((matrix.numberOfColumns() - matrix.numberOfColumns()%7)/7 - 1)*6 + matrix.numberOfColumns()%7);
+		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth + ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth - 1)*(colWidth - 1) + matrix.numberOfColumns()%colWidth);
 
 		int [][] localSim = new int[nrOfWindows][matrix.numberOfRows()*(matrix.numberOfRows() - 1)/2];
 
@@ -674,7 +674,7 @@ public class Correlation {
 
 		int counter = 0;
 
-		int[] winValues = new int[7];
+		int[] winValues = new int[colWidth];
 
 		for(int i = 0; i < matrix.numberOfRows(); i++) {
 
@@ -682,43 +682,60 @@ public class Correlation {
 
 					for (int k = 0; k < nrOfWindows; k++) {
 
-							if( (k == 0 || k%7 == 0) && k < matrix.numberOfColumns() - matrix.numberOfColumns()%7) {
+							if( (k == 0 || k%colWidth == 0) && k < matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth) {
 
 								counter = 0;
 
 								sum = 0;
+								
+								int colRange = (colWidth - 1) / 2;
 
-								int midColumn = k + 3;
-
-								int sum0 =	ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 3], matrix.getRow(j)[midColumn - 3]);
-
-								int sum1 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 2], matrix.getRow(j)[midColumn - 2]);
+								int midColumn = k + colRange;
+								
+								int range = -colRange; 
+								
+								for (int d = 0; d < colWidth; d++) {
 									
-								int sum2 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 1], matrix.getRow(j)[midColumn - 1]);
+									int score = ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + range], matrix.getRow(j)[midColumn + range]);
+									
+									winValues[d] = score;
+									
+									sum += score;
+									
+									range++;
+								}
+								
+								range = 0;
 
-								int sum3 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn], matrix.getRow(j)[midColumn]);
+								//int sum0 =	ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 3], matrix.getRow(j)[midColumn - 3]);
 
-								int sum4 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 1], matrix.getRow(j)[midColumn + 1]);
+								//int sum1 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 2], matrix.getRow(j)[midColumn - 2]);
+									
+								//int sum2 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 1], matrix.getRow(j)[midColumn - 1]);
 
-								int sum5 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 2], matrix.getRow(j)[midColumn + 2]);
+								//int sum3 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn], matrix.getRow(j)[midColumn]);
 
-								int sum6 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 3], matrix.getRow(j)[midColumn + 3]);
+								//int sum4 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 1], matrix.getRow(j)[midColumn + 1]);
 
-								winValues[0] = sum0;
+								//int sum5 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 2], matrix.getRow(j)[midColumn + 2]);
 
-								winValues[1] = sum1;
+								//int sum6 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 3], matrix.getRow(j)[midColumn + 3]);
 
-								winValues[2] = sum2;
+								//winValues[0] = sum0;
 
-								winValues[3] = sum3;
+								//winValues[1] = sum1;
 
-								winValues[4] = sum4;
+								//winValues[2] = sum2;
 
-								winValues[5] = sum5;
+								//winValues[3] = sum3;
 
-								winValues[6] = sum6;
+								//winValues[4] = sum4;
 
-								sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
+								//winValues[5] = sum5;
+
+								//winValues[6] = sum6;
+
+								//sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
 
 								localSim[k][globalIndex] = sum;
 								
@@ -728,7 +745,7 @@ public class Correlation {
 
 							else {
 
-								sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + 6], matrix.getRow(j)[k + 6]);
+								sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + (colWidth - 1)], matrix.getRow(j)[k + (colWidth - 1)]);
 								
 								localSim[k][globalIndex] = sum;
 								
@@ -914,11 +931,11 @@ public class Correlation {
 	
 
 	
-	static double[] calcPearson4(AminoAcidMatrix matrix) {
+	static double[] calcPearson4(AminoAcidMatrix matrix, int colWidth) {
 		
 		int[] global = Correlation.globalSimilarity(matrix);
 
-		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%7)/7 + ((matrix.numberOfColumns() - matrix.numberOfColumns()%7)/7 - 1)*6 + matrix.numberOfColumns()%7);
+		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth + ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth - 1)*(colWidth - 1) + matrix.numberOfColumns()%colWidth);
 
 		double [] coeffs = new double[nrOfWindows];
 
@@ -928,7 +945,7 @@ public class Correlation {
 
 		int counter = 0;
 
-		int[] winValues = new int[7];
+		int[] winValues = new int[colWidth];
 		
 		float[][] coeffsRaw = new float[nrOfWindows][5];
 		
@@ -938,43 +955,61 @@ public class Correlation {
 
 					for (int k = 0; k < nrOfWindows; k++) {
 
-							if( (k == 0 || k%7 == 0) && k < matrix.numberOfColumns() - matrix.numberOfColumns()%7) {
+							if( (k == 0 || k%colWidth == 0) && k < matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth) {
 
 								counter = 0;
 
 								sum = 0;
+								
+								int colRange = (colWidth - 1) / 2;
 
-								int midColumn = k + 3;
-
-								int sum0 =	ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 3], matrix.getRow(j)[midColumn - 3]);
-
-								int sum1 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 2], matrix.getRow(j)[midColumn - 2]);
+								int midColumn = k + colRange;
+								
+								int range = - colRange;
+								
+								for(int d = 0; d < colWidth; d++) {
 									
-								int sum2 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 1], matrix.getRow(j)[midColumn - 1]);
+									int score = ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + range], matrix.getRow(j)[midColumn + range]);
+									
+									winValues[d] = score;
+									
+									sum += score;
+									
+									range++;
+									
+								}
+								
+								range = -colRange;
 
-								int sum3 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn], matrix.getRow(j)[midColumn]);
+								//int sum0 =	ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 3], matrix.getRow(j)[midColumn - 3]);
 
-								int sum4 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 1], matrix.getRow(j)[midColumn + 1]);
+								//int sum1 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 2], matrix.getRow(j)[midColumn - 2]);
+									
+								//int sum2 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 1], matrix.getRow(j)[midColumn - 1]);
 
-								int sum5 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 2], matrix.getRow(j)[midColumn + 2]);
+								//int sum3 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn], matrix.getRow(j)[midColumn]);
 
-								int sum6 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 3], matrix.getRow(j)[midColumn + 3]);
+								//int sum4 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 1], matrix.getRow(j)[midColumn + 1]);
 
-								winValues[0] = sum0;
+								//int sum5 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 2], matrix.getRow(j)[midColumn + 2]);
 
-								winValues[1] = sum1;
+								//int sum6 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 3], matrix.getRow(j)[midColumn + 3]);
 
-								winValues[2] = sum2;
+								//winValues[0] = sum0;
 
-								winValues[3] = sum3;
+								//winValues[1] = sum1;
 
-								winValues[4] = sum4;
+								//winValues[2] = sum2;
 
-								winValues[5] = sum5;
+								//winValues[3] = sum3;
 
-								winValues[6] = sum6;
+								//winValues[4] = sum4;
 
-								sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
+								//winValues[5] = sum5;
+
+								//winValues[6] = sum6;
+
+								//sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
 								
 								coeffsRaw[k][0] += sum;
 								
@@ -993,7 +1028,7 @@ public class Correlation {
 
 							else {
 
-								sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + 6], matrix.getRow(j)[k + 6]);
+								sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + (colWidth - 1)], matrix.getRow(j)[k + (colWidth - 1)]);
 								
 								coeffsRaw[k][0] += sum;
 								

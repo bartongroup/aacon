@@ -10,6 +10,7 @@ import compbio.util.SequenceUtil;
 import compbio.util.FastaSequence;
 import java.io.InputStream;
 import java.io.IOException;
+import java.io.*;
 
 /** 
  *  This class provides representation of an alignment as a matrix implemented as 2D array.
@@ -46,121 +47,65 @@ import java.io.IOException;
 	 * The row number is a key and the column number is value.
 	 */
 	
-	private List<HashMap<Integer, Integer>> xToGapSubs = null;
+	private List<HashMap<Integer, Integer>> xToGapSubs;
 	
 	/**
 	 * The total occurrence of amino acids in the whole alignment.
 	 */
 	
-	private Map<Character,Integer> totalFrequency = null;
+	private Map<Character,Integer> totalFrequency;
 	
 	/**
 	 * The total number of amino acids in the whole alignment belonging to each Williamson Set.
 	 */
 	
-	private Map<String, Integer> willSetsTotal = null;
+	private Map<String, Integer> willSetsTotal;
 	
 	/** 
 	 * Vingron Argos weights of the the sequences. 
 	 */
 	
-	private double[] vingronArgosWeights = null;
+	private double[] vingronArgosWeights;
 	
 	/**
 	 * Percent identity.
 	 */
 	
-	private double[][] percentIdentity = null;
+	private double[][] percentIdentity;
 	
 	/**
 	 * Weights according to Voronoi.
 	 */
-	private double[] voronoiWeighths = null;
+	private double[] voronoiWeighths;
 	
 	/** 
 	 * This constructor constructor allows manual creation of only one column.
 	 * Might be of help if somebody wants to check the the functionality of the class without feeding it the whole alignment.
 	 * 
-	 * @param p1
-	 * @param p2
-	 * @param p3
-	 * @param p4
-	 * @param p5
-	 * @param p6
-	 * @param p7
-	 * @param p8
-	 * @param p9
-	 * @param p10
+	 * @param column array that represents one column in the alignment
 	 */
 	
-	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9 ,char p10){
+	public AminoAcidMatrix(char[] column){
 		
 		Set<Character> alp = Alphabet.alphabet();
 		
-		if(alp.contains(p1) == false) {
+		matrix = new char[column.length][1];
+		
+		inverseMatrix = new char[1][column.length];
+		
+		for(int i = 0; i < column.length; i++) {
 			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
+			if (alp.contains(column[i]) == false) {
+				
+				throw new NotAnAminoAcidException("Illegal chracter in the column");
+			}
+			
+			matrix[i][0] = column[i];
+			
+			inverseMatrix[0][i] = column[i];
 		}
 		
-		if(alp.contains(p2) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		if(alp.contains(p3) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		if(alp.contains(p4) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		if(alp.contains(p5) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		if(alp.contains(p6) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		if(alp.contains(p7) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		if(alp.contains(p8) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		if(alp.contains(p9) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		if(alp.contains(p10) == false) {
-			
-			throw new NotAnAminoAcidException("Illegal chracter in the column");
-		}
-		
-		matrix = new char[10][1];
-		                        
-		matrix[0][0] = p1;
-		matrix[1][0] = p2;
-		matrix[2][0] = p3;
-		matrix[3][0] = p4;
-		matrix[4][0] = p5;
-		matrix[5][0] = p6;
-		matrix[6][0] = p7;
-		matrix[7][0] = p8;
-		matrix[8][0] = p9;
-		matrix[9][0] = p10;
-		
-		inverseMatrix = null;
+		this.calTotalAcidsFreqByCol();
 		
 	}
 	
@@ -239,6 +184,8 @@ import java.io.IOException;
 		inverseMatrix[2][2] = p9;
 		
 	}
+	
+	
 	
 	
 	/**
@@ -804,6 +751,28 @@ import java.io.IOException;
 				}
 			
 			return voronoiWeighths;
+			
+			}
+			
+			void printAlignment(int tagWidth, int resultWidth, PrintWriter print ) {
+				
+				String tagFormat = "%-" + tagWidth + "s";
+				
+				String resultFormat = "%-" + resultWidth + "c";
+  				
+				for(int i = 0 ; i < this.numberOfRows(); i++) {
+					
+					print.printf(tagFormat, "");
+					
+					for (int j = 0 ; j < this.getRow(i).length; j++) {
+						
+						print.printf(resultFormat, this.getRow(i)[j]);
+						
+					}
+					
+					print.println("");
+				
+				}
 			
 			}
 		

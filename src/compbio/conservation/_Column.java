@@ -28,41 +28,19 @@ public class _Column {
 
     /**
      * Constructor that allows manual creation of the column of the length of 10.
-     * @param a
-     * @param b
-     * @param c
-     * @param d
-     * @param e
-     * @param f
-     * @param g
-     * @param h
-     * @param i
-     * @param j
-     * @param m
+     * @param m reference to the matrix with alignment
+     * @param column column od amino acids
      */
 
-    public _Column(char a, char b, char c, char d, char e, char f,
-	  char g, char h, char i, char j, AminoAcidMatrix m) {
+    public _Column(char[] column, AminoAcidMatrix matrix) {
 
-	columnArr = new char[10];
-
-	columnArr[0] = a;
-	columnArr[1] = b;
-	columnArr[2] = c;
-	columnArr[3] = d;
-	columnArr[4] = e;
-	columnArr[5] = f;
-	columnArr[6] = g;
-	columnArr[7] = h;
-	columnArr[8] = i;
-	columnArr[9] = j;
-
+	columnArr = column;
 
     acidsIntMap = Alphabet.calculateOccurance(columnArr);
     
     assert !acidsIntMap.isEmpty() && acidsIntMap != null;
     
-    matrix = m;
+    this.matrix = matrix;
     
     }
 

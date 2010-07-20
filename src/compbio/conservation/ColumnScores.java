@@ -22,19 +22,19 @@ public class ColumnScores {
 	 * Stores reference to amino acid matrix
 	 */
 	
-	private AminoAcidMatrix matrix;
+	//private AminoAcidMatrix matrix;
 	
 	/**
 	 * Constructor
 	 * @param matrix AminoAcidMatrix based on the alignment
 	 */
 	
-	public ColumnScores(AminoAcidMatrix matrix) {
+	//public ColumnScores(AminoAcidMatrix matrix) {
 		
-		this.matrix = matrix;
+		//this.matrix = matrix;
 		
 		//scores = new EnumMap<Method, double[]>(Method.class);
-	}
+	//}
 	
 	/**
 	 * Checks if all but one residues in the column are gaps.
@@ -43,6 +43,11 @@ public class ColumnScores {
 	 */
 	
     private static boolean allButOneGaps(int columnNr, AminoAcidMatrix matrix) {
+    	
+    	if (columnNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
     	
     	if (matrix.getTotalAcidsFreqByCol().get(columnNr).containsKey('-') && matrix.getTotalAcidsFreqByCol().get(columnNr).get('-') == matrix.getInverseMatrix()[columnNr].length - 1) {
 			
@@ -62,6 +67,11 @@ public class ColumnScores {
      * @return returns true if there is only one residue type in the column, false if not
      */
     private static boolean oneResidueTypeNoGaps(int columnNr, AminoAcidMatrix matrix) {
+    	
+    	if (columnNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
     	
     	if (matrix.getTotalAcidsFreqByCol().get(columnNr).size() == 1 && matrix.getTotalAcidsFreqByCol().get(columnNr).containsKey('-') == false) {
     		
@@ -85,6 +95,12 @@ public class ColumnScores {
      */
     
    private static boolean containsGaps(int columnNr, AminoAcidMatrix matrix) {
+	   
+	   if (columnNr > matrix.numberOfColumns() - 1) {
+   		
+   		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+   		
+	   }
     	
     	if (matrix.getTotalAcidsFreqByCol().get(columnNr).containsKey('-')) {
     		
@@ -107,6 +123,12 @@ public class ColumnScores {
      */
     
    private static int numberOfAcidsWithGap(int columnNr, AminoAcidMatrix matrix) {
+	   
+	   if (columnNr > matrix.numberOfColumns() - 1) {
+   		
+   		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+   	
+	   }
     	
     	return matrix.getTotalAcidsFreqByCol().get(columnNr).size(); 
     	
@@ -120,17 +142,27 @@ public class ColumnScores {
      */
     
     private static int numberOfAcidsNoGap( int columnNr, AminoAcidMatrix matrix) {
+    	
+
+    	if (columnNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
     
-    if(containsGaps(columnNr, matrix) == true) {
+   
+    	if(containsGaps(columnNr, matrix) == true) {
     	
     	return matrix.getTotalAcidsFreqByCol().get(columnNr).size() - 1;
-    }
     
-    else {
+    	}
+    
+   
+    	else {
     	
     	return matrix.getTotalAcidsFreqByCol().get(columnNr).size();
     
-    }
+   
+    	}
     
     }
     /** 
@@ -141,6 +173,12 @@ public class ColumnScores {
      */
     
     private static int mostCommonNumber(int columnNr, AminoAcidMatrix matrix) {
+    	
+
+    	if (columnNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
     	
     	int max = 0;
     	
@@ -192,6 +230,12 @@ public class ColumnScores {
      */
     static double kabatScore(AminoAcidMatrix matrix, int columnNumber) {
     	
+
+    	if (columnNumber > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
+    	
         assert mostCommonNumber(columnNumber, matrix) > 0 && mostCommonNumber(columnNumber, matrix) < matrix.getInverseMatrix()[columnNumber].length + 1;	 
          		
 		double result = matrix.getInverseMatrix()[columnNumber].length * (double) numberOfAcidsNoGap(columnNumber, matrix)/ (double) mostCommonNumber(columnNumber, matrix); 
@@ -211,15 +255,21 @@ public class ColumnScores {
      */
     static double joresScore(AminoAcidMatrix matrix, int colNr) {
     	
-    double result = 0.0;
+
+    	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
+    	
+    	double result = 0.0;
 	 
-	// special case #1 one residue type only
+    	// special case #1 one residue type only
 		
-	// special case #2 all but one are gaps
-	 
-	 if (oneResidueTypeNoGaps(colNr, matrix) == true || allButOneGaps(colNr, matrix) == true) {
-		 
-		 if (oneResidueTypeNoGaps(colNr, matrix) == true) {
+    	// special case #2 all but one are gaps
+	
+    	if (oneResidueTypeNoGaps(colNr, matrix) == true || allButOneGaps(colNr, matrix) == true) {
+	
+		if (oneResidueTypeNoGaps(colNr, matrix) == true) {
 				 
 			 result = 1.0;
 			 
@@ -227,16 +277,18 @@ public class ColumnScores {
 		 		
 		 }
 		 
-		 else {
+		else {
 			 
 			 result = matrix.getInverseMatrix().length * (matrix.getInverseMatrix().length - 1) / 2;
 			 
 			 return result;
 			 
+		
 		 }
 	 
 	 }
 	 
+    	
 	 else {
 	 
 	 int samePairs = 0;
@@ -362,6 +414,11 @@ public class ColumnScores {
      * @return array of Schneider scores ,index correspond to the column index, indexing starts with 0 
      */
     static double schneiderScore(AminoAcidMatrix matrix, int colNr) {
+    	
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 		
 		double result = 0.0;
 		
@@ -383,6 +440,11 @@ public class ColumnScores {
 
 	static double shenkinScore(AminoAcidMatrix matrix, int colNr) {
 		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
+		
 		double result = 0.0;
 		
 		result = Math.pow( 2.0, ShannonEnthropy.ShannonLog2(matrix.getTotalAcidsFreqByCol().get(colNr), matrix.getInverseMatrix()[colNr].length)) * 6.0;
@@ -403,6 +465,11 @@ public class ColumnScores {
 	
 	static double gersteinScore(AminoAcidMatrix matrix, int colNr) {
 		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
+		
 		double result = 0.0;
 		
 		result = - (ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(), matrix.numberOfColumns() * matrix.numberOfRows())) -( - ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol().get(colNr), matrix.getInverseMatrix()[colNr].length));
@@ -419,7 +486,12 @@ public class ColumnScores {
      * @return array of Taylor scores ,index correspond to the column index, indexing starts with 0 
 	 */
 	
-	static double SmallestTaylorSetGaps(AminoAcidMatrix matrix, int colNr) {
+	static double taylorScoreGaps(AminoAcidMatrix matrix, int colNr) {
+		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 	
 	Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 	
@@ -457,7 +529,12 @@ public class ColumnScores {
 	 * @param normalize  is to be set true if data is to be normalized false otherwise
      * @return array of Taylor scores ,index correspond to the column index, indexing starts with 0 
 	 */
-	static double SmallestTaylorSetNoGaps(AminoAcidMatrix matrix, int colNr) {
+	static double taylorScoreNoGaps(AminoAcidMatrix matrix, int colNr) {
+		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 	 
 	    Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 	    
@@ -507,6 +584,11 @@ public class ColumnScores {
 	// this score does not need to normalized, it is normalizrd by dafault, I leave the normalization for clarity but it is not needed
  	static double zvelibilScore(AminoAcidMatrix matrix, int colNr){
  		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
+ 		
  		double result = 0.0;
  		
  		double finalResult = 0.0;
@@ -546,6 +628,11 @@ public class ColumnScores {
  	 */
  	
  	static double karlinScore(AminoAcidMatrix matrix, int colNr) {
+ 		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
  		
  		double finalSum = 0.0;
  		
@@ -599,6 +686,11 @@ public class ColumnScores {
  // gap is considered the 21 aminoacid
  	static double armonScore(AminoAcidMatrix matrix, int colNr) {
  		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
+ 		
  		double scoreSum = 0.0;
  		
  		int arrayLength = matrix.getTotalAcidsFreqByCol().get(colNr).keySet().size();
@@ -648,6 +740,11 @@ public class ColumnScores {
 // score is the distance between the av point and the actual point
  	
  	static double thompsonScore(AminoAcidMatrix matrix, int colNr){
+ 		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
  		
  		double[] sum = null;
  		
@@ -725,6 +822,11 @@ public class ColumnScores {
      * @return array of NotLancet scores ,index correspond to the column index, indexing starts with 0 
  	 */
  	static double notLancetScore(AminoAcidMatrix matrix, int colNr) {
+ 		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 		
 		double result = 0.0;
 		
@@ -764,6 +866,11 @@ public class ColumnScores {
  	//reads in a hashmap with the sets needed and creates a hashmap with set names as keys and number of aa belonging to set as value
  	
 	static double mirnyScore(AminoAcidMatrix matrix, int colNr) {
+		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 		
 		double mirnySum = 0.0;
 			
@@ -823,8 +930,6 @@ public class ColumnScores {
 			
 			String setFreqKey = setsFreqKeysItr.next();
 			
-			System.out.println( colNr + " " + "Sets tester1 " + " key " + setFreqKey + " value "  + setsFreq.get(setFreqKey) );
-			
 			double pI = (double) setsFreq.get(setFreqKey) / (double) matrix.getInverseMatrix()[colNr].length; 
 			
 			mirnySum = mirnySum + (pI * Math.log(pI));
@@ -845,6 +950,11 @@ public class ColumnScores {
 	 */
 
 	static double williamsonScore(AminoAcidMatrix matrix, int colNr) {
+		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 		  
 		double willSum = 0.0;
 		
@@ -905,8 +1015,6 @@ public class ColumnScores {
 			
 			String setFreqKey = setsFreqKeysItr.next();
 			
-			System.out.println("Sets tester " + " key " + setFreqKey + " value "  + setsFreq.get(setFreqKey) );
-			
 			// FIXME Pi in the logarithm needs to be divided by average pi, do it once u get classes to be nested
 			
 			double pI = (double) setsFreq.get(setFreqKey) / (double) matrix.getInverseMatrix()[colNr].length; 
@@ -928,6 +1036,11 @@ public class ColumnScores {
      * @return array of Landgraf scores ,index correspond to the column index, indexing starts with 0 
 	 */
 	static double landgrafScore(AminoAcidMatrix matrix, int colNr) {
+		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 		
 		double sum = 0;
 		
@@ -960,6 +1073,11 @@ public class ColumnScores {
 	 */ 
 	
 	static double sanderScore(AminoAcidMatrix matrix, int colNr) {
+		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 		
 		double sum = 0.0;
 		
@@ -999,6 +1117,11 @@ public class ColumnScores {
      * @return array of Sander scores ,index correspond to the column index, indexing starts with 0 
 	 */
 	static double valdarScore(AminoAcidMatrix matrix, int colNr) {
+		
+	if (colNr > matrix.numberOfColumns() - 1) {
+    		
+    		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
+    	}
 		
 		double sum = 0.0;
 		

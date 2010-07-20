@@ -3,7 +3,7 @@ package compbio.conservation;
 import org.testng.annotations.Test;
 import java.util.*;
 
-public class ConservationScoreTester {
+public class ConservationScore2Tester {
 
 	static void printScores(double[] results, String tag) {
 		
@@ -27,13 +27,15 @@ public class ConservationScoreTester {
 	char h = '-';
 	char i = 'K';
 	
-	AminoAcidMatrix alignment = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i);
 	
-	ConservationScores scores = new ConservationScores(alignment);
+	
+	AminoAcidMatrix alignment = new AminoAcidMatrix(a, b, c, d, e, f, g ,h,i);
+	
+	ConservationScores2 scores = new ConservationScores2(alignment);
 	
 	public void kabatTester() {
 		
-		double[] result = scores.kabatScore(true);
+		double[] result = scores.calculateScore(Method.KABAT_SCORE, true);
 		
 		printScores(result, "Kabat");
 		
@@ -50,7 +52,7 @@ public class ConservationScoreTester {
 			
 			String key = itr.next();
 			
-			System.out.println("Key" + key + "Value" + sets.get(key));
+			//System.out.println("Key" + key + "Value" + sets.get(key));
 		}
 		
 		
@@ -59,7 +61,7 @@ public class ConservationScoreTester {
 	@Test
 	public void joresTester() {
 		
-		double[] result = scores.joresScore(true);
+		double[] result = scores.calculateScore(Method.JORES_SCORE, true);
 		
 		printScores(result, "Jores");
 		
@@ -68,7 +70,7 @@ public class ConservationScoreTester {
 	@Test
 	public void schneiderTester() {
 		
-		double[] result = scores.schneiderScore(true);
+		double[] result = scores.calculateScore(Method.SCHNEIDER_SCORE, true);
 		
 		printScores(result, "Schneider");
 		
@@ -77,7 +79,7 @@ public class ConservationScoreTester {
 	@Test
 	public void shenkinTester() {
 		
-		double[] result = scores.shenkinScore(true);
+		double[] result = scores.calculateScore(Method.SHENKIN_SCORE, true);
 		
 		printScores(result, "Shenkin");
 		
@@ -86,7 +88,7 @@ public class ConservationScoreTester {
 	@Test
 	public void gersteinTester() {
 		
-		double[] result = scores.gersteinScore(true);
+		double[] result = scores.calculateScore(Method.GERSTEIN_SCORE, true);
 		
 		printScores(result, "Gerstein");
 		
@@ -95,7 +97,7 @@ public class ConservationScoreTester {
 	@Test
 	public void smallestTaylosetGapsTester() {
 		
-		double[] result = scores.SmallestTaylorSetGaps(true);
+		double[] result = scores.calculateScore(Method.TAYLOR_SCORE_GAPS, true);
 		
 		printScores(result, "SmallestTaylorSetGaps");
 		
@@ -104,7 +106,7 @@ public class ConservationScoreTester {
 	@Test
 	public void smallestTaylorSetNoGapsTester() {
 		
-		double[] result = scores.SmallestTaylorSetNoGaps(true);
+		double[] result = scores.calculateScore(Method.TAYLOR_SCORE_NO_GAPS, true);
 		
 		printScores(result, "SmallestTaylorSetNoGaps");
 		
@@ -113,7 +115,7 @@ public class ConservationScoreTester {
 	@Test
 	public void zvelibilTester() {
 		
-		double[] result = scores.zvelibilScore(true);
+		double[] result = scores.calculateScore(Method.ZVELIBIL_SCORE, true);
 		
 		printScores(result, "Zvelibil");
 		
@@ -122,7 +124,7 @@ public class ConservationScoreTester {
 	@Test
 	public void karlinTester() {
 		
-		double[] result = scores.karlinScore(true);
+		double[] result = scores.calculateScore(Method.KARLIN_SCORE, true);
 		
 		printScores(result, "Karlin");
 		
@@ -131,7 +133,7 @@ public class ConservationScoreTester {
 	@Test
 	public void armonTester() {
 		
-		double[] result = scores.armonScore(true);
+		double[] result = scores.calculateScore(Method.ARMON_SCORE, true);
 		
 		printScores(result, "Armon");
 		
@@ -140,7 +142,7 @@ public class ConservationScoreTester {
 	@Test
 	public void thompsonTester() {
 		
-		double[] result = scores.thompsonScore(true);
+		double[] result = scores.calculateScore(Method.THOMPSON_SCORE, true);
 		
 		printScores(result, "Thompson");
 		
@@ -149,7 +151,7 @@ public class ConservationScoreTester {
 	@Test
 	public void notLancetTester() {
 		
-		double[] result = scores.notLancetScore(true);
+		double[] result = scores.calculateScore(Method.NOT_LANCET_SCORE, true);
 		
 		printScores(result, "NotLancet");
 		
@@ -158,7 +160,7 @@ public class ConservationScoreTester {
 	@Test
 	public void mirnyTester() {
 		
-		double[] result = scores.mirnyScore(true);
+		double[] result = scores.calculateScore(Method.MIRNY_SCORE, true);
 		
 		printScores(result, "Mirny");
 		
@@ -167,7 +169,7 @@ public class ConservationScoreTester {
 	@Test
 	public void williamsonTester() {
 		
-		double[] result = scores.williamsonScore(true);
+		double[] result = scores.calculateScore(Method.WILLIAMSON_SCORE, true);
 		
 		printScores(result, "Williamson");
 		
@@ -176,7 +178,7 @@ public class ConservationScoreTester {
 	@Test
 	public void landgrafTester() {
 		
-		double[] result = scores.landgrafScore(true);
+		double[] result = scores.calculateScore(Method.LANDGRAF_SCORE, true);
 		
 		printScores(result, "Landgraf");
 		
@@ -185,7 +187,7 @@ public class ConservationScoreTester {
 	@Test
 	public void sanderTester() {
 		
-		double[] result = scores.sanderScore(true);
+		double[] result = scores.calculateScore(Method.SANDER_SCORE, true);
 		
 		printScores(result, "Sander");
 		
@@ -194,7 +196,7 @@ public class ConservationScoreTester {
 	@Test
 	public void valdarTester() {
 		
-		double[] result = scores.valdarScore(true);
+		double[] result = scores.calculateScore(Method.VALDAR_SCORE, true);
 		
 		printScores(result, "Valdar");
 		

@@ -17,7 +17,7 @@ public class ConservationScores2 {
 
 double[] calculateScore(Method method, boolean normalize) {
 		
-		if (method == Method.kabatScore) {
+		if (method == Method.KABAT_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -27,7 +27,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.kabatScore, result);
+			scores.put(Method.KABAT_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -43,7 +43,7 @@ double[] calculateScore(Method method, boolean normalize) {
 		
 		}
 	
-		if (method == Method.joresScore) {
+		if (method == Method.JORES_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -53,7 +53,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.joresScore, result);
+			scores.put(Method.JORES_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -69,7 +69,7 @@ double[] calculateScore(Method method, boolean normalize) {
 		
 		}
 		
-		if (method == Method.schneiderScore) {
+		if (method == Method.SCHNEIDER_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -79,7 +79,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.schneiderScore, result);
+			scores.put(Method.SCHNEIDER_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -95,7 +95,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.shenkinScore) {
+		if (method == Method.SHENKIN_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -105,7 +105,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.shenkinScore, result);
+			scores.put(Method.SHENKIN_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -121,7 +121,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.gersteinScore) {
+		if (method == Method.GERSTEIN_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -131,7 +131,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.gersteinScore, result);
+			scores.put(Method.GERSTEIN_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -147,17 +147,17 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.SmallestTaylorSetGaps) {
+		if (method == Method.TAYLOR_SCORE_GAPS) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				
-				result[i] = ColumnScores.SmallestTaylorSetGaps(alignment, i);
+				result[i] = ColumnScores.taylorScoreGaps(alignment, i);
 				
 			}
 			
-			scores.put(Method.SmallestTaylorSetGaps, result);
+			scores.put(Method.TAYLOR_SCORE_GAPS, result);
 			
 			if (normalize == true) {
 				
@@ -173,17 +173,17 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.SmallestTaylorSetNoGaps) {
+		if (method == Method.TAYLOR_SCORE_NO_GAPS) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				
-				result[i] = ColumnScores.SmallestTaylorSetNoGaps(alignment, i);
+				result[i] = ColumnScores.taylorScoreNoGaps(alignment, i);
 				
 			}
 			
-			scores.put(Method.SmallestTaylorSetNoGaps, result);
+			scores.put(Method.TAYLOR_SCORE_NO_GAPS, result);
 			
 			if (normalize == true) {
 				
@@ -199,7 +199,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.zvelibilScore) {
+		if (method == Method.ZVELIBIL_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -209,7 +209,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.zvelibilScore, result);
+			scores.put(Method.ZVELIBIL_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -225,7 +225,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.zvelibilScore) {
+		if (method == Method.ZVELIBIL_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -235,7 +235,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.zvelibilScore, result);
+			scores.put(Method.ZVELIBIL_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -251,7 +251,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.karlinScore) {
+		if (method == Method.KARLIN_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -261,7 +261,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.karlinScore, result);
+			scores.put(Method.KARLIN_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -277,7 +277,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.armonScore) {
+		if (method == Method.ARMON_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -287,7 +287,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.armonScore, result);
+			scores.put(Method.ARMON_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -303,7 +303,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.thompsonScore) {
+		if (method == Method.THOMPSON_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -313,7 +313,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.thompsonScore, result);
+			scores.put(Method.THOMPSON_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -329,7 +329,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.notLancetScore) {
+		if (method == Method.NOT_LANCET_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -339,33 +339,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.notLancetScore, result);
-			
-			if (normalize == true) {
-				
-				double[] normalized = ConservationAccessory.inversedNormalize01(result);
-				
-				return normalized;
-			}
-			
-			else {
-				
-				return result;
-			}
-			
-		}
-		
-		if (method == Method.mirnyScore) {
-			
-			double[] result = new double[alignment.numberOfColumns()];
-			
-			for (int i = 0; i < alignment.numberOfColumns(); i++) {
-				
-				result[i] = ColumnScores.mirnyScore(alignment, i);
-				
-			}
-			
-			scores.put(Method.mirnyScore, result);
+			scores.put(Method.NOT_LANCET_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -381,7 +355,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.mirnyScore) {
+		if (method == Method.MIRNY_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -391,7 +365,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.mirnyScore, result);
+			scores.put(Method.MIRNY_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -407,7 +381,33 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.williamsonScore) {
+		if (method == Method.MIRNY_SCORE) {
+			
+			double[] result = new double[alignment.numberOfColumns()];
+			
+			for (int i = 0; i < alignment.numberOfColumns(); i++) {
+				
+				result[i] = ColumnScores.mirnyScore(alignment, i);
+				
+			}
+			
+			scores.put(Method.MIRNY_SCORE, result);
+			
+			if (normalize == true) {
+				
+				double[] normalized = ConservationAccessory.normalize01(result);
+				
+				return normalized;
+			}
+			
+			else {
+				
+				return result;
+			}
+			
+		}
+		
+		if (method == Method.WILLIAMSON_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -417,7 +417,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.williamsonScore, result);
+			scores.put(Method.WILLIAMSON_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -433,7 +433,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.landgrafScore) {
+		if (method == Method.LANDGRAF_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -443,7 +443,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.landgrafScore, result);
+			scores.put(Method.LANDGRAF_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -459,7 +459,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.sanderScore) {
+		if (method == Method.SANDER_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -469,7 +469,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.sanderScore, result);
+			scores.put(Method.SANDER_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -485,7 +485,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.valdarScore) {
+		if (method == Method.VALDAR_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -495,7 +495,7 @@ double[] calculateScore(Method method, boolean normalize) {
 				
 			}
 			
-			scores.put(Method.valdarScore, result);
+			scores.put(Method.VALDAR_SCORE, result);
 			
 			if (normalize == true) {
 				
@@ -516,5 +516,10 @@ double[] calculateScore(Method method, boolean normalize) {
 		return null;
 		
 		}
+
+	Map<Method, double[]> getScores() {
+		
+		return this.scores;
+	}
 
 	}

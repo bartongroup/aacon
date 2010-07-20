@@ -48,7 +48,7 @@ public class CorrelationTester {
 			
 		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
 		
-		double[] coeffs = Correlation.calcPearson4(matrix);
+		double[] coeffs = Correlation.calcPearson4(matrix, 5);
 		
 		//double[] coeffs2 = Correlation.calcPearsonCoeff3(matrix);
 		

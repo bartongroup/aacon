@@ -8,7 +8,7 @@ import compbio.util.SequenceUtil;
 
 class ConservationClient {
 	
-	private final Map<Method, double[]> scores = new EnumMap<Method, double[]>(Method.class);
+	//private final Map<Method, double[]> scores = new EnumMap<Method, double[]>(Method.class);
 	
 	final static String pseparator = "=";
 	
@@ -174,7 +174,9 @@ class ConservationClient {
 		
 		if(methods == null) {
 			
-			System.out.println("Methods not provided");
+			System.out.println("Methods not provided. Please provide methods in format -m=method1,marthod2,method3");
+			
+			Method.supportedMethods();
 			
 		}
 		
@@ -182,7 +184,7 @@ class ConservationClient {
 		
 		if (format == null) {
 			
-			System.out.println("Format not provided");
+			System.out.println("Format not provided. Please provide format in format -f=format.");
 			
 		}
 		
@@ -190,7 +192,7 @@ class ConservationClient {
 		
 		if (inFilePath == null) {
 			
-			System.out.println("Input file path not provided.");
+			System.out.println("Input file path not provided. Please provide input file path in format -i=inputFile - where inputFile is a full path to FASTA formatted file.");
 			
 		}
 		
@@ -198,11 +200,13 @@ class ConservationClient {
 		
 		if (outFilePath == null) {
 			
-			System.out.println("Output file path not provided.");
+			System.out.println("Output file path not provided. Please provide output file path in format -o=outputFile - where outputFile is a full path to the file where the results are to be printed.");
 			
 		}
 		
 		boolean normalize = getNormalize(cmd);
+		
+		if (methods != null && format != null && inFilePath != null && outFilePath != null) {
 		
 		InputStream inStr = null;
 		
@@ -237,11 +241,13 @@ class ConservationClient {
 			
 			Method meth = Method.getMethod(methods[i]);
 			
-			scores.put(meth, this.getMethod(meth, alignment, normalize));
+			//scores.put(meth, this.getMethod(meth, alignment, normalize));
 			
 		}
 		
-		ConservationFormatter.formatResults(scores);
+		//ConservationFormatter.formatResults(scores);
+		
+		}
 		
 		}
 	
@@ -252,7 +258,7 @@ class ConservationClient {
 	 * -n normalization factor
 	 * -f=format
 	 * -i=inputPath - inputfile path
-	 * -o=outputPath - outputfikw path
+	 * -o=outputPath - outputfile path
 	 * 
 	 * @param args command line arguments
 	 */
@@ -266,7 +272,7 @@ class ConservationClient {
 		
 		if(args.length < 5) {
 			
-			System.out.println("Method names, output format, input and output file paths are required.");
+			System.out.println("Method names, output format, input and output file paths are required. Application will not run until these four arguments are provided.");
 		}
 		
 		ConservationClient cons = new ConservationClient(args);

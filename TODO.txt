@@ -44,16 +44,17 @@ NEW
 
 12) Why AminoAcidMatrix has a constructor with 10 chars? Does it have to be 10 chars? 
 Would not it be easier to accept an array of chars of arbitrary length?
-Similar goes for Column class. 
+Similar goes for Column class. DONE
+(I've changed one of the constructors taking chars as arguments - that one now accepts array of any length, there is another constructor taking chars but this one is used just in test files but I'll keep it as it is for now since it is used for tests only)
 
 13) If your expected value is defined to the third point after the comma, e.g. -2.072,
 then, the difference between expected and actual value must be lesser then 0.001 
 In other words you can only expect the value to be rounded to -2.073 or -2.071,
 thus delta should be 0.001. Please do not use 0.1 as a uniform delta everywhere in 
-your test cases. 
+your test cases. DONE
 
 14) Conservation client help is not sufficiently detailed. From the information below
-I cannot figure out how to run the thing. 
+I cannot figure out how to run the thing. DONE
    
 Method names, output format, input and output file paths are required.
 Methods not provided
@@ -61,21 +62,21 @@ Format not provided
 Input file path not provided.
 Output file path not provided.
 
-15) Execution of the ConservationClient with no parameters leads to exception  
+15) Execution of the ConservationClient with no parameters leads to exception  DONE
 Exception in thread "main" java.lang.NullPointerException
 	at java.io.FileInputStream.<init>(FileInputStream.java:103)
 	at java.io.FileInputStream.<init>(FileInputStream.java:66)
 	at compbio.conservation.ConservationClient.<init>(ConservationClient.java:213)
 	at compbio.conservation.ConservationClient.main(ConservationClient.java:272)
 
-16) According to java naming conventions Enum constrains should be defined in capital case 
+16) According to java naming conventions Enum constrains should be defined in capital case DONE
 with underscore as a separator between words. Please read on java enum naming convention. 
 
-17) ConservationClient.scores should not be statically defined. As if it is left 
+17) ConservationClient.scores should not be statically defined. As if it is left DONE(scores got moved to another class)
 like it is only one client can be run at one time. This is ok for the command line 
 client, but we will need to be able to execute conservation prediction methods from java too.  
 
-18) I suggest Format to be defined as enum too. 
+18) I suggest Format to be defined as enum too.  WILL DO as soon as I finish ConservationFormatter and I will know what formats are supported(will be dine today)
 
   
 
