@@ -16,7 +16,7 @@ public class SMERFSClient {
 	
 	final static String pseparator = "=";
 	
-	//final static String normalizationKey = "-n";
+	final static String normalizationKey = "-n";
 	
 	final static String formatKey = "-f";
 	
@@ -34,21 +34,23 @@ public class SMERFSClient {
 	 * @return true if results to be normalized false if else, returns false if no normalization status provided
 	 */
 	
-	//static boolean getNormalize(String[] cmd) {
+	static boolean getNormalize(String[] cmd) {
 		
-		//for (int i = 0; i < cmd.length; i++) {
+		for (int i = 0; i < cmd.length; i++) {
 			
-			//String norm = cmd[i];
+			String norm = cmd[i];
 			
-			//if(norm.trim().toLowerCase().equals(normalizationKey)) {
+			if(norm.trim().toLowerCase().equals(normalizationKey)) {
 				
-				//return true;
-			//}
-		//}
+				return true;
+			
+			}
 		
-		//return false;
+		}
 		
-	//}
+		return false;
+		
+	}
 	
 	/**
 	 * Gets the normalization status from the command line.
@@ -194,7 +196,7 @@ public class SMERFSClient {
 			
 		}
 		
-		//boolean normalize = getNormalize(cmd);
+		boolean normalize = getNormalize(cmd);
 		
 		if (width != null && inFilePath != null) {
 		
@@ -224,10 +226,21 @@ public class SMERFSClient {
 			System.out.println("Sth wrong with reading the file");
 		}
 			
-		
 		AminoAcidMatrix alignment = new AminoAcidMatrix(fastaSeqs);
 		
-		double[] result = Correlation.getCorrelationScore(alignment, width);
+		// FIXME to be removed
+		
+		long startTime = System.currentTimeMillis();
+		
+		// FIXME set up a command line thing 
+		
+		double[] result = Correlation.getCorrelationScore(alignment, width, normalize);
+		
+		long endTime = System.currentTimeMillis();
+		
+		long execTime = endTime - startTime;
+		
+		System.out.println("Operation took: " + execTime);
 		
 		correlationScores = result;
 		
@@ -241,7 +254,7 @@ public class SMERFSClient {
 				
 				else {
 					
-					ConservationFormatter.printResultNoAlignment(alignment, Smerfs.SMERFS, result, 20, 10, 3, outFilePath);
+					ConservationFormatter.printResultNoAlignment(alignment, Smerfs.SMERFS, result, 3, outFilePath, false);
 				}
 			
 			}
@@ -252,6 +265,11 @@ public class SMERFSClient {
 		
 		//ConservationFormatter.formatResults(scores);
 		
+	}
+	
+	double[] getCorrelationScores() {
+		
+		return correlationScores;
 	}
 		
 	

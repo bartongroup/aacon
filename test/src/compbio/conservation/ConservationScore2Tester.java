@@ -16,12 +16,12 @@ public class ConservationScore2Tester {
 	}
 	
 	char a = 'D';
-	char b = 'E';
+	char b = 'F';
 	char c = 'P';
 	
 	char d = 'D';
-	char e = '-';
-	char f = 'E';
+	char e = 'K';
+	char f = 'P';
 	
 	char g = 'D';
 	char h = '-';
@@ -33,6 +33,7 @@ public class ConservationScore2Tester {
 	
 	ConservationScores2 scores = new ConservationScores2(alignment);
 	
+	@Test
 	public void kabatTester() {
 		
 		double[] result = scores.calculateScore(Method.KABAT_SCORE, true);

@@ -218,22 +218,25 @@ class ConservationClient {
 			
 			inStr = new FileInputStream(inFilePath);
 			
-		}
-		
-		catch (IOException e) {
-			
-			System.out.println("Can not find file");
-		
-		}
-		
-		try {
-			
 			fastaSeqs = SequenceUtil.readFasta(inStr);
+			
+		}
+		
+		catch (FileNotFoundException e) {
+			
+			System.out.println("Can not find file. Please provide a valid file path.");
+			
+			// I'm using system exit here to avoid an exception I get, but I'm not sure it;s a good programming practice.
+			System.exit(0);
+		
 		}
 		
 		catch (IOException e) {
 			
-			System.out.println("Sth wrong with reading the file");
+			System.out.println("Sth wrong with reading the file.");
+			
+			// I'm using system exit here to avoid an exception I get, but I'm not sure it;s a good programming practice.
+			System.exit(0);
 		}
 			
 		
@@ -243,6 +246,8 @@ class ConservationClient {
 		
 		double[] result = null;
 		
+		boolean append = false;
+		
 		for (int i = 0; i < methods.length; i++) {
 			
 			Method meth = Method.getMethod(methods[i]);
@@ -251,17 +256,26 @@ class ConservationClient {
 			
 			results.put(meth, this.getMethod(meth, alignment, normalize));
 			
+			if (outFilePath == null && format == null) {
+				
+				System.out.println(meth.toString() + " ");
+				
+				ConservationAccessory.printArrayOfDouble(result);
+			}
+			
 			if (outFilePath != null && format != null) {
 				
 				if(Format.getFormat(format) == Format.RESULT_WITH_ALIGNMENT) {
 			
-					ConservationFormatter.printResultWithAlignment(alignment, meth, result, 20, 10, 3, outFilePath);
+					ConservationFormatter.printResultWithAlignment(alignment, meth, result, 30, 10, 3, outFilePath);
 			
 				}
 				
 				else {
 					
-					ConservationFormatter.printResultNoAlignment(alignment, meth, result, 20, 10, 3, outFilePath);
+					ConservationFormatter.printResultNoAlignment(alignment, meth, result, 3, outFilePath, append);
+					
+					append = true;
 				}
 			}
 			
@@ -270,6 +284,11 @@ class ConservationClient {
 		//ConservationFormatter.formatResults(scores);
 		}
 		
+	}
+	
+	Map<Method, double[]> getResults() {
+		
+		return results;
 	}
 	
 	/**

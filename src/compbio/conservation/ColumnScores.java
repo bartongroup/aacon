@@ -1042,7 +1042,7 @@ public class ColumnScores {
     		throw new IllegalArgumentException("Column number greater than number of columns in teh matrix.");
     	}
 		
-		double sum = 0;
+		double sum = 0.0;
 		
 		double result = 0.0;
 		

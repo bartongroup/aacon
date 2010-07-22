@@ -123,6 +123,19 @@ import java.util.*;
     	
         }
 	
+	static String legalCharacterstoString() {
+		
+		String legalChars = "";
+		
+		Iterator<Character> itr = ALPHABET.iterator();
+		
+		while(itr.hasNext()) {
+			
+			legalChars = legalChars + itr.next();
+		}
+		
+		return legalChars;
+	}
 	
 }
 	

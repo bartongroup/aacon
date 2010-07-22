@@ -381,32 +381,6 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.MIRNY_SCORE) {
-			
-			double[] result = new double[alignment.numberOfColumns()];
-			
-			for (int i = 0; i < alignment.numberOfColumns(); i++) {
-				
-				result[i] = ColumnScores.mirnyScore(alignment, i);
-				
-			}
-			
-			//scores.put(Method.MIRNY_SCORE, result);
-			
-			if (normalize == true) {
-				
-				double[] normalized = ConservationAccessory.normalize01(result);
-				
-				return normalized;
-			}
-			
-			else {
-				
-				return result;
-			}
-			
-		}
-		
 		if (method == Method.WILLIAMSON_SCORE) {
 			
 			double[] result = new double[alignment.numberOfColumns()];

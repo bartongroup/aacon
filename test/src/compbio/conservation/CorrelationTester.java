@@ -14,6 +14,16 @@ import org.testng.annotations.Test;
 
 public class CorrelationTester {
 	
+	void printCoeffs(double[] arr1, double[] arr2) {
+			
+		assert arr1.length == arr2.length;
+			
+			for (int i = 0; i < arr1.length; i++) {
+				
+				System.out.println(arr1[i] + "-" + arr2[i]);
+			}
+		}
+	
 	@Test
 	void Corr1Tester() {
 		
@@ -50,15 +60,13 @@ public class CorrelationTester {
 		
 		double[] coeffs = Correlation.calcPearson4(matrix, 5);
 		
-		//double[] coeffs2 = Correlation.calcPearsonCoeff3(matrix);
+		double[] coeffs2 = Correlation.calcPearsonCoeff3(matrix, 5);
 		
 		//int[][] localSim = Correlation.localSimilarity2(matrix);
 		
 		//int[] globalSim = Correlation.globalSimilarity(matrix);
 		
-		//printCoeffs(globalSim);
-		
-		//printCoeffs(localSim[0]);
+		printCoeffs(coeffs, coeffs2);
 		
 	}
 

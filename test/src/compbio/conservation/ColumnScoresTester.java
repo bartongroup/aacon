@@ -163,6 +163,8 @@ public class ColumnScoresTester {
 
 	double lan = ColumnScores.landgrafScore(matrix, 0);
 	
+	System.out.println("Landgraf");
+	
 	System.out.println(lan);
 	
 	//Assert.assertEquals(lan, 1177.130, 0.001);

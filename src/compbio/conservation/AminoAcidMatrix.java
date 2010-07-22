@@ -8,14 +8,16 @@ import java.util.*;
 
 import compbio.util.SequenceUtil;
 import compbio.util.FastaSequence;
-import java.io.InputStream;
-import java.io.IOException;
+
 import java.io.*;
 
 /** 
  *  This class provides representation of an alignment as a matrix implemented as 2D array.
  *  Rows correspond to the sequences. Columns correspond to the vertical columns in the alignment consisting of amino acids with the same index in all the   sequences.
  *  The only condition is that all the the sequences in the fasta file are  of the   same length.
+ *  
+ *  This class creates a matrix which has rows of equal length. If constructor is fed an alignment with sequences of not
+ *  equal length an exception is thrown.
  * 	
  * @author agolicz
  *
@@ -35,6 +37,12 @@ import java.io.*;
 	 */
 	
 	private final char[][] inverseMatrix;
+	
+	/**
+	 * Holds names of the sequences in the alignment.
+	 */
+	
+	private String[] sequenceNames;
 	
 	/**
 	 * Stores occurances of amino acids in columns, columns indexed starting fromm 0
@@ -211,13 +219,25 @@ import java.io.*;
 	          matrix = new char[sequenceNr][sequenceLength];
 	          
 	          inverseMatrix = new char[sequenceLength][sequenceNr];
+	          
+	          sequenceNames = new String[sequenceNr];
 
 	          for( int i = 0; i < sequenceNr; i++) {
 
 	                FastaSequence s = seqs.get(i);
 	         
 	                char[] sequenceChars = s.getSequence().toCharArray();
-	                   
+	                
+	                sequenceNames[i] = s.getId();
+	                
+	                if(sequenceChars.length != sequenceLength) {
+	                	
+	                	String message = "Sequence number " + i + "(id: " + sequenceNames[i] + ")" + " is of differen length than previous sequences.";
+	                	
+	                	throw new SequencesNotEquallyLongException(message);
+	                	
+	                }
+	                
 			              for ( int j = 0; j < sequenceLength; j++) {
 			            	  
 			            	  		char ch = sequenceChars[j];
@@ -239,7 +259,11 @@ import java.io.*;
 			            	  		
 			            	  		if (alph.contains(ch) == false) {
 			            	  			
-			            	  			throw new NotAnAminoAcidException("Illegal characetr in the allignment");
+			            	  			String legals = Alphabet.legalCharacterstoString();
+			            	  			
+			            	  			String message = "Illegal character in sequence number " + i + "(sequence ID: " + sequenceNames[i] + "). Illegal character: " + ch + " is at position: " + j + ". " + "List of legal characters: " + legals + ". ";
+			            	  			
+			            	  			throw new NotAnAminoAcidException(message);
 			            	  		}
 			        	
 			        				//assert alph.contains(ch) : "Illegal character in the matrix";
@@ -672,7 +696,7 @@ import java.io.*;
 					
 					double[] distances = new double[numberOfRows()];
 					
-					double closestValue = 0;
+					double closestValue = 1000;
 					
 					for (int a = 0; a < numberOfRows(); a++) {
 						
@@ -754,7 +778,23 @@ import java.io.*;
 			
 			}
 			
-			void printAlignment(int tagWidth, int resultWidth, PrintWriter print ) {
+			void printAlignment(int tagWidth, int resultWidth, String outputFile ) {
+				
+
+				PrintWriter print = null;
+				
+				try {
+					
+					print = new PrintWriter( new BufferedWriter (new FileWriter(outputFile)));
+				}
+				
+				catch(IOException ex) {
+					
+					System.out.println("Problem writing" + outputFile);
+					
+					System.exit(0);
+					
+				}
 				
 				String tagFormat = "%-" + tagWidth + "s";
 				
@@ -762,7 +802,7 @@ import java.io.*;
   				
 				for(int i = 0 ; i < this.numberOfRows(); i++) {
 					
-					print.printf(tagFormat, "");
+					print.printf(tagFormat, sequenceNames[i]);
 					
 					for (int j = 0 ; j < this.getRow(i).length; j++) {
 						
@@ -770,7 +810,7 @@ import java.io.*;
 						
 					}
 					
-					print.println("");
+					print.println();
 				
 				}
 			

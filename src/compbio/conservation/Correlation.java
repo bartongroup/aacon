@@ -665,7 +665,18 @@ public class Correlation {
 	
 	
 	static int[][] localSimilarity2(AminoAcidMatrix matrix, int colWidth) {
+		
 
+		if(matrix == null) {
+			
+			throw new IllegalArgumentException("Matrix must not be null");
+		}
+		
+		if (colWidth > matrix.numberOfColumns()) {
+			
+			throw new ColumnTooWideException("The width of the window is greater than the length of the allignment.");
+		}
+		
 		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth + ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth - 1)*(colWidth - 1) + matrix.numberOfColumns()%colWidth);
 
 		int [][] localSim = new int[nrOfWindows][matrix.numberOfRows()*(matrix.numberOfRows() - 1)/2];
@@ -935,6 +946,16 @@ public class Correlation {
 	
 	static double[] calcPearson4(AminoAcidMatrix matrix, int colWidth) {
 		
+		if(matrix == null) {
+			
+			throw new IllegalArgumentException("Matrix must not be null");
+		}
+		
+		if (colWidth > matrix.numberOfColumns()) {
+			
+			throw new ColumnTooWideException("The width of the window is greater than the length of the allignment.");
+		}
+		
 		int[] global = Correlation.globalSimilarity(matrix);
 
 		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth + ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth - 1)*(colWidth - 1) + matrix.numberOfColumns()%colWidth);
@@ -1076,7 +1097,7 @@ public class Correlation {
 
 	}
 	
-	static double[] getCorrelationScore(AminoAcidMatrix alignment, Integer width) {
+	static double[] getCorrelationScore(AminoAcidMatrix alignment, Integer width, boolean normalize) {
 		
 		if (alignment == null) {
 			
@@ -1115,7 +1136,18 @@ public class Correlation {
 			columnResults[i + ends] = results[i];
 		}
 		
-		return columnResults;
+		if (normalize == true) {
+			
+			double [] normalized = ConservationAccessory.normalize01(columnResults);
+			
+			return normalized;
+		}
+		
+		else {
+		
+			return columnResults;
+		}
+		
 		
 	}
 	
