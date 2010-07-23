@@ -1,5 +1,90 @@
-TODO: 
 
+TO BE DONE: 
+
+NOT DONE YET 5) All the data which is used should be available within the project. 
+(e.g. "/homes/agolicz/alignments/alignment1") 
+
+19) Usability issue (low priority): From the user point of view, it is not convenient to enter XXX_SCORE all the time
+It would be better to enter one word method name. The program should convert input string to the appropriate enumeration 
+internally. I'd suggest to make method name case insensitive. For the enum, may be leaving the method name only, 
+and getting rid of _SCORE will do the trick?   NOT DONE YET
+
+20) If no output is specified what is the point of running the program? I would suggest output to the System.out, 
+if no output file was provided 
+
+NO DEFAULT OUTPUT FORMAT, IF NO FORMAT System.out IS USED.
+This is weird, if I provided an output file, I expect the system to use it. 
+Not a good solution to my mind. I suggest using RESULT_NO_ALIGNMENT as default. 
+What you want is to simplify the life of the user as much as possible. So, 
+the good program is the one that makes intelligent decisions, but let the 
+user to override them. 
+
+21) I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
+use default. 
+
+22) I'd suggest to simplify output format without alignment to the following: 
+DONE for the output without alignment, output with alignment still delimited by many spaces, 
+this is in case someone would like to print not normalized output with alignment, I can not predict 
+the "size" of the numbers, that is why I give the columns an arbitrary length that I 
+think will accomodate all the possible number sizes.  
+
+# LANDGRAF_SCORE      
+0.000 0.33 0.32        
+# WILLIAMSON_SCORE
+0.094 0.934 0.54
+
+The hash sign, will help you with parsing, basically, hash at the beginning of the line would denote a method name
+Space or tab delimit the values.
+The exact same output then, can be used with alignment option too.
+   
+DONE 23) Please output the sequences names for the alignment. 
+
+24) I run ConservatiopnClient with the following options DONE(had a bug there, fixed now)
+-m=LANDGRAF_SCORE -i=D:\workspace\AAConservation\test\data\TO1296.fasta.align -o=d:\test.out -f=RESULT_WITH_ALIGNMENT
+on the data file available from test\data\TO1296.fasta.align
+All score values were 0.000 is this the output you would expect? 
+
+
+29) Are all the methods support nucleotide alignments as well or some may not? 
+COMMENT they do not support nucleotide alignments. Non of the methods is used for both aa and nucleotide alignments
+If some does not support them would they throw an appropriate exception?   
+WILL REVIEW TEM AGAIN   
+
+30) In an application help there is no mention of "-n" parameter. Application help would 
+benefit from better formatting. 
+
+31) If results printed to System.out they are not the same as if they are printed to the file. 
+The formatting and precision should be the same. Internally you should be using the same routine
+for doing that! This saves you from a lot of problems down the line.   
+ 
+32) Method not suppoted
+Exception in thread "main" java.lang.NullPointerException
+        at java.util.EnumMap.typeCheck(Unknown Source)
+        at java.util.EnumMap.put(Unknown Source)
+        at java.util.EnumMap.put(Unknown Source)
+        at compbio.conservation.ConservationClient.<init>(ConservationClient.java:257)
+        at compbio.conservation.ConservationClient.main(ConservationClient.java:319)
+     
+If the method name were misspelled.   
+
+33) -m= KABAT_SCORE leads to this  
+
+You should never ever get here
+Method not suppoted
+Exception in thread "main" java.lang.NullPointerException
+        at java.util.EnumMap.typeCheck(Unknown Source)
+        at java.util.EnumMap.put(Unknown Source)
+        at java.util.EnumMap.put(Unknown Source)
+        at compbio.conservation.ConservationClient.<init>(ConservationClient.java:257)
+        at compbio.conservation.ConservationClient.main(ConservationClient.java:319)
+    
+
+
+
+
+ALL DONE
+
+ 
 
 DONE: Wrapper class is not an application entry point any more. There is an ConservationClient class now.
 1) WrapperClass2 should not throw exceptions if no parameters were provided DONE
@@ -10,8 +95,6 @@ on to what parameters it supports/expects.
 DONE 3) The name of the class should be more telling about its functions 
 
 DONE 4) No paths should be hard coded 
-
-NOT DONE YET 5) All the data which is used should be available within the project. (e.g. "/homes/agolicz/alignments/alignment1") 
 
 Comments on ColumnCollectionShortList: 
 This class is not used any more.
@@ -35,9 +118,6 @@ Do you think you can do manual calculation for 3 colument with 3 AA each?
 
 DONE 10) Please indicate which classes are not part of your resulting system, for example by prefixing them 
 with underscore. 
-
-11) General recommendation - avoid methods/constructors with more then 5 parameters! 
-Talk to me if you feel you cannot get away without them. 
 
 DONE 12) Why AminoAcidMatrix has a constructor with 10 chars? Does it have to be 10 chars? 
 Would not it be easier to accept an array of chars of arbitrary length?
@@ -73,49 +153,23 @@ DONE 17) ConservationClient.scores should not be statically defined. As if it is
 like it is only one client can be run at one time. This is ok for the command line 
 client, but we will need to be able to execute conservation prediction methods from java too.  
 
-18) I suggest Format to be defined as enum too.  
-WILL DO as soon as I finish ConservationFormatter and I will know what formats are supported(will be dine today)
+DONE 18) I suggest Format to be defined as enum too.  
+ as soon as I finish ConservationFormatter and I will know what formats are supported(will be dine today)
 
+DONE: 25) Is the output normalized? If so can I get not normalized output? 
+Remember, the main point of having output normalized is to be able to compare 
+different scores. Can you handle this for negative scores? 
 
-NEW
+COMMENT: Yes u can get not normalized output, the default output is not normalized. 
+Output will be normalized only if -n argument is provided. 
+Normalization is set up in such a way that it handles negative scores. 
+Before scores are normalized they are 'shifted' so that all scores become positive.
 
+DONE: 26) How do I request more than one conservation method to be run? 
+COMMENT by using -m=COMMA SEPARATED METHOD LIST
 
-19) Usability issue (low priority): From the user point of view, it is not convenient to enter XXX_SCORE all the time
-It would be better to enter one word method name. The program should convert input string to the appropriate enumeration 
-internally. I'd suggest to make method name case insensitive. For the enum, may be leaving the method name only, 
-and getting rid of _SCORE will do the trick?   NOT DONE YET
-
-20) If no output is specified what is the point of running the program? I would suggest output to the System.out, 
-if no output file was provided DONE
-
-21) I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
-use default. NO DEFAULT OUTPUT FORMAT, IF NO FORMAT System.out IS USED.
-
-22) I'd suggest to simplify output format without alignment to the following: DONE for the output without alignment, output with alignment still delimited by many spaces, this is in case someone would like to print not normalized output with alignment, I can not predict the "size" of the numbers, that is why I give the columns an arbitrary length that I think will acomodate all the possible number sizes.  
-
-# LANDGRAF_SCORE      
-0.000 0.33 0.32        
-# WILLIAMSON_SCORE
-0.094 0.934 0.54
-
-The hash sign, will help you with parsing, basically, hash at the beginning of the line would denote a method name
-Space or tab delimit the values.
-The exact same output then, can be used with alignment option too.
-   
-23) Please output the sequences names for the alignment. DONE
-
-24) I run ConservatiopnClient with the following options DONE(had a bug there, fixed now)
--m=LANDGRAF_SCORE -i=D:\workspace\AAConservation\test\data\TO1296.fasta.align -o=d:\test.out -f=RESULT_WITH_ALIGNMENT
-on the data file available from test\data\TO1296.fasta.align
-All score values were 0.000 is this the output you would expect? 
-
-25) Is the output normalized? If so can I get not normalized output? Remember, the main point of having COMMENT: Yes u can get not normalized output, the default output is not normalized. Output will be normalized only if -n argument is provided. Normalization is set up in such a way that it handles negative scores. Before scores are normalized they are 'shifted' so that all scores become positive.
-output normalized is to be able to compare different scores. Can you handle this for negative scores? 
-
-26) How do I request more than one conservation method to be run? COMMENT by using -m=COMMA SEPARATED METHOD LIST
-
-27) ArrayIndexOutofBoundsException is thrown if the number of letters in one of the sequences 
-in the alignment is not the same as in other sequences. DONE  
+DONE 27) ArrayIndexOutofBoundsException is thrown if the number of letters in one of the sequences 
+in the alignment is not the same as in other sequences.   
  
 Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 327
         at compbio.conservation.AminoAcidMatrix.<init>(AminoAcidMatrix.java:223)
@@ -129,7 +183,7 @@ exception if you have created one to indicate that the precondition does not hol
 The error message should contain sufficient details, so that non technical user can 
 have an idea what the problem might be and how to solve it.
 
-28) Exception in thread "main" compbio.conservation.NotAnAminoAcidException: Illegal characetr in the allignment DONE
+DONE 28) Exception in thread "main" compbio.conservation.NotAnAminoAcidException: Illegal characetr in the allignment 
         at compbio.conservation.AminoAcidMatrix.<init>(AminoAcidMatrix.java:242)
         at compbio.conservation.ConservationClient.<init>(ConservationClient.java:240)
         at compbio.conservation.ConservationClient.main(ConservationClient.java:300) 
@@ -141,11 +195,14 @@ have an idea what the problem might be and how to solve it.
     - list of valid characters
     - fix the grammar
 Given a large number of sequences in the input, it will be impossible to identify the problem 
-by the message which is currently provided. DONE
+by the message which is currently provided. 
       
-Please review all your error messages asking one question - Is the error message 
+
+GENERAL RECOMMENDATIONS
+
+- Please review all your error messages asking one question - Is the error message 
 sufficiently detailed to identify the problem?
 
-29) Are all the methods support nucleotide alignments as well or some may not? COMMENT they do not support nucleotide alignments. Non of the methods is used for both aa and nucleotide alignments
-If some does not support them would they throw an appropriate exception?   WILL REVIEW TEM AGAIN   
+- General recommendation - avoid methods/constructors with more then 5 parameters! 
+Talk to me if you feel you cannot get away without them. 
    
