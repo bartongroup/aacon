@@ -232,7 +232,9 @@ import java.io.*;
 	                
 	                if(sequenceChars.length != sequenceLength) {
 	                	
-	                	String message = "Sequence number " + i + "(id: " + sequenceNames[i] + ")" + " is of differen length than previous sequences.";
+	                	int seqNr = i + 1;
+	                	
+	                	String message = "Sequence number " + seqNr + "(id: " + sequenceNames[i] + ")" + " is of differen length than previous sequences.";
 	                	
 	                	throw new SequencesNotEquallyLongException(message);
 	                	
@@ -261,7 +263,9 @@ import java.io.*;
 			            	  			
 			            	  			String legals = Alphabet.legalCharacterstoString();
 			            	  			
-			            	  			String message = "Illegal character in sequence number " + i + "(sequence ID: " + sequenceNames[i] + "). Illegal character: " + ch + " is at position: " + j + ". " + "List of legal characters: " + legals + ". ";
+			            	  			int seqNr = i + 1;
+			            	  			
+			            	  			String message = "Illegal character in sequence number " + seqNr + "(sequence ID: " + sequenceNames[i] + "). Illegal character: " + ch + " is at position: " + j + ". " + "List of legal characters: " + legals + ". ";
 			            	  			
 			            	  			throw new NotAnAminoAcidException(message);
 			            	  		}

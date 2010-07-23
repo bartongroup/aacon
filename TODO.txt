@@ -89,7 +89,7 @@ and getting rid of _SCORE will do the trick?   NOT DONE YET
 if no output file was provided DONE
 
 21) I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
-use default. NOT DONE YET
+use default. NO DEFAULT OUTPUT FORMAT, IF NO FORMAT System.out IS USED.
 
 22) I'd suggest to simplify output format without alignment to the following: DONE for the output without alignment, output with alignment still delimited by many spaces, this is in case someone would like to print not normalized output with alignment, I can not predict the "size" of the numbers, that is why I give the columns an arbitrary length that I think will acomodate all the possible number sizes.  
 
@@ -109,13 +109,13 @@ The exact same output then, can be used with alignment option too.
 on the data file available from test\data\TO1296.fasta.align
 All score values were 0.000 is this the output you would expect? 
 
-25) Is the output normalized? If so can I get not normalized output? Remember, the main point of having COMMENT: Yes u can get not normalized output, the default output is not normalized. Output will be normalized only if -n argument is provided. Normalization is set up in such a way that it handles negative scores. Before scores are normalized they are shifted so that all scores become positive.
+25) Is the output normalized? If so can I get not normalized output? Remember, the main point of having COMMENT: Yes u can get not normalized output, the default output is not normalized. Output will be normalized only if -n argument is provided. Normalization is set up in such a way that it handles negative scores. Before scores are normalized they are 'shifted' so that all scores become positive.
 output normalized is to be able to compare different scores. Can you handle this for negative scores? 
 
 26) How do I request more than one conservation method to be run? COMMENT by using -m=COMMA SEPARATED METHOD LIST
 
 27) ArrayIndexOutofBoundsException is thrown if the number of letters in one of the sequences 
-in the alignment is not the same as in other sequences.   
+in the alignment is not the same as in other sequences. DONE  
  
 Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: 327
         at compbio.conservation.AminoAcidMatrix.<init>(AminoAcidMatrix.java:223)
@@ -141,11 +141,11 @@ have an idea what the problem might be and how to solve it.
     - list of valid characters
     - fix the grammar
 Given a large number of sequences in the input, it will be impossible to identify the problem 
-by the message which is currently provided.
+by the message which is currently provided. DONE
       
 Please review all your error messages asking one question - Is the error message 
 sufficiently detailed to identify the problem?
 
 29) Are all the methods support nucleotide alignments as well or some may not? COMMENT they do not support nucleotide alignments. Non of the methods is used for both aa and nucleotide alignments
-If some does not support them would they throw an appropriate exception?      
+If some does not support them would they throw an appropriate exception?   WILL REVIEW TEM AGAIN   
    
