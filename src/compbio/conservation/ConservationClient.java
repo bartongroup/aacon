@@ -141,22 +141,20 @@ class ConservationClient {
 	 * Returns the results of method calculation.
 	 */
 	
-	private double[] getMethod(Method method, AminoAcidMatrix matrix, boolean normalize) {
+	private double[] getMethod(String method, AminoAcidMatrix matrix, ConservationScores2 scores, boolean normalize) {
 		
 		double[] result = null;
 		
-		if (method == null) {
+		if (Method.getMethod(method) == null) {
 			
-			System.out.println("Method not suppoted");
+			System.out.println("Method: " + method + "is not supported");
 			
 			return result;
 		}
 	
 		else {
 			
-			ConservationScores2 scores = new ConservationScores2(matrix);
-			
-			result = scores.calculateScore(method, normalize);
+			result = scores.calculateScore(Method.getMethod(method), normalize);
 
 			return result;
 			
@@ -192,11 +190,14 @@ class ConservationClient {
 		
 		String outFilePath = getOutputFilePath(cmd);
 		
+		boolean proceed = true;
+		
 		if (format == null && outFilePath != null) {
 			
-			System.out.println("Format not provided. Please provide format in format -f=format.");
+			System.out.println("Format not provided. Default format will be used");
 			
 			Format.supportedFormats();
+			
 			
 		}
 		
@@ -204,83 +205,45 @@ class ConservationClient {
 			
 			System.out.println("Output file path not provided. Please provide output file path in format -o=outputFile - where outputFile is a full path to the file where the results are to be printed.");
 			
+			proceed = false;
+			
 		}
 		
 		boolean normalize = getNormalize(cmd);
 		
-		if (methods != null && inFilePath != null) {
+		if (methods != null && inFilePath != null && proceed == true) {
 		
-		InputStream inStr = null;
+		//InputStream inStr = null;
 		
-		List<FastaSequence> fastaSeqs = null;
+			List<FastaSequence> sequences = this.openInputStream(inFilePath);
 		
-		try {
-			
-			inStr = new FileInputStream(inFilePath);
-			
-			fastaSeqs = SequenceUtil.readFasta(inStr);
-			
-		}
+			if (sequences != null) {
 		
-		catch (FileNotFoundException e) {
-			
-			System.out.println("Can not find file. Please provide a valid file path.");
-			
-			// I'm using system exit here to avoid an exception I get, but I'm not sure it;s a good programming practice.
-			System.exit(0);
+				AminoAcidMatrix alignment = new AminoAcidMatrix(sequences);
 		
-		}
+				ConservationScores2 scores = new ConservationScores2(alignment);
 		
-		catch (IOException e) {
-			
-			System.out.println("Sth wrong with reading the file.");
-			
-			// I'm using system exit here to avoid an exception I get, but I'm not sure it;s a good programming practice.
-			System.exit(0);
-		}
-			
+				double[] result = null;
 		
-		AminoAcidMatrix alignment = new AminoAcidMatrix(fastaSeqs);
+				for (int i = 0; i < methods.length; i++) {
+			
+					result = this.getMethod(methods[i], alignment, scores, normalize);
+			
+					if(result != null) {
+						
+						results.put(Method.getMethod(methods[i]), result);
+			
+					}
 		
-		ConservationScores2 scores = new ConservationScores2(alignment);
-		
-		double[] result = null;
-		
-		boolean append = false;
-		
-		for (int i = 0; i < methods.length; i++) {
-			
-			Method meth = Method.getMethod(methods[i]);
-			
-			result = scores.calculateScore(meth, normalize);
-			
-			results.put(meth, this.getMethod(meth, alignment, normalize));
-			
-			if (outFilePath == null && format == null) {
-				
-				System.out.println(meth.toString() + " ");
-				
-				ConservationAccessory.printArrayOfDouble(result);
-			}
-			
-			if (outFilePath != null && format != null) {
-				
-				if(Format.getFormat(format) == Format.RESULT_WITH_ALIGNMENT) {
-			
-					ConservationFormatter.printResultWithAlignment(alignment, meth, result, 30, 10, 3, outFilePath);
-			
 				}
 				
-				else {
-					
-					ConservationFormatter.printResultNoAlignment(alignment, meth, result, 3, outFilePath, append);
-					
-					append = true;
+				if (results.size() != 0) {
+				
+				ConservationFormatter.formatResults(results, outFilePath, format, alignment);
+				
 				}
-			}
-			
-		}
 		
+		}
 		//ConservationFormatter.formatResults(scores);
 		}
 		
@@ -319,5 +282,51 @@ class ConservationClient {
 		ConservationClient cons = new ConservationClient(args);
 		
 	}
+	
+	/**
+	 * Opens input stream
+	 * @param inStr
+	 * @param fastaSeqs
+	 * @param inFilePath
+	 * @return
+	 */
+	
+		List<FastaSequence> openInputStream(String inFilePath) {
+		
+			InputStream inStr = null;
+			
+			List<FastaSequence> fastaSeqs = null;
+			
+			try {
+			
+			inStr = new FileInputStream(inFilePath);
+			
+			fastaSeqs = SequenceUtil.readFasta(inStr);
+			
+			}
+		
+			catch (FileNotFoundException e) {
+			
+			System.out.println("Can not find file. Please provide a valid file path.");
+			
+			// I'm using system exit here to avoid an exception I get, but I'm not sure it;s a good programming practice.
+			//System.exit(0)
+			
+			}
+		
+			catch (IOException e) {
+			
+			System.out.println("Sth wrong with reading the file.");
+			
+			// I'm using system exit here to avoid an exception I get, but I'm not sure it;s a good programming practice.
+			//System.exit(0);
+			
+			fastaSeqs = null;
+			
+			}
+			
+			return fastaSeqs;
+	
+		}
 
 }

@@ -9,7 +9,7 @@ It would be better to enter one word method name. The program should convert inp
 internally. I'd suggest to make method name case insensitive. For the enum, may be leaving the method name only, 
 and getting rid of _SCORE will do the trick?   NOT DONE YET
 
-20) If no output is specified what is the point of running the program? I would suggest output to the System.out, 
+DONE 20) If no output is specified what is the point of running the program? I would suggest output to the System.out, 
 if no output file was provided 
 
 NO DEFAULT OUTPUT FORMAT, IF NO FORMAT System.out IS USED.
@@ -18,11 +18,12 @@ Not a good solution to my mind. I suggest using RESULT_NO_ALIGNMENT as default.
 What you want is to simplify the life of the user as much as possible. So, 
 the good program is the one that makes intelligent decisions, but let the 
 user to override them. 
+OK will do it. Will set up output no alignment as default.
 
 21) I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
 use default. 
 
-22) I'd suggest to simplify output format without alignment to the following: 
+DONE 22) I'd suggest to simplify output format without alignment to the following: 
 DONE for the output without alignment, output with alignment still delimited by many spaces, 
 this is in case someone would like to print not normalized output with alignment, I can not predict 
 the "size" of the numbers, that is why I give the columns an arbitrary length that I 
@@ -39,7 +40,7 @@ The exact same output then, can be used with alignment option too.
    
 DONE 23) Please output the sequences names for the alignment. 
 
-24) I run ConservatiopnClient with the following options DONE(had a bug there, fixed now)
+DONE 24) I run ConservatiopnClient with the following options DONE(had a bug there, fixed now)
 -m=LANDGRAF_SCORE -i=D:\workspace\AAConservation\test\data\TO1296.fasta.align -o=d:\test.out -f=RESULT_WITH_ALIGNMENT
 on the data file available from test\data\TO1296.fasta.align
 All score values were 0.000 is this the output you would expect? 
@@ -62,7 +63,7 @@ Exception in thread "main" java.lang.NullPointerException
      
 If the method name were misspelled.   
 
-33) -m= KABAT_SCORE leads to this  
+DONE 33) -m= KABAT_SCORE leads to this  
 
 You should never ever get here
 Method not suppoted
@@ -72,7 +73,9 @@ Exception in thread "main" java.lang.NullPointerException
         at java.util.EnumMap.put(Unknown Source)
         at compbio.conservation.ConservationClient.<init>(ConservationClient.java:257)
         at compbio.conservation.ConservationClient.main(ConservationClient.java:319)
-    
+     
+     DONE
+     COMMENT: I just run -m=KABAT_SCORE on 3 different alignments and got proper results.
 
 
 

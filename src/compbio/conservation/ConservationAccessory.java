@@ -1,6 +1,7 @@
 package compbio.conservation;
 
 import java.util.*;
+import java.io.*;
 
 class ConservationAccessory {
 
@@ -415,13 +416,49 @@ class ConservationAccessory {
 
 	}
 	
-	static void printArrayOfDouble(double[] arr1) {
+	static void printArrayOfDouble(double[] arr1, PrintWriter print, int precision) {
+		
+		String resultFormat = "%." + precision + "f";
 		
 		for (int i = 0; i < arr1.length; i++) {
 			
-			System.out.print(arr1[i] + " ");
+			if(print == null) {
+			
+				System.out.printf(resultFormat, arr1[i] + " ");
+			
+			}
+			
+			else {
+				
+				print.printf(resultFormat, arr1[i] + " ");
+			}
+			
 		}
+	
 	}
+	
+	static void printArrayOfDoubleFieldWidth(double[] arr1, PrintWriter print, int precision, int fieldWidth) {
+		
+		String resultFormat = "%-"+ fieldWidth + "." + precision + "f";
+		
+		for (int i = 0; i < arr1.length; i++) {
+			
+			if(print == null) {
+			
+				System.out.printf(resultFormat, arr1[i] + " ");
+			
+			}
+			
+			else {
+				
+				print.printf(resultFormat, arr1[i] + " ");
+			}
+			
+		}
+	
+	}
+
+
 }
 
 

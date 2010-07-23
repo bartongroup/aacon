@@ -230,6 +230,8 @@ import java.io.*;
 	                
 	                sequenceNames[i] = s.getId();
 	                
+	                //System.out.println(sequenceNames[i]);
+	                
 	                if(sequenceChars.length != sequenceLength) {
 	                	
 	                	int seqNr = i + 1;
@@ -272,7 +274,8 @@ import java.io.*;
 			        	
 			        				//assert alph.contains(ch) : "Illegal character in the matrix";
 			        				
-				
+			            	  		//System.out.println(ch);
+			            	  		
 	                                 matrix[i][j] = ch;
 	                                 
 	                                 inverseMatrix[j][i] = ch;
@@ -782,23 +785,35 @@ import java.io.*;
 			
 			}
 			
+			/**
+			 * Prints alignment into a file.
+			 * 
+			 * @param tagWidth width of the name tag field
+			 * @param resultWidth width of the result field
+			 * @param outputFile output file path
+			 */
+			
 			void printAlignment(int tagWidth, int resultWidth, String outputFile ) {
 				
 
-				PrintWriter print = null;
-				
-				try {
+				for (int i = 0; i < sequenceNames.length; i++) {
 					
-					print = new PrintWriter( new BufferedWriter (new FileWriter(outputFile)));
+					System.out.println(sequenceNames[i]);
 				}
 				
-				catch(IOException ex) {
+				for(int i = 0; i < this.numberOfRows(); i++) {
 					
-					System.out.println("Problem writing" + outputFile);
+					for (int j = 0; j < this.getRow(i).length; j++) {
+						
+						System.out.print(this.getRow(i)[j]);
+					}
 					
-					System.exit(0);
-					
+					System.out.println();
 				}
+				
+				PrintWriter print = ConservationFormatter.openPrintWriter(outputFile, false);
+				
+				if(print != null) {
 				
 				String tagFormat = "%-" + tagWidth + "s";
 				
@@ -817,11 +832,10 @@ import java.io.*;
 					print.println();
 				
 				}
+				
+				}
 			
 			}
-		
-	
-		
 		
 	}
 			
