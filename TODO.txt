@@ -45,11 +45,6 @@ on the data file available from test\data\TO1296.fasta.align
 All score values were 0.000 is this the output you would expect? 
 
 
-29) Are all the methods support nucleotide alignments as well or some may not? 
-COMMENT they do not support nucleotide alignments. Non of the methods is used for both aa and nucleotide alignments
-If some does not support them would they throw an appropriate exception?   
-WILL REVIEW TEM AGAIN   
-
 30) In an application help there is no mention of "-n" parameter. Application help would 
 benefit from better formatting. 
 
@@ -84,7 +79,11 @@ Exception in thread "main" java.lang.NullPointerException
 
 ALL DONE
 
- 
+
+DONE: 29) Are all the methods support nucleotide alignments as well or some may not? 
+COMMENT they do not support nucleotide alignments. Non of the methods is used for both aa and nucleotide alignments
+If some does not support them would they throw an appropriate exception?   
+WILL REVIEW TEM AGAIN   
 
 DONE: Wrapper class is not an application entry point any more. There is an ConservationClient class now.
 1) WrapperClass2 should not throw exceptions if no parameters were provided DONE
