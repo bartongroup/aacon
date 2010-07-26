@@ -42,9 +42,6 @@ It would be better to enter one word method name. The program should convert inp
 internally. I'd suggest to make method name case insensitive. For the enum, may be leaving the method name only, 
 and getting rid of _SCORE will do the trick?   NOT DONE YET
 
-DONE 20) If no output is specified what is the point of running the program? I would suggest output to the System.out, 
-if no output file was provided 
-
 NO DEFAULT OUTPUT FORMAT, IF NO FORMAT System.out IS USED.
 This is weird, if I provided an output file, I expect the system to use it. 
 Not a good solution to my mind. I suggest using RESULT_NO_ALIGNMENT as default. 
@@ -69,6 +66,10 @@ for doing that! This saves you from a lot of problems down the line.
 
 
 ALL DONE
+
+
+DONE 20) If no output is specified what is the point of running the program? I would suggest output to the System.out, 
+if no output file was provided 
 
 
 32)COMMENT: No exeception thrown any more. If method misspelled still method not supported information appears.
