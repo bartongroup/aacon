@@ -208,5 +208,5 @@ GENERAL RECOMMENDATIONS
 sufficiently detailed to identify the problem?
 
 - General recommendation - avoid methods/constructors with more then 5 parameters! 
-Talk to me if you feel you cannot get away without them. 
+Talk to me if you feel you cannot get away without them. NO METHODS WITH OVER 5 parameters, except of one constructor, but that's done on purpose.
    
