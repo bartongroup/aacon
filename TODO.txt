@@ -1,7 +1,7 @@
 
 TO BE DONE: 
 
-NOT DONE YET 5) All the data which is used should be available within the project. 
+SOME OF IT DONE. WILL HAVE MORE TEST DATA. ALL GOES TO ONE FOLDER. 5) All the data which is used should be available within the project. 
 (e.g. "/homes/agolicz/alignments/alignment1") 
 
 19) Usability issue (low priority): From the user point of view, it is not convenient to enter XXX_SCORE all the time
@@ -20,7 +20,7 @@ the good program is the one that makes intelligent decisions, but let the
 user to override them. 
 OK will do it. Will set up output no alignment as default.
 
-21) I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
+21)DONE I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
 use default. 
 
 DONE 22) I'd suggest to simplify output format without alignment to the following: 
@@ -46,14 +46,17 @@ on the data file available from test\data\TO1296.fasta.align
 All score values were 0.000 is this the output you would expect? 
 
 
-30) In an application help there is no mention of "-n" parameter. Application help would 
+30)STILL EDITTING APPLICATION HELP In an application help there is no mention of "-n" parameter. Application help would 
 benefit from better formatting. 
 
-31) If results printed to System.out they are not the same as if they are printed to the file. 
+31)DONE If results printed to System.out they are not the same as if they are printed to the file. 
 The formatting and precision should be the same. Internally you should be using the same routine
 for doing that! This saves you from a lot of problems down the line.   
  
-32) Method not suppoted
+32)COMMENT: No exeception thrown any more. If method misspelled still method not supported information appears.
+However all the other methods are calculated, the misspelled method is skipped. 
+
+ Method not suppoted
 Exception in thread "main" java.lang.NullPointerException
         at java.util.EnumMap.typeCheck(Unknown Source)
         at java.util.EnumMap.put(Unknown Source)
@@ -63,7 +66,8 @@ Exception in thread "main" java.lang.NullPointerException
      
 If the method name were misspelled.   
 
-DONE 33) -m= KABAT_SCORE leads to this  
+DONE COMMENT: I just run -m=KABAT_SCORE on 5 different alignments and got proper results.
+33) -m= KABAT_SCORE leads to this  
 
 You should never ever get here
 Method not suppoted
@@ -74,9 +78,7 @@ Exception in thread "main" java.lang.NullPointerException
         at compbio.conservation.ConservationClient.<init>(ConservationClient.java:257)
         at compbio.conservation.ConservationClient.main(ConservationClient.java:319)
      
-     DONE
-     COMMENT: I just run -m=KABAT_SCORE on 3 different alignments and got proper results.
-
+    
 
 
 

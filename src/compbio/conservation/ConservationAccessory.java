@@ -424,15 +424,29 @@ class ConservationAccessory {
 			
 			if(print == null) {
 			
-				System.out.printf(resultFormat, arr1[i] + " ");
+				System.out.printf(resultFormat, arr1[i]);
+				
+				System.out.print(" ");
 			
 			}
 			
 			else {
 				
-				print.printf(resultFormat, arr1[i] + " ");
+				print.printf(resultFormat, arr1[i]);
+				
+				print.print(" ");
 			}
 			
+		}
+		
+		if(print == null) {
+			
+			System.out.println();
+		}
+		
+		else {
+			
+			print.println();
 		}
 	
 	}
@@ -445,15 +459,26 @@ class ConservationAccessory {
 			
 			if(print == null) {
 			
-				System.out.printf(resultFormat, arr1[i] + " ");
+				System.out.printf(resultFormat, arr1[i]);
 			
 			}
 			
 			else {
 				
-				print.printf(resultFormat, arr1[i] + " ");
+				print.printf(resultFormat, arr1[i]);
+				
 			}
 			
+		}
+		
+		if(print == null) {
+			
+			System.out.println();
+		}
+		
+		else {
+			
+			print.println();
 		}
 	
 	}

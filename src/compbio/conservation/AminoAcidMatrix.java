@@ -86,6 +86,53 @@ import java.io.*;
 	 */
 	private double[] voronoiWeighths;
 	
+	/**
+	 * This constructor take a 2D array of characters as parameter and a string of sequence names. Indices of names must be corresponding to the indices of sequences in the 2D array.
+	 * If no names are provided  sequnece numbers starting with 0 serve as names. 
+	 * 
+	 * @param alignment 2D array with alignment
+	 * @param names string if sequence names/IDs
+	 */
+	public AminoAcidMatrix (char[][] alignment, String[] names) {
+		
+		for(int i = 0; i < alignment.length; i++ ) {
+			
+			if(alignment[0].length != alignment[i].length) {
+				
+				int number = i + 1;
+				
+				throw new SequencesNotEquallyLongException("Sequence number: " + number + "ID: " + this.sequenceNames[i] + " is of differnet length than the first sequence");
+			}
+		}
+		
+		if (names == null) {
+			
+			this.sequenceNames = new String[alignment.length];
+			
+			for (int i = 0; i < alignment.length; i++) {
+				
+				sequenceNames[i] = i + ".";			}
+			}
+		
+		else {
+			
+			this.sequenceNames = names;
+		}
+		
+		this.matrix = alignment;
+		
+		inverseMatrix = new char[alignment[0].length][alignment.length];
+		
+		for (int i = 0; i < alignment.length; i++) {
+			
+			for(int j = 0; j < alignment[i].length; j++) {
+				
+				inverseMatrix[j][i] = alignment[i][j];
+			}
+		}
+		
+	}
+	
 	/** 
 	 * This constructor constructor allows manual creation of only one column.
 	 * Might be of help if somebody wants to check the the functionality of the class without feeding it the whole alignment.
@@ -795,22 +842,6 @@ import java.io.*;
 			
 			void printAlignment(int tagWidth, int resultWidth, String outputFile ) {
 				
-
-				for (int i = 0; i < sequenceNames.length; i++) {
-					
-					System.out.println(sequenceNames[i]);
-				}
-				
-				for(int i = 0; i < this.numberOfRows(); i++) {
-					
-					for (int j = 0; j < this.getRow(i).length; j++) {
-						
-						System.out.print(this.getRow(i)[j]);
-					}
-					
-					System.out.println();
-				}
-				
 				PrintWriter print = ConservationFormatter.openPrintWriter(outputFile, false);
 				
 				if(print != null) {
@@ -835,6 +866,8 @@ import java.io.*;
 				
 				}
 			
+				print.close();
+				
 			}
 		
 	}

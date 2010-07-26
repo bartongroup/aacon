@@ -188,6 +188,8 @@ public class ConservationFormatter {
 				
 				}
 				
+				
+				print.close();
 		}
 			
 	}

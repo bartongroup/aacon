@@ -149,6 +149,8 @@ class ConservationClient {
 			
 			System.out.println("Method: " + method + "is not supported");
 			
+			Method.supportedMethods();
+			
 			return result;
 		}
 	
@@ -186,6 +188,8 @@ class ConservationClient {
 			
 		}
 		
+		if(methods != null && inFilePath != null) {
+		
 		String format = getFormat(cmd);
 		
 		String outFilePath = getOutputFilePath(cmd);
@@ -209,9 +213,15 @@ class ConservationClient {
 			
 		}
 		
+		if (outFilePath == null && format == null) {
+			
+			System.out.println("Output file path and format not provided. Results will be printed to the command window.");
+			
+		}
+		
 		boolean normalize = getNormalize(cmd);
 		
-		if (methods != null && inFilePath != null && proceed == true) {
+		if (proceed == true) {
 		
 		//InputStream inStr = null;
 		
@@ -238,6 +248,8 @@ class ConservationClient {
 				}
 				
 				if (results.size() != 0) {
+					
+				//alignment.printAlignment(30, 10, outFilePath);
 				
 				ConservationFormatter.formatResults(results, outFilePath, format, alignment);
 				
@@ -245,6 +257,8 @@ class ConservationClient {
 		
 		}
 		//ConservationFormatter.formatResults(scores);
+		}
+		
 		}
 		
 	}
