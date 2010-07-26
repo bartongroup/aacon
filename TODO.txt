@@ -1,6 +1,39 @@
 
 TO BE DONE: 
 
+34) Look closely at your normalisation code, I suspect you divide zero by zero there, as the result I got NaN (Not-a-Number)
+# TAYLOR_SCORE
+NaN NaN NaN ....
+Please check also whether you happens to divide some number by zero, that would be an arithmetic exception.
+
+35) The output block of Method - values is still not exactly the same for results with alignment and without. 
+The idea is that it should be possible to use the same parser for Methods-> score parsing for both formats. 
+
+e.g. currently 
+ealklniiat/1-2871             -         -         -         -      
+xdsxcjijgg/1-2605             -         -         -         -      
+# KABAT_SCORE                 0.755     0.839     0.906     0.755  
+# JORES_SCORE                 0.998     0.998     0.999     0.997  
+
+should be 
+
+ealklniiat/1-2871             -         -         -         -      
+xdsxcjijgg/1-2605             -         -         -         -      
+
+#KABAT_SCORE                 
+							  0.755     0.839     0.906     0.755  
+#JORES_SCORE                 
+							  0.998     0.998     0.999     0.997  
+The other way around will do just as well. In that case you would need to modify 
+result_no_alignment output to produce method name and score on the same line. 
+Please also add an empty line between scores and the end of the alignments.
+I'd also suggest adding the format name to the the first line of the output. 
+e.g. 
+
+AA Conservation v.1.0   
+ 
+36) Method for reading back the output file into memory is needed.  
+
 SOME OF IT DONE. WILL HAVE MORE TEST DATA. ALL GOES TO ONE FOLDER. 5) All the data which is used should be available within the project. 
 (e.g. "/homes/agolicz/alignments/alignment1") 
 
@@ -20,39 +53,24 @@ the good program is the one that makes intelligent decisions, but let the
 user to override them. 
 OK will do it. Will set up output no alignment as default.
 
-21)DONE I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
+21)NOT YET DONE I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
 use default. 
-
-DONE 22) I'd suggest to simplify output format without alignment to the following: 
-DONE for the output without alignment, output with alignment still delimited by many spaces, 
-this is in case someone would like to print not normalized output with alignment, I can not predict 
-the "size" of the numbers, that is why I give the columns an arbitrary length that I 
-think will accomodate all the possible number sizes.  
-
-# LANDGRAF_SCORE      
-0.000 0.33 0.32        
-# WILLIAMSON_SCORE
-0.094 0.934 0.54
-
-The hash sign, will help you with parsing, basically, hash at the beginning of the line would denote a method name
-Space or tab delimit the values.
-The exact same output then, can be used with alignment option too.
-   
-DONE 23) Please output the sequences names for the alignment. 
-
-DONE 24) I run ConservatiopnClient with the following options DONE(had a bug there, fixed now)
--m=LANDGRAF_SCORE -i=D:\workspace\AAConservation\test\data\TO1296.fasta.align -o=d:\test.out -f=RESULT_WITH_ALIGNMENT
-on the data file available from test\data\TO1296.fasta.align
-All score values were 0.000 is this the output you would expect? 
-
+Please check: If the output is specified default format is not used
+ 
 
 30)STILL EDITTING APPLICATION HELP In an application help there is no mention of "-n" parameter. Application help would 
 benefit from better formatting. 
 
-31)DONE If results printed to System.out they are not the same as if they are printed to the file. 
+As far as I can see nothing changed about this. 
+31)NOT DONE If results printed to System.out they are not the same as if they are printed to the file. 
 The formatting and precision should be the same. Internally you should be using the same routine
 for doing that! This saves you from a lot of problems down the line.   
  
+
+
+ALL DONE
+
+
 32)COMMENT: No exeception thrown any more. If method misspelled still method not supported information appears.
 However all the other methods are calculated, the misspelled method is skipped. 
 
@@ -78,12 +96,28 @@ Exception in thread "main" java.lang.NullPointerException
         at compbio.conservation.ConservationClient.<init>(ConservationClient.java:257)
         at compbio.conservation.ConservationClient.main(ConservationClient.java:319)
      
-    
 
+DONE 24) I run ConservatiopnClient with the following options DONE(had a bug there, fixed now)
+-m=LANDGRAF_SCORE -i=D:\workspace\AAConservation\test\data\TO1296.fasta.align -o=d:\test.out -f=RESULT_WITH_ALIGNMENT
+on the data file available from test\data\TO1296.fasta.align
+All score values were 0.000 is this the output you would expect? 
 
+DONE 23) Please output the sequences names for the alignment.
 
-ALL DONE
+DONE 22) I'd suggest to simplify output format without alignment to the following: 
+DONE for the output without alignment, output with alignment still delimited by many spaces, 
+this is in case someone would like to print not normalized output with alignment, I can not predict 
+the "size" of the numbers, that is why I give the columns an arbitrary length that I 
+think will accomodate all the possible number sizes.  
 
+# LANDGRAF_SCORE      
+0.000 0.33 0.32        
+# WILLIAMSON_SCORE
+0.094 0.934 0.54
+
+The hash sign, will help you with parsing, basically, hash at the beginning of the line would denote a method name
+Space or tab delimit the values.
+The exact same output then, can be used with alignment option too.
 
 DONE: 29) Are all the methods support nucleotide alignments as well or some may not? 
 COMMENT they do not support nucleotide alignments. Non of the methods is used for both aa and nucleotide alignments
