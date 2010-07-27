@@ -5,7 +5,9 @@ TO BE DONE:
 # TAYLOR_SCORE
 NaN NaN NaN ....
 Please check also whether you happens to divide some number by zero, that would be an arithmetic exception.
-
+It looks to me that this is omly happening with TAYLOR score. So its is probably the method itself rather then 
+normalisation.  
+ 
 35) The output block of Method - values is still not exactly the same for results with alignment and without. 
 The idea is that it should be possible to use the same parser for Methods-> score parsing for both formats. 
 
@@ -56,7 +58,13 @@ Please check: If the output is specified default format is not used
  
 
 30)STILL EDITTING APPLICATION HELP In an application help there is no mention of "-n" parameter. Application help would 
-benefit from better formatting. 
+benefit from better formatting.
+Please also make sure your help contain the following information
+- how to run the program with minimum parameters
+- what are the defaults if some parameters are not provided by the users
+- examples of use
+- detailed description of each parameter, with explanation about how it influences 
+output e.g. -n  
 
 37) "Output file path and format not provided. Results will be printed to the command window."
 Please do not output any messages to the stdout if no output file is specified.
@@ -66,6 +74,49 @@ Just explain in the application help how the application behaves.
 Users may be parsing your output, if there is anything apart from the results, 
 it make their life harder. 
 
+38) The idea of normalisation is to make results comparable, however, although results values are 
+between 0 and 1 it looks like 0 and 1 mean different things in different methods. 
+For some methods it looks like 0 value corresponds to 100% of identity where as
+for other methods 1 values correspond to 100% of identity. For example:  
+# ZVELIBIL_SCORE
+1.000 0.000 0.000 0.000  0.846 
+# KARLIN_SCORE
+0.000 0.000 0.001 0.000  0.112
+
+Please also make sure that your normalisation method is described in the help 
+documentation for the program. 
+
+39) If you have time it would be good if you can report a calculation progress, this it to give the
+user some idea of when the calculation completes. Id does not have to be percent
+of completion. You could just report the program initial settings, and timings for
+each step of the calculation or each method in your case.  
+Here is an example of the statistic output from one of my programs
+
+Using parameters: 
+[input=/homes/pvtroshin/large.fasta
+output= standard out
+statistics=/homes/pvtroshin/stat.out
+disorder=0.5 [default]
+thread number=10
+format=VERTICAL [default]]
+Calculation started: 07 June 2010 13:49:39 BST
+58ms input file loaded
+Input file has 179 sequences
+Running preditions in parallel - Using 10 threads
+4116ms prediction completed for UniRef90_B6L337
+4141ms prediction completed for UniRef90_Q4VBK1
+4158ms prediction completed for UniRef90_A7RTH8
+4334ms prediction completed for QUERY
+Calculation Completed: 07 June 2010 13:59:39 BST
+
+You may want to use compbio.util.Timer class to help you time the execution.  
+See SlowMethodTester for example. 
+
+40) Delete all unused methods and classes from the project. Alternatively remove then into
+clearly marked package. By doing this you reduce complexity of the program greatly 
+assisting whoever work on it next. 
+Remove and replace all duplicated code with a single class/method.  
+Add comment whenever you feel explanation is due.  
 
 
 ALL DONE
