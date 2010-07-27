@@ -141,7 +141,7 @@ class ConservationClient {
 	 * Returns the results of method calculation.
 	 */
 	
-	private double[] getMethod(String method, AminoAcidMatrix matrix, ConservationScores2 scores, boolean normalize) {
+	private static double[] getMethod(String method, ConservationScores2 scores, boolean normalize) {
 		
 		double[] result = null;
 		
@@ -237,7 +237,7 @@ class ConservationClient {
 		
 				for (int i = 0; i < methods.length; i++) {
 			
-					result = this.getMethod(methods[i], alignment, scores, normalize);
+					result = getMethod(methods[i], scores, normalize);
 			
 					if(result != null) {
 						

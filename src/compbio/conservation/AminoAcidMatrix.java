@@ -869,6 +869,30 @@ import java.io.*;
 				print.close();
 				
 			}
+			
+			List<char[][]> splitAlignment(int[][] groups) {
+				
+				List<char[][]> groupsList = new ArrayList<char[][]>();
+				
+				char[][] group = null; 
+
+				for(int i = 0; i < groups.length; i++) {
+					
+					group = new char[groups[i].length][];
+					
+					for(int j = 0; j < groups[i].length; j++) {
+						
+						group[j] = matrix[groups[i][j]];
+						
+					}
+					
+					groupsList.add(group);
+				
+				}
+				
+				return groupsList;
+				
+			}
 		
 	}
 			
