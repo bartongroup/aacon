@@ -15,13 +15,13 @@ public class SequenceUtilTester {
 
     public final static Logger log = Logger.getLogger(SequenceUtilTester.class);
 
-    public final static String PATH = "test/data";
+    public final static String DATA_PATH = "test/data";
 
     List<FastaSequence> fastlist;
 
     @BeforeClass
     public void setup() throws FileNotFoundException, IOException {
-	fastlist = SequenceUtil.readFasta(new FileInputStream(new File(PATH
+	fastlist = SequenceUtil.readFasta(new FileInputStream(new File(DATA_PATH
 		+ "/" + "TO1296.fasta.align")));
     }
 
