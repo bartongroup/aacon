@@ -63,7 +63,13 @@ As far as I can see nothing changed about this.
 The formatting and precision should be the same. Internally you should be using the same routine
 for doing that! This saves you from a lot of problems down the line.   
  
-
+37) "Output file path and format not provided. Results will be printed to the command window."
+Please do not output any messages to the stdout if no output file is specified.
+This is normal program behaviour, it should not need to tell the user what its doing, 
+besides it should be obvious in this case.  
+Just explain in the application help how the application behaves. 
+Users may be parsing your output, if there is anything apart from the results, 
+it make their life harder. 
 
 ALL DONE
 
