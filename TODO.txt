@@ -58,11 +58,6 @@ Please check: If the output is specified default format is not used
 30)STILL EDITTING APPLICATION HELP In an application help there is no mention of "-n" parameter. Application help would 
 benefit from better formatting. 
 
-As far as I can see nothing changed about this. 
-31)NOT DONE If results printed to System.out they are not the same as if they are printed to the file. 
-The formatting and precision should be the same. Internally you should be using the same routine
-for doing that! This saves you from a lot of problems down the line.   
- 
 37) "Output file path and format not provided. Results will be printed to the command window."
 Please do not output any messages to the stdout if no output file is specified.
 This is normal program behaviour, it should not need to tell the user what its doing, 
@@ -71,12 +66,18 @@ Just explain in the application help how the application behaves.
 Users may be parsing your output, if there is anything apart from the results, 
 it make their life harder. 
 
+
+
 ALL DONE
 
 
 DONE 20) If no output is specified what is the point of running the program? I would suggest output to the System.out, 
 if no output file was provided 
 
+ 
+31)DONE If results printed to System.out they are not the same as if they are printed to the file. 
+The formatting and precision should be the same. Internally you should be using the same routine
+for doing that! This saves you from a lot of problems down the line.   
 
 32)COMMENT: No exeception thrown any more. If method misspelled still method not supported information appears.
 However all the other methods are calculated, the misspelled method is skipped. 
