@@ -52,7 +52,7 @@ the good program is the one that makes intelligent decisions, but let the
 user to override them. 
 OK will do it. Will set up output no alignment as default.
 
-21)NOT YET DONE I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
+21)DONE I'd suggest to have a default output format - one without the alignment. So if no format is specified, then 
 use default. 
 Please check: If the output is specified default format is not used
  
@@ -74,7 +74,7 @@ Just explain in the application help how the application behaves.
 Users may be parsing your output, if there is anything apart from the results, 
 it make their life harder. 
 
-38) The idea of normalisation is to make results comparable, however, although results values are 
+38) DONE: THAT'S TAKEN CARE OF, THE EXTREME DIFFERENCES IN THOSE RESULTS COME FORM DIFFERENT TREATMENT OF GAPS. The idea of normalisation is to make results comparable, however, although results values are 
 between 0 and 1 it looks like 0 and 1 mean different things in different methods. 
 For some methods it looks like 0 value corresponds to 100% of identity where as
 for other methods 1 values correspond to 100% of identity. For example:  

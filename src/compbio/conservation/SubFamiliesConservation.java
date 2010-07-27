@@ -1,6 +1,10 @@
 package compbio.conservation;
 
 import java.util.*;
+import java.io.*;
+
+import compbio.util.FastaSequence;
+import compbio.util.SequenceUtil;
 
 public class SubFamiliesConservation {
 	
@@ -12,9 +16,9 @@ public class SubFamiliesConservation {
 		
 	}
 	
-	String[][] groupsConsStat;
+	ConservationStatus[][] groupsConsStat;
 	
-	String[][][] groupPairsConsStat;
+	ConservationStatus[][][] groupPairsConsStat;
 	
 	private static Map<Method, Double> treshholds = new EnumMap<Method, Double>(Method.class);
 	
@@ -118,7 +122,7 @@ public class SubFamiliesConservation {
 	 * @return
 	 */
 	
-	double[][] subgrupsConservation(Method method, List<char[][]> subGroups, boolean normalize) {
+	double[][] subgrupsConservation(Method method, boolean normalize) {
 		
 		if (method == null) {
 			
@@ -163,7 +167,7 @@ public class SubFamiliesConservation {
 	 */
 	
 	
-	char[][][][] subFamilyPairs(List<char[][]> subGroups) {
+	char[][][][] subFamilyPairs() {
 		
 		if (subGroups == null) {
 			
@@ -198,7 +202,7 @@ public class SubFamiliesConservation {
 	 * @return
 	 */
 	
-	double[][][] subFamilyPairsConservation(Method method, List<char[][]> subGroups, boolean normalize) {
+	double[][][] subFamilyPairsConservation(Method method, boolean normalize) {
 		
 		if (subGroups == null) {
 			
@@ -217,14 +221,14 @@ public class SubFamiliesConservation {
 		
 		for (int i = 0; i < subGroups.size(); i++) {
 			
-			pairs[i] = new double[i][startLength]; 
+			pairs[i] = new double[startLength][]; 
 			
 			for (int j = 0; j < startLength; j++) {
 				
 				merged = mergeSubFamilies(subGroups.get(i), subGroups.get(j));
 				
 				scores = new ConservationScores2(new AminoAcidMatrix(merged, names));
-				
+
 				pairs[i][j] = scores.calculateScore(method, normalize);
 				
 			}
@@ -235,8 +239,140 @@ public class SubFamiliesConservation {
 		return pairs;
 	}
 	
-	void subFamilyResults(double[][] subResults) {
+	void subFamilyResults(double[][] subResults, Method method) {
 		
+		groupsConsStat = new ConservationStatus[subResults.length][subResults[0].length];
 		
+		for(int i = 0; i < subResults.length; i++) {
+			
+			for(int j = 0; j < subResults[0].length; j++) {
+				
+				groupsConsStat[i][j] = ConservationStatus.getStatus(subResults[i][j], method);
+			}
+		}
+	}
+	
+	void subPairsResults(double[][][] subPairs, Method method) {
+		
+		groupPairsConsStat = new ConservationStatus[subPairs.length][][];
+		
+		for (int i = 0; i < subPairs.length; i++) {
+			
+			groupPairsConsStat[i] = new ConservationStatus[subPairs[i].length][];
+
+			for (int j = 0; j < groupPairsConsStat[i].length; j++) {
+				
+				groupPairsConsStat[i][j] = new ConservationStatus[subPairs[i][j].length];
+				
+				for (int k = 0; k < groupPairsConsStat[i][j].length; k++) {
+					
+					groupPairsConsStat[i][j][k] = ConservationStatus.getStatus(subPairs[i][j][k], method);
+				
+				}
+			
+			}
+			
+		}
+	
+	}
+	
+	void printResults(PrintWriter print) {
+		
+		for(int i = 0; i < groupsConsStat.length; i++) {
+			
+			for(int j = 0; j < groupsConsStat[i].length; j++) {
+				
+				print.println("Group: " + i + " Column: " + j + " Status: " + ConservationStatus.stringReps(groupsConsStat[i][j]));
+			}
+			
+			print.println();
+		}
+		
+		for (int i = 0; i < groupPairsConsStat.length; i++) {
+
+			for (int j = 0; j < groupPairsConsStat[i].length; j++) {
+				
+				for (int k = 0; k < groupPairsConsStat[i][j].length; k++) {
+					
+					int gr1 = i;
+					
+					int gr2 = i + j + 1;
+					
+					print.println("GroupPair: " + gr1 + "-" + gr2 + " Column: " + k + " Status: " + ConservationStatus.stringReps(groupPairsConsStat[i][j][k]));
+				
+				}
+				
+				print.println();
+			}
+			
+			print.println();
+			
+		}
+		
+	}
+	
+	public static void main (String[] args) {
+		
+		String filePath  = "/homes/agolicz/pFamilies/Family1/PF12574";
+		
+		InputStream inStr = null;
+		
+		List<FastaSequence> fastaSeqs = null;
+		
+		try {
+			
+			inStr = new FileInputStream(filePath);
+			
+		}
+		
+		catch (IOException e) {
+			
+			System.out.println("Can not find file");
+		
+		}
+		
+		try {
+			
+			fastaSeqs = SequenceUtil.readFasta(inStr);
+		}
+		
+		catch (IOException e) {
+			
+			System.out.println("Sth wrong with reading the file");
+		}
+			
+			
+		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
+		
+		int[][] groups = {{0,1},{2},{3,4}};
+		
+		SubFamiliesConservation cons = new SubFamiliesConservation(matrix, groups);
+		
+		double[][] cons1 = cons.subgrupsConservation(Method.ZVELIBIL_SCORE, true);
+		
+		double[][][] cons2 = cons.subFamilyPairsConservation(Method.ZVELIBIL_SCORE, true);
+		
+		cons.subFamilyResults(cons1, Method.ZVELIBIL_SCORE);
+		
+		cons.subPairsResults(cons2, Method.ZVELIBIL_SCORE);
+		
+		String fileName = "familyRes.txt";
+		
+		PrintWriter print = null;
+		
+		try {
+			
+			print = new PrintWriter( new BufferedWriter (new FileWriter(fileName)));
+		}
+		
+		catch(IOException ex) {
+			
+			System.out.println("Problem writing" + fileName);
+			
+		}
+		
+		cons.printResults(print);
+		
+		print.close();
 	}
 }
