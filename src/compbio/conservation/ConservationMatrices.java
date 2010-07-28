@@ -6,7 +6,7 @@ public class ConservationMatrices {
      * Blosum62 matrix, not normalized.
      */
 
-    private static final int[] blosum2 = { 4, -1, -2, -2, 0, -1, -1, 0, -2, -1,
+    static final int[] blosum2 = { 4, -1, -2, -2, 0, -1, -1, 0, -2, -1,
 	    -1, -1, -1, -2, -1, 1, 0, -3, -2, 0, -2, -1, 0, -4, -1, 5, 0, -2,
 	    -3, 1, 0, -2, 0, -3, -2, 2, -1, -3, -2, -1, -1, -3, -2, -3, -1, 0,
 	    -1, -4, -2, 0, 6, 1, -3, 0, 0, 0, 1, -3, -3, 0, -2, -3, -2, 1, 0,
@@ -44,7 +44,7 @@ public class ConservationMatrices {
      * Blosum62 matrix, normalized.
      */
 
-    private static final double[] blosum = { 6, -2, -2, -3, -1, -1, -1, 0, -2,
+    static final double[] blosum = { 6, -2, -2, -3, -1, -1, -1, 0, -2,
 	    -2, -2, -1, -1, -3, -1, 2, 0, -4, -3, 0, -2.5, -2.5, -6, -6, -2, 8,
 	    -1, -2, -5, 1, 0, -3, 0, -4, -3, 3, -2, -4, -3, -1, -2, -4, -3, -4,
 	    -1.5, -1.5, -6, -6, -2, -1, 8, 2, -4, 0, 0, -1, 1, -5, -5, 0, -3,
@@ -84,7 +84,7 @@ public class ConservationMatrices {
      * Gonnet matrix, normalized.
      */
 
-    private static final double[] gonnet = { 2.4, -0.6, -0.3, -0.3, 0.5, -0.2,
+    static final double[] gonnet = { 2.4, -0.6, -0.3, -0.3, 0.5, -0.2,
 	    0.0, 0.5, -0.8, -0.8, -1.2, -0.4, -0.7, -2.3, 0.3, 1.1, 0.6, -3.6,
 	    -2.2, 0.1, -0.3, -0.3, -5.2, -5.2, -0.6, 4.7, 0.3, -0.3, -2.2, 1.5,
 	    0.4, -1.0, 0.6, -2.4, -2.2, 2.7, -1.7, -3.2, -0.9, -0.2, -0.2,
@@ -237,7 +237,7 @@ public class ConservationMatrices {
      * Miyata and Armon matrix, normalized.
      */
 
-    private static final double[] miyataArmon = { 0, 2.92, 1.78, 2.37, 1.39,
+    static final double[] miyataArmon = { 0, 2.92, 1.78, 2.37, 1.39,
 	    1.92, 2.46, 0.91, 2.17, 2.69, 2.76, 2.96, 2.42, 3.23, 0.06, 0.51,
 	    0.90, 4.23, 3.18, 1.85, 2.075, 2.075, 6, 6, 2.92, 0, 2.04, 2.34,
 	    3.06, 1.13, 1.45, 3.58, 0.82, 2.49, 2.62, 0.40, 2.29, 2.47, 2.90,

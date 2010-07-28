@@ -690,8 +690,12 @@ public class Correlation {
 		int[] winValues = new int[colWidth];
 
 		for(int i = 0; i < matrix.numberOfRows(); i++) {
+			
+			char[] rowI = matrix.getRow(i);
 
 			for(int j = i + 1; j < matrix.numberOfRows(); j++) {
+				
+				char[] rowJ = matrix.getRow(j);
 
 					for (int k = 0; k < nrOfWindows; k++) {
 
@@ -709,7 +713,11 @@ public class Correlation {
 								
 								for (int d = 0; d < colWidth; d++) {
 									
-									int score = ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + range], matrix.getRow(j)[midColumn + range]);
+									int index = 24 * ConservationMatrices.getIndex(rowI[midColumn + range]) + ConservationMatrices.getIndex(rowJ[midColumn + range]);
+									
+									//int score = ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + range], matrix.getRow(j)[midColumn + range]);
+									
+									int score = ConservationMatrices.blosum2[index];
 									
 									winValues[d] = score;
 									
@@ -973,8 +981,12 @@ public class Correlation {
 		float[][] coeffsRaw = new float[nrOfWindows][5];
 		
 		for(int i = 0; i < matrix.numberOfRows(); i++) {
+			
+			char[] rowI = matrix.getRow(i);
 
 			for(int j = i + 1; j < matrix.numberOfRows(); j++) {
+				
+				char[] rowJ = matrix.getRow(j);
 
 					for (int k = 0; k < nrOfWindows; k++) {
 
@@ -992,7 +1004,11 @@ public class Correlation {
 								
 								for(int d = 0; d < colWidth; d++) {
 									
-									int score = ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + range], matrix.getRow(j)[midColumn + range]);
+									int index = 24 * ConservationMatrices.getIndex(rowI[midColumn + range]) + ConservationMatrices.getIndex(rowJ[midColumn + range]);
+									
+									//int score = ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + range], matrix.getRow(j)[midColumn + range]);
+									
+									int score = ConservationMatrices.blosum2[index];
 									
 									winValues[d] = score;
 									

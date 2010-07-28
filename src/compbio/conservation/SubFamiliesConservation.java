@@ -44,7 +44,7 @@ public class SubFamiliesConservation {
 		
 		treshholds.put(Method.SCHNEIDER_SCORE, 0.75);
 		
-		treshholds.put(Method.SHENKIN_SCORE, 0.75);
+		treshholds.put(Method.SHENKIN_SCORE, 0.55);
 		
 		treshholds.put(Method.TAYLOR_SCORE_GAPS, 0.75);
 		
@@ -56,7 +56,7 @@ public class SubFamiliesConservation {
 		
 		treshholds.put(Method.WILLIAMSON_SCORE, 0.75);
 		
-		treshholds.put(Method.ZVELIBIL_SCORE, 0.75);
+		treshholds.put(Method.ZVELIBIL_SCORE, 0.70);
 		
 		
 		
@@ -313,7 +313,7 @@ public class SubFamiliesConservation {
 	
 	public static void main (String[] args) {
 		
-		String filePath  = "/homes/agolicz/pFamilies/Family1/PF12574";
+		String filePath  = "/homes/agolicz/pFamilies/Family6/PF12407_seed.txt";
 		
 		InputStream inStr = null;
 		
@@ -344,7 +344,7 @@ public class SubFamiliesConservation {
 			
 		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
 		
-		int[][] groups = {{0,1},{2},{3,4}};
+		int[][] groups = {{0, 1},{2},{3,4}};
 		
 		SubFamiliesConservation cons = new SubFamiliesConservation(matrix, groups);
 		
@@ -356,7 +356,7 @@ public class SubFamiliesConservation {
 		
 		cons.subPairsResults(cons2, Method.ZVELIBIL_SCORE);
 		
-		String fileName = "familyRes.txt";
+		String fileName = "familyRespF6_ZVELIBIL_0.7.txt";
 		
 		PrintWriter print = null;
 		
