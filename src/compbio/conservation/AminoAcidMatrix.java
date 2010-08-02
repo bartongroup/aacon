@@ -105,6 +105,14 @@ import java.io.*;
 			}
 		}
 		
+		if (names != null) {
+			
+			if (alignment.length != names.length) {
+				
+				throw new IllegalArgumentException("Number sequence IDs not equall to the number of sequences");
+			}
+		}
+		
 		if (names == null) {
 			
 			this.sequenceNames = new String[alignment.length];
