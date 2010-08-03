@@ -1,7 +1,7 @@
 package compbio.conservation;
 
 /**
- * Class has static methods used to create similarity matrices, and correaltion matrices.
+ * Class has static methods used to create similarity matrices, and correlation matrices.
  * @author agolicz
  *
  */

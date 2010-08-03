@@ -208,29 +208,33 @@ class ConservationClient {
 		
 		double[] result = null;
 		
-		if (width <= 0 || width%2 != 1) {
+		if (width <= 0 || width%2 != 1 || width > alignment.numberOfColumns() || score == null) {
 			
-			System.out.println("Column width for SMERFS smaller or equal zero or not an odd number.");
+			if(width <= 0 || width%2 != 1 ) {
+			
+				System.out.println("Column width for SMERFS not provided or smaller or equal zero or not an odd number or not an integer.");
+			
+			}
+		
+			if (width > alignment.numberOfColumns()) {
+			
+				System.out.println("Column width greater than the length of the alignment");
+			
+				
+			}
+		
+			if (score == null) {
+			
+				System.out.println("Column score not privided or the type provided is not supported.");
+			
+				SMERFSColumnScore.supportedSMERFSColumnSores();
+			
+				}
 			
 			return result;
-		}
 		
-		if (width > alignment.numberOfColumns()) {
-			
-			System.out.println("Column width greater than the length of the alignment");
-			
-			return result;
 		}
-		
-		if (score == null) {
 			
-			System.out.println("Column score type not supported.");
-			
-			SMERFSColumnScore.supportedSMERFSColumnSores();
-			
-			return result;
-		}
-		
 		Correlation corr = new Correlation(alignment, width);
 		
 		result = corr.getCorrelationScore(score, normalize);
@@ -304,13 +308,25 @@ class ConservationClient {
 			
 			if (SMERFSDetails.length == 2) {
 			
-			SMERFSWidth = Integer.parseInt(SMERFSDetails[0]);
+				try {
+					
+					SMERFSWidth = Integer.parseInt(SMERFSDetails[0]);
+					
+				}
 			
-			score = SMERFSColumnScore.getSMERFSColumnScore(SMERFSDetails[1]);
+				catch (NumberFormatException e) {
+					
+					SMERFSWidth = -1;
+					
+				}
+			
+				score = SMERFSColumnScore.getSMERFSColumnScore(SMERFSDetails[1]);
 			
 			}
 			
 			else {
+				
+				System.out.println("To run SMERFS two argument are needed, window width and how to give scores to columns.");
 				
 				SMERFSWidth = -1;
 				
