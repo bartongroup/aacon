@@ -8,6 +8,10 @@ package compbio.conservation;
 
 public class Correlation {
 	
+	private final AminoAcidMatrix alignment;
+	
+	private final int winWidth;
+	
 	/**
 	 * Calculates similarity between two sequences, similarity is calculated as a sum of blosum scores for pairs formed by corresponding amino acids in two sequences.
 	 *  
@@ -16,7 +20,33 @@ public class Correlation {
 	 * @return  similarity score
 	 */
 	
+	public Correlation(AminoAcidMatrix alignment, int winWidth) {
+		
+		if (alignment == null) {
+			
+			throw new IllegalArgumentException("Alignment must not be null.");
+			
+		}
+		
+		if(winWidth < 0 || winWidth%2 != 1 || winWidth > alignment.numberOfColumns()) {
+			
+			throw new IllegalArgumentException("ColWidth smaller than zero or an even number or largrt tah the number of columns");
+		}
+		
+		this.alignment = alignment;
+		
+		this.winWidth = winWidth;
+		
+	}
 	
+	/**
+	 * Calculates sequence similarity as a sum of blosum scores.
+	 * 
+	 * @param seq1 sequence 1
+	 * @param seq2 sequence 2
+	 * 
+	 * @return similarity
+	 */
 	
 	static int sequenceSimilartyBlosum(char [] seq1, char[] seq2) {
 		
@@ -72,14 +102,7 @@ public class Correlation {
 	
 	}
 	
-	//static int localSequenceSimilarityNextWindows(int resultFromLastWindow, int lastIndex) {
-		
-	//	simi
-		
-		
-		
-		
-	//}
+	
 	
 	/**
 	 * Creates a global similarity matrix.
@@ -88,17 +111,17 @@ public class Correlation {
 	 * @return similarity matrix stored as a single array
 	 */
 	
-	static int[] globalSimilarity(AminoAcidMatrix matrix) {
+	private int[] globalSimilarity() {
 		
-		int[] globalSim = new int[matrix.numberOfRows()* (matrix.numberOfRows() - 1) / 2];
+		int[] globalSim = new int[alignment.numberOfRows()* (alignment.numberOfRows() - 1) / 2];
 		
 		int index = 0;
 		
-		for (int i = 0; i < matrix.numberOfRows(); i++) {
+		for (int i = 0; i < alignment.numberOfRows(); i++) {
 			
-			for (int j = i + 1; j < matrix.numberOfRows(); j++) {
+			for (int j = i + 1; j < alignment.numberOfRows(); j++) {
 				
-				globalSim[index] = Correlation.sequenceSimilartyBlosum(matrix.getRow(i), matrix.getRow(j));
+				globalSim[index] = Correlation.sequenceSimilartyBlosum(alignment.getRow(i), alignment.getRow(j));
 				
 				index++;
 				
@@ -111,498 +134,15 @@ public class Correlation {
 		}
 
 	/**
-	 * Creates a local similarity matrix.
-	 * Always use this method along with global similarity matrix, the internal numbering scheme assures that Pearson correlation will be calculated properly
-	 * @param matrix reference to the matrix containing sequences
-	 * @param startPoint
-	 * @param endPoint not included in calculation
-	 * @return similarity matrix stored as a single array
-	 */
-	
-	//static int[] localSimilarity(AminoAcidMatrix matrix, int startPoint, int endPoint) {
-		
-		//	int[] localSim = new int[(1 + (matrix.numberOfRows() - 1)) * (matrix.numberOfRows() - 1) / 2];
-		
-		//	int index = 0;
-		
-		//	for (int i = 0; i < matrix.numberOfRows(); i++) {
-			
-		//		for (int j = i + 1; j < matrix.numberOfRows(); j++) {
-				
-		//			Correlation.localSequenceSimilarityBlosum(matrix.getRow(i), matrix.getRow(j), startPoint, endPoint);
-				
-		//			index++;
-				
-		//	}
-		
-	//	}
-		
-	//	return localSim;
-		
-	//	}
-
-	/**
-	 * Calculates Pearson product-moment correlation coefficient between two data sets stored in simple arrays.
+	 * Calculates person coefficients.
 	 * 
-	 * @param arr1 array 1 
-	 * @param arr2 array 2
-	 * 
-	 * @return Pearson correlation coefficient
+	 * @return array of pearson correlation scores indexed by window
 	 */
-	
-	static double getPMCC (int[] arr1, int[] arr2) {
+	private double[] calcPearsonCoeff3() {
 		
-		if(arr1.length != arr2.length) {
-			
-			throw new IllegalArgumentException("Arrays not of equal length");
-			
-		}
+		int[] global = globalSimilarity();
 		
-		int sum1 = 0;
-		
-		int sum2 = 0;
-		
-		int sum1Sq = 0;
-		
-		int sum2Sq = 0;
-		
-		int pSum = 0;
-		
-		int n = arr1.length;
-		
-		for (int i = 0; i < arr1.length; i++) {
-			
-			sum1 += arr1[i];
-			
-			sum2 += arr1[i];
-			
-			sum1Sq += arr1[i] * arr1[i];
-			
-			sum2Sq += arr2[i] * arr2[i];
-			
-			pSum += arr1[i] * arr2[i];
-			
-			}
-		
-		double numerator = pSum - sum1 * sum2 / (double) n;
-		
-		assert sum1Sq - sum1 * sum1 / (double) n > 0;
-		
-		assert sum2Sq - sum2 * sum2 / (double) n > 0;
-		
-		double denominator = Math.sqrt((sum1Sq - sum1 * sum1 / (double) n) * (sum2Sq - sum2 * sum2 / (double) n));
-		
-		return numerator / denominator;
-		
-		
-	}
-	
-	/**
-	 * Values needed for calculating Pearson coefficients ar eindexed as follows
-	 * 0 = sum1
-	 * 1 = sum2
-	 * 2 = sum1Sq
-	 * 3 = sum2Sq
-	 * 4 = pSum
-	 * 
-	 * @param matrix
-	 * @return
-	 */
-
-
-
-	static double[] calcPearsonCoeff(AminoAcidMatrix matrix) {
-		
-		int[] global =  Correlation.globalSimilarity(matrix);
-		
-		int[][] coeffsRaw = new int[matrix.numberOfColumns()][5]; 
-		
-		double[] coeffs = new double[coeffsRaw.length];
-		
-		int globalIndex = 0;
-		
-		int sum = 0;
-		
-		int windowCounter = 0;
-		 
-		int counter = 0;
-		 
-		assert counter < 6;
-		
-		int[] winValues = new int[7];
-		
-		for (int i = 0; i < matrix.numberOfRows(); i++) {
-			
-			 for (int j = i + 1; j < matrix.numberOfRows(); j++ ) {
-				 
-				 int k = 0;
-				 
-				 while (k < matrix.numberOfColumns()) {
-					 
-					  if (k == 0 || (k % 7 == 0 && k < matrix.numberOfColumns() - (matrix.numberOfColumns()%7))) {
-						 
-						sum = 0;
-						 
-						for (int l = 0; l < 7; l++) {
-							
-						winValues[l] = ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + l], matrix.getRow(j)[k + l]);	 
-						
-						sum += winValues[l];
-						
-						}
-						
-						coeffsRaw[windowCounter][0] += sum;
-						
-						coeffsRaw[windowCounter][1] += global[globalIndex];
-						
-						coeffsRaw[windowCounter][2] += sum * sum;
-						
-						coeffsRaw[windowCounter][3] += global[globalIndex] * global[globalIndex];
-						
-						coeffsRaw[windowCounter][4] += global[globalIndex] * sum;
-						
-						k = k + 7;
-						
-					 }
-						
-					else {
-
-						sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k], matrix.getRow(j)[k]);
-						
-						coeffsRaw[windowCounter][0] += sum;
-						
-						coeffsRaw[windowCounter][1] += global[globalIndex];
-						
-						coeffsRaw[windowCounter][2] += sum * sum;
-						
-						coeffsRaw[windowCounter][3] += global[globalIndex] * global[globalIndex];
-						
-						coeffsRaw[windowCounter][4] += global[globalIndex] * sum;
-						
-						k++;
-						
-						counter++;
-						 
-						 if (counter == 6) {
-							 
-							 counter = 0;
-							 
-						
-						}
-					 
-					 windowCounter++; 
-					  
-					 
-					 }
-					 
-				 }
-				 
-				 globalIndex++;
-				 
-				 windowCounter = 0;
-					 
-			 }
-				
-		}
-		
-		for (int n = 0; n < coeffsRaw.length; n++) {
-			
-			double numerator = coeffsRaw[n][4] - coeffsRaw[n][0] * coeffsRaw[n][1]/global.length;
-			
-			assert coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0]/(double)global.length > 0;
-			
-			assert coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1]/(double)global.length > 0;
-			
-			double denominator = Math.sqrt(coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0]/(double) global.length)  * Math.sqrt(coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1]/(double)global.length);
-			
-			coeffs[n] = numerator / denominator;
-			
-			}
-		
-		return coeffs;
-		
-	}
-	
-	
-	
-	/**
-	 * Values needed for calculating Pearson coefficients ar eindexed as follows
-	 * 0 = sum1Sq
-	 * 1 = sum2Sq
-	 * 2 = sumProduct
-	 * 
-	 * @param matrix
-	 * @return
-	 */
-
-				
-
-
-	static double[] calcPearsonCoeff2(AminoAcidMatrix matrix) {
-	
-	int[] global =  Correlation.globalSimilarity(matrix);
-	
-	int[][] coeffsRaw = new int[matrix.numberOfColumns()][5]; 
-	
-	double[] coeffs = new double[coeffsRaw.length];
-	
-	int globalIndex = 0;
-	
-	int sum = 0;
-	
-	int windowCounter = 0;
-	 
-	int counter = 0;
-	 
-	assert counter < 6;
-	
-	int[] winValues = new int[7];
-	
-	float[] mean1 = new float[global.length];
-	
-	float[] mean2 = new float[global.length];
-	
-	for (int i = 0; i < matrix.numberOfRows(); i++) {
-		
-		 for (int j = i + 1; j < matrix.numberOfRows(); j++ ) {
-			 
-			 for (int k = 0; k < matrix.numberOfColumns(); k++) {
-				 
-				  if (k == 0 || (k % 7 == 0 && k < matrix.numberOfColumns() - (matrix.numberOfColumns()%7))) {
-					 
-					sum = 0;
-					 
-					for (int l = 0; l < 7; l++) {
-						
-					winValues[l] = ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + l], matrix.getRow(j)[k + l]);	 
-					
-					sum += winValues[l];
-					
-					}
-					
-					if(i == 0 && j == 1) {
-						
-						mean1[windowCounter] = sum; 
-						
-						mean2[windowCounter] = global[globalIndex];
-					}
-					
-					else {
-						
-					float sweep = (globalIndex)/ (float) globalIndex;
-					
-					float delta1 = sum - mean1[windowCounter];
-					
-					float delta2 = sum - mean2[windowCounter];
-						
-					coeffsRaw[windowCounter][0] += delta1 * delta1 * sweep;
-					
-					coeffsRaw[windowCounter][1] += delta2 * delta2 * sweep;
-					
-					coeffsRaw[windowCounter][2] += delta1 * delta2 * sweep;
-					
-					mean1[windowCounter] += delta1 / (float) globalIndex;
-					
-					mean2[windowCounter] += delta2 / (float) globalIndex;
-					
-					}
-					
-					k = k + 6;
-					
-				 }
-					
-				else {
-					
-					sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k], matrix.getRow(j)[k]);
-					
-					if(i == 0 && j == 1) {
-						
-						mean1[windowCounter] = sum;
-						
-						mean2[windowCounter] = global[globalIndex];
-					}
-					
-					else {
-
-					float sweep = (globalIndex)/ (float) globalIndex;
-
-					float delta1 = sum - mean1[windowCounter];
-					
-					float delta2 = sum - mean2[windowCounter];
-						
-					coeffsRaw[windowCounter][0] += delta1 * delta1 * sweep;
-					
-					coeffsRaw[windowCounter][1] += delta2 * delta2 * sweep;
-					
-					coeffsRaw[windowCounter][2] += delta1 * delta2 * sweep;
-					
-					mean1[windowCounter] += delta1 / (float) globalIndex;
-					
-					mean2[windowCounter] += delta2 / (float) globalIndex;
-					
-					}
-					
-					counter++;
-					
-					if (counter == 6) {
-						 
-						 counter = 0;
-					
-					}
-				 
-				 windowCounter++; 
-				 
-				 
-					 
-				 }
-				 
-			 }
-			 
-			 globalIndex++;
-			 
-			 windowCounter = 0;
-				 
-		 }
-			
-	}
-	
-	for (int n = 0; n < coeffsRaw.length; n++) {
-		
-		float numerator = coeffsRaw[n][2]/ (float) global.length;
-		
-		assert coeffsRaw[n][0]/(float)global.length > 0;
-		
-		assert coeffsRaw[n][1]/(float)global.length > 0;
-		
-		double denominator = Math.sqrt(coeffsRaw[n][0]/(float) global.length)  * Math.sqrt(coeffsRaw[n][1]/(float)global.length);
-		
-		coeffs[n] = numerator / denominator;
-		
-		}
-	
-	return coeffs;
-	
-}
-			
-
-	
-		
-
-	static int[][] localSimilarity(AminoAcidMatrix matrix) {
-	
-		
-	int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%7)/ 7 + ((matrix.numberOfColumns() - matrix.numberOfColumns()%7)/ 7 - 1) * 6 + matrix.numberOfColumns()%7);
-	
-	int[][] localSim = new int[nrOfWindows][matrix.numberOfRows()*(matrix.numberOfRows() - 1)/ 2];
-		
-	int globalIndex = 0;
-	
-	int windowCounter = 0;
-	
-	int sum = 0;
-	
-	int counter = 0;
-	
-	boolean stat = true;
-	
-	int[] winValues = new int[7];
-	
-	for (int i = 0; i < matrix.numberOfRows(); i++) {
-		
-		 for (int j = i + 1; j < matrix.numberOfRows(); j++ ) {
-			 
-			 int k = 0;
-			 
-			 while (k < matrix.numberOfColumns()) {
-				 
-				  if ((k == 0 || (k % 7 == 0 && k < matrix.numberOfColumns() - (matrix.numberOfColumns()%7))) && stat == true) {
-					 
-					sum = 0;
-					
-					if ( k == 0) {
-						
-						for (int l = 0; l < 7; l++) {
-							
-							winValues[l] = ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + l], matrix.getRow(j)[k + l]);	 
-							
-							sum += winValues[l];
-							
-							}
-						
-					}
-					
-					else {
-					 
-						for (int l = 0; l < 7; l++) {
-						
-							winValues[l] = ConservationMatrices.BlosumPair2(matrix.getRow(i)[k - 7 + l], matrix.getRow(j)[k -7 + l]);	 
-					
-							sum += winValues[l];
-					
-						}
-						
-					}
-					
-					localSim[windowCounter][globalIndex] = sum;
-					
-					System.out.println(windowCounter + ":" + sum);
-					
-					k = k + 7;
-					
-					stat = false;
-					
-					windowCounter = windowCounter + 1;
-					
-				 }
-					
-				else {
-					
-					sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k], matrix.getRow(j)[k]);
-					
-					System.out.println(windowCounter + ":" + sum);
-					
-					assert windowCounter < nrOfWindows;
-					
-					assert globalIndex < matrix.numberOfRows() * (matrix.numberOfRows() - 1) / 2;
-					
-					localSim[windowCounter][globalIndex] = sum;
-					
-					counter++;
-					
-					if (counter == 6) {
-						 
-						 counter = 0;
-						 
-						 k++;
-						 
-					}
-			
-					k++;
-					
-					windowCounter = windowCounter + 1;
-			
-				}
-				 
-			 }
-			 
-			 globalIndex++;
-			 
-			 windowCounter = 0;
-				 
-		 }
-			
-		 
-	}
-	
-	return localSim;
-	
-}
-	
-	static double[] calcPearsonCoeff3(AminoAcidMatrix matrix, int width) {
-		
-		int[] global = Correlation.globalSimilarity(matrix);
-		
-		int[][] locals = Correlation.localSimilarity2(matrix, width);
+		int[][] locals = localSimilarity2();
 		
 		double[] coeffs = new double[locals.length];
 		
@@ -615,9 +155,15 @@ public class Correlation {
 	}
 	
 			
+	/**
+	 * Calculates correlation score for two vectors.
+	 * 
+	 * @param arr1 vector 1
+	 * @param arr2 vector 2
+	 * @return score
+	 */
 
-
-	static double pearson2(int[] arr1, int[] arr2){
+	public static double pearson2(int[] arr1, int[] arr2){
 		
 		assert arr1.length == arr2.length;
 	
@@ -663,310 +209,106 @@ public class Correlation {
 		
 	}
 	
+	/**
+	 * Calculates local similarity matrices for the alignment.
+	 * 
+	 * @return "D array with local similarity matrices
+	 */
 	
-	static int[][] localSimilarity2(AminoAcidMatrix matrix, int colWidth) {
+	private int[][] localSimilarity2() {
 		
 
-		if(matrix == null) {
+		if(alignment == null) {
 			
 			throw new IllegalArgumentException("Matrix must not be null");
 		}
 		
-		if (colWidth > matrix.numberOfColumns()) {
+		if (winWidth > alignment.numberOfColumns()) {
 			
 			throw new ColumnTooWideException("The width of the window is greater than the length of the allignment.");
 		}
 		
-		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth + ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth - 1)*(colWidth - 1) + matrix.numberOfColumns()%colWidth);
+		int nrOfWindows = ((alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth)/winWidth + ((alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth)/winWidth - 1)*(winWidth - 1) + alignment.numberOfColumns()%winWidth);
 
-		int [][] localSim = new int[nrOfWindows][matrix.numberOfRows()*(matrix.numberOfRows() - 1)/2];
+		int [][] localSim = new int[nrOfWindows][alignment.numberOfRows()*(alignment.numberOfRows() - 1)/2];
 
 		int sum = 0;
 
 		int globalIndex = 0;
-
-		int counter = 0;
-
-		int[] winValues = new int[colWidth];
-
-		for(int i = 0; i < matrix.numberOfRows(); i++) {
-			
-			char[] rowI = matrix.getRow(i);
-
-			for(int j = i + 1; j < matrix.numberOfRows(); j++) {
-				
-				char[] rowJ = matrix.getRow(j);
-
-					for (int k = 0; k < nrOfWindows; k++) {
-
-							if( (k == 0 || k%colWidth == 0) && k < matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth) {
-
-								counter = 0;
-
-								sum = 0;
-								
-								int colRange = (colWidth - 1) / 2;
-
-								int midColumn = k + colRange;
-								
-								int range = -colRange; 
-								
-								for (int d = 0; d < colWidth; d++) {
-									
-									int index = 24 * ConservationMatrices.getIndex(rowI[midColumn + range]) + ConservationMatrices.getIndex(rowJ[midColumn + range]);
-									
-									//int score = ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + range], matrix.getRow(j)[midColumn + range]);
-									
-									int score = ConservationMatrices.blosum2[index];
-									
-									winValues[d] = score;
-									
-									sum += score;
-									
-									range++;
-								}
-								
-								range = 0;
-
-								//int sum0 =	ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 3], matrix.getRow(j)[midColumn - 3]);
-
-								//int sum1 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 2], matrix.getRow(j)[midColumn - 2]);
-									
-								//int sum2 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 1], matrix.getRow(j)[midColumn - 1]);
-
-								//int sum3 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn], matrix.getRow(j)[midColumn]);
-
-								//int sum4 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 1], matrix.getRow(j)[midColumn + 1]);
-
-								//int sum5 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 2], matrix.getRow(j)[midColumn + 2]);
-
-								//int sum6 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 3], matrix.getRow(j)[midColumn + 3]);
-
-								//winValues[0] = sum0;
-
-								//winValues[1] = sum1;
-
-								//winValues[2] = sum2;
-
-								//winValues[3] = sum3;
-
-								//winValues[4] = sum4;
-
-								//winValues[5] = sum5;
-
-								//winValues[6] = sum6;
-
-								//sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
-
-								localSim[k][globalIndex] = sum;
-								
-								//System.out.println( k + ":" + globalIndex);
-
-							}
-
-							else {
-
-								sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + (colWidth - 1)], matrix.getRow(j)[k + (colWidth - 1)]);
-								
-								localSim[k][globalIndex] = sum;
-								
-								//System.out.println(k + ":" + globalIndex);
-								
-								counter++;
-
-							}
-
-					}
-				
-					globalIndex++;
-					
-			}
-
-		}
 		
+		int windowNr = 0;
+
+		for(int i = 0; i < alignment.numberOfRows(); i++) {
+			
+			char[] rowI = alignment.getRow(i);
+
+			for(int j = i + 1; j < alignment.numberOfRows(); j++) {
+				
+				char[] rowJ = alignment.getRow(j);
+				
+				windowNr = 0;
+				
+				sum = 0;
+				
+				for (int z = 0; z < winWidth; z++) {
+					
+					int index = 24 * ConservationMatrices.getIndex(rowI[z]) + ConservationMatrices.getIndex(rowJ[z]);
+					
+					int score = ConservationMatrices.blosum2[index];
+					
+					sum += score;
+					
+				}
+				
+				localSim[windowNr][globalIndex] = sum;
+				
+				windowNr++;
+
+				for (int k = winWidth; k < alignment.numberOfColumns(); k++) {
+						
+					int index1 = 24 * ConservationMatrices.getIndex(rowI[k]) + ConservationMatrices.getIndex(rowJ[k]);
+						
+					int index2 = 24 * ConservationMatrices.getIndex(rowI[k - winWidth]) + ConservationMatrices.getIndex(rowJ[k - winWidth]);
+						
+					sum = sum - ConservationMatrices.blosum2[index2] + ConservationMatrices.blosum2[index1];
+					
+					localSim[windowNr][globalIndex] = sum;
+					
+					windowNr++;
+					
+				}
+				
+				globalIndex++;
+
+			}
+				
+		}
+
 		return localSim;
 
 	}
 	
-	static double[] calcPearson3(AminoAcidMatrix matrix) {
-		
-		int[] global = Correlation.globalSimilarity(matrix);
-
-		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%7)/7 + ((matrix.numberOfColumns() - matrix.numberOfColumns()%7)/7 - 1)*6 + matrix.numberOfColumns()%7);
-
-		double [] coeffs = new double[nrOfWindows];
-
-		int sum = 0;
-
-		int globalIndex = 0;
-
-		int counter = 0;
-
-		int[] winValues = new int[7];
-		
-		float[][] coeffsRaw = new float[nrOfWindows][3];
-		
-		float[] mean1 = new float[nrOfWindows];
-		
-		float[] mean2 = new float[nrOfWindows];
-
-		for(int i = 0; i < matrix.numberOfRows(); i++) {
-
-			for(int j = i + 1; j < matrix.numberOfRows(); j++) {
-
-					for (int k = 0; k < nrOfWindows; k++) {
-
-							if( (k == 0 || k%7 == 0) && k < matrix.numberOfColumns() - matrix.numberOfColumns()%7) {
-
-								counter = 0;
-
-								sum = 0;
-
-								int midColumn = k + 3;
-
-								int sum0 =	ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 3], matrix.getRow(j)[midColumn - 3]);
-
-								int sum1 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 2], matrix.getRow(j)[midColumn - 2]);
-									
-								int sum2 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 1], matrix.getRow(j)[midColumn - 1]);
-
-								int sum3 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn], matrix.getRow(j)[midColumn]);
-
-								int sum4 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 1], matrix.getRow(j)[midColumn + 1]);
-
-								int sum5 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 2], matrix.getRow(j)[midColumn + 2]);
-
-								int sum6 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 3], matrix.getRow(j)[midColumn + 3]);
-
-								winValues[0] = sum0;
-
-								winValues[1] = sum1;
-
-								winValues[2] = sum2;
-
-								winValues[3] = sum3;
-
-								winValues[4] = sum4;
-
-								winValues[5] = sum5;
-
-								winValues[6] = sum6;
-
-								sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
-								
-								if(i == 0 && j == 1) {
-									
-									mean1[k] = sum; 
-									
-									mean2[k] = global[globalIndex];
-								}
-								
-								else {
-									
-								float sweep = (globalIndex)/ (float) globalIndex;
-								
-								float delta1 = sum - mean1[k];
-								
-								float delta2 = sum - mean2[k];
-									
-								coeffsRaw[k][0] += delta1 * delta1 * sweep;
-								
-								coeffsRaw[k][1] += delta2 * delta2 * sweep;
-								
-								coeffsRaw[k][2] += delta1 * delta2 * sweep;
-								
-								mean1[k] += delta1 / (float) globalIndex;
-								
-								mean2[k] += delta2 / (float) globalIndex;
-								
-								}
-								
-								
-								//System.out.println( k + ":" + globalIndex);
-
-							}
-
-							else {
-
-								sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + 6], matrix.getRow(j)[k + 6]);
-								
-								//System.out.println(k + ":" + globalIndex);
-								
-								counter++;
-								
-								if(i == 0 && j == 1) {
-									
-									mean1[k] = sum;
-									
-									mean2[k] = global[globalIndex];
-								}
-								
-								else {
-
-								float sweep = (globalIndex)/ (float) globalIndex;
-
-								float delta1 = sum - mean1[k];
-								
-								float delta2 = sum - mean2[k];
-									
-								coeffsRaw[k][0] += delta1 * delta1 * sweep;
-								
-								coeffsRaw[k][1] += delta2 * delta2 * sweep;
-								
-								coeffsRaw[k][2] += delta1 * delta2 * sweep;
-								
-								mean1[k] += delta1 / (float) globalIndex;
-								
-								mean2[k] += delta2 / (float) globalIndex;
-								
-								}
-								
-
-							}
-
-					}
-				
-					globalIndex++;
-					
-			}
-
-		}
-		
-		for (int n = 0; n < coeffsRaw.length; n++) {
-			
-			float numerator = coeffsRaw[n][2]/ (float) global.length;
-			
-			assert coeffsRaw[n][0]/(float)global.length > 0;
-			
-			assert coeffsRaw[n][1]/(float)global.length > 0;
-			
-			double denominator = Math.sqrt(coeffsRaw[n][0]/(float) global.length)  * Math.sqrt(coeffsRaw[n][1]/(float)global.length);
-			
-			coeffs[n] = numerator / denominator;
-			
-			}
-		
-		return coeffs;
-
-	}
+	/** 
+	 * Calculates pearson coefficient between global similarity matrix and local similarity matrices.
+	 * 
+	 * @return array of coefficients indexed by windows
+	 */
 	
-
-	
-	static double[] calcPearson4(AminoAcidMatrix matrix, int colWidth) {
+	 double[] calcPearson() {
 		
-		if(matrix == null) {
+		if(alignment == null) {
 			
 			throw new IllegalArgumentException("Matrix must not be null");
 		}
 		
-		if (colWidth > matrix.numberOfColumns()) {
+		if (winWidth > alignment.numberOfColumns()) {
 			
 			throw new ColumnTooWideException("The width of the window is greater than the length of the allignment.");
 		}
 		
-		int[] global = Correlation.globalSimilarity(matrix);
+		int[] global = globalSimilarity();
 
-		int nrOfWindows = ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth + ((matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth)/colWidth - 1)*(colWidth - 1) + matrix.numberOfColumns()%colWidth);
+		int nrOfWindows = ((alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth)/winWidth + ((alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth)/winWidth - 1)*(winWidth - 1) + alignment.numberOfColumns()%winWidth);
 
 		double [] coeffs = new double[nrOfWindows];
 
@@ -976,37 +318,35 @@ public class Correlation {
 
 		int counter = 0;
 
-		int[] winValues = new int[colWidth];
+		int[] winValues = new int[winWidth];
 		
 		float[][] coeffsRaw = new float[nrOfWindows][5];
 		
-		for(int i = 0; i < matrix.numberOfRows(); i++) {
+		for(int i = 0; i < alignment.numberOfRows(); i++) {
 			
-			char[] rowI = matrix.getRow(i);
+			char[] rowI = alignment.getRow(i);
 
-			for(int j = i + 1; j < matrix.numberOfRows(); j++) {
+			for(int j = i + 1; j < alignment.numberOfRows(); j++) {
 				
-				char[] rowJ = matrix.getRow(j);
+				char[] rowJ = alignment.getRow(j);
 
 					for (int k = 0; k < nrOfWindows; k++) {
 
-							if( (k == 0 || k%colWidth == 0) && k < matrix.numberOfColumns() - matrix.numberOfColumns()%colWidth) {
+							if( (k == 0 || k%winWidth == 0) && k < alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth) {
 
 								counter = 0;
 
 								sum = 0;
 								
-								int colRange = (colWidth - 1) / 2;
+								int colRange = (winWidth - 1) / 2;
 
 								int midColumn = k + colRange;
 								
 								int range = - colRange;
 								
-								for(int d = 0; d < colWidth; d++) {
+								for(int d = 0; d < winWidth; d++) {
 									
 									int index = 24 * ConservationMatrices.getIndex(rowI[midColumn + range]) + ConservationMatrices.getIndex(rowJ[midColumn + range]);
-									
-									//int score = ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + range], matrix.getRow(j)[midColumn + range]);
 									
 									int score = ConservationMatrices.blosum2[index];
 									
@@ -1020,36 +360,6 @@ public class Correlation {
 								
 								range = -colRange;
 
-								//int sum0 =	ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 3], matrix.getRow(j)[midColumn - 3]);
-
-								//int sum1 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 2], matrix.getRow(j)[midColumn - 2]);
-									
-								//int sum2 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn - 1], matrix.getRow(j)[midColumn - 1]);
-
-								//int sum3 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn], matrix.getRow(j)[midColumn]);
-
-								//int sum4 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 1], matrix.getRow(j)[midColumn + 1]);
-
-								//int sum5 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 2], matrix.getRow(j)[midColumn + 2]);
-
-								//int sum6 =  ConservationMatrices.BlosumPair2(matrix.getRow(i)[midColumn + 3], matrix.getRow(j)[midColumn + 3]);
-
-								//winValues[0] = sum0;
-
-								//winValues[1] = sum1;
-
-								//winValues[2] = sum2;
-
-								//winValues[3] = sum3;
-
-								//winValues[4] = sum4;
-
-								//winValues[5] = sum5;
-
-								//winValues[6] = sum6;
-
-								//sum = sum0 + sum1 + sum2 + sum3 + sum4 + sum5 + sum6;
-								
 								coeffsRaw[k][0] += sum;
 								
 								coeffsRaw[k][1] += global[globalIndex];
@@ -1059,15 +369,12 @@ public class Correlation {
 								coeffsRaw[k][3] += global[globalIndex] * global[globalIndex];
 								
 								coeffsRaw[k][4] += global[globalIndex] * sum;
-								
-								
-								//System.out.println( k + ":" + globalIndex);
 
 							}
 
 							else {
 
-								sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(matrix.getRow(i)[k + (colWidth - 1)], matrix.getRow(j)[k + (colWidth - 1)]);
+								sum = sum - winValues[counter] + ConservationMatrices.BlosumPair2(alignment.getRow(i)[k + (winWidth - 1)], alignment.getRow(j)[k + (winWidth - 1)]);
 								
 								coeffsRaw[k][0] += sum;
 								
@@ -1079,11 +386,7 @@ public class Correlation {
 								
 								coeffsRaw[k][4] += global[globalIndex] * sum;
 								
-								
-								//System.out.println(k + ":" + globalIndex);
-								
 								counter++;
-						
 							}
 
 					}
@@ -1113,7 +416,14 @@ public class Correlation {
 
 	}
 	
-	static double[] getCorrelationScore(AminoAcidMatrix alignment, Integer width, boolean normalize) {
+	 /**
+	  * Returns correlation score.
+	  * @param score
+	  * @param normalize
+	  * @return
+	  */
+	 
+	 double[] getCorrelationScore(SMERFSColumnScore score, boolean normalize) {
 		
 		if (alignment == null) {
 			
@@ -1123,33 +433,27 @@ public class Correlation {
 		
 		double[] results = null;
 		
-		assert width > 0;
-		
 		if (alignment.numberOfRows() < 500) {
 			
-			results = calcPearsonCoeff3(alignment, width); 
+			results = calcPearsonCoeff3(); 
 			
 		}
 		
 		else {
 			
-			results = calcPearson4(alignment, width);
+			results = calcPearson2();
 		}
 		
-		double[] columnResults = new double[alignment.numberOfColumns()];
+		double[] columnResults;
 		
-		int ends = (width - 1) / 2;
-		
-		for (int i = 0; i < ends; i ++) {
+		if (score == SMERFSColumnScore.MAX_SCORE) {
 			
-			columnResults[i] = results[0];
-			
-			columnResults[(columnResults.length - 1) - i] = results[results.length - 1];
+			columnResults = giveMaxToColumn(results);
 		}
 		
-		for (int i = 0; i < results.length; i++) {
+		else {
 			
-			columnResults[i + ends] = results[i];
+			columnResults = giveMidToColumn(results);
 		}
 		
 		if (normalize == true) {
@@ -1166,10 +470,311 @@ public class Correlation {
 		
 		
 	}
+	/**
+	 * Finds max within a part of an array, both begin and end delimeters are also considered.
+	 * @param scores array
+	 * @param begin
+	 * @param end
+	 * @return max
+	 */
+	double findMax(double[] scores, int begin, int end) {
+		
+		if (end < begin) {
+			
+			throw new IllegalArgumentException("End is smaller than the begin.");
+		}
+		
+		if (begin == end) {
+			
+			return scores[begin];
+			
+		}
+		
+		double max = scores[begin];
+		
+		for (int i = begin; i < end + 1; i++) {
+			
+			if(scores[i] > max) {
+				
+				max = scores[i];
+				
+			}
+		
+		}
+		
+		return max;
+	}
 	
+	/**
+	 * Gives a score to the column. The score given is the max score of all the windows it belongs to.
+	 * @param windowScores
+	 * @return
+	 */
+	
+	private double[] giveMaxToColumn(double[] windowScores) {
+		
+		double[] scores = new double[alignment.numberOfColumns()];
+		
+		for (int i = 0; i < winWidth - 1; i++) {
+			
+			scores[i] = findMax(windowScores, 0, i);
+		}
+		
+		for (int i = winWidth - 1; i < scores.length - (winWidth - 1); i++) {
+			
+			scores[i] = findMax(windowScores, i - (winWidth - 1), i);
+		}
+		
+		int begin = windowScores.length - 1 -(winWidth - 2);
+		
+		int end = windowScores.length - 1;
+		
+		for (int i = scores.length - (winWidth - 1); i < scores.length; i++) {
+			
+			scores[i] = findMax(windowScores, begin, end);
+			
+			begin++;
+			
+		}
+		
+		return scores;
+	}
+	
+	/**
+	 * Calculates local similarity matrices. 
+	 * @return 2D array indexed by window
+	 */
+	
+	int[][] localSimilarity() {
+		
+
+		if(alignment == null) {
+			
+			throw new IllegalArgumentException("Matrix must not be null");
+		}
+		
+		if (winWidth > alignment.numberOfColumns()) {
+			
+			throw new ColumnTooWideException("The width of the window is greater than the length of the allignment.");
+		}
+		
+		int nrOfWindows = ((alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth)/winWidth + ((alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth)/winWidth - 1)*(winWidth - 1) + alignment.numberOfColumns()%winWidth);
+
+		int [][] localSim = new int[nrOfWindows][alignment.numberOfRows()*(alignment.numberOfRows() - 1)/2];
+
+		int sum = 0;
+
+		int globalIndex = 0;
+
+		int counter = 0;
+
+		int[] winValues = new int[winWidth];
+
+		for(int i = 0; i < alignment.numberOfRows(); i++) {
+			
+			char[] rowI = alignment.getRow(i);
+
+			for(int j = i + 1; j < alignment.numberOfRows(); j++) {
+				
+				char[] rowJ = alignment.getRow(j);
+
+					for (int k = 0; k < nrOfWindows; k++) {
+
+							if( (k == 0 || k%winWidth == 0) && k < alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth) {
+
+								counter = 0;
+
+								sum = 0;
+								
+								int colRange = (winWidth - 1) / 2;
+
+								int midColumn = k + colRange;
+								
+								int range = -colRange; 
+								
+								for (int d = 0; d < winWidth; d++) {
+									
+									int index = 24 * ConservationMatrices.getIndex(rowI[midColumn + range]) + ConservationMatrices.getIndex(rowJ[midColumn + range]);
+									
+									int score = ConservationMatrices.blosum2[index];
+									
+									winValues[d] = score;
+									
+									sum += score;
+									
+									range++;
+								}
+								
+								range = 0;
+
+							}
+
+							else {
+								
+								int index = 24 * ConservationMatrices.getIndex(rowI[k + (winWidth - 1)]) + ConservationMatrices.getIndex(rowJ[k + (winWidth - 1)]);
+								
+								int score = ConservationMatrices.blosum2[index];
+								
+								sum = sum - winValues[counter] + score;
+								
+								localSim[k][globalIndex] = sum;
+								
+								counter++;
+
+							}
+
+					}
+				
+					globalIndex++;
+					
+			}
+
+		}
+	
+	return localSim;
+		
+	}
+	
+	/**
+	 * Calculates pearson coefficient for the alignment.
+	 * @return array of scores indexed by window
+	 * 
+	 */
+	private double[] calcPearson2() {
+		
+		if(alignment == null) {
+			
+			throw new IllegalArgumentException("Matrix must not be null");
+		}
+		
+		if (winWidth > alignment.numberOfColumns()) {
+			
+			throw new ColumnTooWideException("The width of the window is greater than the length of the allignment.");
+		}
+		
+		int[] global = globalSimilarity();
+
+		int nrOfWindows = ((alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth)/winWidth + ((alignment.numberOfColumns() - alignment.numberOfColumns()%winWidth)/winWidth - 1)*(winWidth - 1) + alignment.numberOfColumns()%winWidth);
+
+		double [] coeffs = new double[nrOfWindows];
+
+		int sum = 0;
+		
+		int windowNr = 0;
+
+		int globalIndex = 0;
+
+		float[][] coeffsRaw = new float[nrOfWindows][5];
+		
+		for(int i = 0; i < alignment.numberOfRows(); i++) {
+			
+			char[] rowI = alignment.getRow(i);
+
+			for(int j = i + 1; j < alignment.numberOfRows(); j++) {
+				
+				char[] rowJ = alignment.getRow(j);
+				
+				windowNr = 0;
+				
+				sum = 0;
+				
+				for (int z = 0; z < winWidth; z++) {
+					
+					int index = 24 * ConservationMatrices.getIndex(rowI[z]) + ConservationMatrices.getIndex(rowJ[z]);
+					
+					int score = ConservationMatrices.blosum2[index];
+					
+					sum += score;
+					
+				}
+				
+				coeffsRaw[windowNr][0] += sum;
+				
+				coeffsRaw[windowNr][1] += global[globalIndex];
+				
+				coeffsRaw[windowNr][2] += sum * sum;
+				
+				coeffsRaw[windowNr][3] += global[globalIndex] * global[globalIndex];
+				
+				coeffsRaw[windowNr][4] += global[globalIndex] * sum;
+				
+				windowNr++;
+
+				for (int k = winWidth; k < alignment.numberOfColumns(); k++) {
+						
+					int index1 = 24 * ConservationMatrices.getIndex(rowI[k]) + ConservationMatrices.getIndex(rowJ[k]);
+						
+					int index2 = 24 * ConservationMatrices.getIndex(rowI[k - winWidth]) + ConservationMatrices.getIndex(rowJ[k - winWidth]);
+						
+					sum = sum - ConservationMatrices.blosum2[index2] + ConservationMatrices.blosum2[index1];
+					
+					coeffsRaw[windowNr][0] += sum;
+					
+					coeffsRaw[windowNr][1] += global[globalIndex];
+					
+					coeffsRaw[windowNr][2] += sum * sum;
+					
+					coeffsRaw[windowNr][3] += global[globalIndex] * global[globalIndex];
+					
+					coeffsRaw[windowNr][4] += global[globalIndex] * sum;
+					
+					windowNr++;
+					
+				}
+				
+				globalIndex++;
+					
+			}
+
+		}
+		
+		for (int n = 0; n < coeffsRaw.length; n++) {
+			
+			double numerator = coeffsRaw[n][4] - coeffsRaw[n][0] * coeffsRaw[n][1]/global.length;
+			
+			assert coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0]/(double)global.length > 0;
+			
+			assert coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1]/(double)global.length > 0;
+			
+			double denominator = Math.sqrt(coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0]/(double) global.length)  * Math.sqrt(coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1]/(double)global.length);
+			
+			coeffs[n] = numerator / denominator;
+			
+			}
+		
+		return coeffs;
+
+		
+	}
+	
+	/**
+	 * Gives scores to columns. The middle column gets the window score
+	 * @param windowScores
+	 * @return
+	 */
+	
+	private double[] giveMidToColumn (double[] windowScores){
+		
+		double[] columnResults = new double[alignment.numberOfColumns()];
+		
+		int ends = (winWidth - 1) / 2;
+		
+		for (int i = 0; i < ends; i ++) {
+			
+			columnResults[i] = windowScores[0];
+			
+			columnResults[(columnResults.length - 1) - i] = windowScores[windowScores.length - 1];
+		}
+		
+		for (int i = 0; i < windowScores.length; i++) {
+			
+			columnResults[i + ends] = windowScores[i];
+		}
+		
+		return columnResults;
+	}
 	
 }
-
 	
 		
 	

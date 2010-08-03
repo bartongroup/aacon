@@ -8,7 +8,7 @@ import java.util.List;
 import compbio.util.FastaSequence;
 import compbio.util.SequenceUtil;
 
-public class SMERFSClient {
+public class _SMERFSClient {
 	
 //private final Map<Method, double[]> scores = new EnumMap<Method, double[]>(Method.class);
 	
@@ -159,7 +159,7 @@ public class SMERFSClient {
 	 * @param cmd command line arguments
 	 */
 	
-	SMERFSClient(String[] cmd) {
+	_SMERFSClient(String[] cmd) {
 
 		String inFilePath = getInputFilePath(cmd);
 
@@ -234,7 +234,9 @@ public class SMERFSClient {
 		
 		// FIXME set up a command line thing 
 		
-		double[] result = Correlation.getCorrelationScore(alignment, width, normalize);
+		Correlation corr = new Correlation(alignment, width);
+		
+		//double[] result = corr.getCorrelationScore(alignment, width, normalize);
 		
 		long endTime = System.currentTimeMillis();
 		
@@ -242,19 +244,19 @@ public class SMERFSClient {
 		
 		System.out.println("Operation took: " + execTime);
 		
-		correlationScores = result;
+		//correlationScores = result;
 		
 			if (outFilePath != null && format != null) {
 				
 				if(Format.getFormat(format) == Format.RESULT_WITH_ALIGNMENT) {
 			
-					ConservationFormatter.printResultWithAlignment(alignment, Smerfs.SMERFS, result, 20, 10, 3, outFilePath);
+		//			ConservationFormatter.printResultWithAlignment(alignment, Smerfs.SMERFS, result, 20, 10, 3, outFilePath);
 			
 				}
 				
 				else {
 					
-					ConservationFormatter.printResultNoAlignment(alignment, Smerfs.SMERFS, result, 3, outFilePath, false);
+		//			ConservationFormatter.printResultNoAlignment(alignment, Smerfs.SMERFS, result, 3, outFilePath, false);
 				}
 			
 			}
@@ -298,7 +300,7 @@ public class SMERFSClient {
 			System.out.println("If you want results printed, both format an input file path have to be provided");
 		}
 		
-		SMERFSClient smerfs = new SMERFSClient(args);
+		_SMERFSClient smerfs = new _SMERFSClient(args);
 	}
 
 

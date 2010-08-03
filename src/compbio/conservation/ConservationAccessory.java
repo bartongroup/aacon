@@ -3,7 +3,7 @@ package compbio.conservation;
 import java.util.*;
 import java.io.*;
 
-class ConservationAccessory {
+public class ConservationAccessory {
 
 	
 	/**
@@ -261,7 +261,7 @@ class ConservationAccessory {
 	 * @return array of normalized scores
 	 */
 	
-	static double[] normalize01(double[] scores) {
+	public static double[] normalize01(double[] scores) {
 		
 		double[] normalized = new double[scores.length];
 		

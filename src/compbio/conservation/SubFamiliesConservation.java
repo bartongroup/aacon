@@ -24,39 +24,39 @@ public class SubFamiliesConservation {
 	
 	static {
 		
-		treshholds.put(Method.ARMON_SCORE, 0.75);
+		treshholds.put(Method.ARMON, 0.75);
 		
-		treshholds.put(Method.GERSTEIN_SCORE, 0.75);
+		treshholds.put(Method.GERSTEIN, 0.75);
 		
-		treshholds.put(Method.JORES_SCORE, 0.75);
+		treshholds.put(Method.JORES, 0.75);
 		
-		treshholds.put(Method.KABAT_SCORE, 0.75);
+		treshholds.put(Method.KABAT, 0.75);
 		
-		treshholds.put(Method.KARLIN_SCORE, 0.75);
+		treshholds.put(Method.KARLIN, 0.75);
 		
-		treshholds.put(Method.LANDGRAF_SCORE, 0.75);
+		treshholds.put(Method.LANDGRAF, 0.75);
 		
-		treshholds.put(Method.MIRNY_SCORE, 0.75);
+		treshholds.put(Method.MIRNY, 0.75);
 		
-		treshholds.put(Method.NOT_LANCET_SCORE, 0.75);
+		treshholds.put(Method.NOT_LANCET, 0.75);
 		
-		treshholds.put(Method.SANDER_SCORE, 0.75);
+		treshholds.put(Method.SANDER, 0.75);
 		
-		treshholds.put(Method.SCHNEIDER_SCORE, 0.75);
+		treshholds.put(Method.SCHNEIDER, 0.75);
 		
-		treshholds.put(Method.SHENKIN_SCORE, 0.55);
+		treshholds.put(Method.SHENKIN, 0.55);
 		
-		treshholds.put(Method.TAYLOR_SCORE_GAPS, 0.75);
+		treshholds.put(Method.TAYLOR_GAPS, 0.75);
 		
-		treshholds.put(Method.TAYLOR_SCORE_NO_GAPS, 0.75);
+		treshholds.put(Method.TAYLOR_NO_GAPS, 0.75);
 		
-		treshholds.put(Method.THOMPSON_SCORE, 0.75);
+		treshholds.put(Method.THOMPSON, 0.75);
 		
-		treshholds.put(Method.VALDAR_SCORE, 0.75);
+		treshholds.put(Method.VALDAR, 0.75);
 		
-		treshholds.put(Method.WILLIAMSON_SCORE, 0.75);
+		treshholds.put(Method.WILLIAMSON, 0.75);
 		
-		treshholds.put(Method.ZVELIBIL_SCORE, 0.70);
+		treshholds.put(Method.ZVELIBIL, 0.70);
 		
 		
 		
@@ -348,13 +348,13 @@ public class SubFamiliesConservation {
 		
 		SubFamiliesConservation cons = new SubFamiliesConservation(matrix, groups);
 		
-		double[][] cons1 = cons.subgrupsConservation(Method.ZVELIBIL_SCORE, true);
+		double[][] cons1 = cons.subgrupsConservation(Method.ZVELIBIL, true);
 		
-		double[][][] cons2 = cons.subFamilyPairsConservation(Method.ZVELIBIL_SCORE, true);
+		double[][][] cons2 = cons.subFamilyPairsConservation(Method.ZVELIBIL, true);
 		
-		cons.subFamilyResults(cons1, Method.ZVELIBIL_SCORE);
+		cons.subFamilyResults(cons1, Method.ZVELIBIL);
 		
-		cons.subPairsResults(cons2, Method.ZVELIBIL_SCORE);
+		cons.subPairsResults(cons2, Method.ZVELIBIL);
 		
 		String fileName = "familyRespF6_ZVELIBIL_0.7.txt";
 		

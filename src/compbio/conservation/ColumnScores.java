@@ -207,12 +207,8 @@ public class ColumnScores {
 
 	    Character key = itr.next();
 	    
-	    System.out.println(key);
-	    
 	    int value = acidsInt.get(key);
 	    
-	    System.out.println(value);
-
 	    if (key != '-'
 		    && value > max) {
 

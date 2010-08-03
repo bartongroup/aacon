@@ -9,7 +9,7 @@ import java.util.*;
 import compbio.util.FastaSequence;
 import compbio.util.SequenceUtil;
 
-public class CorrelationWrapper {
+public class _CorrelationWrapper {
 	
 	static void printCoeffs(double[] coeffs, double[] coeffs2) {
 		
@@ -58,9 +58,9 @@ public class CorrelationWrapper {
 		
 		// FIXME the width should not be hard coded it will come form the command line
 		
-		double[] coeffs = Correlation.calcPearson4(matrix, 7);
+		//double[] coeffs = Correlation.calcPearson4(matrix, 7);
 		
-		double[] coeffs2 = Correlation.calcPearsonCoeff3(matrix, 7);
+		//double[] coeffs2 = Correlation.calcPearsonCoeff3(matrix, 7);
 		
 		//int[][] localSim = Correlation.localSimilarity2(matrix);
 		
@@ -70,7 +70,7 @@ public class CorrelationWrapper {
 		
 		//printCoeffs(localSim[0]);
 		
-		printCoeffs(coeffs, coeffs2);
+		//printCoeffs(coeffs, coeffs2);
 		
 		System.out.println(matrix.numberOfColumns());
 	}		

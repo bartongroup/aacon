@@ -24,7 +24,7 @@ import java.io.*;
  */
 
 
- class AminoAcidMatrix {
+ public class AminoAcidMatrix {
 	
 	/** 
 	 * Stores the matrix.
@@ -349,7 +349,7 @@ import java.io.*;
 	 * 
 	 */
 	
-	int numberOfColumns() {
+	public int numberOfColumns() {
 
 	int nrColumns = matrix[0].length;
 
@@ -860,7 +860,7 @@ import java.io.*;
   				
 				for(int i = 0 ; i < this.numberOfRows(); i++) {
 					
-					print.printf(tagFormat, sequenceNames[i]);
+					print.printf(tagFormat, ">" + sequenceNames[i]);
 					
 					for (int j = 0 ; j < this.getRow(i).length; j++) {
 						

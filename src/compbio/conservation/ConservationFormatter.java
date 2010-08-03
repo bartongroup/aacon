@@ -5,15 +5,13 @@ import java.io.*;
 
 public class ConservationFormatter {
 	
-	static <T> void formatResultWithHashSign(T tag,  double[] result, int resultPrecision, PrintWriter print) {
+	static <T> void formatResult(T tag,  double[] result, int resultPrecision, PrintWriter print) {
 		
 		String tagFormat = "%s";
 		
 		String resultFormat = "%." + resultPrecision + "f";
 		
-		print.printf(tagFormat, "# " + tag.toString());
-		
-		print.println();
+		print.printf(tagFormat, "#" + tag.toString());
 		
 		for (int i = 0; i < result.length; i++) {
 			
@@ -24,13 +22,13 @@ public class ConservationFormatter {
 		print.println();
 	}
 	
-	static <T> void formatResult(T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
+	static <T> void formatResultWithAlignment(T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
 		
 		String tagFormat = "%-" + tagWidth + "s";
 		
 		String resultFormat = "%-" + resultWidth + "." + resultPrecision + "f";
 		
-		print.printf(tagFormat, tag.toString());
+		print.printf(tagFormat, "#" + tag.toString());
 		
 		for (int i = 0; i < result.length; i++) {
 			
@@ -57,7 +55,7 @@ public class ConservationFormatter {
 			
 		}
 		
-		formatResult(tag, result,tagWidth, resultWidth, resultPrecision, print);
+		formatResultWithAlignment(tag, result, tagWidth, resultWidth, resultPrecision, print);
 		
 		print.close();
 		
@@ -79,7 +77,7 @@ public class ConservationFormatter {
 			
 		}
 		
-		formatResultWithHashSign(tag, result, resultPrecision, print);
+		formatResult(tag, result, resultPrecision, print);
 		
 		print.close();
 		
@@ -100,14 +98,14 @@ public class ConservationFormatter {
 		Iterator<Method> itr = scores.keySet().iterator();
 		
 		PrintWriter print = null;
-		
+
 		if (outFilePath == null) {
 			
 			while(itr.hasNext()) {
 				
 				Method key = itr.next();
 				
-				System.out.println("# " + key.toString());
+				System.out.print("#" + key.toString() + " ");
 				
 				ConservationAccessory.printArrayOfDouble(scores.get(key), print, precision);
 				
@@ -127,7 +125,7 @@ public class ConservationFormatter {
 						
 							Method key = itr.next();
 						
-							print.println("# " + key.toString());
+							print.println("#" + key.toString() + " ");
 						
 							ConservationAccessory.printArrayOfDouble(scores.get(key), print, precision);
 						
@@ -148,7 +146,7 @@ public class ConservationFormatter {
 									
 								Method key = itr.next();
 									
-								print.println("# " + key.toString());
+								print.println("#" + key.toString() + " ");
 									
 								ConservationAccessory.printArrayOfDouble(scores.get(key), print, precision);
 									
@@ -176,7 +174,7 @@ public class ConservationFormatter {
 									
 								Method key = itr.next();
 									
-								print.printf(tagFormat, "# " + key.toString());
+								print.printf(tagFormat, "#" + key.toString() + " ");
 									
 								ConservationAccessory.printArrayOfDoubleFieldWidth(scores.get(key), print, precision, fieldWidth);
 									

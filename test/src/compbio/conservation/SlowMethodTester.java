@@ -39,7 +39,7 @@ public class SlowMethodTester {
 	    System.out.println("Constructing conservation scores: "
 		    + timer.getStepTime());
 
-	    double[] result = scores.calculateScore(Method.SANDER_SCORE, true);
+	    double[] result = scores.calculateScore(Method.SANDER, true);
 	    System.out.println("Calculating sadler scores: "
 		    + timer.getStepTime());
 

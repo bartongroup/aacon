@@ -1,111 +1,117 @@
 package compbio.conservation;
 
-	enum Method { KABAT_SCORE, JORES_SCORE, SCHNEIDER_SCORE, SHENKIN_SCORE, GERSTEIN_SCORE, TAYLOR_SCORE_GAPS, TAYLOR_SCORE_NO_GAPS, ZVELIBIL_SCORE, KARLIN_SCORE, ARMON_SCORE, THOMPSON_SCORE, NOT_LANCET_SCORE, MIRNY_SCORE, WILLIAMSON_SCORE, LANDGRAF_SCORE, SANDER_SCORE, VALDAR_SCORE;
+	enum Method { KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, ZVELIBIL, KARLIN, ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON, LANDGRAF, SANDER, VALDAR, SMERFS;
 
 	static Method getMethod(String meth) {
 
 		meth = meth.trim().toLowerCase();
 
-		if(meth.equalsIgnoreCase(KABAT_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(KABAT.toString())) {
 	
-			return KABAT_SCORE;
+			return KABAT;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(JORES_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(JORES.toString())) {
 		
-			return JORES_SCORE;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(SCHNEIDER_SCORE.toString())) {
-		
-			return SCHNEIDER_SCORE;
+			return JORES;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(SHENKIN_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(SCHNEIDER.toString())) {
 		
-			return SHENKIN_SCORE;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(GERSTEIN_SCORE.toString())) {
-		
-			return GERSTEIN_SCORE;
+			return SCHNEIDER;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(TAYLOR_SCORE_GAPS.toString())) {
+		if(meth.equalsIgnoreCase(SHENKIN.toString())) {
 		
-			return TAYLOR_SCORE_GAPS;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(TAYLOR_SCORE_NO_GAPS.toString())) {
-		
-			return TAYLOR_SCORE_NO_GAPS;
+			return SHENKIN;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(ZVELIBIL_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(GERSTEIN.toString())) {
 		
-		return ZVELIBIL_SCORE;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(KARLIN_SCORE.toString())) {
-		
-			return KARLIN_SCORE;
+			return GERSTEIN;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(ARMON_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(TAYLOR_GAPS.toString())) {
 		
-			return ARMON_SCORE;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(THOMPSON_SCORE.toString())) {
-		
-			return THOMPSON_SCORE;
+			return TAYLOR_GAPS;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(NOT_LANCET_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(TAYLOR_NO_GAPS.toString())) {
 		
-			return NOT_LANCET_SCORE;
+			return TAYLOR_NO_GAPS;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(MIRNY_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(ZVELIBIL.toString())) {
 		
-			return MIRNY_SCORE;
+		return ZVELIBIL;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(KARLIN.toString())) {
+		
+			return KARLIN;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(ARMON.toString())) {
+		
+			return ARMON;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(THOMPSON.toString())) {
+		
+			return THOMPSON;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(NOT_LANCET.toString())) {
+		
+			return NOT_LANCET;
+		
+		}
+	
+		if(meth.equalsIgnoreCase(MIRNY.toString())) {
+		
+			return MIRNY;
 		
 		}
 		
-		if(meth.equalsIgnoreCase(WILLIAMSON_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(WILLIAMSON.toString())) {
 			
-			return WILLIAMSON_SCORE;
+			return WILLIAMSON;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(LANDGRAF_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(LANDGRAF.toString())) {
 		
-			return LANDGRAF_SCORE;
-		
-		}
-	
-		if(meth.equalsIgnoreCase(SANDER_SCORE.toString())) {
-		
-			return SANDER_SCORE;
+			return LANDGRAF;
 		
 		}
 	
-		if(meth.equalsIgnoreCase(VALDAR_SCORE.toString())) {
+		if(meth.equalsIgnoreCase(SANDER.toString())) {
 		
-			return VALDAR_SCORE;
+			return SANDER;
 		
+		}
+	
+		if(meth.equalsIgnoreCase(VALDAR.toString())) {
+		
+			return VALDAR;
+		
+		}
+		
+		if(meth.equalsIgnoreCase(SMERFS.toString())) {
+			
+			return SMERFS;
+			
 		}
 		
 	return null;

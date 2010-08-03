@@ -23,6 +23,8 @@ class ConservationClient {
 	
 	final static String outputKey = "-o";
 	
+	final static String SMERFSDetailsKey = "-s";
+	
 	/**
 	 * Gets method name from the command line
 	 * 
@@ -37,6 +39,29 @@ class ConservationClient {
 			String meths = cmd[i];
 			
 			if(meths.trim().toLowerCase().startsWith(methodKey + pseparator)) {
+				
+				return meths.substring(meths.indexOf(pseparator) + 1).split(",");
+			}
+		}
+		
+		return null;
+		
+	}
+	
+	/**
+	 * Gets method name from the command line
+	 * 
+	 * @param cmd array of cmd arguments
+	 * @return method name or null if no method name provided
+	 */
+	
+	private static String[] getSMERFSDetails(String[] cmd) {
+		
+		for (int i = 0; i < cmd.length; i++) {
+			
+			String meths = cmd[i];
+			
+			if(meths.trim().toLowerCase().startsWith(SMERFSDetailsKey + pseparator)) {
 				
 				return meths.substring(meths.indexOf(pseparator) + 1).split(",");
 			}
@@ -139,7 +164,7 @@ class ConservationClient {
 	// formats not yet decided
 	
 	/**
-	 * Returns the results of method calculation.
+	 * Returns the results of method calculation or null if method not supported.
 	 */
 	
 	private static double[] getMethod(String method, ConservationScores2 scores, boolean normalize) {
@@ -164,12 +189,64 @@ class ConservationClient {
 		}
 		
 	}
+	
+	/**
+	 * Returns results of SMERFS calculation or null, if parameters provided are not appropriate. 
+	 * @param alignment reference to alignment 
+	 * @param width with of the window
+	 * @param score tells which score given to the column, either the highest score of all the windows it belongs to, or the middle column is given the score of the window. 
+	 * @param normalize if true results will be normalized
+	 * @return
+	 */
+	
+	public static double[] getSMERFS(AminoAcidMatrix alignment, int width, SMERFSColumnScore score, boolean normalize){
+		
+		if(alignment == null) {
+			
+			throw new IllegalArgumentException("Matrix must not be null.");
+		}
+		
+		double[] result = null;
+		
+		if (width <= 0 || width%2 != 1) {
+			
+			System.out.println("Column width for SMERFS smaller or equal zero or not an odd number.");
+			
+			return result;
+		}
+		
+		if (width > alignment.numberOfColumns()) {
+			
+			System.out.println("Column width greater than the length of the alignment");
+			
+			return result;
+		}
+		
+		if (score == null) {
+			
+			System.out.println("Column score type not supported.");
+			
+			SMERFSColumnScore.supportedSMERFSColumnSores();
+			
+			return result;
+		}
+		
+		Correlation corr = new Correlation(alignment, width);
+		
+		result = corr.getCorrelationScore(score, normalize);
+		
+		return result;
+	}
 	/**
 	 * Constructor
 	 * @param cmd command line arguments
 	 */
 	
 	ConservationClient(String[] cmd) {
+		
+		int SMERFSWidth = 7;
+		
+		SMERFSColumnScore score = SMERFSColumnScore.MID_SCORE;
 		
 		String[] methods = getMethodNames(cmd);
 		
@@ -216,7 +293,29 @@ class ConservationClient {
 		
 		if (outFilePath == null && format == null) {
 			
-			System.out.println("Output file path and format not provided. Results will be printed to the command window.");
+			System.out.println("Output file path and format not provided.");
+			
+		}
+		
+		String[] SMERFSDetails = getSMERFSDetails(cmd);
+		
+		
+		if (SMERFSDetails != null) {
+			
+			if (SMERFSDetails.length == 2) {
+			
+			SMERFSWidth = Integer.parseInt(SMERFSDetails[0]);
+			
+			score = SMERFSColumnScore.getSMERFSColumnScore(SMERFSDetails[1]);
+			
+			}
+			
+			else {
+				
+				SMERFSWidth = -1;
+				
+				score = null;
+			}
 			
 		}
 		
@@ -237,8 +336,17 @@ class ConservationClient {
 				double[] result = null;
 		
 				for (int i = 0; i < methods.length; i++) {
+					
+					if (Method.getMethod(methods[i]) == Method.SMERFS) {
+						
+						result = getSMERFS(alignment, SMERFSWidth, score, normalize);
+					}
+					
+					else {
 			
-					result = getMethod(methods[i], scores, normalize);
+						result = getMethod(methods[i], scores, normalize);
+						
+					}
 			
 					if(result != null) {
 						

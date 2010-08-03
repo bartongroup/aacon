@@ -17,7 +17,7 @@ public class ConservationScores2 {
 
 double[] calculateScore(Method method, boolean normalize) {
 		
-		if (method == Method.KABAT_SCORE) {
+		if (method == Method.KABAT) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -43,7 +43,7 @@ double[] calculateScore(Method method, boolean normalize) {
 		
 		}
 	
-		if (method == Method.JORES_SCORE) {
+		if (method == Method.JORES) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -69,7 +69,7 @@ double[] calculateScore(Method method, boolean normalize) {
 		
 		}
 		
-		if (method == Method.SCHNEIDER_SCORE) {
+		if (method == Method.SCHNEIDER) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -95,7 +95,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.SHENKIN_SCORE) {
+		if (method == Method.SHENKIN) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -121,7 +121,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.GERSTEIN_SCORE) {
+		if (method == Method.GERSTEIN) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -147,7 +147,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.TAYLOR_SCORE_GAPS) {
+		if (method == Method.TAYLOR_GAPS) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -173,7 +173,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.TAYLOR_SCORE_NO_GAPS) {
+		if (method == Method.TAYLOR_NO_GAPS) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -199,7 +199,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.ZVELIBIL_SCORE) {
+		if (method == Method.ZVELIBIL) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -225,7 +225,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.ZVELIBIL_SCORE) {
+		if (method == Method.ZVELIBIL) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -251,7 +251,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.KARLIN_SCORE) {
+		if (method == Method.KARLIN) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -277,7 +277,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.ARMON_SCORE) {
+		if (method == Method.ARMON) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -303,7 +303,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.THOMPSON_SCORE) {
+		if (method == Method.THOMPSON) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -329,7 +329,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.NOT_LANCET_SCORE) {
+		if (method == Method.NOT_LANCET) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -355,7 +355,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.MIRNY_SCORE) {
+		if (method == Method.MIRNY) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -381,7 +381,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.WILLIAMSON_SCORE) {
+		if (method == Method.WILLIAMSON) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -407,7 +407,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.LANDGRAF_SCORE) {
+		if (method == Method.LANDGRAF) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -433,7 +433,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.SANDER_SCORE) {
+		if (method == Method.SANDER) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
@@ -459,7 +459,7 @@ double[] calculateScore(Method method, boolean normalize) {
 			
 		}
 		
-		if (method == Method.VALDAR_SCORE) {
+		if (method == Method.VALDAR) {
 			
 			double[] result = new double[alignment.numberOfColumns()];
 			
