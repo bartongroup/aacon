@@ -1240,7 +1240,7 @@ public class ColumnScores {
 	double moderator = 0.0;
 
 	double result = 0.0;
-	char[][] inverseMatrix = matrix.getInverseMatrix();
+	//char[][] inverseMatrix = matrix.getInverseMatrix();
 	char[] curColumn = matrix.getInverseMatrix()[colNr];
 	double[][] percent_identity = matrix.getPercentIdentity();
 

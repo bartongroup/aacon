@@ -125,7 +125,7 @@ public class ConservationFormatter {
 						
 							Method key = itr.next();
 						
-							print.println("#" + key.toString() + " ");
+							print.print("#" + key.toString() + " ");
 						
 							ConservationAccessory.printArrayOfDouble(scores.get(key), print, precision);
 						
@@ -146,7 +146,7 @@ public class ConservationFormatter {
 									
 								Method key = itr.next();
 									
-								print.println("#" + key.toString() + " ");
+								print.print("#" + key.toString() + " ");
 									
 								ConservationAccessory.printArrayOfDouble(scores.get(key), print, precision);
 									
@@ -169,6 +169,8 @@ public class ConservationFormatter {
 						alignment.printAlignment(tagWidth, fieldWidth, outFilePath);
 						
 						if (print != null) {
+							
+							print.println();
 								
 							while(itr.hasNext()) {
 									

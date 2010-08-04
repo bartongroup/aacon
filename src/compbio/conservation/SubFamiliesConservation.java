@@ -10,7 +10,11 @@ public class SubFamiliesConservation {
 	
 	final List<char[][]> subGroups;
 	
+	final AminoAcidMatrix alignment; 
+	
 	SubFamiliesConservation(AminoAcidMatrix alignment, int[][] groups) {
+		
+		this.alignment = alignment;
 		
 		subGroups = alignment.splitAlignment(groups);
 		
@@ -19,6 +23,10 @@ public class SubFamiliesConservation {
 	ConservationStatus[][] groupsConsStat;
 	
 	ConservationStatus[][][] groupPairsConsStat;
+	
+	String [][] groupsProperties;
+	
+	String [][][] groupPairsProperties;
 	
 	private static Map<Method, Double> treshholds = new EnumMap<Method, Double>(Method.class);
 	
@@ -137,6 +145,8 @@ public class SubFamiliesConservation {
 		
 		double[][] conservation = new double[subGroups.size()][subGroups.get(0)[0].length];
 		
+		groupsProperties = new String[subGroups.size()][subGroups.get(0)[0].length];
+		
 		ConservationScores2 scores = null;
 		
 		AminoAcidMatrix sub = null;
@@ -151,11 +161,62 @@ public class SubFamiliesConservation {
 			
 			conservation[i] = scores.calculateScore(method, normalize);
 			
+			groupsProperties[i] = zvelibilPropertiesAlignment(sub);
+			
 		}
 		
 		return conservation;
 		
 	}
+	
+	ColumnInfo[][] subgrupsConservation2(Method method, boolean normalize) {
+		
+		if (method == null) {
+			
+			throw new IllegalArgumentException("Method must not be null.");
+		}
+		
+		if (subGroups == null) {
+			
+			throw new IllegalArgumentException("List of subgroups/subclasses must not be null.");
+			
+		}
+		
+		ColumnInfo[][] columns = new ColumnInfo[this.alignment.numberOfColumns()][subGroups.size()];
+		
+		//double[][] conservation = new double[subGroups.size()][subGroups.get(0)[0].length];
+		
+		//groupsProperties = new String[subGroups.size()][subGroups.get(0)[0].length];
+		
+		ConservationScores2 scores = null;
+		
+		AminoAcidMatrix sub = null;
+		
+		String[] names = null;
+		
+		for ( int i = 0; i < subGroups.size(); i++) {
+			
+			sub = new AminoAcidMatrix(subGroups.get(i),names );
+			
+			scores = new ConservationScores2(sub);
+			
+			double[] conservation = scores.calculateScore(method, normalize);
+			
+			String[] prop = zvelibilPropertiesAlignment(sub);
+			
+			for ( int j = 0; j < columns.length; j++) {
+				
+				String group = i + "";
+				
+				columns[j][i] = new ColumnInfo(group, conservation[j], prop[j]);
+			}
+			
+		}
+		
+		return columns;
+		
+	}
+	
 	
 	/**
 	 * Matrix that stores newly formed subfamily pairs.
@@ -182,9 +243,13 @@ public class SubFamiliesConservation {
 			
 			pairs = new char[i][startLength][][]; 
 			
-			for (int j = 0; j < startLength; j++) {
+			int index = 0;
+			
+			for (int j = i + 1; j < this.subGroups.size(); j++) {
 				
-				pairs[i][j] = mergeSubFamilies(subGroups.get(i), subGroups.get(j));
+				pairs[i][index] = mergeSubFamilies(subGroups.get(i), subGroups.get(j));
+				
+				index++;
 			}
 			
 			startLength--;
@@ -211,6 +276,9 @@ public class SubFamiliesConservation {
 		
 		double[][][] pairs = new double[subGroups.size()][][];
 		
+		groupPairsProperties = new String[subGroups.size()][][];
+		
+		
 		ConservationScores2 scores = null;
 		
 		String[] names = null;
@@ -223,13 +291,21 @@ public class SubFamiliesConservation {
 			
 			pairs[i] = new double[startLength][]; 
 			
-			for (int j = 0; j < startLength; j++) {
+			groupPairsProperties[i] = new String[startLength][];
+			
+			int index = 0;
+			
+			for (int j = i + 1; j < this.subGroups.size(); j++) {
 				
 				merged = mergeSubFamilies(subGroups.get(i), subGroups.get(j));
 				
-				scores = new ConservationScores2(new AminoAcidMatrix(merged, names));
+				AminoAcidMatrix mat = new AminoAcidMatrix(merged, names);
+				
+				scores = new ConservationScores2(mat);
 
-				pairs[i][j] = scores.calculateScore(method, normalize);
+				pairs[i][index] = scores.calculateScore(method, normalize);
+				
+				groupPairsProperties[i][index] = zvelibilPropertiesAlignment(mat);
 				
 			}
 			
@@ -238,6 +314,72 @@ public class SubFamiliesConservation {
 		
 		return pairs;
 	}
+	
+	ColumnInfo[][] subFamilyPairsConservation2(Method method, boolean normalize) {
+		
+		if (subGroups == null) {
+			
+			throw new IllegalArgumentException("SubGroups list must not be null");
+		}
+		
+		//double[][][] pairs = new double[subGroups.size()][][];
+		
+		//groupPairsProperties = new String[subGroups.size()][][];
+		
+		
+		ConservationScores2 scores = null;
+		
+		String[] names = null;
+		
+		char[][] merged = null;
+		
+		int index = 0;
+		
+		ColumnInfo[][] info = new ColumnInfo[this.alignment.numberOfColumns()][this.subGroups.size() * (this.subGroups.size() - 1) / 2];
+		
+		//int startLength = subGroups.size() - 1;
+		
+		for (int i = 0; i < subGroups.size(); i++) {
+			
+			//pairs[i] = new double[startLength][]; 
+			
+			//groupPairsProperties[i] = new String[startLength][];
+			
+			//int index = 0;
+			
+			for (int j = i + 1; j < this.subGroups.size(); j++) {
+				
+				merged = mergeSubFamilies(subGroups.get(i), subGroups.get(j));
+				
+				AminoAcidMatrix mat = new AminoAcidMatrix(merged, names);
+				
+				scores = new ConservationScores2(mat);
+
+				//pairs[i][index] = scores.calculateScore(method, normalize);
+				
+				//groupPairsProperties[i][index] = zvelibilPropertiesAlignment(mat);
+				
+				double[] score = scores.calculateScore(method, normalize);
+				
+				String[] props = zvelibilPropertiesAlignment(mat);
+				
+				for (int a = 0; a < score.length; a++) {
+					
+					String group = i + "-" + j;
+					
+					info[a][index] = new ColumnInfo(group, score[a], props[a]);
+				}
+				
+				index++;
+				
+			}
+			
+			//startLength--;
+		}
+		
+		return info;
+	}
+	
 	
 	void subFamilyResults(double[][] subResults, Method method) {
 		
@@ -348,15 +490,15 @@ public class SubFamiliesConservation {
 		
 		SubFamiliesConservation cons = new SubFamiliesConservation(matrix, groups);
 		
-		double[][] cons1 = cons.subgrupsConservation(Method.ZVELIBIL, true);
+		ColumnInfo[][] cons1 = cons.subgrupsConservation2(Method.ZVELIBIL, true);
 		
-		double[][][] cons2 = cons.subFamilyPairsConservation(Method.ZVELIBIL, true);
+		ColumnInfo[][] cons2 = cons.subFamilyPairsConservation2(Method.ZVELIBIL, true);
 		
-		cons.subFamilyResults(cons1, Method.ZVELIBIL);
+		//cons.subFamilyResults(cons1, Method.ZVELIBIL);
 		
-		cons.subPairsResults(cons2, Method.ZVELIBIL);
+		//cons.subPairsResults(cons2, Method.ZVELIBIL);
 		
-		String fileName = "familyRespF6_ZVELIBIL_0.7.txt";
+		String fileName = "familyRespF6_ZVELIBIL_0.7_new.txt";
 		
 		PrintWriter print = null;
 		
@@ -371,8 +513,68 @@ public class SubFamiliesConservation {
 			
 		}
 		
-		cons.printResults(print);
+		for (int i = 0; i < cons1.length; i++) {
+			
+			for (int j = 0; j < cons1[i].length; j++) {
+				
+				cons1[i][j].printInfo(Method.ZVELIBIL, print);
+			}
+				
+			for (int j = 0; j < cons2[i].length; j++) {
+					
+					cons2[i][j].printInfo(Method.ZVELIBIL, print);
+			}
+			
+		}
+		
 		
 		print.close();
 	}
+	
+	String zvelibilProperties (AminoAcidMatrix matrix, int colNr) {
+		
+		String properties = "";
+		
+		Map<String, HashSet<Character>> setMap = ConservationSets
+		.zvelibilSets();
+
+		Set<String> keys = setMap.keySet();
+
+		Iterator<String> itr = keys.iterator();
+
+		while (itr.hasNext()) {
+			
+			String  key = itr.next();
+
+			if (setMap.get(key).containsAll(
+		    matrix.getTotalAcidsFreqByCol().get(colNr).keySet())) {
+				
+				if (key.contains("Compl") != true) {
+
+				properties += key + " ";
+				
+				}
+				
+			}
+		
+		}
+		
+		return properties;
+		
+	}
+	
+	String[] zvelibilPropertiesAlignment(AminoAcidMatrix matrix) {
+		
+		String[] properties = new String[matrix.numberOfColumns()];
+		
+		for (int i = 0; i < matrix.numberOfColumns(); i++) {
+			
+			properties[i] = zvelibilProperties(matrix, i);
+			
+		}
+		
+		return properties;
+		
+	}
+
 }

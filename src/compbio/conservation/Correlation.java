@@ -149,6 +149,7 @@ public class Correlation {
 		for (int i = 0; i < locals.length; i++) {
 			
 			coeffs[i] = Correlation.pearson2(locals[i], global);
+			
 		}
 		
 		return coeffs;
@@ -157,7 +158,7 @@ public class Correlation {
 			
 	/**
 	 * Calculates correlation score for two vectors.
-	 * 
+	 * If one of the vectors consists of single value only the correlation value is 0.
 	 * @param arr1 vector 1
 	 * @param arr2 vector 2
 	 * @return score
@@ -173,27 +174,28 @@ public class Correlation {
 		
 		for (int i = 0; i < arr1.length; i++) {
 			
+			
 			arr1Sum += arr1[i];
 			
 			arr2Sum += arr2[i];
 			
 		}
 		
-		float arr1Ave = (float) arr1Sum / arr1.length;
+		double arr1Ave = (double) arr1Sum / arr1.length;
 		
-		float arr2Ave = (float) arr2Sum / arr2.length;
+		double arr2Ave = (double) arr2Sum / arr2.length;
 		
-		float sumProduct = 0;
+		double sumProduct = 0;
 		
-		float a1Sum = 0;
+		double a1Sum = 0;
 		
-		float a2Sum = 0;
+		double a2Sum = 0;
 		
 		for (int i = 0; i < arr1.length; i++) {
 			
-			float s1 = arr1[i] - arr1Ave;
+			double s1 = arr1[i] - arr1Ave;
 			
-			float s2 = arr2[i] - arr2Ave;
+			double s2 = arr2[i] - arr2Ave;
 			
 			sumProduct += s1 * s2;
 			
@@ -202,6 +204,13 @@ public class Correlation {
 			a2Sum += s2 * s2;
 			
 		}
+		
+		if(a1Sum == 0 || a2Sum == 0) {
+			
+			return 0;
+		}
+		
+		assert Math.sqrt(a1Sum) * Math.sqrt(a2Sum) != 0;
 		
 		double result = sumProduct / (Math.sqrt(a1Sum) * Math.sqrt(a2Sum));
 		

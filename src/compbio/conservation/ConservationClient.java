@@ -468,311 +468,113 @@ class ConservationClient {
 	
 		}
 		
-		static Map<Method, double[]> readScores (InputStream inStream) throws IOException {
+		/**
+		 * Reads printed results from the file. 
+		 * 
+		 * @param inStream input stream
+		 * @return map mapping a map of results(with method names as keys and result arrays as values) to the list of FASTA sequences that constitute the alignment.
+		 * @throws IOException
+		 */
+		static Map<Map<Method, double[]>, List<FastaSequence>> readFile (InputStream inStream) throws IOException {
 			
+			Map<Map<Method, double[]>, List<FastaSequence>> result = new HashMap<Map<Method, double[]>, List<FastaSequence>>();
 			
 			Map<Method, double[]> resultMap = new EnumMap<Method, double[]>(Method.class);
 			
 			BufferedReader inResults = new BufferedReader(new InputStreamReader(inStream));
+			
+			List<FastaSequence> seqList = new ArrayList<FastaSequence>();
+			
+			Pattern pattern = Pattern.compile("\\s+");
 			
 			String line;
 			
-			String resultsString = null;
+			String lineString = null;
 			
-			String name = "";
+			//line = inResults.readLine();
 			
-			boolean begin = false;
+			line = inResults.readLine();
 			
 			do {
 				
 				line = inResults.readLine();
 				
-				if (line.startsWith("#") && begin == false) {
-					
-					begin = true;
-					
-				}
+				//System.out.println(line);
 				
-				if(begin == true) {
-				
-					if (line ==  null || line.startsWith("#")) {
+				if (line == null || line.startsWith("#") || line.startsWith(">")) {
+					
+					if (lineString != null) {
 						
-						if(resultsString != null) {
+						if(lineString.startsWith("#")) {
 							
-							String[] results = resultsString.split(" ");
+							parseResults(lineString, resultMap, pattern);
 							
-							double[] resultsNum = new double[results.length];
+						}
+						
+						if(lineString.startsWith(">")) {
 							
-							for (int i = 0; i < resultsNum.length; i++) {
-								
-								resultsNum[i] = Double.parseDouble(results[i].trim());
-							}
-							
-							resultMap.put(Method.getMethod(name), resultsNum);
-							
-							name = line.substring(1).trim();
-							
-							resultsString = "";
+							parseSequences(lineString, seqList, pattern);
 							
 						}
 						
 					}
 					
-					else {
-						
-						resultsString += line;
-					}
+					lineString = line;
+					
 				}
-				
+						
 				else {
-					
-					
+						
+					lineString += line;
+						
 				}
-				
-			} while (line != null);
+					
+				} while (line != null);
 			
-				inResults.close();
-				
-				return resultMap;
+			result.put(resultMap, seqList);
+			
+			return result;
+			
 		}
 		
-		static List<Object> readScores2 (InputStream inStream) throws IOException {
+		static void parseResults (String resultStr, Map<Method, double[]> resultMap, Pattern pattern) {
 			
+			String resultStrTemp = pattern.matcher(resultStr.trim()).replaceAll(" ");
 			
-			Map<Method, double[]> resultMap = new EnumMap<Method, double[]>(Method.class);
+			String[] results = resultStrTemp.split(" ");
 			
-			BufferedReader inResults = new BufferedReader(new InputStreamReader(inStream));
+			String name = results[0].substring(1);
 			
-			List<String> seqNames = new ArrayList<String>();
-			
-			List<char[]> seqList = new ArrayList<char[]>();
-			
-			Pattern pattern = Pattern.compile("//s+");
-			
-			String line;
-			
-			String resultsString = null;
-			
-			String seqString = null;
-			
-			boolean beginResults = false;
-			
-			do {
-				
-				line = inResults.readLine();
-				
-				if (line.startsWith("#") && beginResults == false) {
-					
-					beginResults = true;
-					
-				}
-				
-				if(beginResults == true) {
-				
-					if (line ==  null || line.startsWith("#")) {
-						
-						if(resultsString != null) {
-							
-							String[] results = resultsString.split(" ");
-							
-							String name = results[0].trim().substring(1); 
-							
-							double[] resultsNum = new double[results.length - 1];
-							
-							for (int i = 0; i < resultsNum.length; i++) {
-								
-								resultsNum[i] = Double.parseDouble(results[i + 1].trim());
-							}
-							
-							resultMap.put(Method.getMethod(name), resultsNum);
-							
-							name = line.substring(1).trim();
-						
-						}
-						
-						resultsString = line;
-						
-					}
-					
-					else {
-						
-						resultsString += line;
-					}
-				}
-				
-				else {
-					
-					if (line ==  null || line.startsWith(">")) {
-						
-						if(resultsString != null) {
-							
-							StringTokenizer tokens = new StringTokenizer(resultsString, " ");
-							
-							String name = tokens.nextToken().trim();
-							
-							Pattern pattern2 = Pattern.compile(name);
-							
-							String seqStringMod = pattern2.matcher(seqString).replaceFirst("");
-							
-							String seqStringMod2 = pattern.matcher(seqStringMod).replaceAll("");
-							
-							char[] seq = seqStringMod2.toCharArray();
-							
-							seqList.add(seq);
-							
-							seqNames.add(name);
-						
-						}
-						
-						seqString = line;
-						
-					}
-					
-					else {
-						
-						seqString += line;
-					}
-					
-					
-				}
-				
-			} while (line != null);
-			
-				inResults.close();
-				
-				char[][] alignment = new char[seqList.size()][];
-				
-				for (int i = 0; i < alignment.length; i++) {
-					
-					alignment[i] = seqList.get(i);
-					
-				}
-				
-				String[] names = new String[1];
-				
-				String[] names2 = seqNames.toArray(names);
-				
-				AminoAcidMatrix matrix = new AminoAcidMatrix(alignment, names2);
-				
-				List<Object> results = new ArrayList<Object>();
-				
-				results.add(matrix);
-				
-				results.add(resultMap);
-				
-				return results;
-				
-				
-		}
-		
-		static Map<Method, double[]> readScores3 (InputStream inStream) throws IOException {
-			
-			
-			Map<Method, double[]> resultMap = new EnumMap<Method, double[]>(Method.class);
-			
-			BufferedReader inResults = new BufferedReader(new InputStreamReader(inStream));
-			
-			List<String> seqNames = new ArrayList<String>();
-			
-			List<char[]> seqList = new ArrayList<char[]>();
-			
-			Pattern pattern = Pattern.compile("//s+");
-			
-			
-			String line = null;
-			
-			String previousLine;
-			
-			String resultsString = null;
-			
-			String seqString = null;
-			
-			do {
-				
-				previousLine = line;
-				
-				line = inResults.readLine();
-				
-					if (line ==  null || line.startsWith("#") || line.startsWith(">")) {
-						
-						if(resultsString != null) {
-							
-							if (line.startsWith("#")) {
-								
-								ConservationClient.parseResults(resultsString, resultMap);
-							}
-							
-							if (line.startsWith(">")) {
-								
-								ConservationClient.parseSequences(seqString, seqList, seqNames, pattern);
-							}
-							
-							if(line == null) {
-								
-								if (previousLine.startsWith("#")) {
-									
-									ConservationClient.parseResults(resultsString, resultMap);
-								}
-								
-								if (previousLine.startsWith(">")) {
-									
-									ConservationClient.parseSequences(seqString, seqList, seqNames, pattern);
-								}
-								
-							}
-						}
-						
-					}
-					
-					else {
-						
-						resultsString += line;
-					}
-
-					
-			} while (line != null);
-			
-				inResults.close();
-				
-				return resultMap;
-		}
-		
-		
-		static void parseResults (String resultsString, Map<Method, double[]>resultMap) {
-			
-			String[] results = resultsString.split(" ");
-			
-			String name = results[0].trim().substring(1); 
+			System.out.println(name);
 			
 			double[] resultsNum = new double[results.length - 1];
 			
-			for (int i = 0; i < resultsNum.length; i++) {
+			for ( int i = 0; i < resultsNum.length; i++) {
 				
-				resultsNum[i] = Double.parseDouble(results[i + 1].trim());
+				resultsNum[i] = Double.parseDouble(results[i + 1]);
+				
+				System.out.println(resultsNum[i]);
 			}
 			
 			resultMap.put(Method.getMethod(name), resultsNum);
-			
+		
 		}
 		
-		static void parseSequences (String seqString, List<char[]> seqList, List<String> seqNames, Pattern pattern) {
+		static void parseSequences(String lineStr, List<FastaSequence> list, Pattern pattern) {
 			
-			StringTokenizer tokens = new StringTokenizer(seqString, " ");
+			StringTokenizer tokens = new StringTokenizer(lineStr, " ");
 			
 			String name = tokens.nextToken().trim();
 			
+			System.out.println(name);
+			
 			Pattern pattern2 = Pattern.compile(name);
 			
-			String seqStringMod = pattern2.matcher(seqString).replaceFirst("");
+			String seqStrMod = pattern.matcher(pattern2.matcher(lineStr).replaceFirst("")).replaceAll("");
 			
-			String seqStringMod2 = pattern.matcher(seqStringMod).replaceAll("");
+			System.out.println(seqStrMod);
 			
-			char[] seq = seqStringMod2.toCharArray();
-			
-			seqList.add(seq);
-			
-			seqNames.add(name);
+			list.add(new FastaSequence(name, seqStrMod));
+		
 		}
-
-
 }
