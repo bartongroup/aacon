@@ -3,6 +3,7 @@ package compbio.conservation;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.text.*;
 
 import compbio.util.FastaSequence;
 import compbio.util.SequenceUtil;
@@ -199,7 +200,7 @@ class ConservationClient {
 	 * @return
 	 */
 	
-	public static double[] getSMERFS(AminoAcidMatrix alignment, int width, SMERFSColumnScore score, boolean normalize){
+	public static double[] getSMERFS(AminoAcidMatrix alignment, int width, SMERFSColumnScore score, double gapTreshold, boolean normalize){
 		
 		if(alignment == null) {
 			
@@ -208,7 +209,7 @@ class ConservationClient {
 		
 		double[] result = null;
 		
-		if (width <= 0 || width%2 != 1 || width > alignment.numberOfColumns() || score == null) {
+		if (width <= 0 || width%2 != 1 || width > alignment.numberOfColumns() || score == null || gapTreshold < 0 || gapTreshold > 1) {
 			
 			if(width <= 0 || width%2 != 1 ) {
 			
@@ -231,11 +232,16 @@ class ConservationClient {
 			
 				}
 			
+			if (gapTreshold < 0 || gapTreshold > 1) {
+				
+				System.out.println("Gap treshold could not have been parsed as a double or it was smaller than zero or it was greater than one.");
+			}
+			
 			return result;
 		
 		}
 			
-		Correlation corr = new Correlation(alignment, width);
+		Correlation corr = new Correlation(alignment, width, gapTreshold);
 		
 		result = corr.getCorrelationScore(score, normalize);
 		
@@ -248,9 +254,17 @@ class ConservationClient {
 	
 	ConservationClient(String[] cmd) {
 		
+		System.out.println("Calculation started: " + this.getDateTime());
+		
+		long startTime = System.currentTimeMillis();
+		
 		int SMERFSWidth = 7;
 		
 		SMERFSColumnScore score = SMERFSColumnScore.MID_SCORE;
+		
+		double SMERFSGapTreshold = 0.1;
+		
+		boolean runSMERFS = true;
 		
 		String[] methods = getMethodNames(cmd);
 		
@@ -280,7 +294,7 @@ class ConservationClient {
 		
 		if (format == null && outFilePath != null) {
 			
-			System.out.println("Format not provided. Default format will be used");
+			System.out.println("Format not provided.");
 			
 			Format.supportedFormats();
 			
@@ -306,7 +320,7 @@ class ConservationClient {
 		
 		if (SMERFSDetails != null) {
 			
-			if (SMERFSDetails.length == 2) {
+			if (SMERFSDetails.length == 3) {
 			
 				try {
 					
@@ -321,16 +335,24 @@ class ConservationClient {
 				}
 			
 				score = SMERFSColumnScore.getSMERFSColumnScore(SMERFSDetails[1]);
+				
+				try {
+					
+					SMERFSGapTreshold = Double.parseDouble(SMERFSDetails[2]);
+				}
+				
+				catch (NumberFormatException e) {
+					
+					SMERFSGapTreshold = -1;
+				}
 			
 			}
 			
 			else {
 				
-				System.out.println("To run SMERFS two argument are needed, window width and how to give scores to columns.");
+				System.out.println("To run SMERFS three arguments are needed, window width,how to give scores to columns and a gap treshold.");
 				
-				SMERFSWidth = -1;
-				
-				score = null;
+				runSMERFS = false;
 			}
 			
 		}
@@ -346,6 +368,14 @@ class ConservationClient {
 			if (sequences != null) {
 		
 				AminoAcidMatrix alignment = new AminoAcidMatrix(sequences);
+				
+				long loadedTime = System.currentTimeMillis();
+				
+				long loadTime = loadedTime - startTime;
+				
+				System.out.println("Alignment loaded in: " + loadTime + "ms.");
+				
+				System.out.println("Alignment has: " + alignment.numberOfRows() + " sequences.");
 		
 				ConservationScores2 scores = new ConservationScores2(alignment);
 		
@@ -355,7 +385,12 @@ class ConservationClient {
 					
 					if (Method.getMethod(methods[i]) == Method.SMERFS) {
 						
-						result = getSMERFS(alignment, SMERFSWidth, score, normalize);
+						if (runSMERFS == true) {
+						
+						result = getSMERFS(alignment, SMERFSWidth, score, SMERFSGapTreshold, normalize);
+						
+						}
+						
 					}
 					
 					else {
@@ -367,6 +402,8 @@ class ConservationClient {
 					if(result != null) {
 						
 						results.put(Method.getMethod(methods[i]), result);
+						
+						System.out.println(Method.getMethod(methods[i]).toString() + " done.");
 			
 					}
 		
@@ -379,6 +416,8 @@ class ConservationClient {
 				ConservationFormatter.formatResults(results, outFilePath, format, alignment);
 				
 				}
+				
+				System.out.println("End time: " + getDateTime());
 		
 		}
 		//ConservationFormatter.formatResults(scores);
@@ -576,5 +615,14 @@ class ConservationClient {
 			
 			list.add(new FastaSequence(name, seqStrMod));
 		
+		}
+		
+		private String getDateTime() {
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			
+			Date date = new Date();
+			
+			return dateFormat.format(date);
 		}
 }

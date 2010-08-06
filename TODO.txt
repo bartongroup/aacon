@@ -1,14 +1,14 @@
 
 TO BE DONE: 
 
-34) Look closely at your normalisation code, I suspect you divide zero by zero there, as the result I got NaN (Not-a-Number)
+34) NOT DONE DON'T SEE WHAT IS WRONG WITH IT Look closely at your normalisation code, I suspect you divide zero by zero there, as the result I got NaN (Not-a-Number)
 # TAYLOR_SCORE
 NaN NaN NaN ....
 Please check also whether you happens to divide some number by zero, that would be an arithmetic exception.
 It looks to me that this is omly happening with TAYLOR score. So its is probably the method itself rather then 
 normalisation.  
  
-35) The output block of Method - values is still not exactly the same for results with alignment and without. 
+35) DONE The output block of Method - values is still not exactly the same for results with alignment and without. 
 The idea is that it should be possible to use the same parser for Methods-> score parsing for both formats. 
 
 e.g. currently 
@@ -34,12 +34,12 @@ e.g.
 
 AA Conservation v.1.0   
  
-36) Method for reading back the output file into memory is needed.  
+36)DONE  Method for reading back the output file into memory is needed.  
 
 SOME OF IT DONE. WILL HAVE MORE TEST DATA. ALL GOES TO ONE FOLDER. 5) All the data which is used should be available within the project. 
 (e.g. "/homes/agolicz/alignments/alignment1") 
 
-19) Usability issue (low priority): From the user point of view, it is not convenient to enter XXX_SCORE all the time
+19) DONE Usability issue (low priority): From the user point of view, it is not convenient to enter XXX_SCORE all the time
 It would be better to enter one word method name. The program should convert input string to the appropriate enumeration 
 internally. I'd suggest to make method name case insensitive. For the enum, may be leaving the method name only, 
 and getting rid of _SCORE will do the trick?   NOT DONE YET
@@ -66,7 +66,7 @@ Please also make sure your help contain the following information
 - detailed description of each parameter, with explanation about how it influences 
 output e.g. -n  
 
-37) "Output file path and format not provided. Results will be printed to the command window."
+37) DONE "Output file path and format not provided. Results will be printed to the command window."
 Please do not output any messages to the stdout if no output file is specified.
 This is normal program behaviour, it should not need to tell the user what its doing, 
 besides it should be obvious in this case.  
@@ -74,7 +74,8 @@ Just explain in the application help how the application behaves.
 Users may be parsing your output, if there is anything apart from the results, 
 it make their life harder. 
 
-38) DONE: THAT'S TAKEN CARE OF, THE EXTREME DIFFERENCES IN THOSE RESULTS COME FORM DIFFERENT TREATMENT OF GAPS. The idea of normalisation is to make results comparable, however, although results values are 
+38) DONE: THAT'S TAKEN CARE OF, THE EXTREME DIFFERENCES IN THOSE RESULTS COME FORM DIFFERENT TREATMENT OF GAPS. 
+The idea of normalisation is to make results comparable, however, although results values are 
 between 0 and 1 it looks like 0 and 1 mean different things in different methods. 
 For some methods it looks like 0 value corresponds to 100% of identity where as
 for other methods 1 values correspond to 100% of identity. For example:  
@@ -86,7 +87,7 @@ for other methods 1 values correspond to 100% of identity. For example:
 Please also make sure that your normalisation method is described in the help 
 documentation for the program. 
 
-39) If you have time it would be good if you can report a calculation progress, this it to give the
+39) DONE If you have time it would be good if you can report a calculation progress, this it to give the
 user some idea of when the calculation completes. Id does not have to be percent
 of completion. You could just report the program initial settings, and timings for
 each step of the calculation or each method in your case.  

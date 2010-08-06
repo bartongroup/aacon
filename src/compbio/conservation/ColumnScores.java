@@ -703,10 +703,10 @@ public class ColumnScores {
 	if (colNr > matrix.numberOfColumns() - 1) {
 
 	    throw new IllegalArgumentException(
-		    "Column number greater than number of columns in teh matrix.");
+		    "Column number greater than number of columns in the matrix.");
 	}
 
-	double finalSum = 0.0;
+	double finalSum;
 
 	double blosumSum = 0.0;
 	
@@ -751,8 +751,7 @@ public class ColumnScores {
 
 	}
 
-	finalSum = blosumSum
-		* (2.0 / curColumn.length * (curColumn.length - 1));
+	finalSum = blosumSum * (2.0 / ( matrix.getInverseMatrix()[colNr].length * (matrix.getInverseMatrix()[colNr].length - 1)));
 
 	assert finalSum >= -1 && finalSum <= 1;
 
@@ -869,9 +868,9 @@ public class ColumnScores {
 
 	    for (int b = 0; b < alp.length; b++) {
 	    	
-	    	int idxB = ConservationMatrices.getIndex(curColumn[b]);
+	    	int idxB = ConservationMatrices.getIndex(alp[b]);
 	    	
-	    	int pairABIndex = 24 + idxA + idxB;
+	    	int pairABIndex = 24 * idxA + idxB;
 
 	    	points[a][b] = ConservationMatrices.blosum[pairABIndex];
 

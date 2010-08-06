@@ -234,7 +234,7 @@ public class _SMERFSClient {
 		
 		// FIXME set up a command line thing 
 		
-		Correlation corr = new Correlation(alignment, width);
+		Correlation corr = new Correlation(alignment, width, 0.1);
 		
 		//double[] result = corr.getCorrelationScore(alignment, width, normalize);
 		

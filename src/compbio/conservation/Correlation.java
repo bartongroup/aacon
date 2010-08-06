@@ -1,5 +1,7 @@
 package compbio.conservation;
 
+import java.util.*;
+
 /**
  * Class has static methods used to create similarity matrices, and correlation matrices.
  * @author agolicz
@@ -12,6 +14,8 @@ public class Correlation {
 	
 	private final int winWidth;
 	
+	private final double gapTreshold;
+	
 	/**
 	 * Calculates similarity between two sequences, similarity is calculated as a sum of blosum scores for pairs formed by corresponding amino acids in two sequences.
 	 *  
@@ -20,7 +24,7 @@ public class Correlation {
 	 * @return  similarity score
 	 */
 	
-	public Correlation(AminoAcidMatrix alignment, int winWidth) {
+	public Correlation(AminoAcidMatrix alignment, int winWidth, double gapTreshold) {
 		
 		if (alignment == null) {
 			
@@ -36,6 +40,8 @@ public class Correlation {
 		this.alignment = alignment;
 		
 		this.winWidth = winWidth;
+		
+		this.gapTreshold = gapTreshold;
 		
 	}
 	
@@ -465,6 +471,8 @@ public class Correlation {
 			columnResults = giveMidToColumn(results);
 		}
 		
+		rejectOverTreshold(columnResults);
+		
 		if (normalize == true) {
 			
 			double [] normalized = ConservationAccessory.normalize01(columnResults);
@@ -781,6 +789,22 @@ public class Correlation {
 		}
 		
 		return columnResults;
+	}
+	
+	void rejectOverTreshold(double[] results ) {
+		
+		for(int i = 0; i < alignment.numberOfColumns(); i++) {
+			
+			Map<Character, Integer> colMap = alignment.getTotalAcidsFreqByCol().get(i);
+			
+			if (colMap.containsKey('-')) {
+				
+				if (colMap.get('-')/alignment.numberOfRows() > gapTreshold) {
+					
+					results[i] = 0.0;
+				}
+			}
+		}
 	}
 	
 }

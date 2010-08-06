@@ -85,7 +85,7 @@ public class SmallestElement {
 				
 			AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
 			
-			Correlation corr = new Correlation(matrix, 5);
+			Correlation corr = new Correlation(matrix, 5, 0.1);
 			
 			//double[] coeffs = corr.calcPearson4(matrix, 5);
 			
