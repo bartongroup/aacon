@@ -513,16 +513,39 @@ public class SubFamiliesConservation {
 			
 		}
 		
+
+		int width1 = 20;
+		
+		int width2 = 20;
+		
+		String format1 = "%-" + width1 + "s";
+		
+		String format2 = "%-" + width2 + "s";
+		
+		print.printf(format1, "");
+		
+		print.printf(format1, "Group name");
+		
+		print.printf(format2, "Conservation");
+		
+		print.println("Properties");
+		
 		for (int i = 0; i < cons1.length; i++) {
 			
+			print.println("Column nr: " + i);
+			
 			for (int j = 0; j < cons1[i].length; j++) {
+				
+				print.printf(format1, "");
 				
 				cons1[i][j].printInfo(Method.ZVELIBIL, print);
 			}
 				
 			for (int j = 0; j < cons2[i].length; j++) {
+				
+				print.printf(format1, "");
 					
-					cons2[i][j].printInfo(Method.ZVELIBIL, print);
+				cons2[i][j].printInfo(Method.ZVELIBIL, print);
 			}
 			
 		}

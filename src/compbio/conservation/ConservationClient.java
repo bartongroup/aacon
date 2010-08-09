@@ -386,8 +386,16 @@ class ConservationClient {
 					if (Method.getMethod(methods[i]) == Method.SMERFS) {
 						
 						if (runSMERFS == true) {
+							
+						long time1 = System.currentTimeMillis();
 						
 						result = getSMERFS(alignment, SMERFSWidth, score, SMERFSGapTreshold, normalize);
+						
+						long time2 = System.currentTimeMillis();
+						
+						long time = time2 - time1;
+						
+						System.out.println(time);
 						
 						}
 						

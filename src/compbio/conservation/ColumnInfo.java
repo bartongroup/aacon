@@ -45,7 +45,19 @@ public class ColumnInfo {
 	
 	void printInfo(Method method, PrintWriter print) {
 		
-		print.println(group + "   " + getStatus(method) + "   " + properties);
+		int width1 = 20;
+		
+		int width2 = 20;
+		
+		String format1 = "%-" + width1 + "s";
+		
+		String format2 = "%-" + width2 + "s";
+		
+		print.printf(format1, group);
+		
+		print.printf(format2, getStatus(method));
+		
+		print.println(properties);
 	}
 
 }
