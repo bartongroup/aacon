@@ -26,6 +26,62 @@ class ConservationClient {
 	
 	final static String SMERFSDetailsKey = "-s";
 	
+	final static String gapKey = "-g";
+	
+	final static String statKey = "-d";
+	
+	final static String info = "This program allows calculation of conservation of amino acids in\n" + 
+			"multiple sequence alignments.\n" + 
+			"It implements 15 different conservation scores as described by Valdar in\n" + 
+			"his paper (Scoring Residue Conservation, PROTEINS: Structure, Function\n" + 
+			"and Genetics 48:227-241 (2002)) and SMERFS scoring algorithm as described\n" + 
+			"by Manning, Jefferson and Barton (The contrasting properties of conservation\n" + 
+			"and correlated phylogeny in protein functional residue prediction,\n" + 
+			"BMC Bioinformatics (2008)).\n" + 
+			"The scores supported are:\n" + 
+			"KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, \n" + 
+			"ZVELIBIL, KARLIN, ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON, \n" + 
+			"LANDGRAF, SANDER, VALDAR, SMERFS\n" + 
+			"\n" + 
+			"Input format is a FASTA file. By default program prints the results\n" + 
+			"to the command window. If the output file is provided the results are \n" + 
+			"printed to the file in two possible formats (with or without an alignment).\n" + 
+			"The default format prints the results without alignment.  \n" + 
+			"The scores can be normalized or not. By default the scores are not \n" + 
+			"normalized. If SMERFS is called and no parameters for SMERFS are provided\n" + 
+			"it is run with the default arguments (window width of 7, column score given to \n" + 
+			"the middle column, gap% cutoff of 1.0). If new parameters are needed all\n" + 
+			"three of them have to be provided.   \n" + 
+			"Program accepts command line arguments. All the arguments are preceded by a certain key:\n" + 
+			"-m= - precedes a comma separated list of method names\n" + 
+			"      EXAMPLE: -m=KABAT,JORES,GERSTEIN\n" + 
+			"-i= - precedes a full path to the input FASTA file\n" + 
+			"-o= - precedes a full path to the output file\n" + 
+			"-f= - precedes the format  of the results in the output file\n" + 
+			"      two different formats are possible:\n" + 
+			"      RESULTS_WITH_ALIGNMENT\n" + 
+			"      RESULTS_NO_ALIGNMENT\n" + 
+			"-s= - precedes a list of three comma separated parameters for SMERFS\n" + 
+			"      the order of parameters is as following:\n" + 
+			"      1. window width - an integer and an odd number\n" + 
+			"      2. how to allocate window scores to columns, two ways are possible:\n" + 
+			"	 MID_SCORE - gives the window score to the middle column\n" + 
+			"	 MAX_SCORE - gives the column the highest score of all the windows it belongs to\n" + 
+			"      3. gap percentage cutoff - a float greater than 0 and smaller or equal 1\n" + 
+			"      EXAMPLE: -s=5,MID_SCORE,0.1\n" + 
+			"-n - using this key causes the results to be normalized\n" + 
+			"\n" + 
+			"EXAMPLE HOW TO RUN THE PROGRAM:\n" + 
+			"-m=KABAT,SMERFS -i=/homes/agolicz/alignments/prot1 -o=/homes/agolicz/alignments/prot1_results \n" + 
+			"-f=RESULTS_NO_ALIGNMENT -n\n" + 
+			"\n" + 
+			"KABAT and SMERFS scores will be calculated. Input will come form /homes/agolicz/alignments/prot1 \n" + 
+			"file and will be printed to /homes/agolicz/alignments/prot1_results without alignment. \n" + 
+			"Results will be normalized between 0 and 1.\n" + 
+			"To normalize the results n = (d - dmin)/(dmax - dmin) formula is used.\n" + 
+			"If the results are negative they are first shifted by adding the \n" + 
+			"absolute value of the most negative number. \n";
+			
 	/**
 	 * Gets method name from the command line
 	 * 
@@ -157,7 +213,47 @@ class ConservationClient {
 		return null;
 	}
 	
+	/**
+	 * Gets statistics file path
+	 * @param cmd
+	 * @return null if not provided
+	 */
+	private static String getStatFilePath(String[] cmd) {
+		
+		for (int i = 0; i < cmd.length; i++) {
+			
+			String name = cmd[i];
+			
+			if(name.trim().toLowerCase().startsWith(statKey + pseparator)) {
+				
+				return name.substring(name.indexOf(pseparator) + 1);
+			}
+		}
+		
+		return null;
+	}
 	
+	/**
+	 * Gets the gap charcter .
+	 * 
+	 * @param cmd array of cmd arguments
+	 * @return gap character or null if gap character not provided
+	 */
+	
+	private static String getGapChar(String[] cmd) {
+		
+		for (int i = 0; i < cmd.length; i++) {
+			
+			String form = cmd[i];
+			
+			if(form.trim().toLowerCase().startsWith(gapKey + pseparator)) {
+				
+				return form.substring(form.indexOf(pseparator) + 1);
+			}
+		}
+		
+		return null;
+	}
 	
 	// don't know how to set up a path, so far path read from the command line;
 	// but probably it is not how it is normally done
@@ -174,7 +270,7 @@ class ConservationClient {
 		
 		if (Method.getMethod(method) == null) {
 			
-			System.out.println("Method: " + method + "is not supported");
+			System.out.println("Method: " + method + " is not supported");
 			
 			Method.supportedMethods();
 			
@@ -254,7 +350,7 @@ class ConservationClient {
 	
 	ConservationClient(String[] cmd) {
 		
-		System.out.println("Calculation started: " + this.getDateTime());
+		String startStr  = this.getDateTime();
 		
 		long startTime = System.currentTimeMillis();
 		
@@ -264,25 +360,25 @@ class ConservationClient {
 		
 		double SMERFSGapTreshold = 0.1;
 		
-		boolean runSMERFS = true;
+		//boolean runSMERFS = true;
 		
 		String[] methods = getMethodNames(cmd);
 		
-		if(methods == null) {
+		//if(methods == null) {
 			
-			System.out.println("Methods not provided. Please provide methods in format -m=method1,marthod2,method3");
+			//System.out.println("Methods not provided. Please provide methods in format -m=method1,marthod2,method3");
 			
-			Method.supportedMethods();
+			//Method.supportedMethods();
 			
-		}
+		//}
 
 		String inFilePath = getInputFilePath(cmd);
 
-		if (inFilePath == null) {
+		//if (inFilePath == null) {
 			
-			System.out.println("Input file path not provided. Please provide input file path in format -i=inputFile - where inputFile is a full path to FASTA formatted file.");
+			//System.out.println("Input file path not provided. Please provide input file path in format -i=inputFile - where inputFile is a full path to FASTA formatted file.");
 			
-		}
+		//}
 		
 		if(methods != null && inFilePath != null) {
 		
@@ -348,16 +444,42 @@ class ConservationClient {
 			
 			}
 			
-			else {
+			//else {
 				
-				System.out.println("To run SMERFS three arguments are needed, window width,how to give scores to columns and a gap treshold.");
+				//System.out.println("To run SMERFS three arguments are needed, window width,how to give scores to columns and a gap treshold.");
 				
-				runSMERFS = false;
-			}
+				//runSMERFS = false;
+			//}
 			
 		}
 		
 		boolean normalize = getNormalize(cmd);
+		
+		String gap = getGapChar(cmd);
+		
+		Character gapChar;
+		
+		if (gap == null) {
+			
+			gapChar = null;
+		}
+		
+		else {
+			
+			if (gap.length() == 1) {
+				
+				gapChar = gap.charAt(0);
+			
+			}
+			
+			else {
+				
+				throw new IllegalGapCharacterException("Argument provided as gap charcetr is more than one character long.");
+			}
+			
+		}
+		
+		String statFile = getStatFilePath(cmd);
 		
 		if (proceed == true) {
 		
@@ -366,36 +488,47 @@ class ConservationClient {
 			List<FastaSequence> sequences = this.openInputStream(inFilePath);
 		
 			if (sequences != null) {
+				
+				PrintWriter print = null;
+				
+				if (statFile != null) {
+					
+					print = ConservationFormatter.openPrintWriter(statFile, false);
+				}
+				
+				if ((statFile == null && print == null) || (statFile != null && print != null)) {
 		
-				AminoAcidMatrix alignment = new AminoAcidMatrix(sequences);
+				AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, gapChar);
 				
 				long loadedTime = System.currentTimeMillis();
 				
 				long loadTime = loadedTime - startTime;
 				
-				System.out.println("Alignment loaded in: " + loadTime + "ms.");
+				print.println("Start time: " + startStr);
 				
-				System.out.println("Alignment has: " + alignment.numberOfRows() + " sequences.");
-		
+				print.println("Alignment loaded in: " + loadTime + "ms.");
+				
+				print.println("Alignment has: " + alignment.numberOfRows() + " sequences.");
+				
 				ConservationScores2 scores = new ConservationScores2(alignment);
 		
 				double[] result = null;
 		
 				for (int i = 0; i < methods.length; i++) {
 					
+					long time1 = System.currentTimeMillis();
+					
 					if (Method.getMethod(methods[i]) == Method.SMERFS) {
 						
-						if (runSMERFS == true) {
+						if (SMERFSDetails != null && SMERFSDetails.length != 3) {
 							
-						long time1 = System.currentTimeMillis();
+							System.out.println("To run SMERFS three arguments are needed, window width,how to give scores to columns and a gap treshold.");
+							
+						}
 						
+						else {
+							
 						result = getSMERFS(alignment, SMERFSWidth, score, SMERFSGapTreshold, normalize);
-						
-						long time2 = System.currentTimeMillis();
-						
-						long time = time2 - time1;
-						
-						System.out.println(time);
 						
 						}
 						
@@ -406,14 +539,18 @@ class ConservationClient {
 						result = getMethod(methods[i], scores, normalize);
 						
 					}
+					
+					long time2 = System.currentTimeMillis();
+					
+					long time = time2 - time1;
 			
 					if(result != null) {
 						
 						results.put(Method.getMethod(methods[i]), result);
 						
-						System.out.println(Method.getMethod(methods[i]).toString() + " done.");
-			
-					}
+						print.println(Method.getMethod(methods[i]).toString() + " done " + time + "ms.");
+	
+						}
 		
 				}
 				
@@ -425,10 +562,15 @@ class ConservationClient {
 				
 				}
 				
-				System.out.println("End time: " + getDateTime());
+				print.println("End time: " + getDateTime());
+				
+				print.close();
+				
+				}
 		
-		}
+			}
 		//ConservationFormatter.formatResults(scores);
+		
 		}
 		
 		}
@@ -457,12 +599,16 @@ class ConservationClient {
 		if(args == null) {
 			
 			System.out.println ("No parameters were suppled");
+			System.out.println();
+			System.out.print(info);
 		}
 		
 		if(args.length < 2) {
 			
 			System.out.println("Method names, input file paths are required. Application will not run until these 2 arguments are provided.");
 			System.out.println("If you want results printed, both format an input file path have to be provided");
+			System.out.println();
+			System.out.print(info);
 		}
 		
 		ConservationClient cons = new ConservationClient(args);
@@ -474,7 +620,10 @@ class ConservationClient {
 	 * @param inStr
 	 * @param fastaSeqs
 	 * @param inFilePath
-	 * @return
+	 * @returnif (statFile != null) {
+					
+					print = ConservationFormatter.openPrintWriter(statFile, false);
+				}
 	 */
 	
 		List<FastaSequence> openInputStream(String inFilePath) {
@@ -540,7 +689,7 @@ class ConservationClient {
 			
 			//line = inResults.readLine();
 			
-			line = inResults.readLine();
+			//line = inResults.readLine();
 			
 			do {
 				

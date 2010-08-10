@@ -226,7 +226,7 @@ public class _SMERFSClient {
 			System.out.println("Sth wrong with reading the file");
 		}
 			
-		AminoAcidMatrix alignment = new AminoAcidMatrix(fastaSeqs);
+		AminoAcidMatrix alignment = new AminoAcidMatrix(fastaSeqs, null);
 		
 		// FIXME to be removed
 		

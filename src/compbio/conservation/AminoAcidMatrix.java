@@ -52,10 +52,12 @@ import java.io.*;
 	
 	/**
 	 * Holds the in the indices of Xs changed to gaps.
-	 * The row number is a key and the column number is value.
+	 * The row number is a key and the column number is value
 	 */
 	
-	private List<HashMap<Integer, Integer>> xToGapSubs;
+	private char gap;
+	
+	//private List<HashMap<Integer, Integer>> xToGapSubs;
 	
 	/**
 	 * The total occurrence of amino acids in the whole alignment.
@@ -93,7 +95,7 @@ import java.io.*;
 	 * @param alignment 2D array with alignment
 	 * @param names string if sequence names/IDs
 	 */
-	public AminoAcidMatrix (char[][] alignment, String[] names) {
+	public AminoAcidMatrix (char[][] alignment, String[] names, Character gapChar) {
 		
 		for(int i = 0; i < alignment.length; i++ ) {
 			
@@ -127,7 +129,12 @@ import java.io.*;
 			this.sequenceNames = names;
 		}
 		
-		this.matrix = alignment;
+		if (gapChar != null) {
+			
+			this.gap = gapChar;
+		}
+		
+		this.matrix = new char[alignment.length][alignment[0].length];
 		
 		inverseMatrix = new char[alignment[0].length][alignment.length];
 		
@@ -135,8 +142,30 @@ import java.io.*;
 			
 			for(int j = 0; j < alignment[i].length; j++) {
 				
-				inverseMatrix[j][i] = alignment[i][j];
+				char ch = alignment[i][j];
+				
+				if (gapChar == null) {
+        	  		
+        	  		if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
+    		    		
+    					ch = '-';
+    				}
+        	  		
+        	  		}
+        	  		
+				else {
+        	  			
+        	  			if (ch == gap) {
+        	  				
+        	  				ch = '-';
+        	  			}
+        	  	}
+				
+				matrix[i][j] = ch;
+				
+				inverseMatrix[j][i] = ch;
 			}
+			
 		}
 		
 	}
@@ -259,7 +288,12 @@ import java.io.*;
 	 * @param inStream
 	 */
 		
-	public AminoAcidMatrix(List<FastaSequence> seqs){
+	public AminoAcidMatrix(List<FastaSequence> seqs, Character gapChar){
+		
+			  if (gapChar != null) {
+				  
+				  this.gap = gapChar;
+			  }
 		
 			  Set<Character> alph = Alphabet.alphabet();
 	          
@@ -301,20 +335,32 @@ import java.io.*;
 			            	  
 			            	  		char ch = sequenceChars[j];
 			            	  		
+			            	  		if (gapChar == null) {
+			            	  		
 			            	  		if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
 			        		    		
 			        					ch = '-';
 			        				}
 			            	  		
-			            	  		if (ch == 'X') {
-			            	  			
-			            	  			this.xToGapSubs.add(new HashMap<Integer, Integer>());
-			            	  			
-			            	  			this.xToGapSubs.get(this.xToGapSubs.size() - 1).put(i, j);
-			            	  			
-			            	  			ch = '-';
-			            	  			
 			            	  		}
+			            	  		
+			            	  		else {
+			            	  			
+			            	  			if (ch == gap) {
+			            	  				
+			            	  				ch = '-';
+			            	  			}
+			            	  		}
+			            	  		
+			            	  		//if (ch == 'X') {
+			            	  			
+			            	  			//this.xToGapSubs.add(new HashMap<Integer, Integer>());
+			            	  			
+			            	  			//this.xToGapSubs.get(this.xToGapSubs.size() - 1).put(i, j);
+			            	  			
+			            	  			//ch = '-';
+			            	  			
+			            	  		//}
 			            	  		
 			            	  		if (alph.contains(ch) == false) {
 			            	  			
@@ -417,28 +463,7 @@ import java.io.*;
 	
 	char[] getColumn(int number) {
 		
-		assert number < this.numberOfColumns();
-
-		Set<Character> alph = Alphabet.alphabet();
-		
-		char[] column = new char[this.numberOfRows()];
-
-		for (int i = 0; i < this.numberOfRows(); i++) {
-
-			char ch = matrix[i][number];
-
-			if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
-    		
-    			ch = '-';
-
-    			}
-    	
-    			assert alph.contains(ch) : "Illegal character in the column";
-
-			column[i] = ch;
-		}
-		
-		return column;
+		return inverseMatrix[number];
 		
 	}
 	

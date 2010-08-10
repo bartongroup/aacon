@@ -32,7 +32,7 @@ public class SlowMethodTester {
 				    + AVG_AL)));
 	    System.out.println("Loading sequences: " + timer.getStepTime());
 
-	    AminoAcidMatrix alignment = new AminoAcidMatrix(sequences);
+	    AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 	    System.out.println("Converting to Matrix: " + timer.getStepTime());
 
 	    ConservationScores2 scores = new ConservationScores2(alignment);

@@ -83,7 +83,7 @@ public class SmallestElement {
 			}
 				
 				
-			AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
+			AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs, null);
 			
 			Correlation corr = new Correlation(matrix, 5, 0.1);
 			

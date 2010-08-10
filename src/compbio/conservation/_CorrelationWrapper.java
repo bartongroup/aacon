@@ -54,7 +54,7 @@ public class _CorrelationWrapper {
 		}
 			
 			
-		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
+		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs, null);
 		
 		// FIXME the width should not be hard coded it will come form the command line
 		

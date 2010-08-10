@@ -96,7 +96,7 @@ public class _WrapperClass {
 	}
 		
 		
-	AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
+	AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs, null);
 		
 		//char a = 'D';
 		//char b = 'D';

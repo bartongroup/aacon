@@ -9,7 +9,9 @@ by Manning, Jefferson and Barton (The contrasting properties of conservation
 and correlated phylogeny in protein functional residue prediction,
 BMC Bioinformatics (2008)).
 The scores supported are:
-KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, ZVELIBIL, KARLIN, ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON, LANDGRAF, SANDER, VALDAR, SMERFS
+KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, 
+ZVELIBIL, KARLIN, ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON, 
+LANDGRAF, SANDER, VALDAR, SMERFS
 
 Input format is a FASTA file. By default program prints the results
 to the command window. If the output file is provided the results are 

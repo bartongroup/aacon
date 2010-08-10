@@ -155,7 +155,7 @@ public class SubFamiliesConservation {
 		
 		for ( int i = 0; i < subGroups.size(); i++) {
 			
-			sub = new AminoAcidMatrix(subGroups.get(i),names );
+			sub = new AminoAcidMatrix(subGroups.get(i),names, null );
 			
 			scores = new ConservationScores2(sub);
 			
@@ -196,7 +196,7 @@ public class SubFamiliesConservation {
 		
 		for ( int i = 0; i < subGroups.size(); i++) {
 			
-			sub = new AminoAcidMatrix(subGroups.get(i),names );
+			sub = new AminoAcidMatrix(subGroups.get(i),names, null );
 			
 			scores = new ConservationScores2(sub);
 			
@@ -299,7 +299,7 @@ public class SubFamiliesConservation {
 				
 				merged = mergeSubFamilies(subGroups.get(i), subGroups.get(j));
 				
-				AminoAcidMatrix mat = new AminoAcidMatrix(merged, names);
+				AminoAcidMatrix mat = new AminoAcidMatrix(merged, names, null);
 				
 				scores = new ConservationScores2(mat);
 
@@ -351,7 +351,7 @@ public class SubFamiliesConservation {
 				
 				merged = mergeSubFamilies(subGroups.get(i), subGroups.get(j));
 				
-				AminoAcidMatrix mat = new AminoAcidMatrix(merged, names);
+				AminoAcidMatrix mat = new AminoAcidMatrix(merged, names, null);
 				
 				scores = new ConservationScores2(mat);
 
@@ -484,7 +484,7 @@ public class SubFamiliesConservation {
 		}
 			
 			
-		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs);
+		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs, null);
 		
 		int[][] groups = {{0, 1},{2},{3,4}};
 		

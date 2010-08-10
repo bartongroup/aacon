@@ -1,7 +1,7 @@
 
 TO BE DONE: 
 
-34) NOT DONE DON'T SEE WHAT IS WRONG WITH IT Look closely at your normalisation code, I suspect you divide zero by zero there, as the result I got NaN (Not-a-Number)
+34) DON'T SEE WHAT IS WRONG WITH IT Look closely at your normalisation code, I suspect you divide zero by zero there, as the result I got NaN (Not-a-Number)
 # TAYLOR_SCORE
 NaN NaN NaN ....
 Please check also whether you happens to divide some number by zero, that would be an arithmetic exception.
@@ -57,7 +57,7 @@ use default.
 Please check: If the output is specified default format is not used
  
 
-30)STILL EDITTING APPLICATION HELP In an application help there is no mention of "-n" parameter. Application help would 
+30)DONE In an application help there is no mention of "-n" parameter. Application help would 
 benefit from better formatting.
 Please also make sure your help contain the following information
 - how to run the program with minimum parameters
