@@ -21,7 +21,8 @@ The scores can be normalized or not. By default the scores are not
 normalized. If SMERFS is called and no parameters for SMERFS are provided
 it is run with the default arguments (window width of 7, column score given to 
 the middle column, gap% cutoff of 1.0). If new parameters are needed all
-three of them have to be provided.   
+three of them have to be provided. Details of the program execution can
+be listed to a separate file if an appropriate file path is provided.
 Program accepts command line arguments. All the arguments are preceded by a certain key:
 -m= - precedes a comma separated list of method names
       EXAMPLE: -m=KABAT,JORES,GERSTEIN
@@ -35,10 +36,12 @@ Program accepts command line arguments. All the arguments are preceded by a cert
       the order of parameters is as following:
       1. window width - an integer and an odd number
       2. how to allocate window scores to columns, two ways are possible:
-	 MID_SCORE - gives the window score to the middle column
-	 MAX_SCORE - gives the column the highest score of all the windows it belongs to
+	     MID_SCORE - gives the window score to the middle column
+	     MAX_SCORE - gives the column the highest score of all the windows it belongs to
       3. gap percentage cutoff - a float greater than 0 and smaller or equal 1
       EXAMPLE: -s=5,MID_SCORE,0.1
+      
+-d= - precedes a full path to a file where program execution details are to be listed      
 -n - using this key causes the results to be normalized
 
 EXAMPLE HOW TO RUN THE PROGRAM:

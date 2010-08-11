@@ -51,7 +51,8 @@ class ConservationClient {
 			"normalized. If SMERFS is called and no parameters for SMERFS are provided\n" + 
 			"it is run with the default arguments (window width of 7, column score given to \n" + 
 			"the middle column, gap% cutoff of 1.0). If new parameters are needed all\n" + 
-			"three of them have to be provided.   \n" + 
+			"three of them have to be provided. Details of the program execution can\n" + 
+			"be listed to a separate file if an appropriate file path is provided.\n" + 
 			"Program accepts command line arguments. All the arguments are preceded by a certain key:\n" + 
 			"-m= - precedes a comma separated list of method names\n" + 
 			"      EXAMPLE: -m=KABAT,JORES,GERSTEIN\n" + 
@@ -65,10 +66,12 @@ class ConservationClient {
 			"      the order of parameters is as following:\n" + 
 			"      1. window width - an integer and an odd number\n" + 
 			"      2. how to allocate window scores to columns, two ways are possible:\n" + 
-			"	 MID_SCORE - gives the window score to the middle column\n" + 
-			"	 MAX_SCORE - gives the column the highest score of all the windows it belongs to\n" + 
+			"	     MID_SCORE - gives the window score to the middle column\n" + 
+			"	     MAX_SCORE - gives the column the highest score of all the windows it belongs to\n" + 
 			"      3. gap percentage cutoff - a float greater than 0 and smaller or equal 1\n" + 
 			"      EXAMPLE: -s=5,MID_SCORE,0.1\n" + 
+			"      \n" + 
+			"-d= - precedes a full path to a file where program execution details are to be listed      \n" + 
 			"-n - using this key causes the results to be normalized\n" + 
 			"\n" + 
 			"EXAMPLE HOW TO RUN THE PROGRAM:\n" + 
