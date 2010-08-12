@@ -169,7 +169,55 @@ public class SubFamiliesConservation {
 		
 	}
 	
-	ColumnInfo[][] subgrupsConservation2(Method method, boolean normalize) {
+	ColumnInfo[][] subgrupsConservation3(int width, double gapTreshold, SMERFSColumnScore scoreType , boolean normalize) {
+		
+		//if (method == null) {
+			
+			//throw new IllegalArgumentException("Method must not be null.");
+		//}
+		
+		if (subGroups == null) {
+			
+			throw new IllegalArgumentException("List of subgroups/subclasses must not be null.");
+			
+		}
+		
+		ColumnInfo[][] columns = new ColumnInfo[this.alignment.numberOfColumns()][subGroups.size()];
+		
+		//double[][] conservation = new double[subGroups.size()][subGroups.get(0)[0].length];
+		
+		//groupsProperties = new String[subGroups.size()][subGroups.get(0)[0].length];
+		
+		ConservationScores2 scores = null;
+		
+		AminoAcidMatrix sub = null;
+		
+		String[] names = null;
+		
+		for ( int i = 0; i < subGroups.size(); i++) {
+			
+			sub = new AminoAcidMatrix(subGroups.get(i),names, null );
+			
+			scores = new ConservationScores2(sub);
+			
+			double[] conservation = ConservationClient.getSMERFS(alignment, width, scoreType, gapTreshold, normalize);
+			
+			String[] prop = zvelibilPropertiesAlignment(sub);
+			
+			for ( int j = 0; j < columns.length; j++) {
+				
+				String group = i + "";
+				
+				columns[j][i] = new ColumnInfo(group, conservation[j], prop[j]);
+			}
+			
+		}
+		
+		return columns;
+		
+	}
+	
+ColumnInfo[][] subgrupsConservation2(Method method, boolean normalize) {
 		
 		if (method == null) {
 			
@@ -315,7 +363,72 @@ public class SubFamiliesConservation {
 		return pairs;
 	}
 	
-	ColumnInfo[][] subFamilyPairsConservation2(Method method, boolean normalize) {
+	ColumnInfo[][] subFamilyPairsConservation3(int width, SMERFSColumnScore scoreType, double gapTreshold, boolean normalize) {
+		
+		if (subGroups == null) {
+			
+			throw new IllegalArgumentException("SubGroups list must not be null");
+		}
+		
+		//double[][][] pairs = new double[subGroups.size()][][];
+		
+		//groupPairsProperties = new String[subGroups.size()][][];
+		
+		
+		ConservationScores2 scores = null;
+		
+		String[] names = null;
+		
+		char[][] merged = null;
+		
+		int index = 0;
+		
+		ColumnInfo[][] info = new ColumnInfo[this.alignment.numberOfColumns()][this.subGroups.size() * (this.subGroups.size() - 1) / 2];
+		
+		//int startLength = subGroups.size() - 1;
+		
+		for (int i = 0; i < subGroups.size(); i++) {
+			
+			//pairs[i] = new double[startLength][]; 
+			
+			//groupPairsProperties[i] = new String[startLength][];
+			
+			//int index = 0;
+			
+			for (int j = i + 1; j < this.subGroups.size(); j++) {
+				
+				merged = mergeSubFamilies(subGroups.get(i), subGroups.get(j));
+				
+				AminoAcidMatrix mat = new AminoAcidMatrix(merged, names, null);
+				
+				//scores = new ConservationScores2(mat);
+
+				//pairs[i][index] = scores.calculateScore(method, normalize);
+				
+				//groupPairsProperties[i][index] = zvelibilPropertiesAlignment(mat);
+				
+				double[] score = ConservationClient.getSMERFS(alignment, width, scoreType, gapTreshold, normalize);
+				
+				String[] props = zvelibilPropertiesAlignment(mat);
+				
+				for (int a = 0; a < score.length; a++) {
+					
+					String group = i + "-" + j;
+					
+					info[a][index] = new ColumnInfo(group, score[a], props[a]);
+				}
+				
+				index++;
+				
+			}
+			
+			//startLength--;
+		}
+		
+		return info;
+	}
+	
+ColumnInfo[][] subFamilyPairsConservation2(Method method, boolean normalize) {
 		
 		if (subGroups == null) {
 			
@@ -379,6 +492,8 @@ public class SubFamiliesConservation {
 		
 		return info;
 	}
+	
+	
 	
 	
 	void subFamilyResults(double[][] subResults, Method method) {

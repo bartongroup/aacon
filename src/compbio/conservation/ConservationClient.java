@@ -507,11 +507,15 @@ class ConservationClient {
 				
 				long loadTime = loadedTime - startTime;
 				
+				if(print != null) {
+				
 				print.println("Start time: " + startStr);
 				
 				print.println("Alignment loaded in: " + loadTime + "ms.");
 				
 				print.println("Alignment has: " + alignment.numberOfRows() + " sequences.");
+				
+				}
 				
 				ConservationScores2 scores = new ConservationScores2(alignment);
 		
@@ -551,8 +555,12 @@ class ConservationClient {
 						
 						results.put(Method.getMethod(methods[i]), result);
 						
+						if(print != null) {
+						
 						print.println(Method.getMethod(methods[i]).toString() + " done " + time + "ms.");
 	
+						}
+						
 						}
 		
 				}
@@ -565,9 +573,13 @@ class ConservationClient {
 				
 				}
 				
+				if (print != null) {
+				
 				print.println("End time: " + getDateTime());
 				
 				print.close();
+				
+				}
 				
 				}
 		

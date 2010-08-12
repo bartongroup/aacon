@@ -8,7 +8,7 @@ import java.util.*;
  *
  */
 
-public class Correlation {
+class Correlation {
 	
 	private final AminoAcidMatrix alignment;
 	
@@ -170,7 +170,7 @@ public class Correlation {
 	 * @return score
 	 */
 
-	public static double pearson2(int[] arr1, int[] arr2){
+	static double pearson2(int[] arr1, int[] arr2){
 		
 		assert arr1.length == arr2.length;
 	

@@ -312,6 +312,12 @@ public class ConservationMatrices {
 	return pairIndeces;
 
     }
+    
+    /**
+     * Gets index 1st imdex of an amino acid in a 2D matix
+     * @param a
+     * @return index
+     */
 
     static int getIndex(final char a) {
 	int idx = -1;
