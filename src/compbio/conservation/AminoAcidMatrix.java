@@ -55,7 +55,7 @@ import java.io.*;
 	 * The row number is a key and the column number is value
 	 */
 	
-	private char gap;
+	private Character[] gaps;
 	
 	//private List<HashMap<Integer, Integer>> xToGapSubs;
 	
@@ -95,7 +95,7 @@ import java.io.*;
 	 * @param alignment 2D array with alignment
 	 * @param names string if sequence names/IDs
 	 */
-	public AminoAcidMatrix (char[][] alignment, String[] names, Character gapChar) {
+	public AminoAcidMatrix (char[][] alignment, String[] names, Character[] gapChars) {
 		
 		for(int i = 0; i < alignment.length; i++ ) {
 			
@@ -129,9 +129,9 @@ import java.io.*;
 			this.sequenceNames = names;
 		}
 		
-		if (gapChar != null) {
+		if (gapChars != null) {
 			
-			this.gap = gapChar;
+			this.gaps = gapChars;
 		}
 		
 		this.matrix = new char[alignment.length][alignment[0].length];
@@ -144,20 +144,23 @@ import java.io.*;
 				
 				char ch = alignment[i][j];
 				
-				if (gapChar == null) {
+				if (gapChars == null) {
         	  		
         	  		if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
     		    		
     					ch = '-';
     				}
         	  		
-        	  		}
+        	  	}
         	  		
 				else {
-        	  			
-        	  			if (ch == gap) {
+        	  			for (int d = 0; d < gaps.length; d++) {
         	  				
-        	  				ch = '-';
+        	  				if (ch == gaps[d]) {
+        	  				
+        	  					ch = '-';
+        	  				}
+        	  				
         	  			}
         	  	}
 				
@@ -302,11 +305,11 @@ import java.io.*;
 	 * @param inStream
 	 */
 		
-	public AminoAcidMatrix(List<FastaSequence> seqs, Character gapChar){
+	public AminoAcidMatrix(List<FastaSequence> seqs, Character[] gapChars){
 		
-			  if (gapChar != null) {
+			  if (gapChars != null) {
 				  
-				  this.gap = gapChar;
+				  this.gaps = gapChars;
 			  }
 		
 			  Set<Character> alph = Alphabet.alphabet();
@@ -349,7 +352,7 @@ import java.io.*;
 			            	  
 			            	  		char ch = sequenceChars[j];
 			            	  		
-			            	  		if (gapChar == null) {
+			            	  		if (gapChars == null) {
 			            	  		
 			            	  		if(ch == '.' || ch == '*' || ch == ' ' || ch =='X') {
 			        		    		
@@ -360,9 +363,13 @@ import java.io.*;
 			            	  		
 			            	  		else {
 			            	  			
-			            	  			if (ch == gap) {
+			            	  			for (int d = 0; d < gaps.length; d++) {
+			            	  			
+			            	  				if (ch == gaps[d]) {
 			            	  				
-			            	  				ch = '-';
+			            	  					ch = '-';
+			            	  				}
+			            	  			
 			            	  			}
 			            	  		}
 			            	  		

@@ -235,7 +235,7 @@ class FamiliesConservationClient {
 	 * @return gap character or null if gap character not provided
 	 */
 	
-	private static String getGapChar(String[] cmd) {
+	private static String[] getGapChars(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
 			
@@ -243,7 +243,7 @@ class FamiliesConservationClient {
 			
 			if(form.trim().toLowerCase().startsWith(gapKey + pseparator)) {
 				
-				return form.substring(form.indexOf(pseparator) + 1);
+				return form.substring(form.indexOf(pseparator) + 1).split(",");
 			}
 		}
 		
@@ -409,28 +409,32 @@ class FamiliesConservationClient {
 		
 		boolean normalize = getNormalize(cmd);
 		
-		String gap = getGapChar(cmd);
+		String[] gap = getGapChars(cmd);
 		
-		Character gapChar;
+		Character[] gapChars;
 		
 		if (gap == null) {
 			
-			gapChar = null;
+			gapChars = null;
 		}
 		
 		else {
 			
-			if (gap.length() == 1) {
+			gapChars = new Character[gap.length];
+			
+			for(int i = 0; i < gap.length; i++) {
+			
+				if (gap[i].length() == 1) {
 				
-				gapChar = gap.charAt(0);
+					gapChars[i] = gap[i].charAt(0);
 			
-			}
+				}
 			
-			else {
+				else {
 				
-				throw new IllegalGapCharacterException("Argument provided as gap charcetr is more than one character long.");
+					throw new IllegalGapCharacterException("Argument provided as gap charcetr is more than one character long.");
+				}
 			}
-			
 		}
 		
 		String statFile = getStatFilePath(cmd);
@@ -450,7 +454,7 @@ class FamiliesConservationClient {
 				
 				if ((statFile == null && print == null) || (statFile != null && print != null)) {
 		
-				AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, gapChar);
+				AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, gapChars);
 				
 				long loadedTime = System.currentTimeMillis();
 				

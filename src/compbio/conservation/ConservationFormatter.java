@@ -193,6 +193,8 @@ public class ConservationFormatter {
 									
 							}
 							
+							//print.close();
+							
 						}
 						
 					}
@@ -223,14 +225,19 @@ public class ConservationFormatter {
 									
 							}
 							
+							//print.close();
+							
 						}
 						
 					}
 				
 				}
 				
+				if(print != null) {
 				
 				print.close();
+				
+				}
 		}
 			
 	}
@@ -247,7 +254,7 @@ public class ConservationFormatter {
 		
 		catch(IOException ex) {
 			
-			System.out.println("Problem writing" + outFilePath);
+			System.out.println("Problem writing to: " + outFilePath + " file.");
 			
 			print = null;
 			

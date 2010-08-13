@@ -41,7 +41,10 @@ Program accepts command line arguments. All the arguments are preceded by a cert
       3. gap percentage cutoff - a float greater than 0 and smaller or equal 1
       EXAMPLE: -s=5,MID_SCORE,0.1
       
--d= - precedes a full path to a file where program execution details are to be listed      
+-d= - precedes a full path to a file where program execution details are to be listed  
+-g= - precedes comma separated list of gap characters provided by the user, if you're using an unusual gap character
+      (not a -,., ,*) you have to provide it. If you you provide this list you have to list all the gaps accepted. Including those
+      that were previously treated as a default.      
 -n - using this key causes the results to be normalized
 
 EXAMPLE HOW TO RUN THE PROGRAM:

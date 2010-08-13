@@ -30,7 +30,9 @@ class ConservationClient {
 	
 	final static String statKey = "-d";
 	
-	final static String info = "This program allows calculation of conservation of amino acids in\n" + 
+	final static String info = "AA Connservation 1.0\n" + 
+			"\n" + 
+			"This program allows calculation of conservation of amino acids in\n" + 
 			"multiple sequence alignments.\n" + 
 			"It implements 15 different conservation scores as described by Valdar in\n" + 
 			"his paper (Scoring Residue Conservation, PROTEINS: Structure, Function\n" + 
@@ -71,7 +73,10 @@ class ConservationClient {
 			"      3. gap percentage cutoff - a float greater than 0 and smaller or equal 1\n" + 
 			"      EXAMPLE: -s=5,MID_SCORE,0.1\n" + 
 			"      \n" + 
-			"-d= - precedes a full path to a file where program execution details are to be listed      \n" + 
+			"-d= - precedes a full path to a file where program execution details are to be listed  \n" + 
+			"-g= - precedes comma separated list of gap characters provided by the user, if you're using an unusual gap character\n" + 
+			"      (not a -,., ,*) you have to provide it. If you you provide this list you have to list all the gaps accepted. Including those\n" + 
+			"      that were previously treated as a default.      \n" + 
 			"-n - using this key causes the results to be normalized\n" + 
 			"\n" + 
 			"EXAMPLE HOW TO RUN THE PROGRAM:\n" + 
@@ -83,7 +88,8 @@ class ConservationClient {
 			"Results will be normalized between 0 and 1.\n" + 
 			"To normalize the results n = (d - dmin)/(dmax - dmin) formula is used.\n" + 
 			"If the results are negative they are first shifted by adding the \n" + 
-			"absolute value of the most negative number. \n";
+			"absolute value of the most negative number. \n" + 
+			"";
 			
 	/**
 	 * Gets method name from the command line
@@ -243,7 +249,7 @@ class ConservationClient {
 	 * @return gap character or null if gap character not provided
 	 */
 	
-	private static String getGapChar(String[] cmd) {
+	private static String[] getGapChars(String[] cmd) {
 		
 		for (int i = 0; i < cmd.length; i++) {
 			
@@ -251,7 +257,7 @@ class ConservationClient {
 			
 			if(form.trim().toLowerCase().startsWith(gapKey + pseparator)) {
 				
-				return form.substring(form.indexOf(pseparator) + 1);
+				return form.substring(form.indexOf(pseparator) + 1).split(",");
 			}
 		}
 		
@@ -458,26 +464,32 @@ class ConservationClient {
 		
 		boolean normalize = getNormalize(cmd);
 		
-		String gap = getGapChar(cmd);
+		String[] gap = getGapChars(cmd);
 		
-		Character gapChar;
+		Character[] gapChars;
 		
 		if (gap == null) {
 			
-			gapChar = null;
+			gapChars = null;
 		}
 		
 		else {
 			
-			if (gap.length() == 1) {
-				
-				gapChar = gap.charAt(0);
+			gapChars = new Character[gap.length];
 			
-			}
+			for (int i = 0; i < gap.length; i++) {
 			
-			else {
+				if (gap[i].length() == 1) {
 				
-				throw new IllegalGapCharacterException("Argument provided as gap charcetr is more than one character long.");
+					gapChars[i] = gap[i].charAt(0);
+			
+				}
+			
+				else {
+				
+					throw new IllegalGapCharacterException("Argument provided as gap charcetr is more than one character long.");
+				}
+			
 			}
 			
 		}
@@ -501,7 +513,7 @@ class ConservationClient {
 				
 				if ((statFile == null && print == null) || (statFile != null && print != null)) {
 		
-				AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, gapChar);
+				AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, gapChars);
 				
 				long loadedTime = System.currentTimeMillis();
 				
