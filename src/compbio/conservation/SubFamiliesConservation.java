@@ -6,6 +6,14 @@ import java.io.*;
 import compbio.util.FastaSequence;
 import compbio.util.SequenceUtil;
 
+/**
+ * Calculates conservation in subfamilies provided.
+ * Kabat and Jores methods can not be used here. Otherwise an exception may be thrown.
+ * Better tresholds need to be set.
+ * @author agolicz
+ *
+ */
+
 public class SubFamiliesConservation {
 	
 	final List<char[][]> subGroups;
@@ -217,6 +225,13 @@ public class SubFamiliesConservation {
 		
 	}
 	
+	/**
+	 * Calculates conservation in subfamilies
+	 * @param method
+	 * @param normalize
+	 * @return
+	 */
+	
 ColumnInfo[][] subgrupsConservation2(Method method, boolean normalize) {
 		
 		if (method == null) {
@@ -363,6 +378,15 @@ ColumnInfo[][] subgrupsConservation2(Method method, boolean normalize) {
 		return pairs;
 	}
 	
+	/**
+	 * Calculates SMERFS for subfamilies
+	 * @param width
+	 * @param scoreType
+	 * @param gapTreshold
+	 * @param normalize
+	 * @return
+	 */
+	
 	ColumnInfo[][] subFamilyPairsConservation3(int width, SMERFSColumnScore scoreType, double gapTreshold, boolean normalize) {
 		
 		if (subGroups == null) {
@@ -427,6 +451,13 @@ ColumnInfo[][] subgrupsConservation2(Method method, boolean normalize) {
 		
 		return info;
 	}
+	
+	/**
+	 * Calculates conservation for pairs of subfamilies.
+	 * @param method
+	 * @param normalize
+	 * @return
+	 */
 	
 ColumnInfo[][] subFamilyPairsConservation2(Method method, boolean normalize) {
 		
@@ -494,7 +525,11 @@ ColumnInfo[][] subFamilyPairsConservation2(Method method, boolean normalize) {
 	}
 	
 	
-	
+	/**
+	 * Gives conservation category based on the results
+	 * @param subResults
+	 * @param method
+	 */
 	
 	void subFamilyResults(double[][] subResults, Method method) {
 		
@@ -509,6 +544,11 @@ ColumnInfo[][] subFamilyPairsConservation2(Method method, boolean normalize) {
 		}
 	}
 	
+	/**
+	 * Gives conservation category based on the results.
+	 * @param subPairs
+	 * @param method
+	 */
 	void subPairsResults(double[][][] subPairs, Method method) {
 		
 		groupPairsConsStat = new ConservationStatus[subPairs.length][][];

@@ -1,4 +1,10 @@
 package compbio.conservation;
+/**
+ * Enumeration listing all the supported methods.
+ * 
+ * @author agolicz
+ *
+ */
 
 	enum Method { KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, ZVELIBIL, KARLIN, ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON, LANDGRAF, SANDER, VALDAR, SMERFS;
 

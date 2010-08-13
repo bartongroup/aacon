@@ -201,6 +201,20 @@ import java.io.*;
 		
 	}
 	
+	/**
+	 * Takes characters given and creates a a matrix 3x3.
+	 * Used for tests only.
+	 * @param p1 first row first char
+	 * @param p2 first row second char
+	 * @param p3 first row third char
+	 * @param p4 second row first char
+	 * @param p5 second row second char
+	 * @param p6 second row third char
+	 * @param p7 third row first char
+	 * @param p8 third row second char
+	 * @param p9 third row third char
+	 */
+	
 	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,char p7 , char p8 ,char p9){
 		
 		Set<Character> alp = Alphabet.alphabet();
@@ -903,6 +917,12 @@ import java.io.*;
 				
 			}
 			
+			/**
+			 * Splits alignment into provided groups. Groups provided by giving sequence index(number)
+			 * in the alignment. Indexing starts with 0.
+			 * @param groups
+			 * @return
+			 */
 			List<char[][]> splitAlignment(int[][] groups) {
 				
 				List<char[][]> groupsList = new ArrayList<char[][]>();

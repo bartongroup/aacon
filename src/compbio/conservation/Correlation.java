@@ -142,7 +142,7 @@ class Correlation {
 	/**
 	 * Calculates person coefficients.
 	 * 
-	 * @return array of pearson correlation scores indexed by window
+	 * @return array of Pearson correlation scores indexed by window
 	 */
 	private double[] calcPearsonCoeff3() {
 		
@@ -227,7 +227,7 @@ class Correlation {
 	/**
 	 * Calculates local similarity matrices for the alignment.
 	 * 
-	 * @return "D array with local similarity matrices
+	 * @return 2D array with local similarity matrices
 	 */
 	
 	private int[][] localSimilarity2() {

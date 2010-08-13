@@ -15,6 +15,12 @@ public class ConservationScores2 {
 		
 	}
 
+	/**
+	 * 
+	 * @param method
+	 * @param normalize
+	 * @return scoer for teh given method
+	 */
 double[] calculateScore(Method method, boolean normalize) {
 		
 		if (method == Method.KABAT) {

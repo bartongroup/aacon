@@ -5,7 +5,16 @@ import java.io.*;
 
 public class ConservationFormatter {
 	
-	static <T> void formatResult(T tag,  double[] result, int resultPrecision, PrintWriter print) {
+	/**
+	 * Formats results
+	 * @param <T> 
+	 * @param tag any object(usually used for members of enumeration)
+	 * @param result array of results to be printed
+	 * @param resultPrecision
+	 * @param print reference to PrintWriter object
+	 */
+	
+	private static <T> void formatResult(T tag,  double[] result, int resultPrecision, PrintWriter print) {
 		
 		String tagFormat = "%s";
 		
@@ -22,7 +31,18 @@ public class ConservationFormatter {
 		print.println();
 	}
 	
-	static <T> void formatResultWithAlignment(T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
+	/**
+	 * 
+	 * @param <T>
+	 * @param tag any object(usually used for members of enumeration)
+	 * @param result array of results to be printed
+	 * @param tagWidth
+	 * @param resultWidth
+	 * @param resultPrecision
+	 * @param print reference to PrintWriter object
+	 */
+	
+	private static <T> void formatResultWithAlignment(T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, PrintWriter print) {
 		
 		String tagFormat = "%-" + tagWidth + "s";
 		
@@ -38,6 +58,17 @@ public class ConservationFormatter {
 		print.println();
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param alignment 
+	 * @param tag any object(usually used for members of enumeration)
+	 * @param result
+	 * @param tagWidth
+	 * @param resultWidth
+	 * @param resultPrecision
+	 * @param outputFile
+	 */
 	static <T> void printResultWithAlignment(AminoAcidMatrix alignment, T tag,  double[] result, int tagWidth, int resultWidth, int resultPrecision, String outputFile) {
 		
 		PrintWriter print = null;
@@ -61,6 +92,16 @@ public class ConservationFormatter {
 		
 		
 	}
+	/**
+	 * 
+	 * @param <T>
+	 * @param alignment
+	 * @param tag any object(usually used for members of enumeration)
+	 * @param result
+	 * @param resultPrecision
+	 * @param outputFile
+	 * @param append
+	 */
 	
 	static <T> void printResultNoAlignment(AminoAcidMatrix alignment, T tag,  double[] result, int resultPrecision, String outputFile, boolean append) {
 		
