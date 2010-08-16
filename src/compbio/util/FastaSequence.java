@@ -100,8 +100,8 @@ public class FastaSequence {
 
     /**
      * 
-     * @return one		// TODO Auto-generated constructor stub line name, next line sequence, no matter what the sequence
-     *         length is
+     * @return one // TODO Auto-generated constructor stub line name, next line
+     *         sequence, no matter what the sequence length is
      */
     public String getOnelineFasta() {
 	String fasta = ">" + getId() + "\n";
@@ -158,20 +158,34 @@ public class FastaSequence {
     }
 
     @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + ((id == null) ? 0 : id.hashCode());
+	result = prime * result
+		+ ((sequence == null) ? 0 : sequence.hashCode());
+	return result;
+    }
+
+    @Override
     public boolean equals(Object obj) {
-	if (obj == null) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
 	    return false;
-	}
-	if (!(obj instanceof FastaSequence)) {
+	if (getClass() != obj.getClass())
 	    return false;
-	}
-	FastaSequence fs = (FastaSequence) obj;
-	if (!fs.getId().equals(this.getId())) {
+	FastaSequence other = (FastaSequence) obj;
+	if (id == null) {
+	    if (other.id != null)
+		return false;
+	} else if (!id.equals(other.id))
 	    return false;
-	}
-	if (!fs.getSequence().equalsIgnoreCase(this.getSequence())) {
+	if (sequence == null) {
+	    if (other.sequence != null)
+		return false;
+	} else if (!sequence.equals(other.sequence))
 	    return false;
-	}
 	return true;
     }
 
