@@ -6,8 +6,8 @@
 	<property name="java.src" location="${basedir}/src" />
 	<property name="classes" location="${basedir}/bin" />
 	<property name="lib.path" location="${basedir}/lib" />
-	<property name="jar.version" value="1.1" />
-	<property name="jar.name" value="compbio-util-${jar.version}.jar" />
+	<property name="jar.version" value="1.0" />
+	<property name="jar.name" value="compbio-conservation-${jar.version}.jar" />
 	<property name="jar.path" value="${basedir}/${jar.name}" />
 	
 	<!-- add libraries -->
@@ -40,9 +40,10 @@
 			<manifest>
 				<attribute name="Built-By" value="Petr V Troshin" />
 				<attribute name="Class-Path" value="." />
-				<attribute name="Implementation-Title" value="Compbio group commonly used utilities" />
+				<attribute name="Main-Class" value="compbio.conservation.ConservationClient" />
+				<attribute name="Implementation-Title" value="AA Conservation calculator" />
 				<attribute name="Implementation-Vendor" value="Petr V Troshin" />
-				<attribute name="Implementation-URL" value="http://www.compbio.dundee.ac.uk/user/pvtroshin" />
+				<attribute name="Implementation-URL" value="http://www.compbio.dundee.ac.uk/" />
 			</manifest>
 		</jar>
 	</target>
