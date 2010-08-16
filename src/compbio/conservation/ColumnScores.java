@@ -52,12 +52,12 @@ public class ColumnScores {
 	    throw new IllegalArgumentException(
 		    "Column number greater than number of columns in teh matrix.");
 	}
-	
-	Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(columnNr);
+
+	Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
+		columnNr);
 
 	if (acidsInt.containsKey('-')
-		&& acidsInt.get('-') == matrix
-			.getInverseMatrix()[columnNr].length - 1) {
+		&& acidsInt.get('-') == matrix.getInverseMatrix()[columnNr].length - 1) {
 
 	    return true;
 	}
@@ -85,11 +85,11 @@ public class ColumnScores {
 	    throw new IllegalArgumentException(
 		    "Column number greater than number of columns in teh matrix.");
 	}
-	
-	Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(columnNr);
 
-	if (acidsInt.size() == 1
-		&& acidsInt.containsKey('-') == false) {
+	Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
+		columnNr);
+
+	if (acidsInt.size() == 1 && acidsInt.containsKey('-') == false) {
 
 	    return true;
 
@@ -196,8 +196,9 @@ public class ColumnScores {
 	}
 
 	int max = 0;
-	
-	Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(columnNr);
+
+	Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
+		columnNr);
 
 	Set<Character> keys = acidsInt.keySet();
 
@@ -206,11 +207,10 @@ public class ColumnScores {
 	while (itr.hasNext()) {
 
 	    Character key = itr.next();
-	    
+
 	    int value = acidsInt.get(key);
-	    
-	    if (key != '-'
-		    && value > max) {
+
+	    if (key != '-' && value > max) {
 
 		max = value;
 
@@ -294,13 +294,12 @@ public class ColumnScores {
 	// special case #1 one residue type only
 
 	// special case #2 all but one are gaps
-	
+
 	boolean oneRes = oneResidueTypeNoGaps(colNr, matrix);
-	
+
 	boolean allButOne = allButOneGaps(colNr, matrix);
 
-	if (oneRes == true
-		|| allButOne == true) {
+	if (oneRes == true || allButOne == true) {
 
 	    if (oneRes == true) {
 
@@ -311,11 +310,10 @@ public class ColumnScores {
 	    }
 
 	    else {
-	    	
-	    int length = matrix.getInverseMatrix().length;
 
-		result = length
-			* (length - 1) / 2;
+		int length = matrix.getInverseMatrix().length;
+
+		result = length * (length - 1) / 2;
 
 		return result;
 
@@ -366,7 +364,7 @@ public class ColumnScores {
 	    while (itr2.hasNext()) {
 
 		Character key = itr2.next();
-		
+
 		int value = acidsIntMapCopy.get(key);
 
 		if (value > max1) {
@@ -433,7 +431,7 @@ public class ColumnScores {
 		}
 
 	    }
-	    
+
 	    int length = matrix.getInverseMatrix()[colNr].length;
 
 	    result = ((double) totalPairs / (double) mostFreqNr)
@@ -709,49 +707,51 @@ public class ColumnScores {
 	double finalSum;
 
 	double blosumSum = 0.0;
-	
+
 	char[] curColumn = matrix.getInverseMatrix()[colNr];
 
 	for (int a = 0; a < curColumn.length; a++) {
 
 	    if (curColumn[a] != '-') {
-	    	
-	    	int idxA = ConservationMatrices.getIndex(curColumn[a]);
-	    	
-	    	int pairAIndex = 24 * idxA + idxA;
-	    	
-	    	double aSelf = ConservationMatrices.blosum[pairAIndex];
-	    	
-	    	assert aSelf > 0;
 
-	    	for (int b = a + 1; b < curColumn.length; b++) {
+		int idxA = ConservationMatrices.getIndex(curColumn[a]);
 
-	    		if (curColumn[b] != '-') {
-		    	
-	    			int idxB = ConservationMatrices.getIndex(curColumn[b]);
-		    	
-	    			int pairABIndex = 24 * idxA + idxB;
+		int pairAIndex = 24 * idxA + idxA;
 
-	    			double pairScore = ConservationMatrices.blosum[pairABIndex];
+		double aSelf = ConservationMatrices.blosum[pairAIndex];
 
-	    			int pairBIndex = 24 * idxB + idxB;
+		assert aSelf > 0;
 
-	    			double bSelf = ConservationMatrices.blosum[pairBIndex];
+		for (int b = a + 1; b < curColumn.length; b++) {
 
-	    			assert bSelf > 0;
+		    if (curColumn[b] != '-') {
 
-	    			blosumSum = blosumSum
-	    			+ ((pairScore) / (Math.sqrt(aSelf * bSelf)));
+			int idxB = ConservationMatrices.getIndex(curColumn[b]);
 
-	    		}
-	    		
-	    	}
+			int pairABIndex = 24 * idxA + idxB;
+
+			double pairScore = ConservationMatrices.blosum[pairABIndex];
+
+			int pairBIndex = 24 * idxB + idxB;
+
+			double bSelf = ConservationMatrices.blosum[pairBIndex];
+
+			assert bSelf > 0;
+
+			blosumSum = blosumSum
+				+ ((pairScore) / (Math.sqrt(aSelf * bSelf)));
+
+		    }
+
+		}
 
 	    }
 
 	}
 
-	finalSum = blosumSum * (2.0 / ( matrix.getInverseMatrix()[colNr].length * (matrix.getInverseMatrix()[colNr].length - 1)));
+	finalSum = blosumSum
+		* (2.0 / (matrix.getInverseMatrix()[colNr].length * (matrix
+			.getInverseMatrix()[colNr].length - 1)));
 
 	assert finalSum >= -1 && finalSum <= 1;
 
@@ -804,17 +804,17 @@ public class ColumnScores {
 	for (int a = 0; a < acidsPresent.length; a++) {
 
 	    char charA = acidsPresent[a];
-	    
+
 	    int idxA = ConservationMatrices.getIndex(charA);
 
 	    for (int b = a + 1; b < acidsPresent.length; b++) {
 
 		char charB = acidsPresent[b];
-		
+
 		int idxB = ConservationMatrices.getIndex(charB);
 
 		int pairABIndex = 24 * idxA + idxB;
-		
+
 		scoreSum = scoreSum
 			+ ConservationMatrices.miyataArmon[pairABIndex];
 	    }
@@ -861,18 +861,18 @@ public class ColumnScores {
 	double[][] points = new double[matrix.getInverseMatrix()[colNr].length][alp.length];
 
 	char[] curColumn = matrix.getInverseMatrix()[colNr];
-	
+
 	for (int a = 0; a < curColumn.length; a++) {
-		
-		int idxA = ConservationMatrices.getIndex(curColumn[a]);
+
+	    int idxA = ConservationMatrices.getIndex(curColumn[a]);
 
 	    for (int b = 0; b < alp.length; b++) {
-	    	
-	    	int idxB = ConservationMatrices.getIndex(alp[b]);
-	    	
-	    	int pairABIndex = 24 * idxA + idxB;
 
-	    	points[a][b] = ConservationMatrices.blosum[pairABIndex];
+		int idxB = ConservationMatrices.getIndex(alp[b]);
+
+		int pairABIndex = 24 * idxA + idxB;
+
+		points[a][b] = ConservationMatrices.blosum[pairABIndex];
 
 	    }
 
@@ -891,7 +891,8 @@ public class ColumnScores {
 
 	assert sum != null;
 
-	meanPoint = ConservationAccessory.multPointByScalar(sum, 1.0 / curColumn.length);
+	meanPoint = ConservationAccessory.multPointByScalar(sum,
+		1.0 / curColumn.length);
 
 	for (int c = 0; c < curColumn.length; c++) {
 
@@ -942,10 +943,11 @@ public class ColumnScores {
 	}
 
 	double result = 0.0;
-	
+
 	char[] curColumn = matrix.getInverseMatrix()[colNr];
-	
-	Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(colNr);
+
+	Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
+		colNr);
 
 	Set<Character> keys = acidsInt.keySet();
 
@@ -954,17 +956,17 @@ public class ColumnScores {
 	while (itr1.hasNext()) {
 
 	    char key1 = itr1.next();
-	    
-	    int idx1 = ConservationMatrices.getIndex(key1); 
+
+	    int idx1 = ConservationMatrices.getIndex(key1);
 
 	    Iterator<Character> itr2 = keys.iterator();
 
 	    while (itr2.hasNext()) {
 
 		char key2 = itr2.next();
-		
+
 		int idx2 = ConservationMatrices.getIndex(key2);
-		
+
 		int pair12Index = 24 * idx1 + idx2;
 
 		double blosum = ConservationMatrices.blosum[pair12Index];
@@ -1191,20 +1193,22 @@ public class ColumnScores {
 	double sum = 0.0;
 
 	double result = 0.0;
-	
+
 	char[] curColumn = matrix.getInverseMatrix()[colNr];
-	
+
 	double[] voronoiWeights = matrix.getVoronoiWeights(1000);
 
 	for (int a = 0; a < curColumn.length; a++) {
-		
-		double voronoiA = voronoiWeights[a];
+
+	    double voronoiA = voronoiWeights[a];
 
 	    for (int b = a + 1; b < curColumn.length; b++) {
 
-		double disIJ = ConservationMatrices.dissimilarity(curColumn[a], curColumn[b]);
+		double disIJ = ConservationMatrices.dissimilarity(curColumn[a],
+			curColumn[b]);
 
-		double disJI = ConservationMatrices.dissimilarity(curColumn[b], curColumn[a]);
+		double disJI = ConservationMatrices.dissimilarity(curColumn[b],
+			curColumn[a]);
 
 		sum = sum + voronoiA * disIJ + voronoiWeights[b] * disJI;
 	    }
@@ -1285,24 +1289,25 @@ public class ColumnScores {
 	double moderator = 0.0;
 
 	double result = 0.0;
-	
+
 	char[] curColumn = matrix.getInverseMatrix()[colNr];
-	
+
 	double[] vingronArgosWeights = matrix.vingronArgosWeights();
 
 	for (int a = 0; a < curColumn.length; a++) {
-		
-		int aIdx = 24 * ConservationMatrices.getIndex(curColumn[a]);
+
+	    int aIdx = 24 * ConservationMatrices.getIndex(curColumn[a]);
 
 	    for (int b = a + 1; b < curColumn.length; b++) {
-	    	
-	    double mod = vingronArgosWeights[a] * vingronArgosWeights[b];
-	    
-	    int pairIndex = aIdx + ConservationMatrices.getIndex(curColumn[b]);
-	    
-	    sum += mod * ConservationMatrices.pet91[pairIndex];
-	                                            
-	    moderator += mod;                                       
+
+		double mod = vingronArgosWeights[a] * vingronArgosWeights[b];
+
+		int pairIndex = aIdx
+			+ ConservationMatrices.getIndex(curColumn[b]);
+
+		sum += mod * ConservationMatrices.pet91[pairIndex];
+
+		moderator += mod;
 	    }
 
 	}

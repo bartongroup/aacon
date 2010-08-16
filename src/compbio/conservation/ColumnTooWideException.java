@@ -1,10 +1,10 @@
 package compbio.conservation;
 
-	public class ColumnTooWideException extends RuntimeException {
-	
-	ColumnTooWideException(String message) {
+public class ColumnTooWideException extends RuntimeException {
 
-		super(message);
-		
-	}
+    ColumnTooWideException(String message) {
+
+	super(message);
+
+    }
 }

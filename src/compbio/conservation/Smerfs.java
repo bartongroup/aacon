@@ -1,19 +1,20 @@
 package compbio.conservation;
 
-public enum Smerfs { SMERFS;
+public enum Smerfs {
+    SMERFS;
 
-	static Smerfs getSmerfs(String smerfs) {
-		
-		smerfs = smerfs.trim().toLowerCase();
-		
-		if(smerfs.equalsIgnoreCase(Smerfs.SMERFS.toString())) {
-			
-			return SMERFS;
-			
-		}
-	
-		return null;
-		
+    static Smerfs getSmerfs(String smerfs) {
+
+	smerfs = smerfs.trim().toLowerCase();
+
+	if (smerfs.equalsIgnoreCase(Smerfs.SMERFS.toString())) {
+
+	    return SMERFS;
+
 	}
+
+	return null;
+
+    }
 
 }
