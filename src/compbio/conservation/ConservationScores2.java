@@ -1,7 +1,5 @@
 package compbio.conservation;
 
-import java.util.EnumMap;
-import java.util.Map;
 
 public class ConservationScores2 {
 
@@ -13,6 +11,10 @@ public class ConservationScores2 {
 
 	this.alignment = alignment;
 
+    }
+
+    AminoAcidMatrix getAlignment() {
+	return alignment;
     }
 
     /**
