@@ -102,11 +102,15 @@ public class SlowMethodTester {
 	try {
 
 	    Timer timer = new Timer(TimeUnit.MILLISECONDS);
-	    List<FastaSequence> sequences = SequenceUtil
-		    .readFasta(new FileInputStream(new File(
-			    SequenceUtilTester.DATA_PATH + File.separator
-				    + AVG_AL)));
 
+	    List<FastaSequence> sequences = SequenceUtil
+		    .readFasta(new FileInputStream(new File(args[0])));
+
+	    /*
+	     * List<FastaSequence> sequences = SequenceUtil .readFasta(new
+	     * FileInputStream(new File( SequenceUtilTester.DATA_PATH +
+	     * File.separator + AVG_AL)));
+	     */
 	    System.out.println("Loading sequences: " + timer.getStepTime());
 
 	    AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
