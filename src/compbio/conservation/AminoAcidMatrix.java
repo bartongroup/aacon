@@ -4,12 +4,17 @@ package compbio.conservation;
 //gets fasta sequences and puts them into matrix 
 //might have to check if all sequences are equal length(ask)
 
-import java.util.*;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
-import compbio.util.SequenceUtil;
 import compbio.util.FastaSequence;
-
-import java.io.*;
 
 /**
  * This class provides representation of an alignment as a matrix implemented as
@@ -452,7 +457,7 @@ public class AminoAcidMatrix {
     }
 
     /**
-     * Gets the number of rows.
+     * Gets the number of rows. E.g. number of sequences in the alignment
      * 
      * @return number of rows
      */

@@ -1,6 +1,6 @@
 package compbio.conservation;
 
-import java.util.*;
+import java.util.Map;
 
 /**
  * Class has static methods used to create similarity matrices, and correlation
@@ -43,7 +43,7 @@ class Correlation {
 		|| winWidth > alignment.numberOfColumns()) {
 
 	    throw new IllegalArgumentException(
-		    "ColWidth smaller than zero or an even number or largrt tah the number of columns");
+		    "ColWidth smaller than zero or an even number or larger than the number of columns");
 	}
 
 	this.alignment = alignment;
@@ -266,6 +266,7 @@ class Correlation {
 		    "The width of the window is greater than the length of the allignment.");
 	}
 
+	/* length of the alignment - window size */
 	int nrOfWindows = ((alignment.numberOfColumns() - alignment
 		.numberOfColumns()
 		% winWidth)
@@ -276,6 +277,10 @@ class Correlation {
 		.numberOfColumns()
 		% winWidth);
 
+	/*
+	 * System.out .println(nrOfWindows + " " + alignment.numberOfRows() +
+	 * " " + (alignment.numberOfRows() (alignment.numberOfRows() - 1) / 2));
+	 */
 	int[][] localSim = new int[nrOfWindows][alignment.numberOfRows()
 		* (alignment.numberOfRows() - 1) / 2];
 
@@ -310,6 +315,7 @@ class Correlation {
 
 		localSim[windowNr][globalIndex] = sum;
 
+		System.out.println("!" + sum);
 		windowNr++;
 
 		for (int k = winWidth; k < alignment.numberOfColumns(); k++) {
@@ -518,9 +524,7 @@ class Correlation {
 
 	    results = calcPearsonCoeff3();
 
-	}
-
-	else {
+	} else {
 
 	    results = calcPearson2();
 	}
