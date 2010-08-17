@@ -315,7 +315,6 @@ class Correlation {
 
 		localSim[windowNr][globalIndex] = sum;
 
-		System.out.println("!" + sum);
 		windowNr++;
 
 		for (int k = winWidth; k < alignment.numberOfColumns(); k++) {
@@ -528,6 +527,10 @@ class Correlation {
 
 	    results = calcPearson2();
 	}
+
+	//System.out.println(Arrays.toString(results));
+	//System.out.println(Arrays.toString(results2));
+	//assert Arrays.equals(results, results2);
 
 	double[] columnResults;
 
