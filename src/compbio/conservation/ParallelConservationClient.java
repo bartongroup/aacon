@@ -16,15 +16,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SequenceUtil;
 
-class ConservationClient {
+/**
+ * TODO to complete
+ * 
+ * @author pvtroshin
+ * 
+ */
+class ParallelConservationClient {
 
     private final Map<Method, double[]> results = new EnumMap<Method, double[]>(
 	    Method.class);
+
+    private static volatile ExecutorService executor;
 
     final static String pseparator = "=";
 
@@ -104,6 +117,29 @@ class ConservationClient {
 	    + "If the results are negative they are first shifted by adding the \n"
 	    + "absolute value of the most negative number. \n" + "";
 
+    private void initExecutor(int procNum) {
+	int corenum = Runtime.getRuntime().availableProcessors();
+	if (procNum <= 1 || procNum > corenum * 2) {
+	    System.err.println("Number of processors must be more than 1 and "
+		    + "less than the number of cores*2"
+		    + "However given number of processors is " + procNum);
+	    System.err.println("Changing number of processors to " + corenum
+		    + " - the number of cores");
+	    procNum = corenum;
+	}
+
+	if (executor == null) {
+	    synchronized (ParallelConservationClient.class) {
+		if (executor == null) {
+		    executor = new ThreadPoolExecutor(procNum, procNum, 0L,
+			    TimeUnit.MILLISECONDS,
+			    new SynchronousQueue<Runnable>(),
+			    new ThreadPoolExecutor.CallerRunsPolicy());
+		}
+	    }
+	}
+    }
+
     /**
      * Gets method name from the command line
      * 
@@ -111,7 +147,6 @@ class ConservationClient {
      *            array of cmd arguments
      * @return method name or null if no method name provided
      */
-
     private static String[] getMethodNames(String[] cmd) {
 
 	for (int i = 0; i < cmd.length; i++) {
@@ -299,8 +334,8 @@ class ConservationClient {
      * supported.
      */
 
-    private static double[] getMethod(String method,
-	    ConservationScores2 scores, boolean normalize) {
+    static double[] getMethod(String method, ConservationScores2 scores,
+	    boolean normalize) {
 
 	double[] result = null;
 
@@ -400,7 +435,7 @@ class ConservationClient {
      *            command line arguments
      */
 
-    ConservationClient(String[] cmd) {
+    ParallelConservationClient(String[] cmd) {
 
 	String startStr = this.getDateTime();
 
@@ -588,7 +623,7 @@ class ConservationClient {
 			for (int i = 0; i < methods.length; i++) {
 
 			    long time1 = System.currentTimeMillis();
-
+			    MethodWrapper wrapper = null;
 			    if (Method.getMethod(methods[i]) == Method.SMERFS) {
 
 				if (SMERFSDetails != null
@@ -601,19 +636,26 @@ class ConservationClient {
 
 				else {
 
-				    result = getSMERFS(alignment, SMERFSWidth,
-					    score, SMERFSGapTreshold, normalize);
+				    wrapper = new MethodWrapper(scores,
+					    normalize, SMERFSWidth,
+					    SMERFSGapTreshold);
+				    //result = getSMERFS(alignment, SMERFSWidth,
+				    //    score, SMERFSGapTreshold, normalize);
 
 				}
 
 			    }
 
 			    else {
-
-				result = getMethod(methods[i], scores,
+				wrapper = new MethodWrapper(methods[i], scores,
 					normalize);
+				//result = getMethod(methods[i], scores,
+				//	normalize);
 
 			    }
+
+			    Future<double[]> wresult = executor.submit(wrapper);
+			    //TODO  executor.awaitTermination(TimeUnit.SECONDS, 3600);
 
 			    long time2 = System.currentTimeMillis();
 
@@ -656,17 +698,11 @@ class ConservationClient {
 		    }
 
 		}
-		//ConservationFormatter.formatResults(scores);
 
 	    }
 
 	}
 
-    }
-
-    Map<Method, double[]> getResults() {
-
-	return results;
     }
 
     /**
@@ -697,7 +733,7 @@ class ConservationClient {
 	    System.out.print(info);
 	}
 
-	ConservationClient cons = new ConservationClient(args);
+	ParallelConservationClient cons = new ParallelConservationClient(args);
 
     }
 

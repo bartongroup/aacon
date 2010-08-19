@@ -11,12 +11,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.annotations.Test;
 
-import compbio.util.FastaSequence;
-import compbio.util.SequenceUtil;
-import compbio.util.SequenceUtilTester;
+import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.SequenceUtil;
 import compbio.util.Timer;
 
 public class SlowMethodTester {
+
+    public final static String DATA_PATH = "test/data";
 
     static final String TINY_AL = "small.align";
     static final String SMALL_AL = "TO1296.fasta.align";
@@ -28,9 +29,8 @@ public class SlowMethodTester {
 	try {
 	    Timer timer = new Timer(TimeUnit.MILLISECONDS);
 	    List<FastaSequence> sequences = SequenceUtil
-		    .readFasta(new FileInputStream(new File(
-			    SequenceUtilTester.DATA_PATH + File.separator
-				    + AVG_AL)));
+		    .readFasta(new FileInputStream(new File(DATA_PATH
+			    + File.separator + AVG_AL)));
 	    System.out.println("Loading sequences: " + timer.getStepTime());
 
 	    AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
@@ -61,9 +61,8 @@ public class SlowMethodTester {
 	try {
 	    Timer timer = new Timer(TimeUnit.MILLISECONDS);
 	    List<FastaSequence> sequences = SequenceUtil
-		    .readFasta(new FileInputStream(new File(
-			    SequenceUtilTester.DATA_PATH + File.separator
-				    + SMALL_AL)));
+		    .readFasta(new FileInputStream(new File(DATA_PATH
+			    + File.separator + SMALL_AL)));
 	    System.out.println("Loading sequences: " + timer.getStepTime());
 
 	    AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);

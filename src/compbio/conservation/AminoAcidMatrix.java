@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import compbio.util.FastaSequence;
+import compbio.data.sequence.FastaSequence;
 
 /**
  * This class provides representation of an alignment as a matrix implemented as

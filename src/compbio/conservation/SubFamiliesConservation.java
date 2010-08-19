@@ -1,10 +1,20 @@
 package compbio.conservation;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import compbio.util.FastaSequence;
-import compbio.util.SequenceUtil;
+import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.SequenceUtil;
 
 /**
  * Calculates conservation in subfamilies provided. Kabat and Jores methods can

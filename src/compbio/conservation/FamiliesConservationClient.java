@@ -1,12 +1,19 @@
 package compbio.conservation;
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.text.*;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
-import compbio.util.FastaSequence;
-import compbio.util.SequenceUtil;
+import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.SequenceUtil;
 
 class FamiliesConservationClient {
 
