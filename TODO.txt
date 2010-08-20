@@ -1,0 +1,6 @@
+TODO: 
+
+1) Review default constrain values for SMERFS in SMERFSColumnScore. In particular, 
+window size and gap threshold.
+
+

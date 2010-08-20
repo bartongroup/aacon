@@ -1,9 +1,18 @@
 package compbio.conservation;
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ConservationFormatter {
+
+	/**
+	 * Number if digits after the comma to print to results output
+	 */
+	public static final int PRECISION = 3;
 
 	/**
 	 * Formats results
@@ -17,8 +26,8 @@ public class ConservationFormatter {
 	 * @param print
 	 *            reference to PrintWriter object
 	 */
-	private static <T> void formatResult(T tag, double[] result, int resultPrecision,
-			PrintWriter print) {
+	private static <T> void formatResult(T tag, double[] result,
+			int resultPrecision, PrintWriter print) {
 
 		String tagFormat = "%s";
 		String resultFormat = "%." + resultPrecision + "f";
@@ -42,8 +51,9 @@ public class ConservationFormatter {
 	 * @param print
 	 *            reference to PrintWriter object
 	 */
-	private static <T> void formatResultWithAlignment(T tag, double[] result, int tagWidth,
-			int resultWidth, int resultPrecision, PrintWriter print) {
+	private static <T> void formatResultWithAlignment(T tag, double[] result,
+			int tagWidth, int resultWidth, int resultPrecision,
+			PrintWriter print) {
 
 		String tagFormat = "%-" + tagWidth + "s";
 		String resultFormat = "%-" + resultWidth + "." + resultPrecision + "f";
@@ -64,18 +74,16 @@ public class ConservationFormatter {
 	 * @param resultWidth
 	 * @param resultPrecision
 	 * @param outputFile
+	 * @throws IOException
 	 */
-	static <T> void printResultWithAlignment(AminoAcidMatrix alignment, T tag, double[] result,
-			int tagWidth, int resultWidth, int resultPrecision, String outputFile) {
+	static <T> void printResultWithAlignment(AminoAcidMatrix alignment, T tag,
+			double[] result, int tagWidth, int resultWidth,
+			int resultPrecision, String outputFile) throws IOException {
 
-		PrintWriter print = null;
-		try {
-			print = new PrintWriter(new BufferedWriter(new FileWriter(outputFile, true)));
-		} catch (IOException ex) {
-			System.out.println("Problem writing" + outputFile);
-			System.exit(0);
-		}
-		formatResultWithAlignment(tag, result, tagWidth, resultWidth, resultPrecision, print);
+		PrintWriter print = openPrintWriter(outputFile, true);
+
+		formatResultWithAlignment(tag, result, tagWidth, resultWidth,
+				resultPrecision, print);
 		print.close();
 	}
 
@@ -88,16 +96,13 @@ public class ConservationFormatter {
 	 * @param resultPrecision
 	 * @param outputFile
 	 * @param append
+	 * @throws IOException
 	 */
-	static <T> void printResultNoAlignment(AminoAcidMatrix alignment, T tag, double[] result,
-			int resultPrecision, String outputFile, boolean append) {
+	static <T> void printResultNoAlignment(AminoAcidMatrix alignment, T tag,
+			double[] result, int resultPrecision, String outputFile,
+			boolean append) throws IOException {
 
-		PrintWriter print = null;
-		try {
-			print = new PrintWriter(new BufferedWriter(new FileWriter(outputFile, append)));
-		} catch (IOException ex) {
-			System.out.println("Problem writing" + outputFile);
-		}
+		PrintWriter print = openPrintWriter(outputFile, append);
 		formatResult(tag, result, resultPrecision, print);
 		print.close();
 	}
@@ -108,76 +113,59 @@ public class ConservationFormatter {
 	 * @param scores
 	 * @param outFilePath
 	 * @param format
+	 * @throws IOException
 	 */
-	static void formatResults(Map<Method, double[]> scores, String outFilePath, String format,
-			AminoAcidMatrix alignment) {
+	static void formatResults(Map<Method, double[]> scores, String outFilePath,
+			Format format, AminoAcidMatrix alignment) throws IOException {
 
-		int precision = 3;
-		Iterator<Method> itr = scores.keySet().iterator();
-		PrintWriter print = null;
-		if (outFilePath == null) {
-			while (itr.hasNext()) {
-				Method key = itr.next();
-				System.out.print("#" + key.toString() + " ");
-				ConservationAccessory.printArrayOfDouble(scores.get(key), print, precision);
-			}
-		} else {
-			if (format == null) {
-				print = openPrintWriter(outFilePath, false);
-				if (print != null) {
-					while (itr.hasNext()) {
-						Method key = itr.next();
-						print.print("#" + key.toString() + " ");
-						ConservationAccessory.printArrayOfDouble(scores.get(key), print, precision);
-					}
-				}
-			} else {
-				if (Format.getFormat(format) == Format.RESULT_NO_ALIGNMENT) {
-					print = openPrintWriter(outFilePath, false);
-					if (print != null) {
-						while (itr.hasNext()) {
-							Method key = itr.next();
-							print.print("#" + key.toString() + " ");
-							ConservationAccessory.printArrayOfDouble(scores.get(key), print,
-									precision);
-						}
-						// print.close();
-					}
-				}
-				if (Format.getFormat(format) == Format.RESULT_WITH_ALIGNMENT) {
-					print = openPrintWriter(outFilePath, true);
-					int tagWidth = 30;
-					int fieldWidth = 10;
-					String tagFormat = "%-" + tagWidth + "s";
-					alignment.printAlignment(tagWidth, fieldWidth, outFilePath);
-					if (print != null) {
-						print.println();
-						while (itr.hasNext()) {
-							Method key = itr.next();
-							print.printf(tagFormat, "#" + key.toString() + " ");
-							ConservationAccessory.printArrayOfDoubleFieldWidth(scores.get(key),
-									print, precision, fieldWidth);
-						}
-						// print.close();
-					}
-				}
-			}
-			if (print != null) {
-				print.close();
-			}
+		if (format == null) {
+			format = Format.RESULT_NO_ALIGNMENT;
 		}
+		PrintWriter print = null;
+		Iterator<Method> itr = scores.keySet().iterator();
+
+		switch (format) {
+		case RESULT_NO_ALIGNMENT:
+			print = openPrintWriter(outFilePath, false);
+			if (print != null) {
+				while (itr.hasNext()) {
+					Method key = itr.next();
+					print.print("#" + key.toString() + " ");
+					ConservationAccessory.printArrayOfDouble(scores.get(key),
+							print, PRECISION);
+				}
+			}
+			break;
+		case RESULT_WITH_ALIGNMENT:
+			print = openPrintWriter(outFilePath, true);
+			int tagWidth = 30;
+			int fieldWidth = 10;
+			String tagFormat = "%-" + tagWidth + "s";
+			alignment.printAlignment(tagWidth, fieldWidth, outFilePath);
+			if (print != null) {
+				print.println();
+				while (itr.hasNext()) {
+					Method key = itr.next();
+					print.printf(tagFormat, "#" + key.toString() + " ");
+					ConservationAccessory.printArrayOfDoubleFieldWidth(scores
+							.get(key), print, PRECISION, fieldWidth);
+				}
+			}
+			break;
+		}
+		print.close();
 	}
 
-	static PrintWriter openPrintWriter(String outFilePath, boolean append) {
-
+	static PrintWriter openPrintWriter(String outFilePath, boolean append)
+			throws IOException {
 		PrintWriter print = null;
-		try {
-			print = new PrintWriter(new BufferedWriter(new FileWriter(outFilePath, append)));
-		} catch (IOException ex) {
-			System.out.println("Problem writing to: " + outFilePath + " file.");
-			print = null;
-			// System.exit(0);
+		if (outFilePath == null || outFilePath.isEmpty()) {
+			print = new PrintWriter(System.out);
+		} else {
+			print = new PrintWriter(new BufferedWriter(new FileWriter(
+					outFilePath, append)));
 		}
 		return print;
 	}
+
 }

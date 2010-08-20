@@ -35,8 +35,9 @@ public class Conservation {
 	 * @throws IOException
 	 * @throws UnknownFileFormatException
 	 */
-	public static Map<Method, double[]> getConservation(File file, EnumSet<Method> methods,
-			boolean normilizeResults) throws FileNotFoundException, IOException,
+	public static Map<Method, double[]> getConservation(File file,
+			EnumSet<Method> methods, boolean normilizeResults)
+			throws FileNotFoundException, IOException,
 			UnknownFileFormatException {
 
 		AminoAcidMatrix alignmatrix = null;
@@ -46,7 +47,10 @@ public class Conservation {
 		// there is no need to close input stream as the read method will close
 		// it
 		FileInputStream fis = new FileInputStream(file);
-		if (ClustalAlignmentUtil.isValidClustalFile(fis)) {
+		// the method closes the input stream
+		boolean isClustalFile = ClustalAlignmentUtil.isValidClustalFile(fis);
+		fis = new FileInputStream(file);
+		if (isClustalFile) {
 			Alignment alignment = ClustalAlignmentUtil.readClustalFile(fis);
 			assert alignment != null : "Fails to read the alignement!";
 			alignmatrix = new AminoAcidMatrix(alignment);
@@ -83,8 +87,9 @@ public class Conservation {
 	 * @param normilizeResults
 	 * @return
 	 */
-	public static Map<Method, double[]> getConservation(List<FastaSequence> sequences,
-			EnumSet<Method> methods, boolean normilizeResults) {
+	public static Map<Method, double[]> getConservation(
+			List<FastaSequence> sequences, EnumSet<Method> methods,
+			boolean normilizeResults) {
 
 		AminoAcidMatrix alignmatrix = null;
 		if (sequences == null || sequences.isEmpty()) {
@@ -94,23 +99,30 @@ public class Conservation {
 		return calculateConservation(alignmatrix, methods, normilizeResults);
 	}
 
-	private static Map<Method, double[]> calculateConservation(AminoAcidMatrix alignmatrix,
-			EnumSet<Method> methods, boolean normilizeResults) {
+	private static Map<Method, double[]> calculateConservation(
+			AminoAcidMatrix alignmatrix, EnumSet<Method> methods,
+			boolean normilizeResults) {
 
 		ConservationScores2 scores = new ConservationScores2(alignmatrix);
-		Map<Method, double[]> result = new EnumMap<Method, double[]>(Method.class);
+		Map<Method, double[]> result = new EnumMap<Method, double[]>(
+				Method.class);
 		for (Method method : methods) {
-			double[] singleRes = scores.calculateScore(method, normilizeResults);
+			double[] singleRes = scores
+					.calculateScore(method, normilizeResults);
 			assert singleRes != null && singleRes.length > 0;
 			result.put(method, singleRes);
 		}
 		return result;
 	}
 
-	public static double[] getSMERFS(List<FastaSequence> sequences, EnumSet<Method> methods,
-			boolean normilizeResults) {
+	public static double[] getCustomSMERFS(List<FastaSequence> sequences,
+			EnumSet<Method> methods, boolean normilizeResults,
+			SMERFSColumnScore score_method, int window_size,
+			double gap_threshold) {
 
-		return null;
+		AminoAcidMatrix alignmatrix = new AminoAcidMatrix(sequences, null);
+		return ConservationClient.getSMERFS(alignmatrix, window_size,
+				score_method, gap_threshold, normilizeResults);
 	}
 
 }

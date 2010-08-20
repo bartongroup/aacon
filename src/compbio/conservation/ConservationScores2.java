@@ -17,10 +17,13 @@ public class ConservationScores2 {
 	 * @param normalize
 	 * @return scoer for teh given method
 	 */
-	double[] calculateScore(Method method, boolean normalize) {
+	double[] calculateScore(final Method method, final boolean normalize) {
 
-		if (method == Method.KABAT) {
-			double[] result = new double[alignment.numberOfColumns()];
+		double[] result = new double[alignment.numberOfColumns()];
+
+		switch (method) {
+
+		case KABAT:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.kabatScore(alignment, i);
 			}
@@ -28,12 +31,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.JORES) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case JORES:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.joresScore(alignment, i);
 			}
@@ -41,12 +42,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.SCHNEIDER) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case SCHNEIDER:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.schneiderScore(alignment, i);
 			}
@@ -54,12 +53,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.SHENKIN) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case SHENKIN:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.shenkinScore(alignment, i);
 			}
@@ -67,12 +64,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.GERSTEIN) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case GERSTEIN:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.gersteinScore(alignment, i);
 			}
@@ -80,12 +75,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.TAYLOR_GAPS) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case TAYLOR_GAPS:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.taylorScoreGaps(alignment, i);
 			}
@@ -93,12 +86,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.TAYLOR_NO_GAPS) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case TAYLOR_NO_GAPS:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.taylorScoreNoGaps(alignment, i);
 			}
@@ -106,12 +97,9 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.ZVELIBIL) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+		case ZVELIBIL:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.zvelibilScore(alignment, i);
 			}
@@ -119,25 +107,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.normalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.ZVELIBIL) {
-			double[] result = new double[alignment.numberOfColumns()];
-			for (int i = 0; i < alignment.numberOfColumns(); i++) {
-				result[i] = ColumnScores.zvelibilScore(alignment, i);
-			}
-			// scores.put(Method.ZVELIBIL_SCORE, result);
-			if (normalize == true) {
-				double[] normalized = ConservationAccessory.inversedNormalize01(result);
-				return normalized;
-			} else {
-				return result;
-			}
-		}
-		if (method == Method.KARLIN) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case KARLIN:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.karlinScore(alignment, i);
 			}
@@ -145,12 +118,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.normalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.ARMON) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case ARMON:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.armonScore(alignment, i);
 			}
@@ -158,12 +129,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.THOMPSON) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case THOMPSON:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.thompsonScore(alignment, i);
 			}
@@ -171,12 +140,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.NOT_LANCET) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case NOT_LANCET:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.notLancetScore(alignment, i);
 			}
@@ -184,12 +151,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.normalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.MIRNY) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case MIRNY:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.mirnyScore(alignment, i);
 			}
@@ -197,12 +162,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.normalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.WILLIAMSON) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case WILLIAMSON:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.williamsonScore(alignment, i);
 			}
@@ -210,12 +173,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.normalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.LANDGRAF) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case LANDGRAF:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.landgrafScore(alignment, i);
 			}
@@ -223,12 +184,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.inversedNormalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.SANDER) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case SANDER:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.sanderScore(alignment, i);
 			}
@@ -236,12 +195,10 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.normalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.VALDAR) {
-			double[] result = new double[alignment.numberOfColumns()];
+			return result;
+
+		case VALDAR:
 			for (int i = 0; i < alignment.numberOfColumns(); i++) {
 				result[i] = ColumnScores.valdarScore(alignment, i);
 			}
@@ -249,15 +206,18 @@ public class ConservationScores2 {
 			if (normalize == true) {
 				double[] normalized = ConservationAccessory.normalize01(result);
 				return normalized;
-			} else {
-				return result;
 			}
-		}
-		if (method == Method.SMERFS) {
-			double[] result = ConservationClient.getSMERFS(alignment, 7,
-					SMERFSColumnScore.MID_SCORE, 0.1, normalize);
 			return result;
+
+		case SMERFS:
+			result = ConservationClient
+					.getSMERFS(alignment, SMERFSColumnScore.DEFAULT_WINDOW_SIZE,
+							SMERFSColumnScore.MID_SCORE, SMERFSColumnScore.DEFAULT_GAP_THRESHOLD,
+							normalize);
+			return result;
+
+		default:
+			throw new RuntimeException("You should never ever get here");
 		}
-		throw new RuntimeException("You should never ever get here");
 	}
 }

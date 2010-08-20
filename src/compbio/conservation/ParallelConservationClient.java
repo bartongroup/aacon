@@ -34,7 +34,8 @@ import compbio.data.sequence.SequenceUtil;
  */
 class ParallelConservationClient {
 
-	private final Map<Method, double[]> results = new EnumMap<Method, double[]>(Method.class);
+	private final Map<Method, double[]> results = new EnumMap<Method, double[]>(
+			Method.class);
 	private static volatile ExecutorService executor;
 	final static String pseparator = "=";
 	final static String methodKey = "-m";
@@ -110,8 +111,8 @@ class ParallelConservationClient {
 		int corenum = Runtime.getRuntime().availableProcessors();
 		if (procNum <= 1 || procNum > corenum * 2) {
 			System.err.println("Number of processors must be more than 1 and "
-					+ "less than the number of cores*2" + "However given number of processors is "
-					+ procNum);
+					+ "less than the number of cores*2"
+					+ "However given number of processors is " + procNum);
 			System.err.println("Changing number of processors to " + corenum
 					+ " - the number of cores");
 			procNum = corenum;
@@ -119,7 +120,8 @@ class ParallelConservationClient {
 		if (executor == null) {
 			synchronized (ParallelConservationClient.class) {
 				if (executor == null) {
-					executor = new ThreadPoolExecutor(procNum, procNum, 0L, TimeUnit.MILLISECONDS,
+					executor = new ThreadPoolExecutor(procNum, procNum, 0L,
+							TimeUnit.MILLISECONDS,
 							new SynchronousQueue<Runnable>(),
 							new ThreadPoolExecutor.CallerRunsPolicy());
 				}
@@ -139,7 +141,8 @@ class ParallelConservationClient {
 		for (int i = 0; i < cmd.length; i++) {
 			String meths = cmd[i];
 			if (meths.trim().toLowerCase().startsWith(methodKey + pseparator)) {
-				return meths.substring(meths.indexOf(pseparator) + 1).split(",");
+				return meths.substring(meths.indexOf(pseparator) + 1)
+						.split(",");
 			}
 		}
 		return null;
@@ -156,8 +159,10 @@ class ParallelConservationClient {
 
 		for (int i = 0; i < cmd.length; i++) {
 			String meths = cmd[i];
-			if (meths.trim().toLowerCase().startsWith(SMERFSDetailsKey + pseparator)) {
-				return meths.substring(meths.indexOf(pseparator) + 1).split(",");
+			if (meths.trim().toLowerCase().startsWith(
+					SMERFSDetailsKey + pseparator)) {
+				return meths.substring(meths.indexOf(pseparator) + 1)
+						.split(",");
 			}
 		}
 		return null;
@@ -277,7 +282,8 @@ class ParallelConservationClient {
 	 * Returns the results of method calculation or null if method not
 	 * supported.
 	 */
-	static double[] getMethod(String method, ConservationScores2 scores, boolean normalize) {
+	static double[] getMethod(String method, ConservationScores2 scores,
+			boolean normalize) {
 
 		double[] result = null;
 		if (Method.getMethod(method) == null) {
@@ -306,21 +312,22 @@ class ParallelConservationClient {
 	 *            if true results will be normalized
 	 * @return
 	 */
-	public static double[] getSMERFS(AminoAcidMatrix alignment, int width, SMERFSColumnScore score,
-			double gapTreshold, boolean normalize) {
+	public static double[] getSMERFS(AminoAcidMatrix alignment, int width,
+			SMERFSColumnScore score, double gapTreshold, boolean normalize) {
 
 		if (alignment == null) {
 			throw new IllegalArgumentException("Matrix must not be null.");
 		}
 		double[] result = null;
-		if (width <= 0 || width % 2 != 1 || width > alignment.numberOfColumns() || score == null
-				|| gapTreshold < 0 || gapTreshold > 1) {
+		if (width <= 0 || width % 2 != 1 || width > alignment.numberOfColumns()
+				|| score == null || gapTreshold < 0 || gapTreshold > 1) {
 			if (width <= 0 || width % 2 != 1) {
 				System.out
 						.println("Column width for SMERFS not provided or smaller or equal zero or not an odd number or not an integer.");
 			}
 			if (width > alignment.numberOfColumns()) {
-				System.out.println("Column width greater than the length of the alignment");
+				System.out
+						.println("Column width greater than the length of the alignment");
 			}
 			if (score == null) {
 				System.out
@@ -343,8 +350,9 @@ class ParallelConservationClient {
 	 * 
 	 * @param cmd
 	 *            command line arguments
+	 * @throws IOException
 	 */
-	ParallelConservationClient(String[] cmd) {
+	ParallelConservationClient(String[] cmd) throws IOException {
 
 		String startStr = this.getDateTime();
 		long startTime = System.currentTimeMillis();
@@ -374,9 +382,7 @@ class ParallelConservationClient {
 						.println("Output file path not provided. Please provide output file path in format -o=outputFile - where outputFile is a full path to the file where the results are to be printed.");
 				proceed = false;
 			}
-			if (outFilePath == null && format == null) {
-				System.out.println("Output file path and format not provided.");
-			}
+			Format outFormat = Format.getFormat(format);
 			String[] SMERFSDetails = getSMERFSDetails(cmd);
 			if (SMERFSDetails != null) {
 				if (SMERFSDetails.length == 3) {
@@ -385,9 +391,11 @@ class ParallelConservationClient {
 					} catch (NumberFormatException e) {
 						SMERFSWidth = -1;
 					}
-					score = SMERFSColumnScore.getSMERFSColumnScore(SMERFSDetails[1]);
+					score = SMERFSColumnScore
+							.getSMERFSColumnScore(SMERFSDetails[1]);
 					try {
-						SMERFSGapTreshold = Double.parseDouble(SMERFSDetails[2]);
+						SMERFSGapTreshold = Double
+								.parseDouble(SMERFSDetails[2]);
 					} catch (NumberFormatException e) {
 						SMERFSGapTreshold = -1;
 					}
@@ -416,40 +424,49 @@ class ParallelConservationClient {
 			String statFile = getStatFilePath(cmd);
 			if (proceed == true) {
 				// InputStream inStr = null;
-				List<FastaSequence> sequences = this.openInputStream(inFilePath);
+				List<FastaSequence> sequences = this
+						.openInputStream(inFilePath);
 				if (sequences != null) {
 					PrintWriter print = null;
 					if (statFile != null) {
-						print = ConservationFormatter.openPrintWriter(statFile, false);
+						print = ConservationFormatter.openPrintWriter(statFile,
+								false);
 					}
-					if ((statFile == null && print == null) || (statFile != null && print != null)) {
-						AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, gapChars);
+					if ((statFile == null && print == null)
+							|| (statFile != null && print != null)) {
+						AminoAcidMatrix alignment = new AminoAcidMatrix(
+								sequences, gapChars);
 						long loadedTime = System.currentTimeMillis();
 						long loadTime = loadedTime - startTime;
 						if (print != null) {
 							print.println("Start time: " + startStr);
-							print.println("Alignment loaded in: " + loadTime + "ms.");
-							print.println("Alignment has: " + alignment.numberOfRows()
-									+ " sequences.");
+							print.println("Alignment loaded in: " + loadTime
+									+ "ms.");
+							print.println("Alignment has: "
+									+ alignment.numberOfRows() + " sequences.");
 						}
-						ConservationScores2 scores = new ConservationScores2(alignment);
+						ConservationScores2 scores = new ConservationScores2(
+								alignment);
 						double[] result = null;
 						for (int i = 0; i < methods.length; i++) {
 							long time1 = System.currentTimeMillis();
 							MethodWrapper wrapper = null;
 							if (Method.getMethod(methods[i]) == Method.SMERFS) {
-								if (SMERFSDetails != null && SMERFSDetails.length != 3) {
+								if (SMERFSDetails != null
+										&& SMERFSDetails.length != 3) {
 									System.out
 											.println("To run SMERFS three arguments are needed, window width,how to give scores to columns and a gap treshold.");
 								} else {
-									wrapper = new MethodWrapper(scores, normalize, SMERFSWidth,
+									wrapper = new MethodWrapper(scores,
+											normalize, SMERFSWidth,
 											SMERFSGapTreshold);
 									// result = getSMERFS(alignment,
 									// SMERFSWidth,
 									// score, SMERFSGapTreshold, normalize);
 								}
 							} else {
-								wrapper = new MethodWrapper(methods[i], scores, normalize);
+								wrapper = new MethodWrapper(methods[i], scores,
+										normalize);
 								// result = getMethod(methods[i], scores,
 								// normalize);
 							}
@@ -459,17 +476,19 @@ class ParallelConservationClient {
 							long time2 = System.currentTimeMillis();
 							long time = time2 - time1;
 							if (result != null) {
-								results.put(Method.getMethod(methods[i]), result);
+								results.put(Method.getMethod(methods[i]),
+										result);
 								if (print != null) {
-									print.println(Method.getMethod(methods[i]).toString()
+									print.println(Method.getMethod(methods[i])
+											.toString()
 											+ " done " + time + "ms.");
 								}
 							}
 						}
 						if (results.size() != 0) {
 							// alignment.printAlignment(30, 10, outFilePath);
-							ConservationFormatter.formatResults(results, outFilePath, format,
-									alignment);
+							ConservationFormatter.formatResults(results,
+									outFilePath, outFormat, alignment);
 						}
 						if (print != null) {
 							print.println("End time: " + getDateTime());
@@ -504,7 +523,14 @@ class ParallelConservationClient {
 			System.out.println();
 			System.out.print(info);
 		}
-		ParallelConservationClient cons = new ParallelConservationClient(args);
+		try {
+			ParallelConservationClient cons = new ParallelConservationClient(
+					args);
+		} catch (IOException e) {
+			System.err.println("Fail to write to the file system! "
+					+ e.getLocalizedMessage());
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -524,7 +550,8 @@ class ParallelConservationClient {
 			inStr = new FileInputStream(inFilePath);
 			fastaSeqs = SequenceUtil.readFasta(inStr);
 		} catch (FileNotFoundException e) {
-			System.out.println("Can not find file. Please provide a valid file path.");
+			System.out
+					.println("Can not find file. Please provide a valid file path.");
 			// I'm using system exit here to avoid an exception I get, but I'm
 			// not sure it;s a good programming practice.
 			// System.exit(0)
@@ -548,12 +575,14 @@ class ParallelConservationClient {
 	 *         the alignment.
 	 * @throws IOException
 	 */
-	static Map<Map<Method, double[]>, List<FastaSequence>> readFile(InputStream inStream)
-			throws IOException {
+	static Map<Map<Method, double[]>, List<FastaSequence>> readFile(
+			InputStream inStream) throws IOException {
 
 		Map<Map<Method, double[]>, List<FastaSequence>> result = new HashMap<Map<Method, double[]>, List<FastaSequence>>();
-		Map<Method, double[]> resultMap = new EnumMap<Method, double[]>(Method.class);
-		BufferedReader inResults = new BufferedReader(new InputStreamReader(inStream));
+		Map<Method, double[]> resultMap = new EnumMap<Method, double[]>(
+				Method.class);
+		BufferedReader inResults = new BufferedReader(new InputStreamReader(
+				inStream));
 		List<FastaSequence> seqList = new ArrayList<FastaSequence>();
 		Pattern pattern = Pattern.compile("\\s+");
 		String line;
@@ -581,9 +610,11 @@ class ParallelConservationClient {
 		return result;
 	}
 
-	static void parseResults(String resultStr, Map<Method, double[]> resultMap, Pattern pattern) {
+	static void parseResults(String resultStr, Map<Method, double[]> resultMap,
+			Pattern pattern) {
 
-		String resultStrTemp = pattern.matcher(resultStr.trim()).replaceAll(" ");
+		String resultStrTemp = pattern.matcher(resultStr.trim())
+				.replaceAll(" ");
 		String[] results = resultStrTemp.split(" ");
 		String name = results[0].substring(1);
 		System.out.println(name);
@@ -595,14 +626,15 @@ class ParallelConservationClient {
 		resultMap.put(Method.getMethod(name), resultsNum);
 	}
 
-	static void parseSequences(String lineStr, List<FastaSequence> list, Pattern pattern) {
+	static void parseSequences(String lineStr, List<FastaSequence> list,
+			Pattern pattern) {
 
 		StringTokenizer tokens = new StringTokenizer(lineStr, " ");
 		String name = tokens.nextToken().trim();
 		System.out.println(name);
 		Pattern pattern2 = Pattern.compile(name);
-		String seqStrMod = pattern.matcher(pattern2.matcher(lineStr).replaceFirst("")).replaceAll(
-				"");
+		String seqStrMod = pattern.matcher(
+				pattern2.matcher(lineStr).replaceFirst("")).replaceAll("");
 		System.out.println(seqStrMod);
 		list.add(new FastaSequence(name, seqStrMod));
 	}

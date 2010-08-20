@@ -62,7 +62,8 @@ class FamiliesConservationClient {
 		for (int i = 0; i < cmd.length; i++) {
 			String meths = cmd[i];
 			if (meths.trim().toLowerCase().startsWith(groupsKey + pseparator)) {
-				return meths.substring(meths.indexOf(pseparator) + 1).split(";");
+				return meths.substring(meths.indexOf(pseparator) + 1)
+						.split(";");
 			}
 		}
 		return null;
@@ -80,7 +81,8 @@ class FamiliesConservationClient {
 					d = Integer.parseInt(gr[j]);
 					groupDouble[i][j] = d;
 				} catch (NumberFormatException e) {
-					System.out.println("Number could not have buun parsed as double");
+					System.out
+							.println("Number could not have buun parsed as double");
 					proceed = false;
 				}
 				if (d < 0) {
@@ -103,8 +105,10 @@ class FamiliesConservationClient {
 
 		for (int i = 0; i < cmd.length; i++) {
 			String meths = cmd[i];
-			if (meths.trim().toLowerCase().startsWith(SMERFSDetailsKey + pseparator)) {
-				return meths.substring(meths.indexOf(pseparator) + 1).split(",");
+			if (meths.trim().toLowerCase().startsWith(
+					SMERFSDetailsKey + pseparator)) {
+				return meths.substring(meths.indexOf(pseparator) + 1)
+						.split(",");
 			}
 		}
 		return null;
@@ -218,21 +222,22 @@ class FamiliesConservationClient {
 	 *            if true results will be normalized
 	 * @return
 	 */
-	public static double[] getSMERFS(AminoAcidMatrix alignment, int width, SMERFSColumnScore score,
-			double gapTreshold, boolean normalize) {
+	public static double[] getSMERFS(AminoAcidMatrix alignment, int width,
+			SMERFSColumnScore score, double gapTreshold, boolean normalize) {
 
 		if (alignment == null) {
 			throw new IllegalArgumentException("Matrix must not be null.");
 		}
 		double[] result = null;
-		if (width <= 0 || width % 2 != 1 || width > alignment.numberOfColumns() || score == null
-				|| gapTreshold < 0 || gapTreshold > 1) {
+		if (width <= 0 || width % 2 != 1 || width > alignment.numberOfColumns()
+				|| score == null || gapTreshold < 0 || gapTreshold > 1) {
 			if (width <= 0 || width % 2 != 1) {
 				System.out
 						.println("Column width for SMERFS not provided or smaller or equal zero or not an odd number or not an integer.");
 			}
 			if (width > alignment.numberOfColumns()) {
-				System.out.println("Column width greater than the length of the alignment");
+				System.out
+						.println("Column width greater than the length of the alignment");
 			}
 			if (score == null) {
 				System.out
@@ -255,8 +260,9 @@ class FamiliesConservationClient {
 	 * 
 	 * @param cmd
 	 *            command line arguments
+	 * @throws IOException
 	 */
-	FamiliesConservationClient(String[] cmd) {
+	FamiliesConservationClient(String[] cmd) throws IOException {
 
 		String startStr = this.getDateTime();
 		long startTime = System.currentTimeMillis();
@@ -292,9 +298,11 @@ class FamiliesConservationClient {
 						} catch (NumberFormatException e) {
 							SMERFSWidth = -1;
 						}
-						score = SMERFSColumnScore.getSMERFSColumnScore(SMERFSDetails[1]);
+						score = SMERFSColumnScore
+								.getSMERFSColumnScore(SMERFSDetails[1]);
 						try {
-							SMERFSGapTreshold = Double.parseDouble(SMERFSDetails[2]);
+							SMERFSGapTreshold = Double
+									.parseDouble(SMERFSDetails[2]);
 						} catch (NumberFormatException e) {
 							SMERFSGapTreshold = -1;
 						}
@@ -322,54 +330,63 @@ class FamiliesConservationClient {
 				}
 				String statFile = getStatFilePath(cmd);
 				// InputStream inStr = null;
-				List<FastaSequence> sequences = this.openInputStream(inFilePath);
+				List<FastaSequence> sequences = this
+						.openInputStream(inFilePath);
 				if (sequences != null) {
 					PrintWriter print = null;
 					if (statFile != null) {
-						print = ConservationFormatter.openPrintWriter(statFile, false);
+						print = ConservationFormatter.openPrintWriter(statFile,
+								false);
 					}
-					if ((statFile == null && print == null) || (statFile != null && print != null)) {
-						AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, gapChars);
+					if ((statFile == null && print == null)
+							|| (statFile != null && print != null)) {
+						AminoAcidMatrix alignment = new AminoAcidMatrix(
+								sequences, gapChars);
 						long loadedTime = System.currentTimeMillis();
 						long loadTime = loadedTime - startTime;
 						if (print != null) {
 							print.println("Start time: " + startStr);
-							print.println("Alignment loaded in: " + loadTime + "ms.");
-							print.println("Alignment has: " + alignment.numberOfRows()
-									+ " sequences.");
+							print.println("Alignment loaded in: " + loadTime
+									+ "ms.");
+							print.println("Alignment has: "
+									+ alignment.numberOfRows() + " sequences.");
 						}
-						SubFamiliesConservation sub = new SubFamiliesConservation(alignment, grInt);
+						SubFamiliesConservation sub = new SubFamiliesConservation(
+								alignment, grInt);
 						// double[] result = null;
 						long time1 = System.currentTimeMillis();
 						if (Method.getMethod(method) == Method.SMERFS) {
-							if (SMERFSDetails != null && SMERFSDetails.length != 3) {
+							if (SMERFSDetails != null
+									&& SMERFSDetails.length != 3) {
 								System.out
 										.println("To run SMERFS three arguments are needed, window width,how to give scores to columns and a gap treshold.");
 							} else {
 								// result = getSMERFS(alignment, SMERFSWidth,
 								// score, SMERFSGapTreshold, normalize);
-								info1 = sub.subgrupsConservation3(SMERFSWidth, SMERFSGapTreshold,
-										score, normalize);
-								info2 = sub.subFamilyPairsConservation3(SMERFSWidth, score,
-										SMERFSGapTreshold, normalize);
+								info1 = sub.subgrupsConservation3(SMERFSWidth,
+										SMERFSGapTreshold, score, normalize);
+								info2 = sub.subFamilyPairsConservation3(
+										SMERFSWidth, score, SMERFSGapTreshold,
+										normalize);
 							}
 						} else {
 							// result = getMethod(methods[i], scores,
 							// normalize);
-							info1 = sub.subgrupsConservation2(Method.getMethod(method), normalize);
-							info2 = sub.subFamilyPairsConservation2(Method.getMethod(method),
-									normalize);
+							info1 = sub.subgrupsConservation2(Method
+									.getMethod(method), normalize);
+							info2 = sub.subFamilyPairsConservation2(Method
+									.getMethod(method), normalize);
 						}
 						long time2 = System.currentTimeMillis();
 						long time = time2 - time1;
 						if (print != null) {
-							print.println(Method.getMethod(method).toString() + " done " + time
-									+ "ms.");
+							print.println(Method.getMethod(method).toString()
+									+ " done " + time + "ms.");
 						}
 						PrintWriter print2 = null;
 						try {
-							print2 = new PrintWriter(
-									new BufferedWriter(new FileWriter(outFilePath)));
+							print2 = new PrintWriter(new BufferedWriter(
+									new FileWriter(outFilePath)));
 						} catch (IOException ex) {
 							System.out.println("Problem writing" + outFilePath);
 						}
@@ -385,11 +402,13 @@ class FamiliesConservationClient {
 							print2.println("Column nr: " + i);
 							for (int j = 0; j < info1[i].length; j++) {
 								print2.printf(format1, "");
-								info1[i][j].printInfo(Method.getMethod(method), print2);
+								info1[i][j].printInfo(Method.getMethod(method),
+										print2);
 							}
 							for (int j = 0; j < info2[i].length; j++) {
 								print2.printf(format1, "");
-								info2[i][j].printInfo(Method.getMethod(method), print2);
+								info2[i][j].printInfo(Method.getMethod(method),
+										print2);
 							}
 						}
 						print2.close();
@@ -430,7 +449,14 @@ class FamiliesConservationClient {
 			System.out.println();
 			// System.out.print(info);
 		}
-		FamiliesConservationClient cons = new FamiliesConservationClient(args);
+		try {
+			FamiliesConservationClient cons = new FamiliesConservationClient(
+					args);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Fail to write to the filesystem! "
+					+ "Cannot output results!  " + e.getLocalizedMessage());
+		}
 	}
 
 	/**
@@ -449,7 +475,8 @@ class FamiliesConservationClient {
 			inStr = new FileInputStream(inFilePath);
 			fastaSeqs = SequenceUtil.readFasta(inStr);
 		} catch (FileNotFoundException e) {
-			System.out.println("Can not find file. Please provide a valid file path.");
+			System.out
+					.println("Can not find file. Please provide a valid file path.");
 			// I'm using system exit here to avoid an exception I get, but I'm
 			// not sure it;s a good programming practice.
 			// System.exit(0)

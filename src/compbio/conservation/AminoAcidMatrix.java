@@ -3,6 +3,7 @@ package compbio.conservation;
 // creates a matrix of aa in multiple alignment
 // gets fasta sequences and puts them into matrix
 // might have to check if all sequences are equal length(ask)
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,13 +88,15 @@ public class AminoAcidMatrix {
 	 * @param names
 	 *            string if sequence names/IDs
 	 */
-	public AminoAcidMatrix(char[][] alignment, String[] names, Character[] gapChars) {
+	public AminoAcidMatrix(char[][] alignment, String[] names,
+			Character[] gapChars) {
 
 		for (int i = 0; i < alignment.length; i++) {
 			if (alignment[0].length != alignment[i].length) {
 				int number = i + 1;
-				throw new SequencesNotEquallyLongException("Sequence number: " + number + "ID: "
-						+ this.sequenceNames[i] + " is of differnet length than the first sequence");
+				throw new SequencesNotEquallyLongException("Sequence number: "
+						+ number + "ID: " + this.sequenceNames[i]
+						+ " is of differnet length than the first sequence");
 			}
 		}
 		if (names != null) {
@@ -150,7 +153,8 @@ public class AminoAcidMatrix {
 		inverseMatrix = new char[1][column.length];
 		for (int i = 0; i < column.length; i++) {
 			if (alp.contains(column[i]) == false) {
-				throw new NotAnAminoAcidException("Illegal chracter in the column");
+				throw new NotAnAminoAcidException(
+						"Illegal chracter in the column");
 			}
 			matrix[i][0] = column[i];
 			inverseMatrix[0][i] = column[i];
@@ -180,8 +184,8 @@ public class AminoAcidMatrix {
 	 * @param p9
 	 *            third row third char
 	 */
-	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6, char p7, char p8,
-			char p9) {
+	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5,
+			char p6, char p7, char p8, char p9) {
 
 		Set<Character> alp = Alphabet.alphabet();
 		if (alp.contains(p1) == false) {
@@ -241,8 +245,8 @@ public class AminoAcidMatrix {
 	 */
 	public AminoAcidMatrix(Alignment alignment) {
 
-		this(alignment.getSequences(), new Character[] { new Character(alignment.getMetadata()
-				.getGapchar()) });
+		this(alignment.getSequences(), new Character[] { new Character(
+				alignment.getMetadata().getGapchar()) });
 	}
 
 	/**
@@ -272,7 +276,8 @@ public class AminoAcidMatrix {
 			// System.out.println(sequenceNames[i]);
 			if (sequenceChars.length != sequenceLength) {
 				int seqNr = i + 1;
-				String message = "Sequence number " + seqNr + "(id: " + sequenceNames[i] + ")"
+				String message = "Sequence number " + seqNr + "(id: "
+						+ sequenceNames[i] + ")"
 						+ " is of differen length than previous sequences.";
 				throw new SequencesNotEquallyLongException(message);
 			}
@@ -297,10 +302,11 @@ public class AminoAcidMatrix {
 				if (alph.contains(ch) == false) {
 					String legals = Alphabet.legalCharacterstoString();
 					int seqNr = i + 1;
-					String message = "Illegal character in sequence number " + seqNr
-							+ "(sequence ID: " + sequenceNames[i] + "). Illegal character: " + ch
-							+ " is at position: " + j + ". " + "List of legal characters: "
-							+ legals + ". ";
+					String message = "Illegal character in sequence number "
+							+ seqNr + "(sequence ID: " + sequenceNames[i]
+							+ "). Illegal character: " + ch
+							+ " is at position: " + j + ". "
+							+ "List of legal characters: " + legals + ". ";
 					throw new NotAnAminoAcidException(message);
 				}
 				// assert alph.contains(ch) : "Illegal character in the matrix";
@@ -393,7 +399,8 @@ public class AminoAcidMatrix {
 
 	private void calTotalAcidsFreqByCol() {
 
-		acidsIntMap = new ArrayList<Map<Character, Integer>>(this.numberOfColumns());
+		acidsIntMap = new ArrayList<Map<Character, Integer>>(this
+				.numberOfColumns());
 		for (int i = 0; i < this.numberOfColumns(); i++) {
 			acidsIntMap.add(Alphabet.calculateOccurance(this.inverseMatrix[i]));
 		}
@@ -466,7 +473,8 @@ public class AminoAcidMatrix {
 	 */
 	private void calTotalAcidsWillSets() {
 
-		Map<String, HashSet<Character>> sets = ConservationSets.williamsonSets();
+		Map<String, HashSet<Character>> sets = ConservationSets
+				.williamsonSets();
 		Map<String, Integer> setsFreq = new HashMap<String, Integer>();
 		Set<String> setsKeys = sets.keySet();
 		Iterator<String> setsKeysItr = setsKeys.iterator();
@@ -485,7 +493,8 @@ public class AminoAcidMatrix {
 					if (count == null) {
 						setsFreq.put(setsKey, totalFreq.get(totalFreqKey));
 					} else {
-						setsFreq.put(setsKey, count + totalFreq.get(totalFreqKey));
+						setsFreq.put(setsKey, count
+								+ totalFreq.get(totalFreqKey));
 					}
 				}
 			}
@@ -505,7 +514,8 @@ public class AminoAcidMatrix {
 		double weight = 0.0;
 		for (int i = 0; i < this.numberOfRows(); i++) {
 			if (i != seqNr) {
-				weight += ConservationAccessory.percentIdentity(this.getRow(seqNr), this.getRow(i));
+				weight += ConservationAccessory.percentIdentity(this
+						.getRow(seqNr), this.getRow(i));
 			}
 		}
 		double result = (1.0 / this.numberOfRows()) * weight;
@@ -601,7 +611,8 @@ public class AminoAcidMatrix {
 			double[] distances = new double[numberOfRows()];
 			double closestValue = 1000;
 			for (int a = 0; a < numberOfRows(); a++) {
-				distances[a] = 1.0 - ConservationAccessory.percentIdentity(getRow(a), randSeq);
+				distances[a] = 1.0 - ConservationAccessory.percentIdentity(
+						getRow(a), randSeq);
 				if (distances[a] < closestValue) {
 					closestValue = distances[a];
 				}
@@ -658,10 +669,13 @@ public class AminoAcidMatrix {
 	 *            width of the result field
 	 * @param outputFile
 	 *            output file path
+	 * @throws IOException
 	 */
-	void printAlignment(int tagWidth, int resultWidth, String outputFile) {
+	void printAlignment(int tagWidth, int resultWidth, String outputFile)
+			throws IOException {
 
-		PrintWriter print = ConservationFormatter.openPrintWriter(outputFile, false);
+		PrintWriter print = ConservationFormatter.openPrintWriter(outputFile,
+				false);
 		if (print != null) {
 			String tagFormat = "%-" + tagWidth + "s";
 			String resultFormat = "%-" + resultWidth + "c";
