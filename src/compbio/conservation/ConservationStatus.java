@@ -1,50 +1,32 @@
 package compbio.conservation;
 
 public enum ConservationStatus {
-    IDENTICAL, CONSERVED, NOT_CONSERVED;
+	IDENTICAL, CONSERVED, NOT_CONSERVED;
 
-    static ConservationStatus getStatus(double score, Method method) {
+	static ConservationStatus getStatus(double score, Method method) {
 
-	if (score == 1) {
-
-	    return ConservationStatus.IDENTICAL;
+		if (score == 1) {
+			return ConservationStatus.IDENTICAL;
+		} else {
+			if (score >= SubFamiliesConservation.getTreshhold(method)) {
+				return ConservationStatus.CONSERVED;
+			} else {
+				return ConservationStatus.NOT_CONSERVED;
+			}
+		}
 	}
 
-	else {
+	static String stringReps(ConservationStatus con) {
 
-	    if (score >= SubFamiliesConservation.getTreshhold(method)) {
-
-		return ConservationStatus.CONSERVED;
-
-	    }
-
-	    else {
-
-		return ConservationStatus.NOT_CONSERVED;
-	    }
-
+		if (con == ConservationStatus.IDENTICAL) {
+			return IDENTICAL.toString();
+		}
+		if (con == CONSERVED) {
+			return CONSERVED.toString();
+		}
+		if (con == NOT_CONSERVED) {
+			return NOT_CONSERVED.toString();
+		}
+		return null;
 	}
-
-    }
-
-    static String stringReps(ConservationStatus con) {
-
-	if (con == ConservationStatus.IDENTICAL) {
-
-	    return IDENTICAL.toString();
-	}
-
-	if (con == CONSERVED) {
-
-	    return CONSERVED.toString();
-	}
-
-	if (con == NOT_CONSERVED) {
-
-	    return NOT_CONSERVED.toString();
-	}
-
-	return null;
-    }
-
 }

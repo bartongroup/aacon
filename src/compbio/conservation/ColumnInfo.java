@@ -4,61 +4,47 @@ import java.io.*;
 
 public class ColumnInfo {
 
-    private final String group;
+	private final String group;
+	private final double consScore;
+	private final String properties;
 
-    private final double consScore;
+	public ColumnInfo(String group, double score, String properties) {
 
-    private final String properties;
+		this.group = group;
+		this.consScore = score;
+		this.properties = properties;
+	}
 
-    public ColumnInfo(String group, double score, String properties) {
+	String getGroup() {
 
-	this.group = group;
+		return group;
+	}
 
-	this.consScore = score;
+	double getScore() {
 
-	this.properties = properties;
+		return consScore;
+	}
 
-    }
+	String getProperties() {
 
-    String getGroup() {
+		return properties;
+	}
 
-	return group;
-    }
+	String getStatus(Method method) {
 
-    double getScore() {
+		String stat = ConservationStatus
+				.stringReps(ConservationStatus.getStatus(consScore, method));
+		return stat;
+	}
 
-	return consScore;
+	void printInfo(Method method, PrintWriter print) {
 
-    }
-
-    String getProperties() {
-
-	return properties;
-    }
-
-    String getStatus(Method method) {
-
-	String stat = ConservationStatus.stringReps(ConservationStatus
-		.getStatus(consScore, method));
-
-	return stat;
-    }
-
-    void printInfo(Method method, PrintWriter print) {
-
-	int width1 = 20;
-
-	int width2 = 20;
-
-	String format1 = "%-" + width1 + "s";
-
-	String format2 = "%-" + width2 + "s";
-
-	print.printf(format1, group);
-
-	print.printf(format2, getStatus(method));
-
-	print.println(properties);
-    }
-
+		int width1 = 20;
+		int width2 = 20;
+		String format1 = "%-" + width1 + "s";
+		String format2 = "%-" + width2 + "s";
+		print.printf(format1, group);
+		print.printf(format2, getStatus(method));
+		print.println(properties);
+	}
 }
