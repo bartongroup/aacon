@@ -26,10 +26,11 @@ public class ConservationTester {
 		File input = new File(SlowMethodTester.DATA_PATH + File.separator
 				+ SlowMethodTester.SMALL_AL);
 		try {
-			Map<Method, double[]> results = Conservation.getConservation(input,
-					EnumSet.allOf(Method.class), true);
+			Conservation c = new Conservation();
+			Map<Method, double[]> results = c.getConservation(input, EnumSet
+					.allOf(Method.class), true);
 			assertNotNull(results);
-			ConservationFormatter.formatResults(results, null, null, null);
+			c.printResults();
 			// System.out.println(results);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -137,6 +137,9 @@ public class ConservationFormatter {
 			}
 			break;
 		case RESULT_WITH_ALIGNMENT:
+			if (alignment == null) {
+				throw new NullPointerException("Alignment must be provided!");
+			}
 			print = openPrintWriter(outFilePath, true);
 			int tagWidth = 30;
 			int fieldWidth = 10;

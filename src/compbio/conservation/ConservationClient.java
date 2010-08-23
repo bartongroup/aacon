@@ -2,7 +2,6 @@ package compbio.conservation;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -411,6 +410,7 @@ class ConservationClient {
 							print.println("Alignment has: "
 									+ alignment.numberOfRows() + " sequences.");
 						}
+
 						ConservationScores2 scores = new ConservationScores2(
 								alignment);
 						double[] result = null;
@@ -460,7 +460,6 @@ class ConservationClient {
 	}
 
 	Map<Method, double[]> getResults() {
-
 		return results;
 	}
 
@@ -504,29 +503,15 @@ class ConservationClient {
 	 * @param inStr
 	 * @param fastaSeqs
 	 * @param inFilePath
+	 * @throws IOException
 	 * @returnif (statFile != null) { print =
 	 *           ConservationFormatter.openPrintWriter(statFile, false); }
 	 */
-	List<FastaSequence> openInputStream(String inFilePath) {
+	List<FastaSequence> openInputStream(String inFilePath) throws IOException {
 
-		InputStream inStr = null;
-		List<FastaSequence> fastaSeqs = null;
-		try {
-			inStr = new FileInputStream(inFilePath);
-			fastaSeqs = SequenceUtil.readFasta(inStr);
-		} catch (FileNotFoundException e) {
-			System.out
-					.println("Can not find file. Please provide a valid file path.");
-			// I'm using system exit here to avoid an exception I get, but I'm
-			// not sure it;s a good programming practice.
-			// System.exit(0)
-		} catch (IOException e) {
-			System.out.println("Sth wrong with reading the file.");
-			// I'm using system exit here to avoid an exception I get, but I'm
-			// not sure it;s a good programming practice.
-			// System.exit(0);
-			fastaSeqs = null;
-		}
+		InputStream inStr = new FileInputStream(inFilePath);
+		List<FastaSequence> fastaSeqs = SequenceUtil.readFasta(inStr);
+
 		return fastaSeqs;
 	}
 

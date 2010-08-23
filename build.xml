@@ -36,6 +36,7 @@
 		<echo>Jar file: ${jar.name}</echo>
 		<delete file="${jar.path}" failonerror="false"></delete>
 		<jar jarfile="${jar.path}" >
+			<zipgroupfileset excludes="META-INF/*.SF" dir="lib" includes="datamodel-1.0.jar"/>
 			<fileset dir="${basedir}/bin/" includes="compbio/**" />
 			<manifest>
 				<attribute name="Built-By" value="Petr V Troshin" />

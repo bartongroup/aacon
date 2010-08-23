@@ -22,6 +22,12 @@ import compbio.data.sequence.UnknownFileFormatException;
  */
 public class Conservation {
 
+	private AminoAcidMatrix alignMatrix;
+	private Map<Method, double[]> results;
+
+	public Conservation() {
+	}
+
 	/**
 	 * Read either clustal formatted alignment or list of fasta formatted
 	 * sequences, aligned sequences. Return the Map Method name->double[]
@@ -35,12 +41,11 @@ public class Conservation {
 	 * @throws IOException
 	 * @throws UnknownFileFormatException
 	 */
-	public static Map<Method, double[]> getConservation(File file,
+	public Map<Method, double[]> getConservation(File file,
 			EnumSet<Method> methods, boolean normilizeResults)
 			throws FileNotFoundException, IOException,
 			UnknownFileFormatException {
 
-		AminoAcidMatrix alignmatrix = null;
 		if (file == null) {
 			throw new NullPointerException("File must be provided!");
 		}
@@ -53,13 +58,14 @@ public class Conservation {
 		if (isClustalFile) {
 			Alignment alignment = ClustalAlignmentUtil.readClustalFile(fis);
 			assert alignment != null : "Fails to read the alignement!";
-			alignmatrix = new AminoAcidMatrix(alignment);
+			alignMatrix = new AminoAcidMatrix(alignment);
 		} else {
 			// assume the file contain a list of fasta sequences then
 			List<FastaSequence> sequences = SequenceUtil.readFasta(fis);
-			alignmatrix = new AminoAcidMatrix(sequences, null);
+			alignMatrix = new AminoAcidMatrix(sequences, null);
 		}
-		return calculateConservation(alignmatrix, methods, normilizeResults);
+		results = calculateConservation(methods, normilizeResults);
+		return results;
 	}
 
 	/**
@@ -68,17 +74,17 @@ public class Conservation {
 	 * @param normilizeResults
 	 * @return
 	 */
-	public static Map<Method, double[]> getConservation(Alignment alignment,
+	public Map<Method, double[]> getConservation(Alignment alignment,
 			EnumSet<Method> methods, boolean normilizeResults) {
 
-		AminoAcidMatrix alignmatrix = null;
 		if (alignment == null) {
 			throw new NullPointerException("Alignment must be provided!");
 		}
 		// there is no need to close input stream as the read method will close
 		// it
-		alignmatrix = new AminoAcidMatrix(alignment);
-		return calculateConservation(alignmatrix, methods, normilizeResults);
+		alignMatrix = new AminoAcidMatrix(alignment);
+		results = calculateConservation(methods, normilizeResults);
+		return results;
 	}
 
 	/**
@@ -87,23 +93,21 @@ public class Conservation {
 	 * @param normilizeResults
 	 * @return
 	 */
-	public static Map<Method, double[]> getConservation(
-			List<FastaSequence> sequences, EnumSet<Method> methods,
-			boolean normilizeResults) {
+	public Map<Method, double[]> getConservation(List<FastaSequence> sequences,
+			EnumSet<Method> methods, boolean normilizeResults) {
 
-		AminoAcidMatrix alignmatrix = null;
 		if (sequences == null || sequences.isEmpty()) {
 			throw new NullPointerException("Sequences must be provided!");
 		}
-		alignmatrix = new AminoAcidMatrix(sequences, null);
-		return calculateConservation(alignmatrix, methods, normilizeResults);
+		alignMatrix = new AminoAcidMatrix(sequences, null);
+		results = calculateConservation(methods, normilizeResults);
+		return results;
 	}
 
-	private static Map<Method, double[]> calculateConservation(
-			AminoAcidMatrix alignmatrix, EnumSet<Method> methods,
-			boolean normilizeResults) {
+	private Map<Method, double[]> calculateConservation(
+			EnumSet<Method> methods, boolean normilizeResults) {
 
-		ConservationScores2 scores = new ConservationScores2(alignmatrix);
+		ConservationScores2 scores = new ConservationScores2(alignMatrix);
 		Map<Method, double[]> result = new EnumMap<Method, double[]>(
 				Method.class);
 		for (Method method : methods) {
@@ -112,17 +116,23 @@ public class Conservation {
 			assert singleRes != null && singleRes.length > 0;
 			result.put(method, singleRes);
 		}
+		this.results = result;
 		return result;
 	}
 
-	public static double[] getCustomSMERFS(List<FastaSequence> sequences,
-			EnumSet<Method> methods, boolean normilizeResults,
-			SMERFSColumnScore score_method, int window_size,
-			double gap_threshold) {
+	public void outputResults(File outFile, Format format) throws IOException {
+		ConservationFormatter.formatResults(results, outFile.getAbsolutePath(),
+				format, alignMatrix);
+	}
 
-		AminoAcidMatrix alignmatrix = new AminoAcidMatrix(sequences, null);
-		return ConservationClient.getSMERFS(alignmatrix, window_size,
-				score_method, gap_threshold, normilizeResults);
+	public void printResults() {
+		try {
+			ConservationFormatter.formatResults(results, null, null, null);
+		} catch (IOException ignored) {
+			// this will never happen as no writing to real file happens
+			// in the call to the function above
+			ignored.printStackTrace();
+		}
 	}
 
 }
