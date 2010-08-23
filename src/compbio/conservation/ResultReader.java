@@ -14,6 +14,14 @@ import java.util.regex.Pattern;
 
 import compbio.data.sequence.FastaSequence;
 
+/**
+ * TODO to complete
+ * 
+ * This class has not being used yet
+ * 
+ * @author pvtroshin
+ * 
+ */
 public class ResultReader {
 
 	/**

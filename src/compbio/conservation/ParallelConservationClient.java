@@ -20,6 +20,8 @@ import compbio.util.Timer;
 /**
  * TODO to complete
  * 
+ * add n-cpu parameter
+ * 
  * @author pvtroshin
  */
 public final class ParallelConservationClient {
