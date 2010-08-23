@@ -159,14 +159,14 @@ public class ConservationFormatter {
 		print.close();
 	}
 
-	static PrintWriter openPrintWriter(String outFilePath, boolean append)
+	static PrintWriter openPrintWriter(String outFilePath, boolean autoFlush)
 			throws IOException {
 		PrintWriter print = null;
 		if (outFilePath == null || outFilePath.isEmpty()) {
 			print = new PrintWriter(System.out);
 		} else {
 			print = new PrintWriter(new BufferedWriter(new FileWriter(
-					outFilePath, append)));
+					outFilePath, autoFlush)));
 		}
 		return print;
 	}
