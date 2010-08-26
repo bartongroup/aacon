@@ -34,6 +34,7 @@ List of command line arguments:
 
 -m= - precedes a comma separated list of method names
       EXAMPLE: -m=KABAT,JORES,GERSTEIN
+      If no method is specified request for all is assumed. 
 -i= - precedes a full path to the input FASTA file
 -o= - precedes a full path to the output file
 -t= - precedes the number of CPUs (CPU cores more precisely) to use. Defaults to 

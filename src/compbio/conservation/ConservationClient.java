@@ -22,6 +22,7 @@ class ConservationClient {
 	 *            command line arguments
 	 * @throws IOException
 	 */
+	@Deprecated
 	ConservationClient(String[] cmd) throws IOException {
 
 		Timer timer = Timer.getMilliSecondsTimer();

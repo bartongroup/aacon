@@ -336,7 +336,8 @@ public class Conservation {
 				|| gapTreshold < 0 || gapTreshold > 1) {
 			if (width <= 0 || width % 2 != 1) {
 				System.out
-						.println("Column width for SMERFS not provided or smaller or equal zero or not an odd number or not an integer.");
+						.println("Column width for SMERFS not provided or " +
+								"smaller or equal zero or not an odd number or not an integer.");
 			}
 			if (width > alignMatrix.numberOfColumns()) {
 				System.out
@@ -349,7 +350,8 @@ public class Conservation {
 			}
 			if (gapTreshold < 0 || gapTreshold > 1) {
 				System.out
-						.println("Gap treshold could not have been parsed as a double or it was smaller than zero or it was greater than one.");
+						.println("Gap treshold could not have been parsed as a double " +
+								"or it was smaller than zero or it was greater than one.");
 			}
 			return result;
 		}

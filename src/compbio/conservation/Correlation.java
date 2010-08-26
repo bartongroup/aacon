@@ -247,22 +247,21 @@ class Correlation {
 			throw new ColumnTooWideException(
 					"The width of the window is greater than the length of the allignment.");
 		}
-		// int nrOfWindows = ((alignment.numberOfColumns() -
-		// alignment.numberOfColumns()%winWidth)/winWidth +
-		// ((alignment.numberOfColumns() -
-		// alignment.numberOfColumns()%winWidth)/winWidth - 1)*(winWidth - 1) +
-		// alignment.numberOfColumns()%winWidth);
-		int[][] localSim = new int[nrOfWindows][alignment.numberOfRows()
-				* (alignment.numberOfRows() - 1) / 2];
+
+		int numberOfRows = alignment.numberOfRows();
+		int[][] localSim = new int[nrOfWindows][numberOfRows
+				* (numberOfRows - 1) / 2];
 		int sum = 0;
 		int globalIndex = 0;
 		int windowNr = 0;
-		for (int i = 0; i < alignment.numberOfRows(); i++) {
+		 
+		for (int i = 0; i < numberOfRows; i++) {
 			char[] rowI = alignment.getRow(i);
-			for (int j = i + 1; j < alignment.numberOfRows(); j++) {
+			for (int j = i + 1; j < numberOfRows; j++) {
 				char[] rowJ = alignment.getRow(j);
 				windowNr = 0;
 				sum = 0;
+				 
 				for (int z = begin; z < begin + winWidth; z++) {
 					int index = 24 * ConservationMatrices.getIndex(rowI[z])
 							+ ConservationMatrices.getIndex(rowJ[z]);
@@ -349,7 +348,7 @@ class Correlation {
 			columnResults = giveMidToColumn(results);
 		}
 		rejectOverTreshold(columnResults);
-		if (normalize == true) {
+		if (normalize) {
 			double[] normalized = ConservationAccessory.normalize01(
 					columnResults, Method.SMERFS);
 			return normalized;

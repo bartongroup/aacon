@@ -64,7 +64,7 @@ public class SlowMethodTester {
 			// 675706 ms
 			List<FastaSequence> sequences = SequenceUtil
 					.readFasta(new FileInputStream(new File(DATA_PATH
-							+ File.separator + LARGE_AL)));
+							+ File.separator + AVG_AL)));
 			System.out.println("Loading sequences: " + timer.getStepTime());
 
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);

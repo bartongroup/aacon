@@ -118,10 +118,10 @@ public class ConservationFormatter {
 	static void formatResults(Map<Method, double[]> scores, String outFilePath,
 			Format format, AminoAcidMatrix alignment) throws IOException {
 
-		if (format == null) {
-			format = Format.RESULT_NO_ALIGNMENT;
-		}
 		PrintWriter print = null;
+		assert format!=null : "Format must not be null"; 
+		assert scores!=null : "Scores must not be null"; 
+		
 		Iterator<Method> itr = scores.keySet().iterator();
 
 		switch (format) {
@@ -156,6 +156,7 @@ public class ConservationFormatter {
 			}
 			break;
 		}
+		print.flush();
 		print.close();
 	}
 

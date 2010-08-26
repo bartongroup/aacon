@@ -18,3 +18,4 @@ java -jar  compbio-conservation-1.0.jar -i=test/data/TO1296.fasta.align -m=SANDE
 java -jar  compbio-conservation-1.0.jar -i=test/data/TO1296.fasta.align -m=VALDAR -o=valdar.txt -f=RESULT_NO_ALIGNMENT
 java -jar  compbio-conservation-1.0.jar -i=test/data/TO1296.fasta.align -m=SMERFS -o=smerfs.txt -f=RESULT_NO_ALIGNMENT -d=smerfs.d -s=5,MID_SCORE,0.1
       
+      

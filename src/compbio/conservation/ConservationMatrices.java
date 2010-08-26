@@ -244,7 +244,7 @@ public class ConservationMatrices {
 	 */
 	static int getIndex(final char a) {
 
-		int idx = -1;
+		short idx = -1;
 		switch (a) {
 		case 'A':
 			idx = 0;
@@ -319,7 +319,7 @@ public class ConservationMatrices {
 			idx = 23;
 			break;
 		default:
-			System.out.println("No such symbol in the matrix");
+			throw new AssertionError("No such symbol in the matrix");
 		}
 		assert idx != -1;
 		return idx;

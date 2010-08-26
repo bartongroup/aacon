@@ -112,7 +112,7 @@ public final class CmdParser {
 			+ "prot1_results file. \r\n"
 			+ "\r\n"
 			+ "Authors: Agnieszka Golicz, Peter Troshin, David Martin and Geoff Barton.\r\n"
-			+ "Please visit http://www.compbio.dundee.ac.uk for further information.\r\n";
+			+ "Please visit http://www.compbio.dundee.ac.uk for further information.\r\n\r\n";
 
 	private CmdParser() {
 		// This is a utility class no instantiation

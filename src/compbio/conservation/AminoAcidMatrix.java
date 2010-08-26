@@ -391,10 +391,8 @@ public class AminoAcidMatrix {
 	 * @return row as an array of characters
 	 */
 	char[] getRow(int number) {
-
 		assert number < this.numberOfRows();
-		char[] row = matrix[number];
-		return row;
+		return matrix[number];
 	}
 
 	private void calTotalAcidsFreqByCol() {

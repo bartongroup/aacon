@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,20 +64,40 @@ public final class ParallelConservationClient {
 
 		Timer timer = Timer.getMilliSecondsTimer();
 
+		String statFile = CmdParser.getStatFilePath(cmd);
+		if (statFile == null) {
+			timer.setStatOutput(null);
+		} else {
+			timer.setStatOutput(new FileOutputStream(statFile));
+		}
+		
 		// default values
 		int SMERFSWidth = SMERFSColumnScore.DEFAULT_WINDOW_SIZE;
 		SMERFSColumnScore score = SMERFSColumnScore.MID_SCORE;
 		double SMERFSGapTreshold = SMERFSColumnScore.DEFAULT_GAP_THRESHOLD;
 
+		
 		Set<Method> methods = CmdParser.getMethodNames(cmd);
-
+		// assume all methods are required
+		if(methods.isEmpty()) {
+			methods = EnumSet.allOf(Method.class); 
+			timer.println("No methods are request assuming all are required.");
+		}
+		
 		String inFilePath = CmdParser.getInputFilePath(cmd);
 
-		if (methods != null && inFilePath != null) {
+		if (!methods.isEmpty() && inFilePath != null) {
 			String format = CmdParser.getFormat(cmd);
 			String outFilePath = CmdParser.getOutputFilePath(cmd);
-
-			Format outFormat = Format.getFormat(format);
+			if(outFilePath==null) {
+				timer.println("No output file is provided, writing results to the standard output.");
+			}
+			Format outFormat = Format.RESULT_NO_ALIGNMENT;
+			if(format!=null) {
+				outFormat = Format.getFormat(format);
+				timer.println("No format is provided assuming RESULT_NO_ALIGNMENT is required");
+			}
+ 
 			String[] SMERFSDetails = CmdParser.getSMERFSDetails(cmd);
 			if (SMERFSDetails != null) {
 				if (SMERFSDetails.length == 3) {
@@ -104,12 +125,6 @@ public final class ParallelConservationClient {
 			String[] gap = CmdParser.getGapChars(cmd);
 			Character[] gapChars = CmdParser.extractGapChars(gap);
 
-			String statFile = CmdParser.getStatFilePath(cmd);
-			if (statFile == null) {
-				timer.setStatOutput(null);
-			} else {
-				timer.setStatOutput(new FileOutputStream(statFile));
-			}
 
 			initExecutor(CmdParser.getThreadNumber(cmd), timer);
 
@@ -174,7 +189,6 @@ public final class ParallelConservationClient {
 	public static void main(String[] args) {
 
 		ConservationClient.checkArguments(args);
-
 		try {
 			ParallelConservationClient cons = new ParallelConservationClient(
 					args);
