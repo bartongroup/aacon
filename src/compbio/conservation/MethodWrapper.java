@@ -6,7 +6,8 @@ import java.util.concurrent.Callable;
 import compbio.util.Timer;
 
 /**
- * TODO to complete
+ * Wrapper for AA Conservation calculation methods and their results to enable
+ * parallel method execution
  * 
  * @author pvtroshin
  */

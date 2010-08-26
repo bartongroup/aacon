@@ -141,8 +141,9 @@ public final class ParallelConservationClient {
 					try {
 						entry = rawResult.get();
 					} catch (ExecutionException e) {
-						// TODO better exception handling
-						e.printStackTrace();
+						System.err.println("Exception while executing method: "
+								+ entry.method);
+						throw new RuntimeException(e.getCause());
 					}
 					results.put(entry.method, entry.conservation);
 				}
@@ -165,21 +166,8 @@ public final class ParallelConservationClient {
 
 	public static void main(String[] args) {
 
-		if (args == null) {
-			System.out.println("No parameters were suppled");
-			System.out.println();
-			System.out.print(CmdParser.CONSERVATION_HELP);
-		}
-		if (args.length < 2) {
-			System.out
-					.println("Method names, input file paths are required. Application will"
-							+ " not run until these 2 arguments are provided.");
-			System.out
-					.println("If you want results printed, both format an input "
-							+ "file path have to be provided");
-			System.out.println();
-			System.out.print(CmdParser.CONSERVATION_HELP);
-		}
+		ConservationClient.checkArguments(args);
+
 		try {
 			ParallelConservationClient cons = new ParallelConservationClient(
 					args);

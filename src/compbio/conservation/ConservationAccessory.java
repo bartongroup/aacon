@@ -1,7 +1,9 @@
 package compbio.conservation;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ConservationAccessory {
 
@@ -117,8 +119,8 @@ public class ConservationAccessory {
 			double[] distances = new double[matrix.numberOfRows()];
 			double closestValue = 0;
 			for (int a = 0; a < matrix.numberOfRows(); a++) {
-				distances[a] = 1.0 - ConservationAccessory.percentIdentity(matrix.getRow(a),
-						randSeq);
+				distances[a] = 1.0 - ConservationAccessory.percentIdentity(
+						matrix.getRow(a), randSeq);
 				if (distances[a] < closestValue) {
 					closestValue = distances[a];
 				}
@@ -163,7 +165,8 @@ public class ConservationAccessory {
 		double weight = 0.0;
 		for (int i = 0; i < m.numberOfRows(); i++) {
 			if (i != seqNr) {
-				weight += ConservationAccessory.percentIdentity(m.getRow(seqNr), m.getRow(i));
+				weight += ConservationAccessory.percentIdentity(
+						m.getRow(seqNr), m.getRow(i));
 			}
 		}
 		double result = (1.0 / m.numberOfRows()) * weight;
@@ -177,7 +180,21 @@ public class ConservationAccessory {
 	 *            array of scores to be normalized
 	 * @return array of normalized scores
 	 */
-	public static double[] normalize01(double[] scores) {
+	/**
+	 * Returns scores normalized form 0 to 1.
+	 * 
+	 * There is one problem with this method. If it is fed a vector where all
+	 * the numbers are of equal value they are given a value of 1. However, this
+	 * value does not realistically represent the conservation score. It is
+	 * there to avoid method giving NaN values. If such a situation happens a
+	 * message will be written to the command window.
+	 * 
+	 * @param scores
+	 *            array of scores to be normalized
+	 * @return array of normalized scores
+	 */
+
+	static double[] normalize01(double[] scores, Method method) {
 
 		double[] normalized = new double[scores.length];
 		double max = scores[0];
@@ -190,8 +207,17 @@ public class ConservationAccessory {
 				min = scores[i];
 			}
 		}
-		if (max == 0 && min == 0) {
-			normalized = scores;
+		if (max == min) {
+			for (int i = 0; i < normalized.length; i++) {
+				normalized[i] = 1;
+			}
+			System.out.println("Scores in method: " + method.toString()
+					+ " could not have been normalized properly, "
+					+ "they were all given a score of 1.");
+			System.out
+					.println("This score does not reprent the actual conservation "
+							+ "score. Please have a look at user's help and "
+							+ "choose another score. ");
 		} else {
 			if (min < 0) {
 				double minAbs = min * -1;
@@ -221,8 +247,23 @@ public class ConservationAccessory {
 	 *            the array of scores supplied.
 	 * @return the array of numbers equal 1 - normalized score.
 	 */
-	static double[] inversedNormalize01(double[] scores) {
+	/**
+	 * Returns inversed version of the normalized scores. for each score gives a
+	 * score equal to 1 - the original score.
+	 * 
+	 * There is one problem with this method. If it is fed a vector where all
+	 * the numbers are of equal value they are given a value of 1. However, this
+	 * value does not realistically represent the conservation score. It is
+	 * there to avoid method giving NaN values. If such a situation happens a
+	 * message will be written to the command window.
+	 * 
+	 * @param scores
+	 *            the array of scores supplied.
+	 * 
+	 * @return the array of numbers equal 1 - normalized score.
+	 */
 
+	static double[] inversedNormalize01(double[] scores, Method method) {
 		double[] normalized = new double[scores.length];
 		double max = scores[0];
 		double min = scores[0];
@@ -234,8 +275,16 @@ public class ConservationAccessory {
 				min = scores[i];
 			}
 		}
-		if (max == 0 && min == 0) {
-			normalized = scores;
+		if (max == min) {
+			for (int i = 0; i < normalized.length; i++) {
+				normalized[i] = 1;
+			}
+			System.out
+					.println("Scores in method: "
+							+ method.toString()
+							+ " could not have been normalized properly, they were all given a score of 1.");
+			System.out
+					.println("This score does not reprent the actual conservation score. Please have a look at user's help and choose another score. ");
 		} else {
 			if (min < 0) {
 				double minAbs = min * -1;
@@ -261,7 +310,8 @@ public class ConservationAccessory {
 		return inversed;
 	}
 
-	static void printArrayOfDouble(double[] arr1, PrintWriter print, int precision) {
+	static void printArrayOfDouble(double[] arr1, PrintWriter print,
+			int precision) {
 
 		String resultFormat = "%." + precision + "f";
 		for (int i = 0; i < arr1.length; i++) {
@@ -280,8 +330,8 @@ public class ConservationAccessory {
 		}
 	}
 
-	static void printArrayOfDoubleFieldWidth(double[] arr1, PrintWriter print, int precision,
-			int fieldWidth) {
+	static void printArrayOfDoubleFieldWidth(double[] arr1, PrintWriter print,
+			int precision, int fieldWidth) {
 
 		String resultFormat = "%-" + fieldWidth + "." + precision + "f";
 		for (int i = 0; i < arr1.length; i++) {

@@ -9,6 +9,7 @@ import compbio.common.ColumnTooWideException;
  * matrices.
  * 
  * @author agolicz
+ * 
  */
 class Correlation {
 
@@ -27,14 +28,15 @@ class Correlation {
 	 *            sequence 2
 	 * @return similarity score
 	 */
-	public Correlation(AminoAcidMatrix alignment, int winWidth, double gapTreshold) {
-
+	public Correlation(AminoAcidMatrix alignment, int winWidth,
+			double gapTreshold) {
 		if (alignment == null) {
 			throw new IllegalArgumentException("Alignment must not be null.");
 		}
-		if (winWidth < 0 || winWidth % 2 != 1 || winWidth > alignment.numberOfColumns()) {
+		if (winWidth < 0 || winWidth % 2 != 1
+				|| winWidth > alignment.numberOfColumns()) {
 			throw new IllegalArgumentException(
-					"ColWidth smaller than zero or an even number or larger than the number of columns");
+					"ColWidth smaller than zero or an even number or largrt tah the number of columns");
 		}
 		this.alignment = alignment;
 		this.winWidth = winWidth;
@@ -48,10 +50,10 @@ class Correlation {
 	 *            sequence 1
 	 * @param seq2
 	 *            sequence 2
+	 * 
 	 * @return similarity
 	 */
 	static int sequenceSimilartyBlosum(char[] seq1, char[] seq2) {
-
 		assert seq1.length == seq2.length;
 		int similarity = 0;
 		for (int i = 0; i < seq1.length; i++) {
@@ -80,8 +82,8 @@ class Correlation {
 	 * @return array of 2 elements first element is the actual result, is the
 	 *         frame for the new window
 	 */
-	static int[] localSequenceSimilarityBlosumFirstWindow(char[] seq1, char[] seq2, int endPoint) {
-
+	static int[] localSequenceSimilarityBlosumFirstWindow(char[] seq1,
+			char[] seq2, int endPoint) {
 		assert seq1.length == seq2.length;
 		int similarity = 0;
 		for (int i = 0; i < endPoint; i++) {
@@ -89,7 +91,8 @@ class Correlation {
 			// integers
 			similarity += ConservationMatrices.BlosumPair2(seq1[i], seq2[i]);
 		}
-		int similarityNoFirst = similarity - ConservationMatrices.BlosumPair2(seq1[0], seq2[0]);
+		int similarityNoFirst = similarity
+				- ConservationMatrices.BlosumPair2(seq1[0], seq2[0]);
 		int[] array = { similarity, similarityNoFirst };
 		return array;
 	}
@@ -104,13 +107,13 @@ class Correlation {
 	 * @return similarity matrix stored as a single array
 	 */
 	private int[] globalSimilarity() {
-
-		int[] globalSim = new int[alignment.numberOfRows() * (alignment.numberOfRows() - 1) / 2];
+		int[] globalSim = new int[alignment.numberOfRows()
+				* (alignment.numberOfRows() - 1) / 2];
 		int index = 0;
 		for (int i = 0; i < alignment.numberOfRows(); i++) {
 			for (int j = i + 1; j < alignment.numberOfRows(); j++) {
-				globalSim[index] = Correlation.sequenceSimilartyBlosum(alignment.getRow(i),
-						alignment.getRow(j));
+				globalSim[index] = Correlation.sequenceSimilartyBlosum(
+						alignment.getRow(i), alignment.getRow(j));
 				index++;
 			}
 		}
@@ -122,13 +125,12 @@ class Correlation {
 	 * 
 	 * @return array of Pearson correlation scores indexed by window
 	 */
-	private double[] calcPearsonCoeff3() {
-
+	double[] calcPearson3() {
 		int[] global = globalSimilarity();
-		int[][] locals = localSimilarity2();
+		int[][] locals = localSimilarity1();
 		double[] coeffs = new double[locals.length];
 		for (int i = 0; i < locals.length; i++) {
-			coeffs[i] = Correlation.pearson2(locals[i], global);
+			coeffs[i] = Correlation.pearson(locals[i], global);
 		}
 		return coeffs;
 	}
@@ -143,8 +145,7 @@ class Correlation {
 	 *            vector 2
 	 * @return score
 	 */
-	static double pearson2(int[] arr1, int[] arr2) {
-
+	static double pearson(int[] arr1, int[] arr2) {
 		assert arr1.length == arr2.length;
 		int arr1Sum = 0;
 		int arr2Sum = 0;
@@ -177,8 +178,7 @@ class Correlation {
 	 * 
 	 * @return 2D array with local similarity matrices
 	 */
-	private int[][] localSimilarity2() {
-
+	private int[][] localSimilarity1() {
 		if (alignment == null) {
 			throw new IllegalArgumentException("Matrix must not be null");
 		}
@@ -186,15 +186,15 @@ class Correlation {
 			throw new ColumnTooWideException(
 					"The width of the window is greater than the length of the allignment.");
 		}
-		/* length of the alignment - window size */
-		int nrOfWindows = ((alignment.numberOfColumns() - alignment.numberOfColumns() % winWidth)
+		int nrOfWindows = ((alignment.numberOfColumns() - alignment
+				.numberOfColumns()
+				% winWidth)
 				/ winWidth
-				+ ((alignment.numberOfColumns() - alignment.numberOfColumns() % winWidth)
-						/ winWidth - 1) * (winWidth - 1) + alignment.numberOfColumns() % winWidth);
-		/*
-		 * System.out .println(nrOfWindows + " " + alignment.numberOfRows() +
-		 * " " + (alignment.numberOfRows() (alignment.numberOfRows() - 1) / 2));
-		 */
+				+ ((alignment.numberOfColumns() - alignment.numberOfColumns()
+						% winWidth)
+						/ winWidth - 1) * (winWidth - 1) + alignment
+				.numberOfColumns()
+				% winWidth);
 		int[][] localSim = new int[nrOfWindows][alignment.numberOfRows()
 				* (alignment.numberOfRows() - 1) / 2];
 		int sum = 0;
@@ -217,7 +217,8 @@ class Correlation {
 				for (int k = winWidth; k < alignment.numberOfColumns(); k++) {
 					int index1 = 24 * ConservationMatrices.getIndex(rowI[k])
 							+ ConservationMatrices.getIndex(rowJ[k]);
-					int index2 = 24 * ConservationMatrices.getIndex(rowI[k - winWidth])
+					int index2 = 24
+							* ConservationMatrices.getIndex(rowI[k - winWidth])
 							+ ConservationMatrices.getIndex(rowJ[k - winWidth]);
 					sum = sum - ConservationMatrices.blosum2[index2]
 							+ ConservationMatrices.blosum2[index1];
@@ -231,13 +232,14 @@ class Correlation {
 	}
 
 	/**
-	 * Calculates pearson coefficient between global similarity matrix and local
-	 * similarity matrices.
+	 * Calculates correlation for a set number of windows.
 	 * 
-	 * @return array of coefficients indexed by windows
+	 * @param nrOfWindows
+	 * @param begin
+	 * @param end
+	 * @return
 	 */
-	double[] calcPearson() {
-
+	private int[][] localSimilarity2(int nrOfWindows, int begin, int end) {
 		if (alignment == null) {
 			throw new IllegalArgumentException("Matrix must not be null");
 		}
@@ -245,69 +247,85 @@ class Correlation {
 			throw new ColumnTooWideException(
 					"The width of the window is greater than the length of the allignment.");
 		}
-		int[] global = globalSimilarity();
-		int nrOfWindows = ((alignment.numberOfColumns() - alignment.numberOfColumns() % winWidth)
-				/ winWidth
-				+ ((alignment.numberOfColumns() - alignment.numberOfColumns() % winWidth)
-						/ winWidth - 1) * (winWidth - 1) + alignment.numberOfColumns() % winWidth);
-		double[] coeffs = new double[nrOfWindows];
+		// int nrOfWindows = ((alignment.numberOfColumns() -
+		// alignment.numberOfColumns()%winWidth)/winWidth +
+		// ((alignment.numberOfColumns() -
+		// alignment.numberOfColumns()%winWidth)/winWidth - 1)*(winWidth - 1) +
+		// alignment.numberOfColumns()%winWidth);
+		int[][] localSim = new int[nrOfWindows][alignment.numberOfRows()
+				* (alignment.numberOfRows() - 1) / 2];
 		int sum = 0;
 		int globalIndex = 0;
-		int counter = 0;
-		int[] winValues = new int[winWidth];
-		float[][] coeffsRaw = new float[nrOfWindows][5];
+		int windowNr = 0;
 		for (int i = 0; i < alignment.numberOfRows(); i++) {
 			char[] rowI = alignment.getRow(i);
 			for (int j = i + 1; j < alignment.numberOfRows(); j++) {
 				char[] rowJ = alignment.getRow(j);
-				for (int k = 0; k < nrOfWindows; k++) {
-					if ((k == 0 || k % winWidth == 0)
-							&& k < alignment.numberOfColumns() - alignment.numberOfColumns()
-									% winWidth) {
-						counter = 0;
-						sum = 0;
-						int colRange = (winWidth - 1) / 2;
-						int midColumn = k + colRange;
-						int range = -colRange;
-						for (int d = 0; d < winWidth; d++) {
-							int index = 24 * ConservationMatrices.getIndex(rowI[midColumn + range])
-									+ ConservationMatrices.getIndex(rowJ[midColumn + range]);
-							int score = ConservationMatrices.blosum2[index];
-							winValues[d] = score;
-							sum += score;
-							range++;
-						}
-						range = -colRange;
-						coeffsRaw[k][0] += sum;
-						coeffsRaw[k][1] += global[globalIndex];
-						coeffsRaw[k][2] += sum * sum;
-						coeffsRaw[k][3] += global[globalIndex] * global[globalIndex];
-						coeffsRaw[k][4] += global[globalIndex] * sum;
-					} else {
-						sum = sum
-								- winValues[counter]
-								+ ConservationMatrices.BlosumPair2(alignment.getRow(i)[k
-										+ (winWidth - 1)], alignment.getRow(j)[k + (winWidth - 1)]);
-						coeffsRaw[k][0] += sum;
-						coeffsRaw[k][1] += global[globalIndex];
-						coeffsRaw[k][2] += sum * sum;
-						coeffsRaw[k][3] += global[globalIndex] * global[globalIndex];
-						coeffsRaw[k][4] += global[globalIndex] * sum;
-						counter++;
-					}
+				windowNr = 0;
+				sum = 0;
+				for (int z = begin; z < begin + winWidth; z++) {
+					int index = 24 * ConservationMatrices.getIndex(rowI[z])
+							+ ConservationMatrices.getIndex(rowJ[z]);
+					int score = ConservationMatrices.blosum2[index];
+					sum += score;
+				}
+				localSim[windowNr][globalIndex] = sum;
+				windowNr++;
+				for (int k = begin + winWidth; k <= end; k++) {
+					int index1 = 24 * ConservationMatrices.getIndex(rowI[k])
+							+ ConservationMatrices.getIndex(rowJ[k]);
+					int index2 = 24
+							* ConservationMatrices.getIndex(rowI[k - winWidth])
+							+ ConservationMatrices.getIndex(rowJ[k - winWidth]);
+					sum = sum - ConservationMatrices.blosum2[index2]
+							+ ConservationMatrices.blosum2[index1];
+					localSim[windowNr][globalIndex] = sum;
+					windowNr++;
 				}
 				globalIndex++;
 			}
 		}
-		for (int n = 0; n < coeffsRaw.length; n++) {
-			double numerator = coeffsRaw[n][4] - coeffsRaw[n][0] * coeffsRaw[n][1] / global.length;
-			assert coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0] / (double) global.length > 0;
-			assert coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1] / (double) global.length > 0;
-			double denominator = Math.sqrt(coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0]
-					/ (double) global.length)
-					* Math.sqrt(coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1]
-							/ (double) global.length);
-			coeffs[n] = numerator / denominator;
+		return localSim;
+	}
+
+	/**
+	 * Also calculates correlation. Takes less memory than calcPearson3.
+	 * 
+	 * @return
+	 */
+	double[] calcPearson() {
+		int nrOfWindows = ((alignment.numberOfColumns() - alignment
+				.numberOfColumns()
+				% winWidth)
+				/ winWidth
+				+ ((alignment.numberOfColumns() - alignment.numberOfColumns()
+						% winWidth)
+						/ winWidth - 1) * (winWidth - 1) + alignment
+				.numberOfColumns()
+				% winWidth);
+		double[] coeffs = new double[nrOfWindows];
+		int coeffsIdx = 0;
+		int tail = nrOfWindows % 50;
+		int turns = (nrOfWindows - tail) / 50;
+		int start = 0;
+		int end = (winWidth - 1) + 49;
+		int[] global = globalSimilarity();
+		for (int i = 0; i < turns; i++) {
+			int[][] result = localSimilarity2(50, start, end);
+			for (int a = 0; a < result.length; a++) {
+				coeffs[coeffsIdx] = pearson(result[a], global);
+				coeffsIdx++;
+			}
+			start = end - (winWidth - 1) + 1;
+			end = start + (winWidth - 1) + 49;
+		}
+		if (tail != 0) {
+			int[][] result = localSimilarity2(tail, start, alignment
+					.numberOfColumns() - 1);
+			for (int a = 0; a < result.length; a++) {
+				coeffs[coeffsIdx] = pearson(result[a], global);
+				coeffsIdx++;
+			}
 		}
 		return coeffs;
 	}
@@ -320,19 +338,10 @@ class Correlation {
 	 * @return
 	 */
 	double[] getCorrelationScore(SMERFSColumnScore score, boolean normalize) {
-
 		if (alignment == null) {
 			throw new IllegalArgumentException("Alignment must not be null");
 		}
-		double[] results = null;
-		if (alignment.numberOfRows() < 500) {
-			results = calcPearsonCoeff3();
-		} else {
-			results = calcPearson2();
-		}
-		// System.out.println(Arrays.toString(results));
-		// System.out.println(Arrays.toString(results2));
-		// assert Arrays.equals(results, results2);
+		double[] results = calcPearson();
 		double[] columnResults;
 		if (score == SMERFSColumnScore.MAX_SCORE) {
 			columnResults = giveMaxToColumn(results);
@@ -341,7 +350,8 @@ class Correlation {
 		}
 		rejectOverTreshold(columnResults);
 		if (normalize == true) {
-			double[] normalized = ConservationAccessory.normalize01(columnResults);
+			double[] normalized = ConservationAccessory.normalize01(
+					columnResults, Method.SMERFS);
 			return normalized;
 		} else {
 			return columnResults;
@@ -359,7 +369,6 @@ class Correlation {
 	 * @return max
 	 */
 	double findMax(double[] scores, int begin, int end) {
-
 		if (end < begin) {
 			throw new IllegalArgumentException("End is smaller than the begin.");
 		}
@@ -383,7 +392,6 @@ class Correlation {
 	 * @return
 	 */
 	private double[] giveMaxToColumn(double[] windowScores) {
-
 		double[] scores = new double[alignment.numberOfColumns()];
 		for (int i = 0; i < winWidth - 1; i++) {
 			scores[i] = findMax(windowScores, 0, i);
@@ -406,7 +414,6 @@ class Correlation {
 	 * @return 2D array indexed by window
 	 */
 	int[][] localSimilarity() {
-
 		if (alignment == null) {
 			throw new IllegalArgumentException("Matrix must not be null");
 		}
@@ -414,10 +421,15 @@ class Correlation {
 			throw new ColumnTooWideException(
 					"The width of the window is greater than the length of the allignment.");
 		}
-		int nrOfWindows = ((alignment.numberOfColumns() - alignment.numberOfColumns() % winWidth)
+		int nrOfWindows = ((alignment.numberOfColumns() - alignment
+				.numberOfColumns()
+				% winWidth)
 				/ winWidth
-				+ ((alignment.numberOfColumns() - alignment.numberOfColumns() % winWidth)
-						/ winWidth - 1) * (winWidth - 1) + alignment.numberOfColumns() % winWidth);
+				+ ((alignment.numberOfColumns() - alignment.numberOfColumns()
+						% winWidth)
+						/ winWidth - 1) * (winWidth - 1) + alignment
+				.numberOfColumns()
+				% winWidth);
 		int[][] localSim = new int[nrOfWindows][alignment.numberOfRows()
 				* (alignment.numberOfRows() - 1) / 2];
 		int sum = 0;
@@ -430,16 +442,19 @@ class Correlation {
 				char[] rowJ = alignment.getRow(j);
 				for (int k = 0; k < nrOfWindows; k++) {
 					if ((k == 0 || k % winWidth == 0)
-							&& k < alignment.numberOfColumns() - alignment.numberOfColumns()
-									% winWidth) {
+							&& k < alignment.numberOfColumns()
+									- alignment.numberOfColumns() % winWidth) {
 						counter = 0;
 						sum = 0;
 						int colRange = (winWidth - 1) / 2;
 						int midColumn = k + colRange;
 						int range = -colRange;
 						for (int d = 0; d < winWidth; d++) {
-							int index = 24 * ConservationMatrices.getIndex(rowI[midColumn + range])
-									+ ConservationMatrices.getIndex(rowJ[midColumn + range]);
+							int index = 24
+									* ConservationMatrices
+											.getIndex(rowI[midColumn + range])
+									+ ConservationMatrices
+											.getIndex(rowJ[midColumn + range]);
 							int score = ConservationMatrices.blosum2[index];
 							winValues[d] = score;
 							sum += score;
@@ -447,8 +462,11 @@ class Correlation {
 						}
 						range = 0;
 					} else {
-						int index = 24 * ConservationMatrices.getIndex(rowI[k + (winWidth - 1)])
-								+ ConservationMatrices.getIndex(rowJ[k + (winWidth - 1)]);
+						int index = 24
+								* ConservationMatrices.getIndex(rowI[k
+										+ (winWidth - 1)])
+								+ ConservationMatrices.getIndex(rowJ[k
+										+ (winWidth - 1)]);
 						int score = ConservationMatrices.blosum2[index];
 						sum = sum - winValues[counter] + score;
 						localSim[k][globalIndex] = sum;
@@ -462,12 +480,13 @@ class Correlation {
 	}
 
 	/**
-	 * Calculates pearson coefficient for the alignment.
+	 * Calculates pearson coefficient for the alignment. If one of the vectors
+	 * consists of single value only the correlation value is 0.
 	 * 
 	 * @return array of scores indexed by window
+	 * 
 	 */
-	private double[] calcPearson2() {
-
+	double[] calcPearson2() {
 		if (alignment == null) {
 			throw new IllegalArgumentException("Matrix must not be null");
 		}
@@ -476,10 +495,15 @@ class Correlation {
 					"The width of the window is greater than the length of the allignment.");
 		}
 		int[] global = globalSimilarity();
-		int nrOfWindows = ((alignment.numberOfColumns() - alignment.numberOfColumns() % winWidth)
+		int nrOfWindows = ((alignment.numberOfColumns() - alignment
+				.numberOfColumns()
+				% winWidth)
 				/ winWidth
-				+ ((alignment.numberOfColumns() - alignment.numberOfColumns() % winWidth)
-						/ winWidth - 1) * (winWidth - 1) + alignment.numberOfColumns() % winWidth);
+				+ ((alignment.numberOfColumns() - alignment.numberOfColumns()
+						% winWidth)
+						/ winWidth - 1) * (winWidth - 1) + alignment
+				.numberOfColumns()
+				% winWidth);
 		double[] coeffs = new double[nrOfWindows];
 		int sum = 0;
 		int windowNr = 0;
@@ -500,20 +524,23 @@ class Correlation {
 				coeffsRaw[windowNr][0] += sum;
 				coeffsRaw[windowNr][1] += global[globalIndex];
 				coeffsRaw[windowNr][2] += sum * sum;
-				coeffsRaw[windowNr][3] += global[globalIndex] * global[globalIndex];
+				coeffsRaw[windowNr][3] += global[globalIndex]
+						* global[globalIndex];
 				coeffsRaw[windowNr][4] += global[globalIndex] * sum;
 				windowNr++;
 				for (int k = winWidth; k < alignment.numberOfColumns(); k++) {
 					int index1 = 24 * ConservationMatrices.getIndex(rowI[k])
 							+ ConservationMatrices.getIndex(rowJ[k]);
-					int index2 = 24 * ConservationMatrices.getIndex(rowI[k - winWidth])
+					int index2 = 24
+							* ConservationMatrices.getIndex(rowI[k - winWidth])
 							+ ConservationMatrices.getIndex(rowJ[k - winWidth]);
 					sum = sum - ConservationMatrices.blosum2[index2]
 							+ ConservationMatrices.blosum2[index1];
 					coeffsRaw[windowNr][0] += sum;
 					coeffsRaw[windowNr][1] += global[globalIndex];
 					coeffsRaw[windowNr][2] += sum * sum;
-					coeffsRaw[windowNr][3] += global[globalIndex] * global[globalIndex];
+					coeffsRaw[windowNr][3] += global[globalIndex]
+							* global[globalIndex];
 					coeffsRaw[windowNr][4] += global[globalIndex] * sum;
 					windowNr++;
 				}
@@ -521,14 +548,29 @@ class Correlation {
 			}
 		}
 		for (int n = 0; n < coeffsRaw.length; n++) {
-			double numerator = coeffsRaw[n][4] - coeffsRaw[n][0] * coeffsRaw[n][1] / global.length;
-			assert coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0] / (double) global.length > 0;
-			assert coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1] / (double) global.length > 0;
-			double denominator = Math.sqrt(coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0]
-					/ (double) global.length)
-					* Math.sqrt(coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1]
-							/ (double) global.length);
-			coeffs[n] = numerator / denominator;
+			double numerator = coeffsRaw[n][4] - coeffsRaw[n][0]
+					* coeffsRaw[n][1] / global.length;
+			if (coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0]
+					/ (double) global.length == 0
+					|| coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1]
+							/ (double) global.length == 0) {
+				coeffs[n] = 0;
+			} else {
+				System.out.println(coeffsRaw[n][2] - coeffsRaw[n][0]
+						* coeffsRaw[n][0] / (double) global.length);
+				System.out.println(coeffsRaw[n][3] - coeffsRaw[n][1]
+						* coeffsRaw[n][1] / (double) global.length);
+				assert coeffsRaw[n][2] - coeffsRaw[n][0] * coeffsRaw[n][0]
+						/ (double) global.length > 0;
+				assert coeffsRaw[n][3] - coeffsRaw[n][1] * coeffsRaw[n][1]
+						/ (double) global.length > 0;
+				double denominator = Math.sqrt(coeffsRaw[n][2]
+						- coeffsRaw[n][0] * coeffsRaw[n][0]
+						/ (double) global.length)
+						* Math.sqrt(coeffsRaw[n][3] - coeffsRaw[n][1]
+								* coeffsRaw[n][1] / (double) global.length);
+				coeffs[n] = numerator / denominator;
+			}
 		}
 		return coeffs;
 	}
@@ -540,7 +582,6 @@ class Correlation {
 	 * @return
 	 */
 	private double[] giveMidToColumn(double[] windowScores) {
-
 		double[] columnResults = new double[alignment.numberOfColumns()];
 		int ends = (winWidth - 1) / 2;
 		for (int i = 0; i < ends; i++) {
@@ -554,9 +595,9 @@ class Correlation {
 	}
 
 	void rejectOverTreshold(double[] results) {
-
 		for (int i = 0; i < alignment.numberOfColumns(); i++) {
-			Map<Character, Integer> colMap = alignment.getTotalAcidsFreqByCol().get(i);
+			Map<Character, Integer> colMap = alignment.getTotalAcidsFreqByCol()
+					.get(i);
 			if (colMap.containsKey('-')) {
 				if (colMap.get('-') / alignment.numberOfRows() > gapTreshold) {
 					results[i] = 0.0;

@@ -178,10 +178,22 @@ class ConservationClient {
 	 */
 	public static void main(String[] args) {
 
+		checkArguments(args);
+		try {
+			ConservationClient cons = new ConservationClient(args);
+		} catch (IOException e) {
+			System.err.println("Fail to write to the file system! "
+					+ e.getLocalizedMessage());
+			e.printStackTrace();
+		}
+	}
+
+	static void checkArguments(String[] args) {
 		if (args == null) {
 			System.out.println("No parameters were suppled");
 			System.out.println();
 			System.out.print(CmdParser.CONSERVATION_HELP);
+			System.exit(0);
 		}
 		if (args.length < 2) {
 			System.out
@@ -192,13 +204,7 @@ class ConservationClient {
 							+ "file path have to be provided");
 			System.out.println();
 			System.out.print(CmdParser.CONSERVATION_HELP);
-		}
-		try {
-			ConservationClient cons = new ConservationClient(args);
-		} catch (IOException e) {
-			System.err.println("Fail to write to the file system! "
-					+ e.getLocalizedMessage());
-			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 
