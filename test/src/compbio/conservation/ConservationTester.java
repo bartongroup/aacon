@@ -26,9 +26,11 @@ public class ConservationTester {
 		File input = new File(SlowMethodTester.DATA_PATH + File.separator
 				+ SlowMethodTester.SMALL_AL);
 		try {
-			Conservation c = new Conservation();
-			Map<Method, double[]> results = c.getConservation(input, EnumSet
-					.allOf(Method.class), true);
+
+			Conservation c = Conservation.getConservation(input,
+					true);
+			Map<Method, double[]> results = c.calculateScore(EnumSet
+					.allOf(Method.class));
 			assertNotNull(results);
 			c.printResults();
 			// System.out.println(results);
@@ -57,11 +59,12 @@ public class ConservationTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			ConservationScores2 scores = new ConservationScores2(alignment);
+			Conservation scores = new Conservation(alignment,
+					true);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.SANDER, true);
+			double[] result = scores.calculateScore(Method.SANDER);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 

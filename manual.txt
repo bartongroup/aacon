@@ -1,4 +1,5 @@
-AA Connservation 1.0
+
+AA Conservation version 1.0b 26 August 2010
 
 This program allows calculation of conservation of amino acids in
 multiple sequence alignments.
@@ -8,26 +9,37 @@ and Genetics 48:227-241 (2002)) and SMERFS scoring algorithm as described
 by Manning, Jefferson and Barton (The contrasting properties of conservation
 and correlated phylogeny in protein functional residue prediction,
 BMC Bioinformatics (2008)).
-The scores supported are:
+
+The conservation algorithms supported are:
+
 KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, 
 ZVELIBIL, KARLIN, ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON, 
 LANDGRAF, SANDER, VALDAR, SMERFS
 
-Input format is a FASTA file. By default program prints the results
-to the command window. If the output file is provided the results are 
-printed to the file in two possible formats (with or without an alignment).
-The default format prints the results without alignment.  
-The scores can be normalized or not. By default the scores are not 
+Input format is either a FASTA formatted file containing aligned sequences with 
+gaps or a Clustal alignment. The valid gap characters are *, -, space character,
+X and . (a dot). By default program prints the results to the command window. 
+If the output file is provided the results are printed to the file in two 
+possible formats with or without an alignment.
+If format is not specified, the program outputs conservation scores without 
+alignment. The scores can be normalized or not. By default the scores are not 
 normalized. If SMERFS is called and no parameters for SMERFS are provided
-it is run with the default arguments (window width of 7, column score given to 
-the middle column, gap% cutoff of 1.0). If new parameters are needed all
-three of them have to be provided. Details of the program execution can
-be listed to a separate file if an appropriate file path is provided.
-Program accepts command line arguments. All the arguments are preceded by a certain key:
+it is run with the default parameters (window width of 7, column score is set to
+the middle column, gap% cutoff of 0.1). If different values for SMERFS parameters 
+are required than all three parameters must be provided. Details of the program 
+execution can be recorded to a separate file if an appropriate file path is 
+provided.
+
+List of command line arguments:
+
 -m= - precedes a comma separated list of method names
       EXAMPLE: -m=KABAT,JORES,GERSTEIN
 -i= - precedes a full path to the input FASTA file
 -o= - precedes a full path to the output file
+-t= - precedes the number of CPUs (CPU cores more precisely) to use. Defaults to 
+	  all processors available on the machine.
+      Please note that a single method computation is not sped up by this option, 
+      the speed up is only achieved if multiple methods are requested 
 -f= - precedes the format  of the results in the output file
       two different formats are possible:
       RESULTS_WITH_ALIGNMENT
@@ -37,23 +49,37 @@ Program accepts command line arguments. All the arguments are preceded by a cert
       1. window width - an integer and an odd number
       2. how to allocate window scores to columns, two ways are possible:
 	     MID_SCORE - gives the window score to the middle column
-	     MAX_SCORE - gives the column the highest score of all the windows it belongs to
+	     MAX_SCORE - gives the column the highest score of all the windows it 
+	     belongs to
       3. gap percentage cutoff - a float greater than 0 and smaller or equal 1
       EXAMPLE: -s=5,MID_SCORE,0.1
       
--d= - precedes a full path to a file where program execution details are to be listed  
--g= - precedes comma separated list of gap characters provided by the user, if you're using an unusual gap character
-      (not a -,., ,*) you have to provide it. If you you provide this list you have to list all the gaps accepted. Including those
-      that were previously treated as a default.      
--n - using this key causes the results to be normalized
+-d= - precedes a full path to a file where program execution details are to be 
+      listed  
+-g= - precedes comma separated list of gap characters provided by the user, if 
+      you're using an unusual gap character
+      (not a -,., ,*,X) you have to provide it. If you you provide this list you 
+      have to list all the gaps accepted. Including those that were previously 
+      treated as a default.      
+-n - using this key causes the results to be normalized. 
+	 Normalized results have values between 0 and 1. Please note however, that 
+	 some results cannot be normalized. There are only a few cases than this is 
+	 true. In such a case, the system returns not normalized value, and log the
+	 issue in the statistics file and to the standard error stream. TAYLOR_GAPS 
+	 most often produces the results that cannot be normalized.  
+	 The following formula is used for normalization 
+			n = (d - dmin)/(dmax - dmin)
+	 Negative results first converted to positive by adding an absolute value of
+	 the most negative result. 
 
 EXAMPLE HOW TO RUN THE PROGRAM:
--m=KABAT,SMERFS -i=/homes/agolicz/alignments/prot1 -o=/homes/agolicz/alignments/prot1_results 
+java -jar <jar name> -m=KABAT,SMERFS -i=prot1 -o=prot1_results 
 -f=RESULTS_NO_ALIGNMENT -n
 
-KABAT and SMERFS scores will be calculated. Input will come form /homes/agolicz/alignments/prot1 
-file and will be printed to /homes/agolicz/alignments/prot1_results without alignment. 
-Results will be normalized between 0 and 1.
-To normalize the results n = (d - dmin)/(dmax - dmin) formula is used.
-If the results are negative they are first shifted by adding the 
-absolute value of the most negative number. 
+As a result of the execution KABAT and SMERFS scores will be calculated. 
+Input comes form prot1 file and an output without an alignment is recorded to 
+prot1_results file. 
+
+Authors: Agnieszka Golicz, Peter Troshin, David Martin and Geoff Barton.
+Please visit http://www.compbio.dundee.ac.uk for further information.
+ 

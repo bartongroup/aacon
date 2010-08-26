@@ -18,11 +18,9 @@ import compbio.data.sequence.FastaSequence;
 import compbio.util.Timer;
 
 /**
- * TODO to complete
+ * Command line client for AAconservation methods.
  * 
- * add n-cpu parameter
- * 
- * @author pvtroshin
+ * @author pvtroshin with a lot of input from A. Golicz
  */
 public final class ParallelConservationClient {
 
@@ -30,17 +28,24 @@ public final class ParallelConservationClient {
 			Method.class);
 	private static volatile ExecutorService executor;
 
-	private void initExecutor(int procNum) {
+	private void initExecutor(int procNum, Timer timer) {
 
 		int corenum = Runtime.getRuntime().availableProcessors();
-		if (procNum <= 1 || procNum > corenum * 2) {
-			System.err.println("Number of processors must be more than 1 and "
-					+ "less than the number of cores*2"
-					+ "However given number of processors is " + procNum);
-			System.err.println("Changing number of processors to " + corenum
-					+ " - the number of cores");
+		if (procNum < 1) {
+			// Default - no thread number was set
+			procNum = corenum;
+		} else if (procNum > corenum * 2) {
+			// To many cpus are defined -> user mistake
+			String message = "Number of processors must be more than 1 and "
+					+ "\n" + "less than the number of cores*2 " + "\n"
+					+ "However given number of processors is " + procNum + "\n"
+					+ "Changing number of processors to " + corenum
+					+ " - the number of cores\n";
+			System.err.println(message);
+			timer.println(message);
 			procNum = corenum;
 		}
+		timer.println("Using " + procNum + " CPUs");
 		if (executor == null) {
 			synchronized (ParallelConservationClient.class) {
 				if (executor == null) {
@@ -57,7 +62,6 @@ public final class ParallelConservationClient {
 			InterruptedException {
 
 		Timer timer = Timer.getMilliSecondsTimer();
-		initExecutor(4);
 
 		// default values
 		int SMERFSWidth = SMERFSColumnScore.DEFAULT_WINDOW_SIZE;
@@ -107,6 +111,8 @@ public final class ParallelConservationClient {
 				timer.setStatOutput(new FileOutputStream(statFile));
 			}
 
+			initExecutor(CmdParser.getThreadNumber(cmd), timer);
+
 			List<FastaSequence> sequences = CmdParser
 					.openInputStream(inFilePath);
 
@@ -119,7 +125,8 @@ public final class ParallelConservationClient {
 				timer.println("Alignment has: " + alignment.numberOfRows()
 						+ " sequences.");
 
-				ConservationScores2 scores = new ConservationScores2(alignment);
+				Conservation scores = new Conservation(alignment,
+						normalize);
 
 				MethodWrapper wrapper = null;
 				List<MethodWrapper> tasks = new ArrayList<MethodWrapper>();

@@ -16,55 +16,6 @@ class ConservationClient {
 			Method.class);
 
 	/**
-	 * Returns results of SMERFS calculation or null, if parameters provided are
-	 * not appropriate.
-	 * 
-	 * @param alignment
-	 *            reference to alignment
-	 * @param width
-	 *            with of the window
-	 * @param score
-	 *            tells which score given to the column, either the highest
-	 *            score of all the windows it belongs to, or the middle column
-	 *            is given the score of the window.
-	 * @param normalize
-	 *            if true results will be normalized
-	 * @return
-	 */
-	public static double[] getSMERFS(AminoAcidMatrix alignment, int width,
-			SMERFSColumnScore score, double gapTreshold, boolean normalize) {
-
-		if (alignment == null) {
-			throw new IllegalArgumentException("Matrix must not be null.");
-		}
-		double[] result = null;
-		if (width <= 0 || width % 2 != 1 || width > alignment.numberOfColumns()
-				|| score == null || gapTreshold < 0 || gapTreshold > 1) {
-			if (width <= 0 || width % 2 != 1) {
-				System.out
-						.println("Column width for SMERFS not provided or smaller or equal zero or not an odd number or not an integer.");
-			}
-			if (width > alignment.numberOfColumns()) {
-				System.out
-						.println("Column width greater than the length of the alignment");
-			}
-			if (score == null) {
-				System.out
-						.println("Column score not privided or the type provided is not supported.");
-				SMERFSColumnScore.supportedSMERFSColumnSores();
-			}
-			if (gapTreshold < 0 || gapTreshold > 1) {
-				System.out
-						.println("Gap treshold could not have been parsed as a double or it was smaller than zero or it was greater than one.");
-			}
-			return result;
-		}
-		Correlation corr = new Correlation(alignment, width, gapTreshold);
-		result = corr.getCorrelationScore(score, normalize);
-		return result;
-	}
-
-	/**
 	 * Constructor
 	 * 
 	 * @param cmd
@@ -135,16 +86,17 @@ class ConservationClient {
 				timer.println("Alignment has: " + alignment.numberOfRows()
 						+ " sequences.");
 
-				ConservationScores2 scores = new ConservationScores2(alignment);
+				Conservation scores = new Conservation(alignment,
+						normalize);
 				double[] result = null;
 
 				for (Method method : methods) {
 
 					if (method == Method.SMERFS && SMERFSDetails != null) {
-						result = getSMERFS(alignment, SMERFSWidth, score,
-								SMERFSGapTreshold, normalize);
+						result = scores.getSMERFS(SMERFSWidth, score,
+								SMERFSGapTreshold);
 					} else {
-						result = scores.calculateScore(method, normalize);
+						result = scores.calculateScore(method);
 					}
 					results.put(method, result);
 					timer.println(method.toString() + " done "
@@ -175,7 +127,9 @@ class ConservationClient {
 	 * 
 	 * @param args
 	 *            command line arguments
+	 * @deprecated Please use ParallelConservationClient instead
 	 */
+	@Deprecated
 	public static void main(String[] args) {
 
 		checkArguments(args);

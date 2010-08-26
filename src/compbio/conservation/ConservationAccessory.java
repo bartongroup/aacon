@@ -208,16 +208,14 @@ public class ConservationAccessory {
 			}
 		}
 		if (max == min) {
-			for (int i = 0; i < normalized.length; i++) {
-				normalized[i] = 1;
-			}
-			System.out.println("Scores in method: " + method.toString()
+			System.err.println("Scores in method: " + method.toString()
 					+ " could not have been normalized properly, "
 					+ "they were all given a score of 1.");
-			System.out
+			System.err
 					.println("This score does not reprent the actual conservation "
 							+ "score. Please have a look at user's help and "
 							+ "choose another score. ");
+			return null;
 		} else {
 			if (min < 0) {
 				double minAbs = min * -1;
@@ -276,15 +274,14 @@ public class ConservationAccessory {
 			}
 		}
 		if (max == min) {
-			for (int i = 0; i < normalized.length; i++) {
-				normalized[i] = 1;
-			}
-			System.out
-					.println("Scores in method: "
-							+ method.toString()
-							+ " could not have been normalized properly, they were all given a score of 1.");
-			System.out
-					.println("This score does not reprent the actual conservation score. Please have a look at user's help and choose another score. ");
+			System.err.println("Scores in method: " + method.toString()
+					+ " could not have been normalized properly, they"
+					+ " were all given a score of 0.");
+			System.err
+					.println("This score does not reprent the actual conservation"
+							+ " score. Please have a look at user's help and"
+							+ " choose another score. ");
+			return null;
 		} else {
 			if (min < 0) {
 				double minAbs = min * -1;

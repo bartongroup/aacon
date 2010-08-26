@@ -36,11 +36,12 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			ConservationScores2 scores = new ConservationScores2(alignment);
+			Conservation scores = new Conservation(alignment,
+					true);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.SANDER, true);
+			double[] result = scores.calculateScore(Method.SANDER);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
@@ -69,12 +70,13 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			ConservationScores2 scores = new ConservationScores2(alignment);
+			Conservation scores = new Conservation(alignment,
+					false);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = ConservationClient.getSMERFS(alignment, 7,
-					SMERFSColumnScore.MID_SCORE, 0.1, false);
+			double[] result = scores.getSMERFS(7, SMERFSColumnScore.MID_SCORE,
+					0.1);
 			System.out.println("Calculating SMERFS scores: "
 					+ timer.getStepTime());
 
@@ -116,12 +118,13 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			ConservationScores2 scores = new ConservationScores2(alignment);
+			Conservation scores = new Conservation(alignment,
+					false);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = ConservationClient.getSMERFS(alignment, 7,
-					SMERFSColumnScore.MID_SCORE, 0.1, false);
+			double[] result = scores.getSMERFS(7, SMERFSColumnScore.MID_SCORE,
+					0.1);
 			System.out.println("Calculating SMERFS scores: "
 					+ timer.getStepTime());
 

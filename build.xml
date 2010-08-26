@@ -41,9 +41,9 @@
 			<manifest>
 				<attribute name="Built-By" value="Petr V Troshin" />
 				<attribute name="Class-Path" value="." />
-				<attribute name="Main-Class" value="compbio.conservation.ConservationClient" />
+				<attribute name="Main-Class" value="compbio.conservation.ParallelConservationClient" />
 				<attribute name="Implementation-Title" value="AA Conservation calculator" />
-				<attribute name="Implementation-Vendor" value="Petr V Troshin" />
+				<attribute name="Implementation-Vendor" value="Peter Troshin" />
 				<attribute name="Implementation-URL" value="http://www.compbio.dundee.ac.uk/" />
 			</manifest>
 		</jar>
