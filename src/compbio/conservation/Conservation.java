@@ -30,14 +30,14 @@ public class Conservation {
 		return alignMatrix;
 	}
 
-	Map<Method, double[]> calculateScore(final EnumSet<Method> methods) {
+	Map<Method, double[]> calculateScores(final EnumSet<Method> methods) {
 		return calculateConservation(methods);
 	}
 
 	/**
 	 * @param method
 	 * @param normalize
-	 * @return scoer for teh given method
+	 * @return score for the given method
 	 */
 	double[] calculateScore(final Method method) {
 		double[] result = new double[alignMatrix.numberOfColumns()];

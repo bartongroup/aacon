@@ -27,9 +27,8 @@ public class ConservationTester {
 				+ SlowMethodTester.SMALL_AL);
 		try {
 
-			Conservation c = Conservation.getConservation(input,
-					true);
-			Map<Method, double[]> results = c.calculateScore(EnumSet
+			Conservation c = Conservation.getConservation(input, true);
+			Map<Method, double[]> results = c.calculateScores(EnumSet
 					.allOf(Method.class));
 			assertNotNull(results);
 			c.printResults();
@@ -59,8 +58,7 @@ public class ConservationTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment,
-					true);
+			Conservation scores = new Conservation(alignment, true);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
