@@ -299,7 +299,7 @@ public class AminoAcidMatrix {
 				// this.xToGapSubs.get(this.xToGapSubs.size() - 1).put(i, j);
 				// ch = '-';
 				// }
-				if (alph.contains(ch) == false) {
+				if (!alph.contains(ch)) {
 					String legals = Alphabet.legalCharacterstoString();
 					int seqNr = i + 1;
 					String message = "Illegal character in sequence number "
@@ -335,9 +335,7 @@ public class AminoAcidMatrix {
 	 * @return number of rows
 	 */
 	int numberOfRows() {
-
-		int nrRows = matrix.length;
-		return nrRows;
+		return matrix.length;
 	}
 
 	/**

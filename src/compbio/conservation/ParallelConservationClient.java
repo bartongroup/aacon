@@ -16,12 +16,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import compbio.data.sequence.FastaSequence;
+import compbio.util.NullOutputStream;
 import compbio.util.Timer;
 
 /**
  * Command line client for AAconservation methods.
  * 
- * @author pvtroshin with a lot of input from A. Golicz
+ * @author pvtroshin with input from A. Golicz
  */
 public final class ParallelConservationClient {
 
@@ -29,7 +30,7 @@ public final class ParallelConservationClient {
 			Method.class);
 	private static volatile ExecutorService executor;
 
-	private void initExecutor(int procNum, Timer timer) {
+	private static void initExecutor(int procNum, Timer timer) {
 
 		int corenum = Runtime.getRuntime().availableProcessors();
 		if (procNum < 1) {
@@ -59,6 +60,17 @@ public final class ParallelConservationClient {
 		}
 	}
 
+	synchronized static ExecutorService getExecutor() {
+		if (executor == null) {
+			try {
+				initExecutor(0, new Timer(new NullOutputStream()));
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot happen!" + e.getCause());
+			}
+		}
+		return executor;
+	}
+
 	public ParallelConservationClient(String[] cmd) throws IOException,
 			InterruptedException {
 
@@ -70,34 +82,35 @@ public final class ParallelConservationClient {
 		} else {
 			timer.setStatOutput(new FileOutputStream(statFile));
 		}
-		
+
 		// default values
 		int SMERFSWidth = SMERFSColumnScore.DEFAULT_WINDOW_SIZE;
 		SMERFSColumnScore score = SMERFSColumnScore.MID_SCORE;
 		double SMERFSGapTreshold = SMERFSColumnScore.DEFAULT_GAP_THRESHOLD;
 
-		
 		Set<Method> methods = CmdParser.getMethodNames(cmd);
 		// assume all methods are required
-		if(methods.isEmpty()) {
-			methods = EnumSet.allOf(Method.class); 
+		if (methods.isEmpty()) {
+			methods = EnumSet.allOf(Method.class);
 			timer.println("No methods are request assuming all are required.");
 		}
-		
+
 		String inFilePath = CmdParser.getInputFilePath(cmd);
 
 		if (!methods.isEmpty() && inFilePath != null) {
 			String format = CmdParser.getFormat(cmd);
 			String outFilePath = CmdParser.getOutputFilePath(cmd);
-			if(outFilePath==null) {
-				timer.println("No output file is provided, writing results to the standard output.");
+			if (outFilePath == null) {
+				timer
+						.println("No output file is provided, writing results to the standard output.");
 			}
 			Format outFormat = Format.RESULT_NO_ALIGNMENT;
-			if(format!=null) {
+			if (format != null) {
 				outFormat = Format.getFormat(format);
-				timer.println("No format is provided assuming RESULT_NO_ALIGNMENT is required");
+				timer
+						.println("No format is provided assuming RESULT_NO_ALIGNMENT is required");
 			}
- 
+
 			String[] SMERFSDetails = CmdParser.getSMERFSDetails(cmd);
 			if (SMERFSDetails != null) {
 				if (SMERFSDetails.length == 3) {
@@ -125,7 +138,6 @@ public final class ParallelConservationClient {
 			String[] gap = CmdParser.getGapChars(cmd);
 			Character[] gapChars = CmdParser.extractGapChars(gap);
 
-
 			initExecutor(CmdParser.getThreadNumber(cmd), timer);
 
 			List<FastaSequence> sequences = CmdParser
@@ -140,8 +152,7 @@ public final class ParallelConservationClient {
 				timer.println("Alignment has: " + alignment.numberOfRows()
 						+ " sequences.");
 
-				Conservation scores = new Conservation(alignment,
-						normalize);
+				Conservation scores = new Conservation(alignment, normalize);
 
 				MethodWrapper wrapper = null;
 				List<MethodWrapper> tasks = new ArrayList<MethodWrapper>();

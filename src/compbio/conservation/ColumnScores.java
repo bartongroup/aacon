@@ -4,11 +4,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ColumnScores {
+class ColumnScores {
 
 	// private enum Method { kabatScore, joresScore, schneiderScore,
 	// shenkinScore, gersteinScore, SmallestTaylorSetGaps,
@@ -45,7 +44,8 @@ public class ColumnScores {
 			throw new IllegalArgumentException(
 					"Column number greater than number of columns in teh matrix.");
 		}
-		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(columnNr);
+		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
+				columnNr);
 		if (acidsInt.containsKey('-')
 				&& acidsInt.get('-') == matrix.getInverseMatrix()[columnNr].length - 1) {
 			return true;
@@ -61,13 +61,15 @@ public class ColumnScores {
 	 * @return returns true if there is only one residue type in the column,
 	 *         false if not
 	 */
-	private static boolean oneResidueTypeNoGaps(int columnNr, AminoAcidMatrix matrix) {
+	private static boolean oneResidueTypeNoGaps(int columnNr,
+			AminoAcidMatrix matrix) {
 
 		if (columnNr > matrix.numberOfColumns() - 1) {
 			throw new IllegalArgumentException(
 					"Column number greater than number of columns in teh matrix.");
 		}
-		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(columnNr);
+		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
+				columnNr);
 		if (acidsInt.size() == 1 && acidsInt.containsKey('-') == false) {
 			return true;
 		} else {
@@ -140,7 +142,8 @@ public class ColumnScores {
 					"Column number greater than number of columns in teh matrix.");
 		}
 		int max = 0;
-		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(columnNr);
+		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
+				columnNr);
 		Set<Character> keys = acidsInt.keySet();
 		Iterator<Character> itr = keys.iterator();
 		while (itr.hasNext()) {
@@ -181,7 +184,8 @@ public class ColumnScores {
 					"Column number greater than number of columns in teh matrix.");
 		}
 		assert mostCommonNumber(columnNumber, matrix) > 0
-				&& mostCommonNumber(columnNumber, matrix) < matrix.getInverseMatrix()[columnNumber].length + 1;
+				&& mostCommonNumber(columnNumber, matrix) < matrix
+						.getInverseMatrix()[columnNumber].length + 1;
 		double result = matrix.getInverseMatrix()[columnNumber].length
 				* (double) numberOfAcidsNoGap(columnNumber, matrix)
 				/ mostCommonNumber(columnNumber, matrix);
@@ -222,8 +226,10 @@ public class ColumnScores {
 		} else {
 			int samePairs = 0;
 			int differentPairs = 0;
-			Map<Character, Integer> acidsIntMap = matrix.getTotalAcidsFreqByCol().get(colNr);
-			Map<Character, Integer> acidsIntMapCopy = new HashMap<Character, Integer>(acidsIntMap);
+			Map<Character, Integer> acidsIntMap = matrix
+					.getTotalAcidsFreqByCol().get(colNr);
+			Map<Character, Integer> acidsIntMapCopy = new HashMap<Character, Integer>(
+					acidsIntMap);
 			Set<Character> keys = acidsIntMapCopy.keySet();
 			keys.remove('-');
 			int types = keys.size();
@@ -272,7 +278,8 @@ public class ColumnScores {
 				}
 			}
 			int length = matrix.getInverseMatrix()[colNr].length;
-			result = ((double) totalPairs / (double) mostFreqNr) * (length * (length - 1) / 2);
+			result = ((double) totalPairs / (double) mostFreqNr)
+					* (length * (length - 1) / 2);
 			return result;
 		}
 	}
@@ -294,8 +301,8 @@ public class ColumnScores {
 		}
 		double result = 0.0;
 		double normal = 1.0 / Math.log(20.0);
-		result = ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol().get(colNr), matrix
-				.getInverseMatrix()[colNr].length)
+		result = ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol().get(
+				colNr), matrix.getInverseMatrix()[colNr].length)
 				* normal;
 		assert result >= 0 && result <= 1;
 		return result;
@@ -316,8 +323,9 @@ public class ColumnScores {
 					"Column number greater than number of columns in teh matrix.");
 		}
 		double result = 0.0;
-		result = Math.pow(2.0, ShannonEnthropy.ShannonLog2(matrix.getTotalAcidsFreqByCol().get(
-				colNr), matrix.getInverseMatrix()[colNr].length)) * 6.0;
+		result = Math.pow(2.0, ShannonEnthropy.ShannonLog2(matrix
+				.getTotalAcidsFreqByCol().get(colNr),
+				matrix.getInverseMatrix()[colNr].length)) * 6.0;
 		assert result >= 6 && result <= 120;
 		return result;
 	}
@@ -337,10 +345,10 @@ public class ColumnScores {
 					"Column number greater than number of columns in teh matrix.");
 		}
 		double result = 0.0;
-		result = -(ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(), matrix.numberOfColumns()
-				* matrix.numberOfRows()))
-				- (-ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol().get(colNr), matrix
-						.getInverseMatrix()[colNr].length));
+		result = -(ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(),
+				matrix.numberOfColumns() * matrix.numberOfRows()))
+				- (-ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol()
+						.get(colNr), matrix.getInverseMatrix()[colNr].length));
 		return result;
 	}
 
@@ -368,7 +376,8 @@ public class ColumnScores {
 		Iterator<String> itr = setMapKeys.iterator();
 		while (itr.hasNext()) {
 			String key = itr.next();
-			if (setMap.get(key).containsAll(matrix.getTotalAcidsFreqByCol().get(colNr).keySet())) {
+			if (setMap.get(key).containsAll(
+					matrix.getTotalAcidsFreqByCol().get(colNr).keySet())) {
 				repSets.put(key, new Integer(setMap.get(key).size()));
 			}
 		}
@@ -395,8 +404,8 @@ public class ColumnScores {
 		Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 		Set<String> setMapKeys = setMap.keySet();
 		double smallestSetSize = 0.0;
-		Map<Character, Integer> acidsMapNoGaps = new HashMap<Character, Integer>(matrix
-				.getTotalAcidsFreqByCol().get(colNr));
+		Map<Character, Integer> acidsMapNoGaps = new HashMap<Character, Integer>(
+				matrix.getTotalAcidsFreqByCol().get(colNr));
 		if (acidsMapNoGaps.containsKey('-')) {
 			acidsMapNoGaps.remove('-');
 		}
@@ -432,7 +441,8 @@ public class ColumnScores {
 		}
 		double result = 0.0;
 		double finalResult = 0.0;
-		Map<String, HashSet<Character>> setMap = ConservationSets.zvelibilSets();
+		Map<String, HashSet<Character>> setMap = ConservationSets
+				.zvelibilSets();
 		Set<String> keys = setMap.keySet();
 		Iterator<String> itr = keys.iterator();
 		while (itr.hasNext()) {
@@ -480,13 +490,15 @@ public class ColumnScores {
 						int pairBIndex = 24 * idxB + idxB;
 						double bSelf = ConservationMatrices.blosum[pairBIndex];
 						assert bSelf > 0;
-						blosumSum = blosumSum + ((pairScore) / (Math.sqrt(aSelf * bSelf)));
+						blosumSum = blosumSum
+								+ ((pairScore) / (Math.sqrt(aSelf * bSelf)));
 					}
 				}
 			}
 		}
 		finalSum = blosumSum
-				* (2.0 / (matrix.getInverseMatrix()[colNr].length * (matrix.getInverseMatrix()[colNr].length - 1)));
+				* (2.0 / (matrix.getInverseMatrix()[colNr].length * (matrix
+						.getInverseMatrix()[colNr].length - 1)));
 		assert finalSum >= -1 && finalSum <= 1;
 		return finalSum;
 	}
@@ -512,10 +524,12 @@ public class ColumnScores {
 					"Column number greater than number of columns in teh matrix.");
 		}
 		double scoreSum = 0.0;
-		int arrayLength = matrix.getTotalAcidsFreqByCol().get(colNr).keySet().size();
+		int arrayLength = matrix.getTotalAcidsFreqByCol().get(colNr).keySet()
+				.size();
 		Character[] acidsPresent = new Character[arrayLength];
 		int arrayIndex = 0;
-		Set<Character> keys = matrix.getTotalAcidsFreqByCol().get(colNr).keySet();
+		Set<Character> keys = matrix.getTotalAcidsFreqByCol().get(colNr)
+				.keySet();
 		Iterator<Character> itr = keys.iterator();
 		while (itr.hasNext()) {
 			acidsPresent[arrayIndex] = itr.next();
@@ -528,7 +542,8 @@ public class ColumnScores {
 				char charB = acidsPresent[b];
 				int idxB = ConservationMatrices.getIndex(charB);
 				int pairABIndex = 24 * idxA + idxB;
-				scoreSum = scoreSum + ConservationMatrices.miyataArmon[pairABIndex];
+				scoreSum = scoreSum
+						+ ConservationMatrices.miyataArmon[pairABIndex];
 			}
 		}
 		return scoreSum;
@@ -574,18 +589,21 @@ public class ColumnScores {
 			}
 		}
 		assert sum != null;
-		meanPoint = ConservationAccessory.multPointByScalar(sum, 1.0 / curColumn.length);
+		meanPoint = ConservationAccessory.multPointByScalar(sum,
+				1.0 / curColumn.length);
 		for (int c = 0; c < curColumn.length; c++) {
-			distance = distance + ConservationAccessory.pointDistance(points[c], meanPoint);
+			distance = distance
+					+ ConservationAccessory.pointDistance(points[c], meanPoint);
 		}
 		if (matrix.getTotalAcidsFreqByCol().get(colNr).keySet().contains('-')) {
-			nonGapsFraction = (double) (curColumn.length - matrix.getTotalAcidsFreqByCol().get(
-					colNr).get('-'))
+			nonGapsFraction = (double) (curColumn.length - matrix
+					.getTotalAcidsFreqByCol().get(colNr).get('-'))
 					/ (double) curColumn.length;
 		} else {
 			nonGapsFraction = 1.0;
 		}
-		result = nonGapsFraction * 1.0 / matrix.getInverseMatrix()[colNr].length * distance;
+		result = nonGapsFraction * 1.0
+				/ matrix.getInverseMatrix()[colNr].length * distance;
 		return result;
 	}
 
@@ -609,7 +627,8 @@ public class ColumnScores {
 		}
 		double result = 0.0;
 		char[] curColumn = matrix.getInverseMatrix()[colNr];
-		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(colNr);
+		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
+				colNr);
 		Set<Character> keys = acidsInt.keySet();
 		Iterator<Character> itr1 = keys.iterator();
 		while (itr1.hasNext()) {
@@ -622,7 +641,8 @@ public class ColumnScores {
 				int pair12Index = 24 * idx1 + idx2;
 				double blosum = ConservationMatrices.blosum[pair12Index];
 				result = result
-						+ ((((double) acidsInt.get(key1) / (double) curColumn.length
+						+ ((((double) acidsInt.get(key1)
+								/ (double) curColumn.length
 								* (double) acidsInt.get(key2) / curColumn.length)) * blosum);
 			}
 		}
@@ -649,12 +669,14 @@ public class ColumnScores {
 					"Column number greater than number of columns in teh matrix.");
 		}
 		double mirnySum = 0.0;
-		Map<String, HashSet<Character>> mirnySets = ConservationSets.mirnySets();
+		Map<String, HashSet<Character>> mirnySets = ConservationSets
+				.mirnySets();
 		assert mirnySets != null && !mirnySets.isEmpty();
 		Set<String> mirnyKeys = mirnySets.keySet();
 		assert !mirnyKeys.isEmpty();
 		Iterator<String> mirnyKeysItr = mirnyKeys.iterator();
-		Set<Character> acInKeys = matrix.getTotalAcidsFreqByCol().get(colNr).keySet();
+		Set<Character> acInKeys = matrix.getTotalAcidsFreqByCol().get(colNr)
+				.keySet();
 		assert !acInKeys.isEmpty();
 		Map<String, Integer> setsFreq = new HashMap<String, Integer>();
 		while (mirnyKeysItr.hasNext()) {
@@ -665,11 +687,12 @@ public class ColumnScores {
 				if (mirnySets.get(mirnyKey).contains(acInKey)) {
 					Integer count = setsFreq.get(mirnyKey);
 					if (count == null) {
-						setsFreq.put(mirnyKey, matrix.getTotalAcidsFreqByCol().get(colNr).get(
-								acInKey));
+						setsFreq.put(mirnyKey, matrix.getTotalAcidsFreqByCol()
+								.get(colNr).get(acInKey));
 					} else {
 						setsFreq.put(mirnyKey, count
-								+ matrix.getTotalAcidsFreqByCol().get(colNr).get(acInKey));
+								+ matrix.getTotalAcidsFreqByCol().get(colNr)
+										.get(acInKey));
 					}
 				}
 			}
@@ -702,12 +725,14 @@ public class ColumnScores {
 					"Column number greater than number of columns in teh matrix.");
 		}
 		double willSum = 0.0;
-		Map<String, HashSet<Character>> willSets = ConservationSets.williamsonSets();
+		Map<String, HashSet<Character>> willSets = ConservationSets
+				.williamsonSets();
 		assert willSets != null && !willSets.isEmpty();
 		Set<String> willKeys = willSets.keySet();
 		assert !willKeys.isEmpty();
 		Iterator<String> willKeysItr = willKeys.iterator();
-		Set<Character> acInKeys = matrix.getTotalAcidsFreqByCol().get(colNr).keySet();
+		Set<Character> acInKeys = matrix.getTotalAcidsFreqByCol().get(colNr)
+				.keySet();
 		assert !acInKeys.isEmpty();
 		Map<String, Integer> setsFreq = new HashMap<String, Integer>();
 		while (willKeysItr.hasNext()) {
@@ -718,11 +743,12 @@ public class ColumnScores {
 				if (willSets.get(willKey).contains(acInKey)) {
 					Integer count = setsFreq.get(willKey);
 					if (count == null) {
-						setsFreq.put(willKey, matrix.getTotalAcidsFreqByCol().get(colNr).get(
-								acInKey));
+						setsFreq.put(willKey, matrix.getTotalAcidsFreqByCol()
+								.get(colNr).get(acInKey));
 					} else {
 						setsFreq.put(willKey, count
-								+ matrix.getTotalAcidsFreqByCol().get(colNr).get(acInKey));
+								+ matrix.getTotalAcidsFreqByCol().get(colNr)
+										.get(acInKey));
 					}
 				}
 			}
@@ -765,8 +791,10 @@ public class ColumnScores {
 		for (int a = 0; a < curColumn.length; a++) {
 			double voronoiA = voronoiWeights[a];
 			for (int b = a + 1; b < curColumn.length; b++) {
-				double disIJ = ConservationMatrices.dissimilarity(curColumn[a], curColumn[b]);
-				double disJI = ConservationMatrices.dissimilarity(curColumn[b], curColumn[a]);
+				double disIJ = ConservationMatrices.dissimilarity(curColumn[a],
+						curColumn[b]);
+				double disJI = ConservationMatrices.dissimilarity(curColumn[b],
+						curColumn[a]);
 				sum = sum + voronoiA * disIJ + voronoiWeights[b] * disJI;
 			}
 		}
@@ -798,7 +826,8 @@ public class ColumnScores {
 			int aIdx = 24 * ConservationMatrices.getIndex(curColumn[a]);
 			for (int b = a + 1; b < curColumn.length; b++) {
 				double identity = 1 - percent_identity[a][b];
-				int pairIndex = aIdx + ConservationMatrices.getIndex(curColumn[b]);
+				int pairIndex = aIdx
+						+ ConservationMatrices.getIndex(curColumn[b]);
 				sum += identity * ConservationMatrices.pam250[pairIndex];
 				moderator += identity;
 			}
@@ -830,7 +859,8 @@ public class ColumnScores {
 			int aIdx = 24 * ConservationMatrices.getIndex(curColumn[a]);
 			for (int b = a + 1; b < curColumn.length; b++) {
 				double mod = vingronArgosWeights[a] * vingronArgosWeights[b];
-				int pairIndex = aIdx + ConservationMatrices.getIndex(curColumn[b]);
+				int pairIndex = aIdx
+						+ ConservationMatrices.getIndex(curColumn[b]);
 				sum += mod * ConservationMatrices.pet91[pairIndex];
 				moderator += mod;
 			}

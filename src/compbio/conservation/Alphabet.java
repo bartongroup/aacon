@@ -1,12 +1,19 @@
 package compbio.conservation;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class provides an amino acid alphabet There is no special character for
  * unknown amino acid, it is treated as a gap
  * 
- * @Author agolicz
+ * @author agolicz
+ * 
+ *         TODO replace HashSet with EnumSet
  */
 class Alphabet {
 
@@ -17,8 +24,8 @@ class Alphabet {
 	/**
 	 * An array containing 20 basic amino acids, no gap character
 	 */
-	private static final char[] alpArray = { 'A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L',
-			'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V' };
+	private static final char[] alpArray = { 'A', 'R', 'N', 'D', 'C', 'Q', 'E',
+			'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V' };
 	static {
 		Set<Character> alph = new HashSet<Character>();
 		alph.add('R');

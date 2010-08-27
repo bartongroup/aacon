@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +25,7 @@ public class SlowMethodTester {
 	static final String AVG_AL = "avg.aln.fa";
 	static final String LARGE_AL = "1000x3000Dna.aln.fa";
 
-	@Test
+	@Test(enabled = false)
 	public void testSadler() {
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
@@ -36,8 +37,7 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment,
-					true);
+			Conservation scores = new Conservation(alignment, true);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
@@ -70,8 +70,7 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment,
-					false);
+			Conservation scores = new Conservation(alignment, false);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
@@ -81,7 +80,7 @@ public class SlowMethodTester {
 					+ timer.getStepTime());
 
 			// this is a wrong call!
-			// ConservationScore2Tester.printScores(result, "Sander");
+			System.out.println(Arrays.toString(result));
 			System.out.println("Total: " + timer.getTotalTime());
 
 		} catch (FileNotFoundException e) {
@@ -100,26 +99,18 @@ public class SlowMethodTester {
 		 * Runtime.getRuntime().maxMemory()); System.out.println("F " +
 		 * Runtime.getRuntime().freeMemory());
 		 */
-
 		try {
-
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
-
+			// 675706 ms
 			List<FastaSequence> sequences = SequenceUtil
-					.readFasta(new FileInputStream(new File(args[0])));
-
-			/*
-			 * List<FastaSequence> sequences = SequenceUtil .readFasta(new
-			 * FileInputStream(new File( SequenceUtilTester.DATA_PATH +
-			 * File.separator + AVG_AL)));
-			 */
+					.readFasta(new FileInputStream(new File(DATA_PATH
+							+ File.separator + AVG_AL)));
 			System.out.println("Loading sequences: " + timer.getStepTime());
 
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment,
-					false);
+			Conservation scores = new Conservation(alignment, false);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
@@ -139,6 +130,5 @@ public class SlowMethodTester {
 			e.printStackTrace();
 			fail(e.getLocalizedMessage());
 		}
-
 	}
 }

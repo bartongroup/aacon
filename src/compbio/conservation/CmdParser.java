@@ -14,6 +14,12 @@ import compbio.common.IllegalGapCharacterException;
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SequenceUtil;
 
+/**
+ * Makes sense of the command line arguments
+ * 
+ * @author pvtroshin & agolicz
+ * 
+ */
 public final class CmdParser {
 
 	final static DateFormat DATE_FORMAT = new SimpleDateFormat(

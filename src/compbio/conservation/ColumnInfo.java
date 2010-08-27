@@ -1,8 +1,8 @@
 package compbio.conservation;
 
-import java.io.*;
+import java.io.PrintWriter;
 
-public class ColumnInfo {
+class ColumnInfo {
 
 	private final String group;
 	private final double consScore;
@@ -32,8 +32,8 @@ public class ColumnInfo {
 
 	String getStatus(Method method) {
 
-		String stat = ConservationStatus
-				.stringReps(ConservationStatus.getStatus(consScore, method));
+		String stat = ConservationStatus.stringReps(ConservationStatus
+				.getStatus(consScore, method));
 		return stat;
 	}
 
