@@ -7,7 +7,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import compbio.common.ColumnTooWideException;
 
@@ -42,7 +41,7 @@ class Correlation {
 	 * @return similarity score
 	 */
 	public Correlation(AminoAcidMatrix alignment, int winWidth,
-			double gapTreshold) {
+			double gapTreshold, ExecutorService exeService) {
 		// check preconditions
 		if (alignment == null) {
 			throw new IllegalArgumentException("Alignment must not be null.");
@@ -60,7 +59,7 @@ class Correlation {
 		this.winWidth = winWidth;
 		this.gapTreshold = gapTreshold;
 		this.numofSequences = alignment.numberOfRows();
-		this.executor = ParallelConservationClient.getExecutor();
+		this.executor = exeService;
 	}
 
 	/**
@@ -103,17 +102,16 @@ class Correlation {
 		global = new int[numofSequences * (numofSequences - 1) / 2];
 		int index = 0;
 
-		List<Future<?>> tasks = new ArrayList<Future<?>>();
-
+		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>(
+				numofSequences);
+		// Assume that there are enough memory to store all the tasks
 		for (int i = 0; i < numofSequences; i++) {
-			tasks.add(executor.submit(new GlobalSimilarityWrapper(i, index)));
+			tasks
+					.add(Executors.callable(new GlobalSimilarityWrapper(i,
+							index)));
 			index += numofSequences - i - 1;
 		}
-		// make sure all tasks are completed
-		for (Future<?> future : tasks) {
-			future.get();
-		}
-
+		executor.invokeAll(tasks);
 	}
 
 	private class GlobalSimilarityWrapper implements Runnable {
@@ -315,22 +313,15 @@ class Correlation {
 	 * @param score
 	 * @param normalize
 	 * @return
+	 * @throws ExecutionException
+	 * @throws InterruptedException
 	 */
-	double[] getCorrelationScore(SMERFSColumnScore score, boolean normalize) {
-		if (alignment == null) {
-			throw new IllegalArgumentException("Alignment must not be null");
-		}
+	double[] getCorrelationScore(SMERFSColumnScore score, boolean normalize)
+			throws InterruptedException, ExecutionException {
+
 		double[] results = null;
 
-		try {
-			results = calcPearson();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Calculation was interrupted!");
-		} catch (ExecutionException e) {
-			throw new RuntimeException("Error during calculation!"
-					+ e.getLocalizedMessage(), e.getCause());
-		}
+		results = calcPearson();
 
 		double[] columnResults;
 		if (score == SMERFSColumnScore.MAX_SCORE) {
@@ -339,13 +330,15 @@ class Correlation {
 			columnResults = giveMidToColumn(results);
 		}
 		rejectOverTreshold(columnResults);
+		double[] normalized = null;
 		if (normalize) {
-			double[] normalized = ConservationAccessory.normalize01(
-					columnResults, Method.SMERFS);
-			return normalized;
-		} else {
+			normalized = ConservationAccessory.normalize01(columnResults,
+					Method.SMERFS);
+		}
+		if (normalized == null) {
 			return columnResults;
 		}
+		return normalized;
 	}
 
 	/**

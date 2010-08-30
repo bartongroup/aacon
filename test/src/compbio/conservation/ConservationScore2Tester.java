@@ -1,12 +1,24 @@
 package compbio.conservation;
 
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import compbio.util.NullOutputStream;
+
 public class ConservationScore2Tester {
+
+	static ExecutorFactory efactory;
+
+	@BeforeClass
+	public void init() {
+		efactory = ExecutorFactory.getFactory(0, new PrintWriter(
+				new NullOutputStream()));
+	}
 
 	static void printScores(double[] results, String tag) {
 
@@ -32,7 +44,8 @@ public class ConservationScore2Tester {
 
 	AminoAcidMatrix alignment = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i);
 
-	Conservation scores = new Conservation(alignment, true);
+	Conservation scores = new Conservation(alignment, true, efactory
+			.getSynchroneousCallerRunsExecutor());
 
 	@Test
 	public void kabatTester() {

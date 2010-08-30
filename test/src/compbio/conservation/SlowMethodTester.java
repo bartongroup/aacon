@@ -6,14 +6,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SequenceUtil;
+import compbio.util.NullOutputStream;
 import compbio.util.Timer;
 
 public class SlowMethodTester {
@@ -24,6 +27,13 @@ public class SlowMethodTester {
 	static final String SMALL_AL = "TO1296.fasta.align";
 	static final String AVG_AL = "avg.aln.fa";
 	static final String LARGE_AL = "1000x3000Dna.aln.fa";
+	static ExecutorFactory efactory;
+
+	@BeforeClass
+	public void init() {
+		efactory = ExecutorFactory.getFactory(0, new PrintWriter(
+				new NullOutputStream()));
+	}
 
 	@Test(enabled = false)
 	public void testSadler() {
@@ -37,7 +47,8 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, true);
+			Conservation scores = new Conservation(alignment, true, efactory
+					.getSynchroneousCallerRunsExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
@@ -70,7 +81,8 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, true);
+			Conservation scores = new Conservation(alignment, true, efactory
+					.getSynchroneousCallerRunsExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
@@ -110,7 +122,8 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, false);
+			Conservation scores = new Conservation(alignment, false, efactory
+					.getSynchroneousCallerRunsExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 

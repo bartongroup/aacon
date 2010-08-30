@@ -56,7 +56,7 @@ public class CorrelationTester {
 
 		AminoAcidMatrix matrix = new AminoAcidMatrix(fastaSeqs, null);
 
-		Correlation corr = new Correlation(matrix, 5, 0.1);
+		// Correlation corr = new Correlation(matrix, 5, 0.1);
 
 		// double[] coeffs = corr.calcPearson();
 

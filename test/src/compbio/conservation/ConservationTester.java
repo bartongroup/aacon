@@ -7,19 +7,30 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
+import compbio.util.NullOutputStream;
 import compbio.util.Timer;
 
 public class ConservationTester {
+
+	static ExecutorFactory efactory;
+
+	@BeforeClass
+	public void init() {
+		efactory = ExecutorFactory.getFactory(0, new PrintWriter(
+				new NullOutputStream()));
+	}
 
 	@Test
 	public void testMethods() {
@@ -27,7 +38,8 @@ public class ConservationTester {
 				+ SlowMethodTester.SMALL_AL);
 		try {
 
-			Conservation c = Conservation.getConservation(input, true);
+			Conservation c = Conservation.getConservation(input, true, efactory
+					.getSynchroneousCallerRunsExecutor());
 			Map<Method, double[]> results = c.calculateScores(EnumSet
 					.allOf(Method.class));
 			assertNotNull(results);
@@ -58,7 +70,8 @@ public class ConservationTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, true);
+			Conservation scores = new Conservation(alignment, true, efactory
+					.getSynchroneousCallerRunsExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 

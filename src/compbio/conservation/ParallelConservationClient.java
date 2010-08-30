@@ -11,12 +11,9 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import compbio.data.sequence.FastaSequence;
-import compbio.util.NullOutputStream;
 import compbio.util.Timer;
 
 /**
@@ -28,47 +25,44 @@ public final class ParallelConservationClient {
 
 	private final Map<Method, double[]> results = new EnumMap<Method, double[]>(
 			Method.class);
-	private static volatile ExecutorService executor;
 
-	private static void initExecutor(int procNum, Timer timer) {
+	private static class SMERFSParams {
 
-		int corenum = Runtime.getRuntime().availableProcessors();
-		if (procNum < 1) {
-			// Default - no thread number was set
-			procNum = corenum;
-		} else if (procNum > corenum * 2) {
-			// To many cpus are defined -> user mistake
-			String message = "Number of processors must be more than 1 and "
-					+ "\n" + "less than the number of cores*2 " + "\n"
-					+ "However given number of processors is " + procNum + "\n"
-					+ "Changing number of processors to " + corenum
-					+ " - the number of cores\n";
-			System.err.println(message);
-			timer.println(message);
-			procNum = corenum;
+		private SMERFSColumnScore colScoreSchema = SMERFSColumnScore.MID_SCORE;
+		private double SMERFSGapTreshold = SMERFSColumnScore.DEFAULT_GAP_THRESHOLD;
+		private int SMERFSWidth = SMERFSColumnScore.DEFAULT_WINDOW_SIZE;
+
+		/**
+		 * 
+		 * @param SMERFSargs
+		 * @throws IllegalArgumentException
+		 */
+		SMERFSParams(String[] SMERFSargs) {
+			parseArguments(SMERFSargs);
 		}
-		timer.println("Using " + procNum + " CPUs");
-		if (executor == null) {
-			synchronized (ParallelConservationClient.class) {
-				if (executor == null) {
-					executor = new ThreadPoolExecutor(procNum, procNum, 0L,
-							TimeUnit.MILLISECONDS,
-							new SynchronousQueue<Runnable>(),
-							new ThreadPoolExecutor.CallerRunsPolicy());
-				}
-			}
-		}
-	}
 
-	synchronized static ExecutorService getExecutor() {
-		if (executor == null) {
+		private void parseArguments(String[] SMERFSargs) {
 			try {
-				initExecutor(0, new Timer(new NullOutputStream()));
-			} catch (IOException e) {
-				throw new RuntimeException("Cannot happen!" + e.getCause());
+				if (SMERFSargs != null) {
+					SMERFSWidth = Integer.parseInt(SMERFSargs[0]);
+					colScoreSchema = SMERFSColumnScore
+							.getSMERFSColumnScore(SMERFSargs[1]);
+					SMERFSGapTreshold = Double.parseDouble(SMERFSargs[2]);
+				}
+			} catch (NumberFormatException e) {
+				throwIllegalSMERFSParamException();
+			} catch (ArrayIndexOutOfBoundsException e) {
+				throwIllegalSMERFSParamException();
 			}
 		}
-		return executor;
+
+		private void throwIllegalSMERFSParamException() {
+			throw new IllegalArgumentException(
+					"To run SMERFS three arguments are"
+							+ " needed, window width, how to give "
+							+ "scores to columns and a gap treshold.");
+		}
+
 	}
 
 	public ParallelConservationClient(String[] cmd) throws IOException,
@@ -82,11 +76,6 @@ public final class ParallelConservationClient {
 		} else {
 			timer.setStatOutput(new FileOutputStream(statFile));
 		}
-
-		// default values
-		int SMERFSWidth = SMERFSColumnScore.DEFAULT_WINDOW_SIZE;
-		SMERFSColumnScore score = SMERFSColumnScore.MID_SCORE;
-		double SMERFSGapTreshold = SMERFSColumnScore.DEFAULT_GAP_THRESHOLD;
 
 		Set<Method> methods = CmdParser.getMethodNames(cmd);
 		// assume all methods are required
@@ -112,33 +101,15 @@ public final class ParallelConservationClient {
 			}
 
 			String[] SMERFSDetails = CmdParser.getSMERFSDetails(cmd);
-			if (SMERFSDetails != null) {
-				if (SMERFSDetails.length == 3) {
-					try {
-						SMERFSWidth = Integer.parseInt(SMERFSDetails[0]);
-					} catch (NumberFormatException e) {
-						SMERFSWidth = -1;
-					}
-					score = SMERFSColumnScore
-							.getSMERFSColumnScore(SMERFSDetails[1]);
-					try {
-						SMERFSGapTreshold = Double
-								.parseDouble(SMERFSDetails[2]);
-					} catch (NumberFormatException e) {
-						SMERFSGapTreshold = -1;
-					}
-				} else {
-					System.err.println("To run SMERFS three arguments are"
-							+ " needed, window width, how to give "
-							+ "scores to columns and a gap treshold.");
-					System.exit(1);
-				}
-			}
+			// This will throw en exception if parameters supplied but not valid
+			SMERFSParams smerfsPar = new SMERFSParams(SMERFSDetails);
+
 			boolean normalize = CmdParser.getNormalize(cmd);
 			String[] gap = CmdParser.getGapChars(cmd);
 			Character[] gapChars = CmdParser.extractGapChars(gap);
-
-			initExecutor(CmdParser.getThreadNumber(cmd), timer);
+			ExecutorFactory efactory = ExecutorFactory.getFactory(CmdParser
+					.getThreadNumber(cmd), timer.getStatWriter());
+			ExecutorService executor = efactory.getQueueExecutor();
 
 			List<FastaSequence> sequences = CmdParser
 					.openInputStream(inFilePath);
@@ -152,19 +123,22 @@ public final class ParallelConservationClient {
 				timer.println("Alignment has: " + alignment.numberOfRows()
 						+ " sequences.");
 
-				Conservation scores = new Conservation(alignment, normalize);
+				Conservation scores = new Conservation(alignment, normalize,
+						efactory.getQueueExecutor());
 
 				MethodWrapper wrapper = null;
 				List<MethodWrapper> tasks = new ArrayList<MethodWrapper>();
 
 				for (Method method : methods) {
-					wrapper = new MethodWrapper(method, scores, normalize,
-							timer);
-					if (method == Method.SMERFS && SMERFSDetails != null) {
-						// this meant to override
-						wrapper = new MethodWrapper(scores, normalize,
-								SMERFSWidth, score, SMERFSGapTreshold, timer);
+					// Start SMERFS from the main thread, as it has
+					// its own means of dividing the tasks and executing in
+					// parallel
+					if (method == Method.SMERFS) {
+						double[] result = runSMERFS(scores, smerfsPar, timer);
+						results.put(Method.SMERFS, result);
+						continue;
 					}
+					wrapper = new MethodWrapper(method, scores, timer);
 					tasks.add(wrapper);
 				}
 				List<Future<MethodWrapper>> rawResults = executor
@@ -174,13 +148,12 @@ public final class ParallelConservationClient {
 					try {
 						entry = rawResult.get();
 					} catch (ExecutionException e) {
-						System.err.println("Exception while executing method: "
-								+ entry.method);
+						System.err.println("Exception while executing method");
 						throw new RuntimeException(e.getCause());
 					}
 					results.put(entry.method, entry.conservation);
 				}
-				executor.shutdown();
+				efactory.shutdownExecutors();
 
 				ConservationFormatter.formatResults(results, outFilePath,
 						outFormat, alignment);
@@ -197,9 +170,39 @@ public final class ParallelConservationClient {
 
 	}
 
+	static void checkArguments(String[] args) {
+		if (args == null) {
+			System.out.println("No parameters were suppled");
+			System.out.println();
+			System.out.print(CmdParser.CONSERVATION_HELP);
+			System.exit(0);
+		}
+		if (args.length < 2) {
+			System.out
+					.println("Method names, input file paths are required. Application will"
+							+ " not run until these 2 arguments are provided.");
+			System.out
+					.println("If you want results printed, both format an input "
+							+ "file path have to be provided");
+			System.out.println();
+			System.out.print(CmdParser.CONSERVATION_HELP);
+			System.exit(0);
+		}
+	}
+
+	private double[] runSMERFS(Conservation scores, SMERFSParams sparams,
+			Timer timer) {
+		timer.getStepTime();
+		double[] conservation = scores.getSMERFS(sparams.SMERFSWidth,
+				sparams.colScoreSchema, sparams.SMERFSGapTreshold);
+		timer.println(Method.SMERFS.toString() + " " + timer.getStepTime()
+				+ " ms");
+		return conservation;
+	}
+
 	public static void main(String[] args) {
 
-		ConservationClient.checkArguments(args);
+		checkArguments(args);
 		try {
 			ParallelConservationClient cons = new ParallelConservationClient(
 					args);

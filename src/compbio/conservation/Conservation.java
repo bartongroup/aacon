@@ -8,6 +8,8 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 import compbio.data.sequence.Alignment;
 import compbio.data.sequence.ClustalAlignmentUtil;
@@ -26,9 +28,13 @@ public class Conservation {
 	private final boolean normalize;
 	private Map<Method, double[]> results;
 
-	Conservation(AminoAcidMatrix alignment, boolean normalize) {
+	private final ExecutorService executor;
+
+	Conservation(AminoAcidMatrix alignment, boolean normalize,
+			ExecutorService executor) {
 		this.alignMatrix = alignment;
 		this.normalize = normalize;
+		this.executor = executor;
 	}
 
 	AminoAcidMatrix getAlignment() {
@@ -222,9 +228,9 @@ public class Conservation {
 	 * @throws IOException
 	 * @throws UnknownFileFormatException
 	 */
-	public static Conservation getConservation(File file, boolean normalize)
-			throws FileNotFoundException, IOException,
-			UnknownFileFormatException {
+	public static Conservation getConservation(File file, boolean normalize,
+			ExecutorService executor) throws FileNotFoundException,
+			IOException, UnknownFileFormatException {
 
 		if (file == null) {
 			throw new NullPointerException("File must be provided!");
@@ -245,7 +251,8 @@ public class Conservation {
 			List<FastaSequence> sequences = SequenceUtil.readFasta(fis);
 			alignMatrix = new AminoAcidMatrix(sequences, null);
 		}
-		return new Conservation(alignMatrix, normalize);
+
+		return new Conservation(alignMatrix, normalize, executor);
 	}
 
 	/**
@@ -286,11 +293,10 @@ public class Conservation {
 
 	private Map<Method, double[]> calculateConservation(EnumSet<Method> methods) {
 
-		Conservation scores = new Conservation(alignMatrix, normalize);
 		Map<Method, double[]> result = new EnumMap<Method, double[]>(
 				Method.class);
 		for (Method method : methods) {
-			double[] singleRes = scores.calculateScore(method);
+			double[] singleRes = calculateScore(method);
 			assert singleRes != null && singleRes.length > 0;
 			result.put(method, singleRes);
 		}
@@ -327,7 +333,7 @@ public class Conservation {
 	 *            is given the score of the window.
 	 * @param normalize
 	 *            if true results will be normalized
-	 * @return
+	 * @return TODO refactor?
 	 */
 	public double[] getSMERFS(int width, SMERFSColumnScore score,
 			double gapTreshold) {
@@ -360,8 +366,19 @@ public class Conservation {
 			}
 			return result;
 		}
-		Correlation corr = new Correlation(alignMatrix, width, gapTreshold);
-		result = corr.getCorrelationScore(score, normalize);
+		Correlation corr = new Correlation(alignMatrix, width, gapTreshold,
+				executor);
+
+		try {
+			result = corr.getCorrelationScore(score, normalize);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Calculation was interrupted!");
+		} catch (ExecutionException e) {
+			throw new RuntimeException("Error during calculation!"
+					+ e.getLocalizedMessage(), e.getCause());
+		}
+
 		return result;
 	}
 
