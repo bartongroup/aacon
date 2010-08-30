@@ -23,12 +23,12 @@ public class MethodWrapper implements Callable<MethodWrapper> {
 
 	final Timer timer;
 
-	public MethodWrapper(Method method, Conservation scores,
-			boolean normalize, Timer timer) throws FileNotFoundException {
+	public MethodWrapper(Method method, Conservation scores, boolean normalize,
+			Timer timer) throws FileNotFoundException {
 		this.method = method;
 		this.scores = scores;
 		this.normalize = normalize;
-		this.timer = timer;
+		this.timer = new Timer(timer);
 	}
 
 	private boolean isCustomSmerfsParams() {
@@ -53,8 +53,8 @@ public class MethodWrapper implements Callable<MethodWrapper> {
 	public MethodWrapper call() throws Exception {
 		timer.getStepTime();
 		if (method == Method.SMERFS && isCustomSmerfsParams()) {
-			Conservation conserv = new Conservation(scores
-					.getAlignment(), normalize);
+			Conservation conserv = new Conservation(scores.getAlignment(),
+					normalize);
 			this.conservation = conserv.getSMERFS(this.SMERFSWidth,
 					this.colScoreSchema, this.SMERFSGapTreshold);
 		} else {

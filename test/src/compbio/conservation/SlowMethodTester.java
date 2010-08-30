@@ -70,12 +70,12 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, false);
+			Conservation scores = new Conservation(alignment, true);
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.getSMERFS(7, SMERFSColumnScore.MID_SCORE,
-					0.1);
+			double[] result = scores.getSMERFS(11, SMERFSColumnScore.MID_SCORE,
+					0.2);
 			System.out.println("Calculating SMERFS scores: "
 					+ timer.getStepTime());
 

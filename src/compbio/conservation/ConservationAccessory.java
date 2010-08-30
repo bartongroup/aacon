@@ -207,6 +207,7 @@ public class ConservationAccessory {
 				min = scores[i];
 			}
 		}
+
 		if (max == min) {
 			System.err.println("Scores in method: " + method.toString()
 					+ " could not have been normalized properly, "
@@ -216,24 +217,25 @@ public class ConservationAccessory {
 							+ "score. Please have a look at user's help and "
 							+ "choose another score. ");
 			return null;
+		}
+
+		if (min < 0) {
+			double minAbs = min * -1;
+			double[] shifted = new double[scores.length];
+			for (int i = 0; i < shifted.length; i++) {
+				shifted[i] = scores[i] + minAbs;
+			}
+			max = max + minAbs;
+			min = min + minAbs;
+			for (int i = 0; i < normalized.length; i++) {
+				normalized[i] = ((shifted[i] - min) / (max - min));
+			}
 		} else {
-			if (min < 0) {
-				double minAbs = min * -1;
-				double[] shifted = new double[scores.length];
-				for (int i = 0; i < shifted.length; i++) {
-					shifted[i] = scores[i] + minAbs;
-				}
-				max = max + minAbs;
-				min = min + minAbs;
-				for (int i = 0; i < normalized.length; i++) {
-					normalized[i] = ((shifted[i] - min) / (max - min));
-				}
-			} else {
-				for (int i = 0; i < scores.length; i++) {
-					normalized[i] = (scores[i] - min) / (max - min);
-				}
+			for (int i = 0; i < scores.length; i++) {
+				normalized[i] = (scores[i] - min) / (max - min);
 			}
 		}
+
 		return normalized;
 	}
 
@@ -260,45 +262,11 @@ public class ConservationAccessory {
 	 * 
 	 * @return the array of numbers equal 1 - normalized score.
 	 */
-
 	static double[] inversedNormalize01(double[] scores, Method method) {
-		double[] normalized = new double[scores.length];
-		double max = scores[0];
-		double min = scores[0];
-		for (int i = 0; i < scores.length; i++) {
-			if (scores[i] > max) {
-				max = scores[i];
-			}
-			if (scores[i] < min) {
-				min = scores[i];
-			}
-		}
-		if (max == min) {
-			System.err.println("Scores in method: " + method.toString()
-					+ " could not have been normalized properly, they"
-					+ " were all given a score of 0.");
-			System.err
-					.println("This score does not reprent the actual conservation"
-							+ " score. Please have a look at user's help and"
-							+ " choose another score. ");
+		double[] normalized = normalize01(scores, method);
+		// Can't normalize
+		if (normalized == null) {
 			return null;
-		} else {
-			if (min < 0) {
-				double minAbs = min * -1;
-				double[] shifted = new double[scores.length];
-				for (int i = 0; i < shifted.length; i++) {
-					shifted[i] = scores[i] + minAbs;
-				}
-				max = max + minAbs;
-				min = min + minAbs;
-				for (int i = 0; i < normalized.length; i++) {
-					normalized[i] = ((shifted[i] - min) / (max - min));
-				}
-			} else {
-				for (int i = 0; i < scores.length; i++) {
-					normalized[i] = (scores[i] - min) / (max - min);
-				}
-			}
 		}
 		double[] inversed = new double[normalized.length];
 		for (int i = 0; i < inversed.length; i++) {
@@ -309,7 +277,7 @@ public class ConservationAccessory {
 
 	static void printArrayOfDouble(double[] arr1, PrintWriter print,
 			int precision) {
-
+		assert arr1 != null : "Nothing to print!";
 		String resultFormat = "%." + precision + "f";
 		for (int i = 0; i < arr1.length; i++) {
 			if (print == null) {
