@@ -28,8 +28,9 @@ public class ConservationTester {
 
 	@BeforeClass
 	public void init() {
-		efactory = ExecutorFactory.getFactory(0, new PrintWriter(
-				new NullOutputStream()));
+		ExecutorFactory.initExecutor(0,
+				new PrintWriter(new NullOutputStream()),
+				ExecutorFactory.ExecutorType.AsynchQueue);
 	}
 
 	@Test
@@ -38,8 +39,8 @@ public class ConservationTester {
 				+ SlowMethodTester.SMALL_AL);
 		try {
 
-			Conservation c = Conservation.getConservation(input, true, efactory
-					.getSynchroneousCallerRunsExecutor());
+			Conservation c = Conservation.getConservation(input, true,
+					ExecutorFactory.getExecutor());
 			Map<Method, double[]> results = c.calculateScores(EnumSet
 					.allOf(Method.class));
 			assertNotNull(results);
@@ -70,8 +71,8 @@ public class ConservationTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, true, efactory
-					.getSynchroneousCallerRunsExecutor());
+			Conservation scores = new Conservation(alignment, true,
+					ExecutorFactory.getExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 

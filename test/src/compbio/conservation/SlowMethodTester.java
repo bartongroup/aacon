@@ -31,8 +31,9 @@ public class SlowMethodTester {
 
 	@BeforeClass
 	public void init() {
-		efactory = ExecutorFactory.getFactory(0, new PrintWriter(
-				new NullOutputStream()));
+		ExecutorFactory.initExecutor(0,
+				new PrintWriter(new NullOutputStream()),
+				ExecutorFactory.ExecutorType.AsynchQueue);
 	}
 
 	@Test(enabled = false)
@@ -47,8 +48,8 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, true, efactory
-					.getSynchroneousCallerRunsExecutor());
+			Conservation scores = new Conservation(alignment, true,
+					ExecutorFactory.getExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
@@ -81,8 +82,8 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, true, efactory
-					.getSynchroneousCallerRunsExecutor());
+			Conservation scores = new Conservation(alignment, true,
+					ExecutorFactory.getExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
@@ -122,8 +123,8 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, false, efactory
-					.getSynchroneousCallerRunsExecutor());
+			Conservation scores = new Conservation(alignment, false,
+					ExecutorFactory.getExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 

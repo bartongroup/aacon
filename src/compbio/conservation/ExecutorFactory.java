@@ -9,14 +9,16 @@ import java.util.concurrent.TimeUnit;
 
 final class ExecutorFactory {
 
-	private static volatile ExecutorService syncExecutor;
-	private static volatile ExecutorService bQueueExecutor;
+	public enum ExecutorType {
+		SynchroniousCallerRuns, AsynchQueue
+	};
 
-	private static volatile ExecutorFactory INSTANCE;
+	private static volatile ExecutorService executor;
 
 	private static int threadNum;
 
-	private ExecutorFactory(int procNum, PrintWriter statWriter) {
+	private static void initializeExecutor(int procNum, PrintWriter statWriter,
+			ExecutorType etype) {
 		int corenum = Runtime.getRuntime().availableProcessors();
 		if (procNum < 1) {
 			// Default - no thread number was set
@@ -34,62 +36,45 @@ final class ExecutorFactory {
 		}
 		statWriter.println("Using " + procNum + " CPUs");
 		ExecutorFactory.threadNum = procNum;
+		executor = getExecutor(etype);
 	}
 
-	static ExecutorFactory getFactory(int procNum, PrintWriter statWriter) {
-		if (INSTANCE == null) {
+	static void initExecutor(int procNum, PrintWriter statWriter,
+			ExecutorType etype) {
+		if (executor == null) {
 			synchronized (ExecutorFactory.class) {
-				if (INSTANCE == null) {
-					INSTANCE = new ExecutorFactory(procNum, statWriter);
-				}
-			}
-		}
-		return INSTANCE;
-	}
-
-	ExecutorService getSynchroneousCallerRunsExecutor() {
-		if (syncExecutor == null) {
-			initSynchroneousCallerRunsExecutor();
-		}
-		return syncExecutor;
-	}
-
-	ExecutorService getQueueExecutor() {
-		if (bQueueExecutor == null) {
-			initBlockingExecutor();
-		}
-		return bQueueExecutor;
-	}
-
-	private static void initSynchroneousCallerRunsExecutor() {
-		if (syncExecutor == null) {
-			synchronized (ExecutorFactory.class) {
-				if (syncExecutor == null) {
-					if (threadNum == -1) {
-						throw new IllegalStateException(
-								"Must initialize the factory by calling initExecutorFactory() first!");
-					}
-					syncExecutor = new ThreadPoolExecutor(threadNum, threadNum,
-							0L, TimeUnit.MILLISECONDS,
-							new SynchronousQueue<Runnable>(),
-							new ThreadPoolExecutor.CallerRunsPolicy());
+				if (executor == null) {
+					initializeExecutor(procNum, statWriter, etype);
 				}
 			}
 		}
 	}
 
-	private static void initBlockingExecutor() {
-		if (bQueueExecutor == null) {
-			synchronized (ExecutorFactory.class) {
-				if (bQueueExecutor == null) {
-					bQueueExecutor = Executors.newFixedThreadPool(threadNum);
-				}
-			}
+	static ExecutorService getExecutor() {
+		if (executor == null) {
+			throw new IllegalStateException(
+					"Please initialize the executor first!");
 		}
+		return executor;
 	}
 
-	void shutdownExecutors() {
-		syncExecutor.shutdown();
-		bQueueExecutor.shutdown();
+	private static ExecutorService getExecutor(ExecutorType etype) {
+		if (executor == null) {
+			switch (etype) {
+			case AsynchQueue:
+				executor = Executors.newFixedThreadPool(threadNum);
+				break;
+			case SynchroniousCallerRuns:
+				executor = new ThreadPoolExecutor(threadNum, threadNum, 0L,
+						TimeUnit.MILLISECONDS,
+						new SynchronousQueue<Runnable>(),
+						new ThreadPoolExecutor.CallerRunsPolicy());
+				break;
+			default:
+				throw new RuntimeException("Unsupported executor type!");
+			}
+		}
+		return executor;
 	}
+
 }

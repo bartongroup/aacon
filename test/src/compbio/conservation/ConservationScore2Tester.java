@@ -16,8 +16,9 @@ public class ConservationScore2Tester {
 
 	@BeforeClass
 	public void init() {
-		efactory = ExecutorFactory.getFactory(0, new PrintWriter(
-				new NullOutputStream()));
+		ExecutorFactory.initExecutor(0,
+				new PrintWriter(new NullOutputStream()),
+				ExecutorFactory.ExecutorType.AsynchQueue);
 	}
 
 	static void printScores(double[] results, String tag) {
@@ -44,8 +45,8 @@ public class ConservationScore2Tester {
 
 	AminoAcidMatrix alignment = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i);
 
-	Conservation scores = new Conservation(alignment, true, efactory
-			.getSynchroneousCallerRunsExecutor());
+	Conservation scores = new Conservation(alignment, true, ExecutorFactory
+			.getExecutor());
 
 	@Test
 	public void kabatTester() {

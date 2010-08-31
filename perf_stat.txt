@@ -1,31 +1,25 @@
-PFAM task all methods 
-4x cpu 384m with user time 509m
-8x cpu 311m
+PFAM PF00532 family (12747 sequences) task all methods 
+1x cpu 532m
+4x cpu 384m 
+8x cpu 297m
+
+orig 380m ?
 
 PFAM task SMERFS only 
-1x 239m real, 248m user , 14380ms = (239m) stat file  
-4x 43m real
+1x 239m  
+4x 29m 25s 
 
-4x run11.jar - stat file 1755s = 29.4m 
-real    29m21.279s
-user    100m59.319s
-sys     0m35.727s
+SMERFS speed up coefficient
+1x ration 1
+2x ration 0.9 per cpu
+4x ratio for SMERFS 0.79 per cpu
+6x ratio 0.6 per cpu
+8x ration 0.55 per cpu
 
-
-
--bash-3.2$ time /sw/java/latest/bin/java -Xmx16G -jar run9.jar -i=test/data/PF00532_full.txt -m=SMERFS 
-				-t=1 -d=statp2_1cpu.out -o=resultp2_1cpu.txt &
-[1] 3924
-real    239m42.757s
-user    248m11.462s
-sys     1m45.879s
-
-
--bash-3.2$ time /sw/java/latest/bin/java -Xmx4G -jar run9.jar -i=test/data/PF00532_full.txt -t=4 -d=statp3.out -o=resultp3.txt &
-[2] 3955
-real    384m10.136s
-user    509m10.568s
-sys     2m25.054s
+SMERFS actual exec time for 1000x3000 (len) 
+8x 2m 30s 
+sequential 12m 21s 
+about 5x faster 
 
 statp3.out>
 Using 4 CPUs
@@ -52,3 +46,33 @@ VALDAR 336809 ms
 SMERFS 283865 ms
 Total calculation time: 23049 s
 End time: 2010/08/30 07:03:28
+
+
+No methods are request assuming all are required.
+Using 8 CPUs
+Start time: 2010/08/31 00:46:50
+Alignment loaded in: 4453 ms
+Alignment has: 12747 sequences.
+SCHNEIDER 33 ms
+SHENKIN 42 ms
+ARMON 28 ms
+ZVELIBIL 101 ms
+TAYLOR_GAPS 119 ms
+TAYLOR_NO_GAPS 129 ms
+JORES 142 ms
+MIRNY 46 ms
+KABAT 184 ms
+NOT_LANCET 373 ms
+GERSTEIN 1177 ms
+WILLIAMSON 2564 ms
+THOMPSON 13550 ms
+
+KARLIN 982226 ms
+SMERFS 1293295 ms
+SANDER 1781526 ms
+VALDAR 2189384 ms
+LANDGRAF 16525717 ms
+
+Total calculation time: 17824 s
+End time: 2010/08/31 05:43:50
+       

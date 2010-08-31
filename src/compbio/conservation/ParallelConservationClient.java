@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import compbio.conservation.ExecutorFactory.ExecutorType;
 import compbio.data.sequence.FastaSequence;
 import compbio.util.Timer;
 
@@ -107,9 +108,10 @@ public final class ParallelConservationClient {
 			boolean normalize = CmdParser.getNormalize(cmd);
 			String[] gap = CmdParser.getGapChars(cmd);
 			Character[] gapChars = CmdParser.extractGapChars(gap);
-			ExecutorFactory efactory = ExecutorFactory.getFactory(CmdParser
-					.getThreadNumber(cmd), timer.getStatWriter());
-			ExecutorService executor = efactory.getQueueExecutor();
+
+			ExecutorFactory.initExecutor(CmdParser.getThreadNumber(cmd), timer
+					.getStatWriter(), ExecutorType.AsynchQueue);
+			ExecutorService executor = ExecutorFactory.getExecutor();
 
 			List<FastaSequence> sequences = CmdParser
 					.openInputStream(inFilePath);
@@ -124,7 +126,7 @@ public final class ParallelConservationClient {
 						+ " sequences.");
 
 				Conservation scores = new Conservation(alignment, normalize,
-						efactory.getQueueExecutor());
+						ExecutorFactory.getExecutor());
 
 				MethodWrapper wrapper = null;
 				List<MethodWrapper> tasks = new ArrayList<MethodWrapper>();
@@ -153,7 +155,7 @@ public final class ParallelConservationClient {
 					}
 					results.put(entry.method, entry.conservation);
 				}
-				efactory.shutdownExecutors();
+				executor.shutdown();
 
 				ConservationFormatter.formatResults(results, outFilePath,
 						outFormat, alignment);
