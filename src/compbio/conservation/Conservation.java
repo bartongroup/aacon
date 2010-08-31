@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import compbio.data.sequence.Alignment;
 import compbio.data.sequence.ClustalAlignmentUtil;
@@ -27,6 +30,8 @@ public class Conservation {
 	private AminoAcidMatrix alignMatrix;
 	private final boolean normalize;
 	private Map<Method, double[]> results;
+	// this array is initialized and reinitialized with new array on each call
+	// of calcScore method
 
 	private final ExecutorService executor;
 
@@ -51,6 +56,7 @@ public class Conservation {
 	 * @return score for the given method
 	 */
 	double[] calculateScore(final Method method) {
+		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
 		double[] result = new double[alignMatrix.numberOfColumns()];
 		double[] normalized = null;
 		switch (method) {
@@ -127,8 +133,10 @@ public class Conservation {
 			break;
 		case KARLIN:
 			for (int i = 0; i < alignMatrix.numberOfColumns(); i++) {
-				result[i] = ColumnScores.karlinScore(alignMatrix, i);
+				tasks.add(Executors.callable(new TaskRunner(i, Method.KARLIN,
+						result)));
 			}
+			executeAndWait(tasks);
 			if (normalize) {
 				normalized = ConservationAccessory.normalize01(result, method);
 			}
@@ -177,8 +185,10 @@ public class Conservation {
 			break;
 		case LANDGRAF:
 			for (int i = 0; i < alignMatrix.numberOfColumns(); i++) {
-				result[i] = ColumnScores.landgrafScore(alignMatrix, i);
+				tasks.add(Executors.callable(new TaskRunner(i, Method.LANDGRAF,
+						result)));
 			}
+			executeAndWait(tasks);
 			if (normalize) {
 				normalized = ConservationAccessory.inversedNormalize01(result,
 						method);
@@ -186,16 +196,20 @@ public class Conservation {
 			break;
 		case SANDER:
 			for (int i = 0; i < alignMatrix.numberOfColumns(); i++) {
-				result[i] = ColumnScores.sanderScore(alignMatrix, i);
+				tasks.add(Executors.callable(new TaskRunner(i, Method.SANDER,
+						result)));
 			}
+			executeAndWait(tasks);
 			if (normalize) {
 				normalized = ConservationAccessory.normalize01(result, method);
 			}
 			break;
 		case VALDAR:
 			for (int i = 0; i < alignMatrix.numberOfColumns(); i++) {
-				result[i] = ColumnScores.valdarScore(alignMatrix, i);
+				tasks.add(Executors.callable(new TaskRunner(i, Method.VALDAR,
+						result)));
 			}
+			executeAndWait(tasks);
 			if (normalize) {
 				normalized = ConservationAccessory.normalize01(result, method);
 			}
@@ -213,6 +227,55 @@ public class Conservation {
 			return normalized;
 		}
 		return result;
+	}
+
+	private final void executeAndWait(List<Callable<Object>> tasks) {
+		try {
+			executor.invokeAll(tasks);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(
+					"The program was stopped in the middle of the calculation");
+		}
+	}
+
+	private final class TaskRunner implements Runnable {
+
+		final int iterration;
+		final Method method;
+		final double[] result;
+
+		public TaskRunner(final int i, Method method, double[] result) {
+			this.iterration = i;
+			this.method = method;
+			this.result = result;
+		}
+
+		@Override
+		public void run() {
+			switch (method) {
+			case KARLIN:
+				result[iterration] = ColumnScores.karlinScore(alignMatrix,
+						iterration);
+				break;
+			case VALDAR:
+				result[iterration] = ColumnScores.valdarScore(alignMatrix,
+						iterration);
+				break;
+			case LANDGRAF:
+				result[iterration] = ColumnScores.landgrafScore(alignMatrix,
+						iterration);
+				break;
+			case SANDER:
+				result[iterration] = ColumnScores.sanderScore(alignMatrix,
+						iterration);
+				break;
+			default:
+				throw new IllegalArgumentException(
+						"Only KARLIN, VALDAR, LANDGRAF and "
+								+ "SANDER methods can be executed via TaskRunner!");
+			}
+
+		}
 	}
 
 	/**
@@ -311,7 +374,8 @@ public class Conservation {
 
 	public void printResults() {
 		try {
-			ConservationFormatter.formatResults(results, null, null, null);
+			ConservationFormatter.formatResults(results, null,
+					Format.RESULT_NO_ALIGNMENT, null);
 		} catch (IOException ignored) {
 			// this will never happen as no writing to real file happens
 			// in the call to the function above

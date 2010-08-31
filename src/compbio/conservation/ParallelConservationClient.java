@@ -140,6 +140,16 @@ public final class ParallelConservationClient {
 						results.put(Method.SMERFS, result);
 						continue;
 					}
+					// Start other methods capable of runing in multiple threads
+					// from the main thread.
+					if (method == Method.LANDGRAF || method == Method.SANDER
+							|| method == Method.KARLIN
+							|| method == Method.VALDAR) {
+						double[] result = runParallelMethod(scores, method,
+								timer);
+						results.put(method, result);
+						continue;
+					}
 					wrapper = new MethodWrapper(method, scores, timer);
 					tasks.add(wrapper);
 				}
@@ -200,6 +210,14 @@ public final class ParallelConservationClient {
 		timer.println(Method.SMERFS.toString() + " " + timer.getStepTime()
 				+ " ms");
 		return conservation;
+	}
+
+	private double[] runParallelMethod(Conservation scores, Method method,
+			Timer timer) {
+		timer.getStepTime();
+		double[] results = scores.calculateScore(method);
+		timer.println(method.toString() + " " + timer.getStepTime() + " ms");
+		return results;
 	}
 
 	public static void main(String[] args) {

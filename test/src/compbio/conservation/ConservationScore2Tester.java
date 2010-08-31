@@ -12,25 +12,6 @@ import compbio.util.NullOutputStream;
 
 public class ConservationScore2Tester {
 
-	static ExecutorFactory efactory;
-
-	@BeforeClass
-	public void init() {
-		ExecutorFactory.initExecutor(0,
-				new PrintWriter(new NullOutputStream()),
-				ExecutorFactory.ExecutorType.AsynchQueue);
-	}
-
-	static void printScores(double[] results, String tag) {
-
-		System.out.println(tag);
-
-		for (int i = 0; i < results.length; i++) {
-
-			System.out.println(results[i]);
-		}
-	}
-
 	char a = 'D';
 	char b = 'F';
 	char c = 'P';
@@ -43,10 +24,30 @@ public class ConservationScore2Tester {
 	char h = '-';
 	char i = 'K';
 
-	AminoAcidMatrix alignment = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i);
+	static ExecutorFactory efactory;
+	AminoAcidMatrix alignment;
+	Conservation scores;
 
-	Conservation scores = new Conservation(alignment, true, ExecutorFactory
-			.getExecutor());
+	@BeforeClass
+	public void init() {
+		ExecutorFactory.initExecutor(0,
+				new PrintWriter(new NullOutputStream()),
+				ExecutorFactory.ExecutorType.AsynchQueue);
+		alignment = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i);
+
+		scores = new Conservation(alignment, true, ExecutorFactory
+				.getExecutor());
+	}
+
+	static void printScores(double[] results, String tag) {
+
+		System.out.println(tag);
+
+		for (int i = 0; i < results.length; i++) {
+
+			System.out.println(results[i]);
+		}
+	}
 
 	@Test
 	public void kabatTester() {

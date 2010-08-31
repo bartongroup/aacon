@@ -393,12 +393,22 @@ public final class ConservationMatrices {
 
 	private final static double getPairIndex(final double[] matrix, char a,
 			char b) {
-		int pairIndex = 24 * getIndex(a) + getIndex(b);
+		int idxa = getIndex(a);
+		int idxb = idxa;
+		if (a != b) {
+			idxb = getIndex(b);
+		}
+		int pairIndex = 24 * idxa + idxb;
 		return matrix[pairIndex];
 	}
 
 	private final static int getPairIndex(final int[] matrix, char a, char b) {
-		int pairIndex = 24 * getIndex(a) + getIndex(b);
+		int idxa = getIndex(a);
+		int idxb = idxa;
+		if (a != b) {
+			idxb = getIndex(b);
+		}
+		int pairIndex = 24 * idxa + idxb;
 		return matrix[pairIndex];
 	}
 
@@ -437,7 +447,7 @@ public final class ConservationMatrices {
 	}
 
 	/**
-	 * Finds correspondig value in the matrix for the two amino acids supplied.
+	 * Finds corresponding value in the matrix for the two amino acids supplied.
 	 * 
 	 * @param a
 	 * @param b
@@ -466,6 +476,7 @@ public final class ConservationMatrices {
 	 * @return dissimilarity
 	 */
 	static double dissimilarity(char a, char b) {
-		return (gonnetPair(a, a) - gonnetPair(a, b)) / gonnetPair(a, a);
+		double gpairA = gonnetPair(a, a);
+		return (gpairA - gonnetPair(a, b)) / gpairA;
 	}
 }

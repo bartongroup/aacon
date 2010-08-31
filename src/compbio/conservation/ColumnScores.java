@@ -40,10 +40,9 @@ class ColumnScores {
 	 */
 	private static boolean allButOneGaps(int columnNr, AminoAcidMatrix matrix) {
 
-		if (columnNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert columnNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in the matrix.";
+
 		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
 				columnNr);
 		if (acidsInt.containsKey('-')
@@ -64,10 +63,9 @@ class ColumnScores {
 	private static boolean oneResidueTypeNoGaps(int columnNr,
 			AminoAcidMatrix matrix) {
 
-		if (columnNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert columnNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in the matrix.";
+
 		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
 				columnNr);
 		if (acidsInt.size() == 1 && acidsInt.containsKey('-') == false) {
@@ -84,10 +82,9 @@ class ColumnScores {
 	 */
 	private static boolean containsGaps(int columnNr, AminoAcidMatrix matrix) {
 
-		if (columnNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert columnNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in the matrix.";
+
 		if (matrix.getTotalAcidsFreqByCol().get(columnNr).containsKey('-')) {
 			return true;
 		} else {
@@ -103,10 +100,9 @@ class ColumnScores {
 	 */
 	private static int numberOfAcidsWithGap(int columnNr, AminoAcidMatrix matrix) {
 
-		if (columnNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert columnNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in the matrix.";
+
 		return matrix.getTotalAcidsFreqByCol().get(columnNr).size();
 	}
 
@@ -118,10 +114,9 @@ class ColumnScores {
 	 */
 	private static int numberOfAcidsNoGap(int columnNr, AminoAcidMatrix matrix) {
 
-		if (columnNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert columnNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in the matrix.";
+
 		if (containsGaps(columnNr, matrix) == true) {
 			return matrix.getTotalAcidsFreqByCol().get(columnNr).size() - 1;
 		} else {
@@ -137,10 +132,9 @@ class ColumnScores {
 	 */
 	private static int mostCommonNumber(int columnNr, AminoAcidMatrix matrix) {
 
-		if (columnNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert columnNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		int max = 0;
 		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
 				columnNr);
@@ -179,10 +173,9 @@ class ColumnScores {
 	 */
 	static double kabatScore(AminoAcidMatrix matrix, int columnNumber) {
 
-		if (columnNumber > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert columnNumber < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		assert mostCommonNumber(columnNumber, matrix) > 0
 				&& mostCommonNumber(columnNumber, matrix) < matrix
 						.getInverseMatrix()[columnNumber].length + 1;
@@ -205,10 +198,9 @@ class ColumnScores {
 	 */
 	static double joresScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double result = 0.0;
 		// special case #1 one residue type only
 		// special case #2 all but one are gaps
@@ -295,10 +287,9 @@ class ColumnScores {
 	 */
 	static double schneiderScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double result = 0.0;
 		double normal = 1.0 / Math.log(20.0);
 		result = ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol().get(
@@ -318,10 +309,9 @@ class ColumnScores {
 	 */
 	static double shenkinScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double result = 0.0;
 		result = Math.pow(2.0, ShannonEnthropy.ShannonLog2(matrix
 				.getTotalAcidsFreqByCol().get(colNr),
@@ -340,10 +330,9 @@ class ColumnScores {
 	 */
 	static double gersteinScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double result = 0.0;
 		result = -(ShannonEnthropy.ShannonLn(matrix.totalAcidsFrequency(),
 				matrix.numberOfColumns() * matrix.numberOfRows()))
@@ -365,10 +354,9 @@ class ColumnScores {
 	 */
 	static double taylorScoreGaps(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 		double smallestSetSize = 0.0;
 		Map<String, Integer> repSets = new HashMap<String, Integer>();
@@ -397,10 +385,9 @@ class ColumnScores {
 	 */
 	static double taylorScoreNoGaps(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		Map<String, HashSet<Character>> setMap = ConservationSets.taylorSets();
 		Set<String> setMapKeys = setMap.keySet();
 		double smallestSetSize = 0.0;
@@ -435,10 +422,9 @@ class ColumnScores {
 	// leave the normalization for clarity but it is not needed
 	static double zvelibilScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double result = 0.0;
 		double finalResult = 0.0;
 		Map<String, HashSet<Character>> setMap = ConservationSets
@@ -469,10 +455,9 @@ class ColumnScores {
 	 */
 	static double karlinScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in the matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double finalSum;
 		double blosumSum = 0.0;
 		char[] curColumn = matrix.getInverseMatrix()[colNr];
@@ -519,10 +504,9 @@ class ColumnScores {
 	// gap is considered the 21 aminoacid
 	static double armonScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double scoreSum = 0.0;
 		int arrayLength = matrix.getTotalAcidsFreqByCol().get(colNr).keySet()
 				.size();
@@ -562,10 +546,9 @@ class ColumnScores {
 	// score is the distance between the av point and the actual point
 	static double thompsonScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double[] sum = null;
 		double[] meanPoint = null;
 		double distance = 0.0;
@@ -621,10 +604,9 @@ class ColumnScores {
 	 */
 	static double notLancetScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double result = 0.0;
 		char[] curColumn = matrix.getInverseMatrix()[colNr];
 		Map<Character, Integer> acidsInt = matrix.getTotalAcidsFreqByCol().get(
@@ -664,10 +646,9 @@ class ColumnScores {
 	// names as keys and number of aa belonging to set as value
 	static double mirnyScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double mirnySum = 0.0;
 		Map<String, HashSet<Character>> mirnySets = ConservationSets
 				.mirnySets();
@@ -720,10 +701,9 @@ class ColumnScores {
 	 */
 	static double williamsonScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double willSum = 0.0;
 		Map<String, HashSet<Character>> willSets = ConservationSets
 				.williamsonSets();
@@ -780,21 +760,22 @@ class ColumnScores {
 	 */
 	static double landgrafScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in teh matrix.";
+
 		double sum = 0.0;
 		double result = 0.0;
 		char[] curColumn = matrix.getInverseMatrix()[colNr];
 		double[] voronoiWeights = matrix.getVoronoiWeights(1000);
 		for (int a = 0; a < curColumn.length; a++) {
 			double voronoiA = voronoiWeights[a];
+			char currentCharA = curColumn[a];
 			for (int b = a + 1; b < curColumn.length; b++) {
-				double disIJ = ConservationMatrices.dissimilarity(curColumn[a],
-						curColumn[b]);
-				double disJI = ConservationMatrices.dissimilarity(curColumn[b],
-						curColumn[a]);
+				char currentCharB = curColumn[b];
+				double disIJ = ConservationMatrices.dissimilarity(currentCharA,
+						currentCharB);
+				double disJI = ConservationMatrices.dissimilarity(currentCharB,
+						currentCharA);
 				sum = sum + voronoiA * disIJ + voronoiWeights[b] * disJI;
 			}
 		}
@@ -812,10 +793,9 @@ class ColumnScores {
 	 */
 	static double sanderScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in the matrix.";
+
 		double sum = 0.0;
 		double moderator = 0.0;
 		double result = 0.0;
@@ -824,8 +804,9 @@ class ColumnScores {
 		double[][] percent_identity = matrix.getPercentIdentity();
 		for (int a = 0; a < curColumn.length; a++) {
 			int aIdx = 24 * ConservationMatrices.getIndex(curColumn[a]);
+			double[] percent_id = percent_identity[a];
 			for (int b = a + 1; b < curColumn.length; b++) {
-				double identity = 1 - percent_identity[a][b];
+				double identity = 1 - percent_id[b];
 				int pairIndex = aIdx
 						+ ConservationMatrices.getIndex(curColumn[b]);
 				sum += identity * ConservationMatrices.pam250[pairIndex];
@@ -846,19 +827,19 @@ class ColumnScores {
 	 */
 	static double valdarScore(AminoAcidMatrix matrix, int colNr) {
 
-		if (colNr > matrix.numberOfColumns() - 1) {
-			throw new IllegalArgumentException(
-					"Column number greater than number of columns in teh matrix.");
-		}
+		assert colNr < matrix.numberOfColumns() : "Column number greater than "
+				+ "number of columns in the matrix.";
+
 		double sum = 0.0;
 		double moderator = 0.0;
 		double result = 0.0;
 		char[] curColumn = matrix.getInverseMatrix()[colNr];
 		double[] vingronArgosWeights = matrix.vingronArgosWeights();
 		for (int a = 0; a < curColumn.length; a++) {
+			double vaweight = vingronArgosWeights[a];
 			int aIdx = 24 * ConservationMatrices.getIndex(curColumn[a]);
 			for (int b = a + 1; b < curColumn.length; b++) {
-				double mod = vingronArgosWeights[a] * vingronArgosWeights[b];
+				double mod = vaweight * vingronArgosWeights[b];
 				int pairIndex = aIdx
 						+ ConservationMatrices.getIndex(curColumn[b]);
 				sum += mod * ConservationMatrices.pet91[pairIndex];

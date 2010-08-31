@@ -48,7 +48,7 @@ public class AminoAcidMatrix {
 	 * Stores occurances of amino acids in columns, columns indexed starting
 	 * fromm 0
 	 */
-	private List<Map<Character, Integer>> acidsIntMap;
+	private volatile List<Map<Character, Integer>> acidsIntMap;
 	/**
 	 * Holds the in the indices of Xs changed to gaps. The row number is a key
 	 * and the column number is value
@@ -58,24 +58,24 @@ public class AminoAcidMatrix {
 	/**
 	 * The total occurrence of amino acids in the whole alignment.
 	 */
-	private Map<Character, Integer> totalFrequency;
+	private volatile Map<Character, Integer> totalFrequency;
 	/**
 	 * The total number of amino acids in the whole alignment belonging to each
 	 * Williamson Set.
 	 */
-	private Map<String, Integer> willSetsTotal;
+	private volatile Map<String, Integer> willSetsTotal;
 	/**
 	 * Vingron Argos weights of the the sequences.
 	 */
-	private double[] vingronArgosWeights;
+	private volatile double[] vingronArgosWeights;
 	/**
 	 * Percent identity.
 	 */
-	private double[][] percentIdentity;
+	private volatile double[][] percentIdentity;
 	/**
 	 * Weights according to Voronoi.
 	 */
-	private double[] voronoiWeighths;
+	private volatile double[] voronoiWeighths;
 
 	/**
 	 * This constructor take a 2D array of characters as parameter and a string
@@ -324,9 +324,7 @@ public class AminoAcidMatrix {
 	 * @return number of columns
 	 */
 	public int numberOfColumns() {
-
-		int nrColumns = matrix[0].length;
-		return nrColumns;
+		return matrix[0].length;
 	}
 
 	/**
@@ -405,7 +403,11 @@ public class AminoAcidMatrix {
 	List<Map<Character, Integer>> getTotalAcidsFreqByCol() {
 
 		if (acidsIntMap == null) {
-			this.calTotalAcidsFreqByCol();
+			synchronized (this) {
+				if (acidsIntMap == null) {
+					this.calTotalAcidsFreqByCol();
+				}
+			}
 		}
 		return acidsIntMap;
 	}
@@ -418,7 +420,11 @@ public class AminoAcidMatrix {
 	Map<Character, Integer> totalAcidsFrequency() {
 
 		if (totalFrequency == null) {
-			this.calTotalAcidsFrequency();
+			synchronized (this) {
+				if (totalFrequency == null) {
+					this.calTotalAcidsFrequency();
+				}
+			}
 		}
 		return totalFrequency;
 	}
@@ -433,7 +439,11 @@ public class AminoAcidMatrix {
 	Map<String, Integer> totalAcidsWillSets() {
 
 		if (willSetsTotal == null) {
-			this.calTotalAcidsWillSets();
+			synchronized (this) {
+				if (willSetsTotal == null) {
+					this.calTotalAcidsWillSets();
+				}
+			}
 		}
 		return willSetsTotal;
 	}
@@ -474,9 +484,9 @@ public class AminoAcidMatrix {
 		Map<String, Integer> setsFreq = new HashMap<String, Integer>();
 		Set<String> setsKeys = sets.keySet();
 		Iterator<String> setsKeysItr = setsKeys.iterator();
-		if (totalFrequency == null) {
-			this.calTotalAcidsFrequency();
-		}
+
+		totalAcidsFrequency();
+
 		Map<Character, Integer> totalFreq = totalFrequency;
 		Set<Character> totalFreqKeys = totalFreq.keySet();
 		while (setsKeysItr.hasNext()) {
@@ -538,9 +548,13 @@ public class AminoAcidMatrix {
 	 * @return an array of weights, indices correspond to sequence numbers
 	 */
 	double[] vingronArgosWeights() {
-
 		if (vingronArgosWeights == null) {
-			this.weightOfSequencesVingronArgos();
+			// prevent double initialization
+			synchronized (this) {
+				if (vingronArgosWeights == null) {
+					this.weightOfSequencesVingronArgos();
+				}
+			}
 		}
 		return vingronArgosWeights;
 	}
@@ -576,7 +590,11 @@ public class AminoAcidMatrix {
 	double[][] getPercentIdentity() {
 
 		if (percentIdentity == null) {
-			this.calPercentIdentity();
+			synchronized (this) {
+				if (percentIdentity == null) {
+					this.calPercentIdentity();
+				}
+			}
 		}
 		return percentIdentity;
 	}
@@ -649,9 +667,12 @@ public class AminoAcidMatrix {
 	 *         indices in matrix
 	 */
 	double[] getVoronoiWeights(int iterNr) {
-
 		if (voronoiWeighths == null) {
-			this.voronoiWeights(iterNr);
+			synchronized (this) {
+				if (voronoiWeighths == null) {
+					this.voronoiWeights(iterNr);
+				}
+			}
 		}
 		return voronoiWeighths;
 	}

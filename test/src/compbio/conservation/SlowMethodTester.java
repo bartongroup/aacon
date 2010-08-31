@@ -102,7 +102,7 @@ public class SlowMethodTester {
 		}
 	}
 
-	@Test
+	@Test(enabled = false)
 	public void testSMERFS() {
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
