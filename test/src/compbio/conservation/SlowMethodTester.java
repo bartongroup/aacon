@@ -57,7 +57,40 @@ public class SlowMethodTester {
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
-			ConservationScore2Tester.printScores(result, "Sander");
+			// ConservationScore2Tester.printScores(result, "Sander");
+			System.out.println("Total: " + timer.getTotalTime());
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		}
+	}
+
+	@Test()
+	public void testLandgraf() {
+		try {
+			Timer timer = new Timer(TimeUnit.MILLISECONDS);
+			List<FastaSequence> sequences = SequenceUtil
+					.readFasta(new FileInputStream(new File(DATA_PATH
+							+ File.separator + AVG_AL)));
+			System.out.println("Loading sequences: " + timer.getStepTime());
+
+			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
+			System.out.println("Converting to Matrix: " + timer.getStepTime());
+
+			Conservation scores = new Conservation(alignment, true,
+					ExecutorFactory.getExecutor());
+			System.out.println("Constructing conservation scores: "
+					+ timer.getStepTime());
+
+			double[] result = scores.calculateScore(Method.LANDGRAF);
+			System.out.println("Calculating sadler scores: "
+					+ timer.getStepTime());
+
+			System.out.println("#LADGRAF " + Arrays.toString(result));
 			System.out.println("Total: " + timer.getTotalTime());
 
 		} catch (FileNotFoundException e) {
