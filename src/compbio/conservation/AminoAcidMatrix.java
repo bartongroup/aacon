@@ -4,7 +4,7 @@ package compbio.conservation;
 // gets fasta sequences and puts them into matrix
 // might have to check if all sequences are equal length(ask)
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +18,7 @@ import compbio.common.NotAnAminoAcidException;
 import compbio.common.SequencesNotEquallyLongException;
 import compbio.data.sequence.Alignment;
 import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.SequenceUtil;
 
 /**
  * This class provides representation of an alignment as a matrix implemented as
@@ -688,23 +689,16 @@ public class AminoAcidMatrix {
 	 *            output file path
 	 * @throws IOException
 	 */
-	void printAlignment(int tagWidth, int resultWidth, String outputFile)
-			throws IOException {
-
-		PrintWriter print = ConservationFormatter.openPrintWriter(outputFile,
-				false);
-		if (print != null) {
-			String tagFormat = "%-" + tagWidth + "s";
-			String resultFormat = "%-" + resultWidth + "c";
-			for (int i = 0; i < this.numberOfRows(); i++) {
-				print.printf(tagFormat, ">" + sequenceNames[i]);
-				for (int j = 0; j < this.getRow(i).length; j++) {
-					print.printf(resultFormat, this.getRow(i)[j]);
-				}
-				print.println();
+	void printAlignment(OutputStream out) throws IOException {
+		List<FastaSequence> fastaseqs = new ArrayList<FastaSequence>();
+		for (int i = 0; i < this.numberOfRows(); i++) {
+			StringBuffer sb = new StringBuffer();
+			for (int j = 0; j < this.getRow(i).length; j++) {
+				sb.append(this.getRow(i)[j]);
 			}
+			fastaseqs.add(new FastaSequence(sequenceNames[i], sb.toString()));
 		}
-		print.close();
+		SequenceUtil.writeFastaKeepTheStream(out, fastaseqs, 80);
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
@@ -29,9 +30,7 @@ public class Conservation {
 
 	private AminoAcidMatrix alignMatrix;
 	private final boolean normalize;
-	private Map<Method, double[]> results;
-	// this array is initialized and reinitialized with new array on each call
-	// of calcScore method
+	private final Map<Method, double[]> results;
 
 	private final ExecutorService executor;
 
@@ -40,6 +39,7 @@ public class Conservation {
 		this.alignMatrix = alignment;
 		this.normalize = normalize;
 		this.executor = executor;
+		this.results = new EnumMap<Method, double[]>(Method.class);
 	}
 
 	AminoAcidMatrix getAlignment() {
@@ -224,8 +224,11 @@ public class Conservation {
 		} // end of switch
 
 		if (normalized != null) {
+			results.put(method, normalized);
 			return normalized;
 		}
+		// store results in this object
+		results.put(method, result);
 		return result;
 	}
 
@@ -333,8 +336,8 @@ public class Conservation {
 		// there is no need to close input stream as the read method will close
 		// it
 		alignMatrix = new AminoAcidMatrix(alignment);
-		results = calculateConservation(methods);
-		return results;
+		calculateConservation(methods);
+		return Collections.unmodifiableMap(results);
 	}
 
 	/**
@@ -350,29 +353,29 @@ public class Conservation {
 			throw new NullPointerException("Sequences must be provided!");
 		}
 		alignMatrix = new AminoAcidMatrix(sequences, null);
-		results = calculateConservation(methods);
+		calculateConservation(methods);
 		return results;
 	}
 
 	private Map<Method, double[]> calculateConservation(EnumSet<Method> methods) {
-
-		Map<Method, double[]> result = new EnumMap<Method, double[]>(
-				Method.class);
 		for (Method method : methods) {
 			double[] singleRes = calculateScore(method);
 			assert singleRes != null && singleRes.length > 0;
-			result.put(method, singleRes);
+			results.put(method, singleRes);
 		}
-		this.results = result;
-		return result;
+		return Collections.unmodifiableMap(results);
 	}
 
-	public void outputResults(File outFile, Format format) throws IOException {
+	void outputResults(File outFile, Format format) throws IOException {
 		ConservationFormatter.formatResults(results, outFile.getAbsolutePath(),
 				format, alignMatrix);
 	}
 
-	public void printResults() {
+	void printResults(Format format) throws IOException {
+		ConservationFormatter.formatResults(results, null, format, alignMatrix);
+	}
+
+	public static void printResults(Map<Method, double[]> results) {
 		try {
 			ConservationFormatter.formatResults(results, null,
 					Format.RESULT_NO_ALIGNMENT, null);
@@ -381,6 +384,13 @@ public class Conservation {
 			// in the call to the function above
 			ignored.printStackTrace();
 		}
+	}
+
+	public static void printResults(double[] result, Method method) {
+		Map<Method, double[]> results = new EnumMap<Method, double[]>(
+				Method.class);
+		results.put(method, result);
+		printResults(results);
 	}
 
 	/**

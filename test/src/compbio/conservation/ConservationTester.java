@@ -44,7 +44,7 @@ public class ConservationTester {
 			Map<Method, double[]> results = c.calculateScores(EnumSet
 					.allOf(Method.class));
 			assertNotNull(results);
-			c.printResults();
+			c.printResults(Format.RESULT_NO_ALIGNMENT);
 			// System.out.println(results);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

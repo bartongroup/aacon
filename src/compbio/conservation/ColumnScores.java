@@ -151,17 +151,6 @@ class ColumnScores {
 		return max;
 	}
 
-	// Map<Character,Integer> getAcidsIntMap() {
-	// return acidsIntMap;
-	// }
-	/**
-	 * Gets length of the column.
-	 * 
-	 * @return length of the column
-	 */
-	// int length() {
-	// return columnArr.length;
-	// }
 	/**
 	 * Calculates Kabat score for the alignment.
 	 * 

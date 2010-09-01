@@ -277,39 +277,21 @@ public class ConservationAccessory {
 
 	static void printArrayOfDouble(double[] arr1, PrintWriter print,
 			int precision) {
+
+		ConservationFormatter.NUMBER_FORMAT.setMaximumFractionDigits(precision);
+
 		assert arr1 != null : "Nothing to print!";
-		String resultFormat = "%." + precision + "f";
-		for (int i = 0; i < arr1.length; i++) {
-			if (print == null) {
-				System.out.printf(resultFormat, arr1[i]);
-				System.out.print(" ");
-			} else {
-				print.printf(resultFormat, arr1[i]);
-				print.print(" ");
-			}
-		}
+		PrintWriter writer = print;
 		if (print == null) {
-			System.out.println();
-		} else {
-			print.println();
+			writer = new PrintWriter(System.out);
 		}
+
+		for (int i = 0; i < arr1.length; i++) {
+			writer.printf(ConservationFormatter.NUMBER_FORMAT.format(arr1[i]));
+			writer.print(" ");
+		}
+		writer.println();
+		writer.flush();
 	}
 
-	static void printArrayOfDoubleFieldWidth(double[] arr1, PrintWriter print,
-			int precision, int fieldWidth) {
-
-		String resultFormat = "%-" + fieldWidth + "." + precision + "f";
-		for (int i = 0; i < arr1.length; i++) {
-			if (print == null) {
-				System.out.printf(resultFormat, arr1[i]);
-			} else {
-				print.printf(resultFormat, arr1[i]);
-			}
-		}
-		if (print == null) {
-			System.out.println();
-		} else {
-			print.println();
-		}
-	}
 }

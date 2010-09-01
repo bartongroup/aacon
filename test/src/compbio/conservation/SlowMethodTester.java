@@ -36,7 +36,7 @@ public class SlowMethodTester {
 				ExecutorFactory.ExecutorType.AsynchQueue);
 	}
 
-	@Test(enabled = false)
+	@Test()
 	public void testSadler() {
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
@@ -57,7 +57,9 @@ public class SlowMethodTester {
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
-			// ConservationScore2Tester.printScores(result, "Sander");
+			// Conservation.printResults(result, Method.SANDER);
+			scores.outputResults(new File("results.txt"),
+					Format.RESULT_WITH_ALIGNMENT);
 			System.out.println("Total: " + timer.getTotalTime());
 
 		} catch (FileNotFoundException e) {
@@ -69,7 +71,7 @@ public class SlowMethodTester {
 		}
 	}
 
-	@Test()
+	@Test(enabled = false)
 	public void testLandgraf() {
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
@@ -138,16 +140,10 @@ public class SlowMethodTester {
 		}
 	}
 
-	public static void main(String[] args) {
-		/*
-		 * int[][] a = new int[20000][5000]; System.out.println("T " +
-		 * Runtime.getRuntime().totalMemory()); System.out.println("M " +
-		 * Runtime.getRuntime().maxMemory()); System.out.println("F " +
-		 * Runtime.getRuntime().freeMemory());
-		 */
+	@Test()
+	public void reproduceIssue1() {
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
-			// 675706 ms
 			List<FastaSequence> sequences = SequenceUtil
 					.readFasta(new FileInputStream(new File(DATA_PATH
 							+ File.separator + AVG_AL)));
@@ -156,18 +152,16 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, false,
+			Conservation scores = new Conservation(alignment, true,
 					ExecutorFactory.getExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.getSMERFS(7, SMERFSColumnScore.MID_SCORE,
-					0.1);
-			System.out.println("Calculating SMERFS scores: "
+			double[] result = scores.calculateScore(Method.KABAT);
+			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
-			// this is a wrong call!
-			// ConservationScore2Tester.printScores(result, "Sander");
+			System.out.println("#KABAT " + Arrays.toString(result));
 			System.out.println("Total: " + timer.getTotalTime());
 
 		} catch (FileNotFoundException e) {
@@ -178,4 +172,38 @@ public class SlowMethodTester {
 			fail(e.getLocalizedMessage());
 		}
 	}
+
+	@Test()
+	public void reproduceIssue4() {
+		try {
+			Timer timer = new Timer(TimeUnit.MILLISECONDS);
+			List<FastaSequence> sequences = SequenceUtil
+					.readFasta(new FileInputStream(new File(DATA_PATH
+							+ File.separator + AVG_AL)));
+			System.out.println("Loading sequences: " + timer.getStepTime());
+
+			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
+			System.out.println("Converting to Matrix: " + timer.getStepTime());
+
+			Conservation scores = new Conservation(alignment, true,
+					ExecutorFactory.getExecutor());
+			System.out.println("Constructing conservation scores: "
+					+ timer.getStepTime());
+
+			double[] result = scores.calculateScore(Method.JORES);
+			System.out.println("Calculating sadler scores: "
+					+ timer.getStepTime());
+
+			System.out.println("#JORES " + Arrays.toString(result));
+			System.out.println("Total: " + timer.getTotalTime());
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		}
+	}
+
 }
