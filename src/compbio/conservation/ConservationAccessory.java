@@ -211,11 +211,7 @@ public class ConservationAccessory {
 		if (max == min) {
 			System.err.println("Scores in method: " + method.toString()
 					+ " could not have been normalized properly, "
-					+ "they were all given a score of 1.");
-			System.err
-					.println("This score does not reprent the actual conservation "
-							+ "score. Please have a look at user's help and "
-							+ "choose another score. ");
+					+ "not normalized scores are returned.");
 			return null;
 		}
 

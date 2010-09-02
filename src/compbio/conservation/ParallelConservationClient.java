@@ -91,14 +91,21 @@ public final class ParallelConservationClient {
 			String format = CmdParser.getFormat(cmd);
 			String outFilePath = CmdParser.getOutputFilePath(cmd);
 			if (outFilePath == null) {
-				timer
-						.println("No output file is provided, writing results to the standard output.");
+				timer.println("No output file is provided, writing results to the standard output.");
 			}
 			Format outFormat = Format.RESULT_NO_ALIGNMENT;
 			if (format != null) {
-				outFormat = Format.getFormat(format);
-				timer
-						.println("No format is provided assuming RESULT_NO_ALIGNMENT is required");
+				Format userFormat = Format.getFormat(format);
+				if (userFormat == null) {
+					timer.println("Cannot recognise format '" + format
+							+ "' Assuming "
+							+ Format.RESULT_NO_ALIGNMENT.toString() + " format");
+				} else {
+					outFormat = userFormat;
+					timer.println("Setting output format to " + userFormat);
+				}
+			} else {
+				timer.println("No format is provided assuming RESULT_NO_ALIGNMENT is required");
 			}
 
 			String[] SMERFSDetails = CmdParser.getSMERFSDetails(cmd);
@@ -109,8 +116,8 @@ public final class ParallelConservationClient {
 			String[] gap = CmdParser.getGapChars(cmd);
 			Character[] gapChars = CmdParser.extractGapChars(gap);
 
-			ExecutorFactory.initExecutor(CmdParser.getThreadNumber(cmd), timer
-					.getStatWriter(), ExecutorType.AsynchQueue);
+			ExecutorFactory.initExecutor(CmdParser.getThreadNumber(cmd),
+					timer.getStatWriter(), ExecutorType.AsynchQueue);
 			ExecutorService executor = ExecutorFactory.getExecutor();
 
 			List<FastaSequence> sequences = CmdParser
