@@ -48,7 +48,7 @@ public class SlowMethodTester {
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
-			Conservation scores = new Conservation(alignment, true,
+			Conservation scores = new Conservation(alignment, false,
 					ExecutorFactory.getExecutor());
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
@@ -59,7 +59,7 @@ public class SlowMethodTester {
 
 			// Conservation.printResults(result, Method.SANDER);
 			scores.outputResults(new File("results.txt"),
-					Format.RESULT_WITH_ALIGNMENT);
+					Format.RESULT_NO_ALIGNMENT);
 			System.out.println("Total: " + timer.getTotalTime());
 
 		} catch (FileNotFoundException e) {

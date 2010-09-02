@@ -221,6 +221,8 @@ class ColumnScores {
 					samePairs++;
 				}
 			}
+			assert OverflowChecker.preAdd(samePairs, differentPairs);
+
 			int totalPairs = samePairs + differentPairs;
 			Iterator<Character> itr2 = acidsIntMapCopy.keySet().iterator();
 			int max1 = 0;
@@ -281,8 +283,9 @@ class ColumnScores {
 
 		double result = 0.0;
 		double normal = 1.0 / Math.log(20.0);
-		result = ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol().get(
-				colNr), matrix.getInverseMatrix()[colNr].length)
+		result = ShannonEnthropy.ShannonLn(
+				matrix.getTotalAcidsFreqByCol().get(colNr),
+				matrix.getInverseMatrix()[colNr].length)
 				* normal;
 		assert result >= 0 && result <= 1;
 		return result;
@@ -796,13 +799,22 @@ class ColumnScores {
 			double[] percent_id = percent_identity[a];
 			for (int b = a + 1; b < curColumn.length; b++) {
 				double identity = 1 - percent_id[b];
+				assert OverflowChecker.preAdd(aIdx,
+						+ConservationMatrices.getIndex(curColumn[b]));
+
 				int pairIndex = aIdx
 						+ ConservationMatrices.getIndex(curColumn[b]);
+				assert OverflowChecker.preMultiply(identity,
+						ConservationMatrices.pam250[pairIndex]);
+				assert OverflowChecker.preAdd(sum, identity
+						* ConservationMatrices.pam250[pairIndex]);
 				sum += identity * ConservationMatrices.pam250[pairIndex];
+
 				moderator += identity;
 			}
 		}
 		result = sum * moderator;
+
 		return result;
 	}
 

@@ -18,6 +18,9 @@ class ConservationFormatter {
 
 	public static final NumberFormat NUMBER_FORMAT = NumberFormat
 			.getNumberInstance(Locale.UK);
+	static {
+		NUMBER_FORMAT.setGroupingUsed(false);
+	}
 
 	/**
 	 * Formats results
