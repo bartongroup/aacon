@@ -120,18 +120,16 @@ class ConservationFormatter {
 		assert scores != null : "Scores must not be null";
 		OutputStream out = openPrintWriter(outFilePath);
 
-		Iterator<Method> itr = scores.keySet().iterator();
-
 		switch (format) {
 		case RESULT_NO_ALIGNMENT:
-			outputScoreLine(scores, out, itr);
+			outputScoreLine(scores, out);
 			break;
 		case RESULT_WITH_ALIGNMENT:
 			if (alignment == null) {
 				throw new NullPointerException("Alignment must be provided!");
 			}
 			alignment.printAlignment(out);
-			outputScoreLine(scores, out, itr);
+			outputScoreLine(scores, out);
 			break;
 		}
 		out.flush();
@@ -139,8 +137,9 @@ class ConservationFormatter {
 	}
 
 	private static void outputScoreLine(Map<Method, double[]> scores,
-			OutputStream outStream, Iterator<Method> itr) {
+			OutputStream outStream) {
 		PrintWriter print = new PrintWriter(outStream);
+		Iterator<Method> itr = scores.keySet().iterator();
 		while (itr.hasNext()) {
 			Method key = itr.next();
 			print.print("#" + key.toString() + " ");

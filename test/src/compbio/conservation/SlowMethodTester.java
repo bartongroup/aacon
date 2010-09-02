@@ -157,7 +157,7 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.KABAT);
+			double[] result = scores.calculateScore(Method.JORES);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
@@ -206,4 +206,40 @@ public class SlowMethodTester {
 		}
 	}
 
+	public static void main(String[] args) {
+		ExecutorFactory.initExecutor(0,
+				new PrintWriter(new NullOutputStream()),
+				ExecutorFactory.ExecutorType.AsynchQueue);
+
+		try {
+			Timer timer = new Timer(TimeUnit.MILLISECONDS);
+			List<FastaSequence> sequences = SequenceUtil
+					.readFasta(new FileInputStream(new File(DATA_PATH
+							+ File.separator + AVG_AL)));
+			System.out.println("Loading sequences: " + timer.getStepTime());
+
+			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
+			System.out.println("Converting to Matrix: " + timer.getStepTime());
+
+			Conservation scores = new Conservation(alignment, true,
+					ExecutorFactory.getExecutor());
+			System.out.println("Constructing conservation scores: "
+					+ timer.getStepTime());
+
+			double[] result = scores.calculateScore(Method.JORES);
+			System.out.println("Calculating sadler scores: "
+					+ timer.getStepTime());
+
+			System.out.println("#KABAT " + Arrays.toString(result));
+			System.out.println("Total: " + timer.getTotalTime());
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		}
+
+	}
 }
