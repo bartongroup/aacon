@@ -1,14 +1,11 @@
 package compbio.conservation;
 
-import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import compbio.util.NullOutputStream;
 
 public class ConservationScore2Tester {
 
@@ -30,8 +27,7 @@ public class ConservationScore2Tester {
 
 	@BeforeClass
 	public void init() {
-		ExecutorFactory
-				.initExecutor(0, new PrintWriter(new NullOutputStream()));
+		ExecutorFactory.initExecutor();
 		alignment = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i);
 
 		scores = new Conservation(alignment, true,

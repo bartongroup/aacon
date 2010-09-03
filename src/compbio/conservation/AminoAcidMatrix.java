@@ -510,7 +510,7 @@ public class AminoAcidMatrix {
 	 * Calculates the weight for all the sequences in the alignment. Weight
 	 * calculated according to Vingron-Argos model
 	 */
-	private synchronized void weightOfSequencesVingronArgos() {
+	private void weightOfSequencesVingronArgos() {
 
 		vingronArgosWeights = new double[this.numberOfRows()];
 		for (int i = 0; i < this.numberOfRows(); i++) {

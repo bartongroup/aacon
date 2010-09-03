@@ -7,6 +7,8 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import compbio.util.NullOutputStream;
+
 final class ExecutorFactory {
 
 	private enum ExecutorType {
@@ -15,7 +17,7 @@ final class ExecutorFactory {
 
 	private static volatile ExecutorService executor;
 
-	private static volatile int threadNum;
+	private static volatile int threadNum = -1;
 
 	private static void initializeExecutor(int procNum, PrintWriter statWriter) {
 		int corenum = Runtime.getRuntime().availableProcessors();
@@ -60,6 +62,29 @@ final class ExecutorFactory {
 				}
 			}
 		}
+	}
+
+	public static void initExecutor(int procNum) {
+		initExecutor(procNum, new PrintWriter(new NullOutputStream()));
+	}
+
+	/**
+	 * Initializes the executor with the number of threads equals to the number
+	 * of cores available on the computer. The execution statistics is voided.
+	 */
+	public static void initExecutor() {
+		initExecutor(0, new PrintWriter(new NullOutputStream()));
+	}
+
+	/**
+	 * Initializes the executor with the number of threads equals to the number
+	 * of cores available on the computer. The execution statistics is dumped
+	 * into the statWriter
+	 * 
+	 * @param statWriter
+	 */
+	public static void initExecutor(PrintWriter statWriter) {
+		initExecutor(0, statWriter);
 	}
 
 	public static ExecutorService getExecutor() {

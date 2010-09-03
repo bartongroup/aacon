@@ -55,7 +55,7 @@ public class Conservation {
 	 * @param normalize
 	 * @return score for the given method
 	 */
-	synchronized double[] calculateScore(final Method method) {
+	double[] calculateScore(final Method method) {
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
 		double[] result = new double[alignMatrix.numberOfColumns()];
 		double[] normalized = null;

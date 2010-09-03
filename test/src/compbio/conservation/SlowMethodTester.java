@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +17,6 @@ import org.testng.annotations.Test;
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
-import compbio.util.NullOutputStream;
 import compbio.util.Timer;
 
 public class SlowMethodTester {
@@ -29,22 +27,22 @@ public class SlowMethodTester {
 	static final String SMALL_AL = "TO1296.fasta.align";
 	static final String AVG_AL = "avg.aln.fa";
 	static final String AVG_AL2 = "avg2.aln.fa";
+	static final String AVG_AL4 = "avg4.aln.fa";
 	static final String LARGE_AL = "1000x3000Dna.aln.fa";
 	static ExecutorFactory efactory;
 
 	@BeforeClass
 	public void init() {
-		ExecutorFactory
-				.initExecutor(0, new PrintWriter(new NullOutputStream()));
+		ExecutorFactory.initExecutor();
 	}
 
-	@Test()
+	@Test(invocationCount = 5)
 	public void testSadler() {
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
 			List<FastaSequence> sequences = SequenceUtil
 					.readFasta(new FileInputStream(new File(DATA_PATH
-							+ File.separator + AVG_AL)));
+							+ File.separator + AVG_AL4)));
 			System.out.println("Loading sequences: " + timer.getStepTime());
 
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
@@ -55,12 +53,12 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.SANDER);
+			double[] result = scores.calculateScore(Method.VALDAR);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
 			// Conservation.printResults(result, Method.SANDER);
-			scores.outputResults(new File("results.txt"),
+			scores.outputResults(new File("results.txt" + Math.random()),
 					Format.RESULT_NO_ALIGNMENT);
 			System.out.println("Total: " + timer.getTotalTime());
 
@@ -253,8 +251,7 @@ public class SlowMethodTester {
 	}
 
 	public static void main(String[] args) {
-		ExecutorFactory
-				.initExecutor(0, new PrintWriter(new NullOutputStream()));
+		ExecutorFactory.initExecutor();
 
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);

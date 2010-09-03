@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
@@ -20,7 +19,6 @@ import org.testng.annotations.Test;
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
-import compbio.util.NullOutputStream;
 
 public class ConservationTester {
 
@@ -29,12 +27,11 @@ public class ConservationTester {
 	private Map<Method, double[]> results = null;
 
 	private static File input = new File(SlowMethodTester.DATA_PATH
-			+ File.separator + SlowMethodTester.AVG_AL2);
+			+ File.separator + SlowMethodTester.AVG_AL4);
 
 	@BeforeClass
 	public void init() {
-		ExecutorFactory
-				.initExecutor(0, new PrintWriter(new NullOutputStream()));
+		ExecutorFactory.initExecutor();
 		List<FastaSequence> sequences = null;
 		try {
 			sequences = SequenceUtil.readFasta(new FileInputStream(input));
@@ -50,8 +47,8 @@ public class ConservationTester {
 		AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 		Conservation scores = new Conservation(alignment, true,
 				ExecutorFactory.getExecutor());
-		EnumSet<Method> set = EnumSet.of(Method.ARMON, Method.JORES,
-				Method.KARLIN, Method.MIRNY, Method.THOMPSON, Method.VALDAR);
+		EnumSet<Method> set = EnumSet.allOf(Method.class);
+		// EnumSet<Method> set = EnumSet.range(Method.JORES, Method.SANDER);
 		norm_results = scores.calculateScores(set);
 		scores = new Conservation(alignment, false,
 				ExecutorFactory.getExecutor());
