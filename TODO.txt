@@ -1,6 +1,7 @@
 TODO: 
 
-1) Review default constrain values for SMERFS in SMERFSColumnScore. In particular, 
-window size and gap threshold.
+1) Accept Clustal alignment as input
 
-2) Normalization TAYLOR_GAPS all given the score of 0 not the 1 as stated in the help. 
+2) Finish off API for Jim
+
+3) Java doc for public elements of API and examples of use. 

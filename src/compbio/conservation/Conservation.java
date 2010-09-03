@@ -55,7 +55,7 @@ public class Conservation {
 	 * @param normalize
 	 * @return score for the given method
 	 */
-	double[] calculateScore(final Method method) {
+	synchronized double[] calculateScore(final Method method) {
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
 		double[] result = new double[alignMatrix.numberOfColumns()];
 		double[] normalized = null;
@@ -243,12 +243,12 @@ public class Conservation {
 
 	private final class TaskRunner implements Runnable {
 
-		final int iterration;
-		final Method method;
-		final double[] result;
+		private final int iteration;
+		private final Method method;
+		private final double[] result;
 
 		public TaskRunner(final int i, Method method, double[] result) {
-			this.iterration = i;
+			this.iteration = i;
 			this.method = method;
 			this.result = result;
 		}
@@ -257,20 +257,20 @@ public class Conservation {
 		public void run() {
 			switch (method) {
 			case KARLIN:
-				result[iterration] = ColumnScores.karlinScore(alignMatrix,
-						iterration);
+				result[iteration] = ColumnScores.karlinScore(alignMatrix,
+						iteration);
 				break;
 			case VALDAR:
-				result[iterration] = ColumnScores.valdarScore(alignMatrix,
-						iterration);
+				result[iteration] = ColumnScores.valdarScore(alignMatrix,
+						iteration);
 				break;
 			case LANDGRAF:
-				result[iterration] = ColumnScores.landgrafScore(alignMatrix,
-						iterration);
+				result[iteration] = ColumnScores.landgrafScore(alignMatrix,
+						iteration);
 				break;
 			case SANDER:
-				result[iterration] = ColumnScores.sanderScore(alignMatrix,
-						iterration);
+				result[iteration] = ColumnScores.sanderScore(alignMatrix,
+						iteration);
 				break;
 			default:
 				throw new IllegalArgumentException(
@@ -357,7 +357,8 @@ public class Conservation {
 		return results;
 	}
 
-	private Map<Method, double[]> calculateConservation(EnumSet<Method> methods) {
+	private synchronized Map<Method, double[]> calculateConservation(
+			EnumSet<Method> methods) {
 		for (Method method : methods) {
 			double[] singleRes = calculateScore(method);
 			assert singleRes != null && singleRes.length > 0;

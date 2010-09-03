@@ -8,11 +8,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,30 +21,103 @@ import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 import compbio.util.NullOutputStream;
-import compbio.util.Timer;
 
 public class ConservationTester {
 
 	static ExecutorFactory efactory;
+	private Map<Method, double[]> norm_results = null;
+	private Map<Method, double[]> results = null;
+
+	private static File input = new File(SlowMethodTester.DATA_PATH
+			+ File.separator + SlowMethodTester.AVG_AL2);
 
 	@BeforeClass
 	public void init() {
-		ExecutorFactory.initExecutor(0,
-				new PrintWriter(new NullOutputStream()),
-				ExecutorFactory.ExecutorType.AsynchQueue);
+		ExecutorFactory
+				.initExecutor(0, new PrintWriter(new NullOutputStream()));
+		List<FastaSequence> sequences = null;
+		try {
+			sequences = SequenceUtil.readFasta(new FileInputStream(input));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		assertNotNull(sequences);
+
+		AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
+		Conservation scores = new Conservation(alignment, true,
+				ExecutorFactory.getExecutor());
+		EnumSet<Method> set = EnumSet.of(Method.ARMON, Method.JORES,
+				Method.KARLIN, Method.MIRNY, Method.THOMPSON, Method.VALDAR);
+		norm_results = scores.calculateScores(set);
+		scores = new Conservation(alignment, false,
+				ExecutorFactory.getExecutor());
+		results = scores.calculateScores(set);
+	}
+
+	@Test()
+	public void testSingleMethods() {
+
+		Conservation cons;
+		try {
+			cons = Conservation.getConservation(input, false,
+					ExecutorFactory.getExecutor());
+			double[] result = cons.calculateScore(Method.VALDAR);
+
+			cons = Conservation.getConservation(input, false,
+					ExecutorFactory.getExecutor());
+			double[] result2 = cons.calculateScore(Method.VALDAR);
+
+			Assert.assertEquals(results.get(Method.VALDAR).length,
+					result.length);
+
+			System.out.println(Arrays.toString(result));
+			System.out.println(Arrays.toString(result2));
+			System.out.println(Arrays.toString(results.get(Method.VALDAR)));
+
+			Assert.assertTrue(Arrays.equals(result2, result));
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (UnknownFileFormatException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
 	public void testMethods() {
-		File input = new File(SlowMethodTester.DATA_PATH + File.separator
-				+ SlowMethodTester.SMALL_AL);
 		try {
 
-			Conservation c = Conservation.getConservation(input, true,
+			Conservation c = Conservation.getConservation(input, false,
 					ExecutorFactory.getExecutor());
-			Map<Method, double[]> results = c.calculateScores(EnumSet
+			Map<Method, double[]> apiresults = c.calculateScores(EnumSet
 					.allOf(Method.class));
 			assertNotNull(results);
+			for (Method method : apiresults.keySet()) {
+				if (method == Method.LANDGRAF || method == Method.VALDAR
+						|| method == Method.KABAT) {
+					// Landgrap results never repeats as they have random
+					// element
+					continue;
+				}
+				double[] result = results.get(method);
+				double[] apiresult = apiresults.get(method);
+				Assert.assertNotNull(apiresult);
+				System.out.println(Arrays.toString(result));
+				System.out.println(Arrays.toString(apiresult));
+
+				Assert.assertTrue(Arrays.equals(apiresult, result),
+						"Methods results: " + method.toString()
+								+ " is not equal!");
+			}
 			c.printResults(Format.RESULT_NO_ALIGNMENT);
 			// System.out.println(results);
 		} catch (FileNotFoundException e) {
@@ -58,37 +132,4 @@ public class ConservationTester {
 		}
 	}
 
-	@Test
-	public void testSadler() {
-		try {
-			Timer timer = new Timer(TimeUnit.MILLISECONDS);
-			List<FastaSequence> sequences = SequenceUtil
-					.readFasta(new FileInputStream(new File(
-							SlowMethodTester.DATA_PATH + File.separator
-									+ SlowMethodTester.SMALL_AL)));
-			System.out.println("Loading sequences: " + timer.getStepTime());
-
-			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
-			System.out.println("Converting to Matrix: " + timer.getStepTime());
-
-			Conservation scores = new Conservation(alignment, true,
-					ExecutorFactory.getExecutor());
-			System.out.println("Constructing conservation scores: "
-					+ timer.getStepTime());
-
-			double[] result = scores.calculateScore(Method.SANDER);
-			System.out.println("Calculating sadler scores: "
-					+ timer.getStepTime());
-
-			// ConservationScore2Tester.printScores(result, "Sander");
-			System.out.println("Total: " + timer.getTotalTime());
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			fail(e.getLocalizedMessage());
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail(e.getLocalizedMessage());
-		}
-	}
 }

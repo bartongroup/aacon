@@ -9,16 +9,15 @@ import java.util.concurrent.TimeUnit;
 
 final class ExecutorFactory {
 
-	public enum ExecutorType {
+	private enum ExecutorType {
 		SynchroniousCallerRuns, AsynchQueue
 	};
 
 	private static volatile ExecutorService executor;
 
-	private static int threadNum;
+	private static volatile int threadNum;
 
-	private static void initializeExecutor(int procNum, PrintWriter statWriter,
-			ExecutorType etype) {
+	private static void initializeExecutor(int procNum, PrintWriter statWriter) {
 		int corenum = Runtime.getRuntime().availableProcessors();
 		if (procNum < 1) {
 			// Default - no thread number was set
@@ -36,21 +35,34 @@ final class ExecutorFactory {
 		}
 		statWriter.println("Using " + procNum + " CPUs");
 		ExecutorFactory.threadNum = procNum;
-		executor = getExecutor(etype);
+		executor = getExecutor(ExecutorType.AsynchQueue);
 	}
 
-	static void initExecutor(int procNum, PrintWriter statWriter,
-			ExecutorType etype) {
-		if (executor == null) {
+	/**
+	 * If the executor is re-initialized with a different number of threads
+	 * (procNum) then it is up to the caller to make sure that that all previous
+	 * scheduled tasks have completed. Upon this method call
+	 * executor.shutdownNow() method will be invoked and all unfinished tasks
+	 * will be cancelled.
+	 * 
+	 * @param procNum
+	 * @param statWriter
+	 */
+	public static void initExecutor(int procNum, PrintWriter statWriter) {
+		if (executor == null || threadNum != procNum) {
 			synchronized (ExecutorFactory.class) {
-				if (executor == null) {
-					initializeExecutor(procNum, statWriter, etype);
+				if (threadNum != procNum) {
+					if (executor != null) {
+						// make sure all scheduled tasks are completed
+						executor.shutdownNow();
+					}
+					initializeExecutor(procNum, statWriter);
 				}
 			}
 		}
 	}
 
-	static ExecutorService getExecutor() {
+	public static ExecutorService getExecutor() {
 		if (executor == null) {
 			throw new IllegalStateException(
 					"Please initialize the executor first!");

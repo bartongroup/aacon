@@ -11,11 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SequenceUtil;
+import compbio.data.sequence.UnknownFileFormatException;
 import compbio.util.NullOutputStream;
 import compbio.util.Timer;
 
@@ -26,14 +28,14 @@ public class SlowMethodTester {
 	static final String TINY_AL = "small.align";
 	static final String SMALL_AL = "TO1296.fasta.align";
 	static final String AVG_AL = "avg.aln.fa";
+	static final String AVG_AL2 = "avg2.aln.fa";
 	static final String LARGE_AL = "1000x3000Dna.aln.fa";
 	static ExecutorFactory efactory;
 
 	@BeforeClass
 	public void init() {
-		ExecutorFactory.initExecutor(0,
-				new PrintWriter(new NullOutputStream()),
-				ExecutorFactory.ExecutorType.AsynchQueue);
+		ExecutorFactory
+				.initExecutor(0, new PrintWriter(new NullOutputStream()));
 	}
 
 	@Test()
@@ -206,13 +208,57 @@ public class SlowMethodTester {
 		}
 	}
 
+	@Test()
+	public void testAPIgetConservation() {
+		try {
+			Timer timer = new Timer(TimeUnit.MILLISECONDS);
+			File input = new File(DATA_PATH + File.separator + SMALL_AL);
+
+			List<FastaSequence> sequences = SequenceUtil
+					.readFasta(new FileInputStream(input));
+			System.out.println("Loading sequences: " + timer.getStepTime());
+
+			Conservation cons = Conservation.getConservation(input, true,
+					ExecutorFactory.getExecutor());
+
+			double[] results = cons.calculateScore(Method.ARMON);
+
+			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
+			System.out.println("Converting to Matrix: " + timer.getStepTime());
+
+			Conservation scores = new Conservation(alignment, true,
+					ExecutorFactory.getExecutor());
+			System.out.println("Constructing conservation scores: "
+					+ timer.getStepTime());
+
+			double[] result = scores.calculateScore(Method.ARMON);
+			Assert.assertTrue(Arrays.equals(results, result));
+
+			System.out.println("Calculating sadler scores: "
+					+ timer.getStepTime());
+
+			System.out.println("#JORES " + Arrays.toString(result));
+			System.out.println("Total: " + timer.getTotalTime());
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		} catch (UnknownFileFormatException e) {
+			e.printStackTrace();
+			fail(e.getLocalizedMessage());
+		}
+	}
+
 	public static void main(String[] args) {
-		ExecutorFactory.initExecutor(0,
-				new PrintWriter(new NullOutputStream()),
-				ExecutorFactory.ExecutorType.AsynchQueue);
+		ExecutorFactory
+				.initExecutor(0, new PrintWriter(new NullOutputStream()));
 
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
+
 			List<FastaSequence> sequences = SequenceUtil
 					.readFasta(new FileInputStream(new File(DATA_PATH
 							+ File.separator + AVG_AL)));
@@ -240,6 +286,5 @@ public class SlowMethodTester {
 			e.printStackTrace();
 			fail(e.getLocalizedMessage());
 		}
-
 	}
 }

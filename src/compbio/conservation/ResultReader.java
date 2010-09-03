@@ -19,8 +19,6 @@ import compbio.data.sequence.FastaSequence;
  * 
  * This class has not being used yet
  * 
- * @author pvtroshin
- * 
  */
 public class ResultReader {
 

@@ -88,56 +88,33 @@ public class AminoAcidMatrix {
 	 *            2D array with alignment
 	 * @param names
 	 *            string if sequence names/IDs
+	 * 
+	 *            public AminoAcidMatrix(char[][] alignment, String[] names,
+	 *            Character[] gapChars) {
+	 * 
+	 *            for (int i = 0; i < alignment.length; i++) { if
+	 *            (alignment[0].length != alignment[i].length) { int number = i
+	 *            + 1; throw new
+	 *            SequencesNotEquallyLongException("Sequence number: " + number
+	 *            + "ID: " + this.sequenceNames[i] +
+	 *            " is of differnet length than the first sequence"); } } if
+	 *            (names != null) { if (alignment.length != names.length) {
+	 *            throw new IllegalArgumentException(
+	 *            "Number sequence IDs not equall to the number of sequences");
+	 *            } } if (names == null) { this.sequenceNames = new
+	 *            String[alignment.length]; for (int i = 0; i <
+	 *            alignment.length; i++) { sequenceNames[i] = i + "."; } } else
+	 *            { this.sequenceNames = names; } if (gapChars != null) {
+	 *            this.gaps = gapChars; } this.matrix = new
+	 *            char[alignment.length][alignment[0].length]; inverseMatrix =
+	 *            new char[alignment[0].length][alignment.length]; for (int i =
+	 *            0; i < alignment.length; i++) { for (int j = 0; j <
+	 *            alignment[i].length; j++) { char ch = alignment[i][j]; if
+	 *            (gapChars == null) { if (ch == '.' || ch == '*' || ch == ' '
+	 *            || ch == 'X') { ch = '-'; } } else { for (int d = 0; d <
+	 *            gaps.length; d++) { if (ch == gaps[d]) { ch = '-'; } } }
+	 *            matrix[i][j] = ch; inverseMatrix[j][i] = ch; } } }
 	 */
-	public AminoAcidMatrix(char[][] alignment, String[] names,
-			Character[] gapChars) {
-
-		for (int i = 0; i < alignment.length; i++) {
-			if (alignment[0].length != alignment[i].length) {
-				int number = i + 1;
-				throw new SequencesNotEquallyLongException("Sequence number: "
-						+ number + "ID: " + this.sequenceNames[i]
-						+ " is of differnet length than the first sequence");
-			}
-		}
-		if (names != null) {
-			if (alignment.length != names.length) {
-				throw new IllegalArgumentException(
-						"Number sequence IDs not equall to the number of sequences");
-			}
-		}
-		if (names == null) {
-			this.sequenceNames = new String[alignment.length];
-			for (int i = 0; i < alignment.length; i++) {
-				sequenceNames[i] = i + ".";
-			}
-		} else {
-			this.sequenceNames = names;
-		}
-		if (gapChars != null) {
-			this.gaps = gapChars;
-		}
-		this.matrix = new char[alignment.length][alignment[0].length];
-		inverseMatrix = new char[alignment[0].length][alignment.length];
-		for (int i = 0; i < alignment.length; i++) {
-			for (int j = 0; j < alignment[i].length; j++) {
-				char ch = alignment[i][j];
-				if (gapChars == null) {
-					if (ch == '.' || ch == '*' || ch == ' ' || ch == 'X') {
-						ch = '-';
-					}
-				} else {
-					for (int d = 0; d < gaps.length; d++) {
-						if (ch == gaps[d]) {
-							ch = '-';
-						}
-					}
-				}
-				matrix[i][j] = ch;
-				inverseMatrix[j][i] = ch;
-			}
-		}
-	}
 
 	/**
 	 * This constructor constructor allows manual creation of only one column.
@@ -147,7 +124,7 @@ public class AminoAcidMatrix {
 	 * @param column
 	 *            array that represents one column in the alignment
 	 */
-	public AminoAcidMatrix(char[] column) {
+	AminoAcidMatrix(char[] column) {
 
 		Set<Character> alp = Alphabet.alphabet();
 		matrix = new char[column.length][1];
@@ -185,8 +162,8 @@ public class AminoAcidMatrix {
 	 * @param p9
 	 *            third row third char
 	 */
-	public AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5,
-			char p6, char p7, char p8, char p9) {
+	AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,
+			char p7, char p8, char p9) {
 
 		Set<Character> alp = Alphabet.alphabet();
 		if (alp.contains(p1) == false) {
@@ -394,8 +371,8 @@ public class AminoAcidMatrix {
 
 	private void calTotalAcidsFreqByCol() {
 
-		acidsIntMap = new ArrayList<Map<Character, Integer>>(this
-				.numberOfColumns());
+		acidsIntMap = new ArrayList<Map<Character, Integer>>(
+				this.numberOfColumns());
 		for (int i = 0; i < this.numberOfColumns(); i++) {
 			acidsIntMap.add(Alphabet.calculateOccurance(this.inverseMatrix[i]));
 		}
@@ -500,8 +477,8 @@ public class AminoAcidMatrix {
 					if (count == null) {
 						setsFreq.put(setsKey, totalFreq.get(totalFreqKey));
 					} else {
-						setsFreq.put(setsKey, count
-								+ totalFreq.get(totalFreqKey));
+						setsFreq.put(setsKey,
+								count + totalFreq.get(totalFreqKey));
 					}
 				}
 			}
@@ -521,8 +498,8 @@ public class AminoAcidMatrix {
 		double weight = 0.0;
 		for (int i = 0; i < this.numberOfRows(); i++) {
 			if (i != seqNr) {
-				weight += ConservationAccessory.percentIdentity(this
-						.getRow(seqNr), this.getRow(i));
+				weight += ConservationAccessory.percentIdentity(
+						this.getRow(seqNr), this.getRow(i));
 			}
 		}
 		double result = (1.0 / this.numberOfRows()) * weight;
@@ -533,7 +510,7 @@ public class AminoAcidMatrix {
 	 * Calculates the weight for all the sequences in the alignment. Weight
 	 * calculated according to Vingron-Argos model
 	 */
-	private void weightOfSequencesVingronArgos() {
+	private synchronized void weightOfSequencesVingronArgos() {
 
 		vingronArgosWeights = new double[this.numberOfRows()];
 		for (int i = 0; i < this.numberOfRows(); i++) {
@@ -707,18 +684,13 @@ public class AminoAcidMatrix {
 	 * 
 	 * @param groups
 	 * @return
+	 * 
+	 *         List<char[][]> splitAlignment(int[][] groups) {
+	 * 
+	 *         List<char[][]> groupsList = new ArrayList<char[][]>(); char[][]
+	 *         group = null; for (int i = 0; i < groups.length; i++) { group =
+	 *         new char[groups[i].length][]; for (int j = 0; j <
+	 *         groups[i].length; j++) { group[j] = matrix[groups[i][j]]; }
+	 *         groupsList.add(group); } return groupsList; }
 	 */
-	List<char[][]> splitAlignment(int[][] groups) {
-
-		List<char[][]> groupsList = new ArrayList<char[][]>();
-		char[][] group = null;
-		for (int i = 0; i < groups.length; i++) {
-			group = new char[groups[i].length][];
-			for (int j = 0; j < groups[i].length; j++) {
-				group[j] = matrix[groups[i][j]];
-			}
-			groupsList.add(group);
-		}
-		return groupsList;
-	}
 }

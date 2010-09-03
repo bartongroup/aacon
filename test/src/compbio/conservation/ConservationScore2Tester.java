@@ -30,13 +30,12 @@ public class ConservationScore2Tester {
 
 	@BeforeClass
 	public void init() {
-		ExecutorFactory.initExecutor(0,
-				new PrintWriter(new NullOutputStream()),
-				ExecutorFactory.ExecutorType.AsynchQueue);
+		ExecutorFactory
+				.initExecutor(0, new PrintWriter(new NullOutputStream()));
 		alignment = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i);
 
-		scores = new Conservation(alignment, true, ExecutorFactory
-				.getExecutor());
+		scores = new Conservation(alignment, true,
+				ExecutorFactory.getExecutor());
 	}
 
 	static void printScores(double[] results, String tag) {

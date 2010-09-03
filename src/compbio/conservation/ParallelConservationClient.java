@@ -13,7 +13,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import compbio.conservation.ExecutorFactory.ExecutorType;
 import compbio.data.sequence.FastaSequence;
 import compbio.util.Timer;
 
@@ -117,7 +116,7 @@ public final class ParallelConservationClient {
 			Character[] gapChars = CmdParser.extractGapChars(gap);
 
 			ExecutorFactory.initExecutor(CmdParser.getThreadNumber(cmd),
-					timer.getStatWriter(), ExecutorType.AsynchQueue);
+					timer.getStatWriter());
 			ExecutorService executor = ExecutorFactory.getExecutor();
 
 			List<FastaSequence> sequences = CmdParser
