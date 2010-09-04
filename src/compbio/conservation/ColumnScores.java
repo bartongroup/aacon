@@ -839,6 +839,7 @@ class ColumnScores {
 		for (int a = 0; a < curColumn.length; a++) {
 			double vaweight = vingronArgosWeights[a];
 			int aIdx = 24 * ConservationMatrices.getIndex(curColumn[a]);
+
 			for (int b = a + 1; b < curColumn.length; b++) {
 				double mod = vaweight * vingronArgosWeights[b];
 				int pairIndex = aIdx

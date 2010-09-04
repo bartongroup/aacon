@@ -49,7 +49,7 @@ public class AminoAcidMatrix {
 	 * Stores occurances of amino acids in columns, columns indexed starting
 	 * fromm 0
 	 */
-	private volatile List<Map<Character, Integer>> acidsIntMap;
+	private List<Map<Character, Integer>> acidsIntMap;
 	/**
 	 * Holds the in the indices of Xs changed to gaps. The row number is a key
 	 * and the column number is value
@@ -59,24 +59,24 @@ public class AminoAcidMatrix {
 	/**
 	 * The total occurrence of amino acids in the whole alignment.
 	 */
-	private volatile Map<Character, Integer> totalFrequency;
+	private Map<Character, Integer> totalFrequency;
 	/**
 	 * The total number of amino acids in the whole alignment belonging to each
 	 * Williamson Set.
 	 */
-	private volatile Map<String, Integer> willSetsTotal;
+	private Map<String, Integer> willSetsTotal;
 	/**
 	 * Vingron Argos weights of the the sequences.
 	 */
-	private volatile double[] vingronArgosWeights;
+	private double[] vingronArgosWeights;
 	/**
 	 * Percent identity.
 	 */
-	private volatile double[][] percentIdentity;
+	private double[][] percentIdentity;
 	/**
 	 * Weights according to Voronoi.
 	 */
-	private volatile double[] voronoiWeighths;
+	private double[] voronoiWeighths;
 
 	/**
 	 * This constructor take a 2D array of characters as parameter and a string
@@ -370,7 +370,6 @@ public class AminoAcidMatrix {
 	}
 
 	private void calTotalAcidsFreqByCol() {
-
 		acidsIntMap = new ArrayList<Map<Character, Integer>>(
 				this.numberOfColumns());
 		for (int i = 0; i < this.numberOfColumns(); i++) {
@@ -378,14 +377,9 @@ public class AminoAcidMatrix {
 		}
 	}
 
-	List<Map<Character, Integer>> getTotalAcidsFreqByCol() {
-
+	synchronized List<Map<Character, Integer>> getTotalAcidsFreqByCol() {
 		if (acidsIntMap == null) {
-			synchronized (this) {
-				if (acidsIntMap == null) {
-					this.calTotalAcidsFreqByCol();
-				}
-			}
+			this.calTotalAcidsFreqByCol();
 		}
 		return acidsIntMap;
 	}
@@ -395,14 +389,9 @@ public class AminoAcidMatrix {
 	 * 
 	 * @return map with characters as keys and occurrence as values.
 	 */
-	Map<Character, Integer> totalAcidsFrequency() {
-
+	synchronized Map<Character, Integer> totalAcidsFrequency() {
 		if (totalFrequency == null) {
-			synchronized (this) {
-				if (totalFrequency == null) {
-					this.calTotalAcidsFrequency();
-				}
-			}
+			this.calTotalAcidsFrequency();
 		}
 		return totalFrequency;
 	}
@@ -414,14 +403,9 @@ public class AminoAcidMatrix {
 	 * @return map with set names as keys and number of amino acids belonging to
 	 *         the set as value.
 	 */
-	Map<String, Integer> totalAcidsWillSets() {
-
+	synchronized Map<String, Integer> totalAcidsWillSets() {
 		if (willSetsTotal == null) {
-			synchronized (this) {
-				if (willSetsTotal == null) {
-					this.calTotalAcidsWillSets();
-				}
-			}
+			this.calTotalAcidsWillSets();
 		}
 		return willSetsTotal;
 	}
@@ -525,14 +509,9 @@ public class AminoAcidMatrix {
 	 * 
 	 * @return an array of weights, indices correspond to sequence numbers
 	 */
-	double[] vingronArgosWeights() {
+	synchronized double[] vingronArgosWeights() {
 		if (vingronArgosWeights == null) {
-			// prevent double initialization
-			synchronized (this) {
-				if (vingronArgosWeights == null) {
-					this.weightOfSequencesVingronArgos();
-				}
-			}
+			this.weightOfSequencesVingronArgos();
 		}
 		return vingronArgosWeights;
 	}
@@ -565,14 +544,9 @@ public class AminoAcidMatrix {
 	 * 
 	 * @return 2D array; the sequences' numbers index the values in the array.
 	 */
-	double[][] getPercentIdentity() {
-
+	synchronized double[][] getPercentIdentity() {
 		if (percentIdentity == null) {
-			synchronized (this) {
-				if (percentIdentity == null) {
-					this.calPercentIdentity();
-				}
-			}
+			this.calPercentIdentity();
 		}
 		return percentIdentity;
 	}
@@ -644,13 +618,9 @@ public class AminoAcidMatrix {
 	 * @return array containing voronoi weights, indices correspond to sequence
 	 *         indices in matrix
 	 */
-	double[] getVoronoiWeights(int iterNr) {
+	synchronized double[] getVoronoiWeights(int iterNr) {
 		if (voronoiWeighths == null) {
-			synchronized (this) {
-				if (voronoiWeighths == null) {
-					this.voronoiWeights(iterNr);
-				}
-			}
+			this.voronoiWeights(iterNr);
 		}
 		return voronoiWeighths;
 	}

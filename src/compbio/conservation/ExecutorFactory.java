@@ -96,20 +96,17 @@ final class ExecutorFactory {
 	}
 
 	private static ExecutorService getExecutor(ExecutorType etype) {
-		if (executor == null) {
-			switch (etype) {
-			case AsynchQueue:
-				executor = Executors.newFixedThreadPool(threadNum);
-				break;
-			case SynchroniousCallerRuns:
-				executor = new ThreadPoolExecutor(threadNum, threadNum, 0L,
-						TimeUnit.MILLISECONDS,
-						new SynchronousQueue<Runnable>(),
-						new ThreadPoolExecutor.CallerRunsPolicy());
-				break;
-			default:
-				throw new RuntimeException("Unsupported executor type!");
-			}
+		switch (etype) {
+		case AsynchQueue:
+			executor = Executors.newFixedThreadPool(threadNum);
+			break;
+		case SynchroniousCallerRuns:
+			executor = new ThreadPoolExecutor(threadNum, threadNum, 0L,
+					TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>(),
+					new ThreadPoolExecutor.CallerRunsPolicy());
+			break;
+		default:
+			throw new RuntimeException("Unsupported executor type!");
 		}
 		return executor;
 	}

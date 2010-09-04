@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -31,7 +32,9 @@ public class ConservationTester {
 
 	@BeforeClass
 	public void init() {
-		ExecutorFactory.initExecutor();
+		// Make serial calculation
+		ExecutorFactory.initExecutor(1);
+
 		List<FastaSequence> sequences = null;
 		try {
 			sequences = SequenceUtil.readFasta(new FileInputStream(input));
@@ -43,21 +46,28 @@ public class ConservationTester {
 			fail(e.getMessage());
 		}
 		assertNotNull(sequences);
-
 		AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 		Conservation scores = new Conservation(alignment, true,
 				ExecutorFactory.getExecutor());
-		EnumSet<Method> set = EnumSet.allOf(Method.class);
-		// EnumSet<Method> set = EnumSet.range(Method.JORES, Method.SANDER);
+		EnumSet<Method> set = EnumSet.allOf(Method.class); // EnumSet<Method>
+		// set = EnumSet.range(Method.JORES, Method.SANDER);
 		norm_results = scores.calculateScores(set);
 		scores = new Conservation(alignment, false,
 				ExecutorFactory.getExecutor());
 		results = scores.calculateScores(set);
+		// Shutdown the executor and complete submitted tasks
+		ExecutorFactory.getExecutor().shutdown();
+		try {
+			ExecutorFactory.getExecutor().awaitTermination(5, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test()
 	public void testSingleMethods() {
-
+		// Re-initiate executor with multiple threads
+		ExecutorFactory.initExecutor(0);
 		Conservation cons;
 		try {
 			cons = Conservation.getConservation(input, false,
@@ -72,8 +82,8 @@ public class ConservationTester {
 					result.length);
 
 			System.out.println(Arrays.toString(result));
-			System.out.println(Arrays.toString(result2));
-			System.out.println(Arrays.toString(results.get(Method.VALDAR)));
+			// System.out.println(Arrays.toString(result2));
+			// System.out.println(Arrays.toString(results.get(Method.VALDAR)));
 
 			Assert.assertTrue(Arrays.equals(result2, result));
 
@@ -89,7 +99,7 @@ public class ConservationTester {
 		}
 	}
 
-	@Test
+	@Test()
 	public void testMethods() {
 		try {
 

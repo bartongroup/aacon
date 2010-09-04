@@ -31,7 +31,6 @@ public class Conservation {
 	private AminoAcidMatrix alignMatrix;
 	private final boolean normalize;
 	private final Map<Method, double[]> results;
-
 	private final ExecutorService executor;
 
 	Conservation(AminoAcidMatrix alignment, boolean normalize,
@@ -245,6 +244,7 @@ public class Conservation {
 
 		private final int iteration;
 		private final Method method;
+
 		private final double[] result;
 
 		public TaskRunner(final int i, Method method, double[] result) {
@@ -277,7 +277,6 @@ public class Conservation {
 						"Only KARLIN, VALDAR, LANDGRAF and "
 								+ "SANDER methods can be executed via TaskRunner!");
 			}
-
 		}
 	}
 
