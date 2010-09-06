@@ -79,8 +79,7 @@ List of command line arguments:
 	 the most negative result. Optional. 
 
 EXAMPLE HOW TO RUN THE PROGRAM:
-java -jar <jar name> -m=KABAT,SMERFS -i=prot1 -o=prot1_results 
--f=RESULTS_NO_ALIGNMENT -n
+java -jar <jar name> -m=KABAT,SMERFS -i=prot1 -o=prot1_results -n
 
 As a result of the execution KABAT and SMERFS scores will be calculated. 
 Input comes form prot1 file and an output without an alignment is recorded to 

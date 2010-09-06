@@ -52,7 +52,7 @@ final class CmdParser {
 	final static String gapKey = "-g";
 	final static String statKey = "-d";
 	final static String CONSERVATION_HELP = "\r\n"
-			+ "AA Conservation version 1.0b (2 September 2010)\r\n"
+			+ "AA Conservation version 1.0b (6 September 2010)\r\n"
 			+ "\r\n"
 			+ "This program allows calculation of conservation of amino acids in\r\n"
 			+ "multiple sequence alignments.\r\n"
@@ -132,8 +132,7 @@ final class CmdParser {
 			+ "	 the most negative result. Optional. \r\n"
 			+ "\r\n"
 			+ "EXAMPLE HOW TO RUN THE PROGRAM:\r\n"
-			+ "java -jar <jar name> -m=KABAT,SMERFS -i=prot1 -o=prot1_results \r\n"
-			+ "-f=RESULTS_NO_ALIGNMENT -n\r\n"
+			+ "java -jar <jar name> -m=KABAT,SMERFS -i=prot1 -o=prot1_results -n\r\n"
 			+ "\r\n"
 			+ "As a result of the execution KABAT and SMERFS scores will be calculated. \r\n"
 			+ "Input comes form prot1 file and an output without an alignment is recorded to \r\n"
@@ -141,7 +140,7 @@ final class CmdParser {
 			+ "\r\n"
 			+ "Authors: Agnieszka Golicz, Peter Troshin, David Martin and Geoff Barton.\r\n"
 			+ "Please visit http://www.compbio.dundee.ac.uk for further information.\r\n"
-			+ "\r\n";
+			+ "\r\n ";
 
 	private CmdParser() {
 		// This is a utility class no instantiation
