@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2010 Agnieszka Golicz & Peter Troshin 
+ * 
+ * Amino Acid Conservation @version: 1.0 
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the Apache License version 2 as published by the
+ * Apache Software Foundation This library is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the Apache
+ * License for more details. A copy of the license is in apache_license.txt. It
+ * is also available here: http://www.apache.org/licenses/LICENSE-2.0.txt 
+ * Any republication or derived work distributed in source code form must 
+ * include this copyright and license notice.
+ * 
+ */
 package compbio.conservation;
 
 // creates a matrix of aa in multiple alignment
@@ -29,9 +45,9 @@ import compbio.data.sequence.SequenceUtil;
  * has rows of equal length. If constructor is fed an alignment with sequences
  * of not equal length an exception is thrown.
  * 
- * @author agolicz
+ * @author Agnieszka Golicz & Peter Troshin
  */
-public class AminoAcidMatrix {
+final class AminoAcidMatrix {
 
 	/**
 	 * Stores the matrix.
@@ -221,7 +237,7 @@ public class AminoAcidMatrix {
 	 * @param alignment
 	 *            the alignment
 	 */
-	public AminoAcidMatrix(Alignment alignment) {
+	AminoAcidMatrix(Alignment alignment) {
 
 		this(alignment.getSequences(), new Character[] { new Character(
 				alignment.getMetadata().getGapchar()) });
@@ -234,7 +250,7 @@ public class AminoAcidMatrix {
 	 * 
 	 * @param inStream
 	 */
-	public AminoAcidMatrix(List<FastaSequence> seqs, Character[] gapChars) {
+	AminoAcidMatrix(List<FastaSequence> seqs, Character[] gapChars) {
 
 		if (gapChars != null) {
 			this.gaps = gapChars;
@@ -301,7 +317,7 @@ public class AminoAcidMatrix {
 	 * 
 	 * @return number of columns
 	 */
-	public int numberOfColumns() {
+	int numberOfColumns() {
 		return matrix[0].length;
 	}
 
@@ -370,8 +386,8 @@ public class AminoAcidMatrix {
 	}
 
 	private void calTotalAcidsFreqByCol() {
-		acidsIntMap = new ArrayList<Map<Character, Integer>>(
-				this.numberOfColumns());
+		acidsIntMap = new ArrayList<Map<Character, Integer>>(this
+				.numberOfColumns());
 		for (int i = 0; i < this.numberOfColumns(); i++) {
 			acidsIntMap.add(Alphabet.calculateOccurance(this.inverseMatrix[i]));
 		}
@@ -461,8 +477,8 @@ public class AminoAcidMatrix {
 					if (count == null) {
 						setsFreq.put(setsKey, totalFreq.get(totalFreqKey));
 					} else {
-						setsFreq.put(setsKey,
-								count + totalFreq.get(totalFreqKey));
+						setsFreq.put(setsKey, count
+								+ totalFreq.get(totalFreqKey));
 					}
 				}
 			}
@@ -482,8 +498,8 @@ public class AminoAcidMatrix {
 		double weight = 0.0;
 		for (int i = 0; i < this.numberOfRows(); i++) {
 			if (i != seqNr) {
-				weight += ConservationAccessory.percentIdentity(
-						this.getRow(seqNr), this.getRow(i));
+				weight += ConservationAccessory.percentIdentity(this
+						.getRow(seqNr), this.getRow(i));
 			}
 		}
 		double result = (1.0 / this.numberOfRows()) * weight;

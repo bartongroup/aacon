@@ -1,0 +1,10 @@
+#Mon Sep 06 11:36:07 BST 2010
+add_header=true
+eclipse.preferences.version=1
+header_text=/*\r\n * Copyright (c) 2010 Agnieszka Golicz & Peter Troshin \r\n * \r\n * Amino Acid Conservation @version\: 1.0 \r\n * \r\n * This library is free software; you can redistribute it and/or\r\n * modify it under the terms of the Apache License version 2 as published by the\r\n * Apache Software Foundation This library is distributed in the hope that it\r\n * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty\r\n * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the Apache\r\n * License for more details. A copy of the license is in apache_license.txt. It\r\n * is also available here\: http\://www.apache.org/licenses/LICENSE-2.0.txt \r\n * Any republication or derived work distributed in source code form must \r\n * include this copyright and license notice.\r\n * \r\n */
+project_specific_settings=true
+replace_header=true
+replacements=<?xml version\="1.0" standalone\="yes"?>\n\n<replacements>\n<replacement key\="get" scope\="1" mode\="0">Gets the</replacement>\n<replacement key\="set" scope\="1" mode\="0">Sets the</replacement>\n<replacement key\="add" scope\="1" mode\="0">Adds the</replacement>\n<replacement key\="edit" scope\="1" mode\="0">Edits the</replacement>\n<replacement key\="remove" scope\="1" mode\="0">Removes the</replacement>\n<replacement key\="init" scope\="1" mode\="0">Inits the</replacement>\n<replacement key\="parse" scope\="1" mode\="0">Parses the</replacement>\n<replacement key\="create" scope\="1" mode\="0">Creates the</replacement>\n<replacement key\="build" scope\="1" mode\="0">Builds the</replacement>\n<replacement key\="is" scope\="1" mode\="0">Checks if is</replacement>\n<replacement key\="print" scope\="1" mode\="0">Prints the</replacement>\n<replacement key\="has" scope\="1" mode\="0">Checks for</replacement>\n</replacements>\n\n
+visibility_package=false
+visibility_private=false
+visibility_protected=false

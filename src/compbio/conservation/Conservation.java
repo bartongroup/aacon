@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2010 Agnieszka Golicz & Peter Troshin 
+ * 
+ * Amino Acid Conservation @version: 1.0 
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the Apache License version 2 as published by the
+ * Apache Software Foundation This library is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the Apache
+ * License for more details. A copy of the license is in apache_license.txt. It
+ * is also available here: http://www.apache.org/licenses/LICENSE-2.0.txt 
+ * Any republication or derived work distributed in source code form must 
+ * include this copyright and license notice.
+ * 
+ */
 package compbio.conservation;
 
 import java.io.File;
@@ -24,11 +40,11 @@ import compbio.data.sequence.UnknownFileFormatException;
 /**
  * Calculates conservation
  * 
- * @author agolicz & pvtroshin
+ * @author Agnieszka Golicz & pvtroshin
  */
-public class Conservation {
+public final class Conservation {
 
-	private AminoAcidMatrix alignMatrix;
+	private final AminoAcidMatrix alignMatrix;
 	private final boolean normalize;
 	private final Map<Method, double[]> results;
 	private final ExecutorService executor;
@@ -45,7 +61,7 @@ public class Conservation {
 		return alignMatrix;
 	}
 
-	Map<Method, double[]> calculateScores(final EnumSet<Method> methods) {
+	public Map<Method, double[]> calculateScores(final EnumSet<Method> methods) {
 		return calculateConservation(methods);
 	}
 
@@ -54,7 +70,7 @@ public class Conservation {
 	 * @param normalize
 	 * @return score for the given method
 	 */
-	double[] calculateScore(final Method method) {
+	public double[] calculateScore(final Method method) {
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
 		double[] result = new double[alignMatrix.numberOfColumns()];
 		double[] normalized = null;
@@ -326,17 +342,20 @@ public class Conservation {
 	 * @param normilizeResults
 	 * @return
 	 */
-	public Map<Method, double[]> getConservation(Alignment alignment,
-			EnumSet<Method> methods) {
+	public static Conservation getConservation(Alignment alignment,
+			boolean normalize, ExecutorService executor) {
 
 		if (alignment == null) {
 			throw new NullPointerException("Alignment must be provided!");
 		}
+		if (executor == null) {
+			throw new NullPointerException("Executor must be provided!");
+		}
+
 		// there is no need to close input stream as the read method will close
 		// it
-		alignMatrix = new AminoAcidMatrix(alignment);
-		calculateConservation(methods);
-		return Collections.unmodifiableMap(results);
+		return new Conservation(new AminoAcidMatrix(alignment), normalize,
+				executor);
 	}
 
 	/**
@@ -345,15 +364,14 @@ public class Conservation {
 	 * @param normilizeResults
 	 * @return
 	 */
-	public Map<Method, double[]> getConservation(List<FastaSequence> sequences,
-			EnumSet<Method> methods) {
+	public static Conservation getConservation(List<FastaSequence> sequences,
+			boolean normalize, ExecutorService executor) {
 
 		if (sequences == null || sequences.isEmpty()) {
 			throw new NullPointerException("Sequences must be provided!");
 		}
-		alignMatrix = new AminoAcidMatrix(sequences, null);
-		calculateConservation(methods);
-		return results;
+		return new Conservation(new AminoAcidMatrix(sequences, null),
+				normalize, executor);
 	}
 
 	private synchronized Map<Method, double[]> calculateConservation(
@@ -366,12 +384,12 @@ public class Conservation {
 		return Collections.unmodifiableMap(results);
 	}
 
-	void outputResults(File outFile, Format format) throws IOException {
+	public void outputResults(File outFile, Format format) throws IOException {
 		ConservationFormatter.formatResults(results, outFile.getAbsolutePath(),
 				format, alignMatrix);
 	}
 
-	void printResults(Format format) throws IOException {
+	public void printResults(Format format) throws IOException {
 		ConservationFormatter.formatResults(results, null, format, alignMatrix);
 	}
 
@@ -407,7 +425,7 @@ public class Conservation {
 	 *            is given the score of the window.
 	 * @param normalize
 	 *            if true results will be normalized
-	 * @return TODO refactor?
+	 * @return
 	 */
 	public double[] getSMERFS(int width, SMERFSColumnScore score,
 			double gapTreshold) {
@@ -420,25 +438,25 @@ public class Conservation {
 				|| width > alignMatrix.numberOfColumns() || score == null
 				|| gapTreshold < 0 || gapTreshold > 1) {
 			if (width <= 0 || width % 2 != 1) {
-				System.out
-						.println("Column width for SMERFS not provided or "
+				throw new IllegalArgumentException(
+						"Column width for SMERFS not provided or "
 								+ "smaller or equal zero or not an odd number or not an integer.");
 			}
 			if (width > alignMatrix.numberOfColumns()) {
-				System.out
-						.println("Column width greater than the length of the alignment");
+				throw new IllegalArgumentException(
+						"Column width greater than the length of the alignment");
 			}
 			if (score == null) {
-				System.out
-						.println("Column score not privided or the type provided is not supported.");
-				SMERFSColumnScore.supportedSMERFSColumnSores();
+				throw new IllegalArgumentException(
+						"Column score not privided or the type provided is not supported."
+								+ "Supported scores are: "
+								+ SMERFSColumnScore.values());
 			}
 			if (gapTreshold < 0 || gapTreshold > 1) {
-				System.out
-						.println("Gap treshold could not have been parsed as a double "
+				throw new IllegalArgumentException(
+						"Gap treshold could not have been parsed as a double "
 								+ "or it was smaller than zero or it was greater than one.");
 			}
-			return result;
 		}
 		Correlation corr = new Correlation(alignMatrix, width, gapTreshold,
 				executor);
@@ -446,8 +464,8 @@ public class Conservation {
 		try {
 			result = corr.getCorrelationScore(score, normalize);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Calculation was interrupted!");
+			throw new RuntimeException("Calculation was interrupted!", e
+					.getCause());
 		} catch (ExecutionException e) {
 			throw new RuntimeException("Error during calculation!"
 					+ e.getLocalizedMessage(), e.getCause());

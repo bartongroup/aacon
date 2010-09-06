@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2010 Agnieszka Golicz & Peter Troshin 
+ * 
+ * Amino Acid Conservation @version: 1.0 
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the Apache License version 2 as published by the
+ * Apache Software Foundation This library is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the Apache
+ * License for more details. A copy of the license is in apache_license.txt. It
+ * is also available here: http://www.apache.org/licenses/LICENSE-2.0.txt 
+ * Any republication or derived work distributed in source code form must 
+ * include this copyright and license notice.
+ * 
+ */
 package compbio.conservation;
 
 /**
@@ -6,7 +22,7 @@ package compbio.conservation;
  * windows the column belongs to MID_SCORE give the window score to the column
  * in the middle
  * 
- * @author agolicz
+ * @author Agnieszka Golicz & Peter Troshin
  */
 public enum SMERFSColumnScore {
 	MAX_SCORE, MID_SCORE;
@@ -27,11 +43,4 @@ public enum SMERFSColumnScore {
 		return null;
 	}
 
-	static void supportedSMERFSColumnSores() {
-
-		System.out.println("Supported formats:");
-		for (SMERFSColumnScore score : SMERFSColumnScore.values()) {
-			System.out.println(score.toString());
-		}
-	}
 }

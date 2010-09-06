@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2010 Agnieszka Golicz & Peter Troshin 
+ * 
+ * Amino Acid Conservation @version: 1.0 
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the Apache License version 2 as published by the
+ * Apache Software Foundation This library is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the Apache
+ * License for more details. A copy of the license is in apache_license.txt. It
+ * is also available here: http://www.apache.org/licenses/LICENSE-2.0.txt 
+ * Any republication or derived work distributed in source code form must 
+ * include this copyright and license notice.
+ * 
+ */
 package compbio.conservation;
 
 import java.io.FileInputStream;
@@ -17,10 +33,10 @@ import compbio.data.sequence.SequenceUtil;
 /**
  * Makes sense of the command line arguments
  * 
- * @author pvtroshin & agolicz
+ * @author pvtroshin & Agnieszka Golicz
  * 
  */
-public final class CmdParser {
+final class CmdParser {
 
 	final static DateFormat DATE_FORMAT = new SimpleDateFormat(
 			"yyyy/MM/dd HH:mm:ss");
@@ -142,8 +158,8 @@ public final class CmdParser {
 
 		for (int i = 0; i < cmd.length; i++) {
 			String meths = cmd[i];
-			if (meths.trim().toLowerCase()
-					.startsWith(SMERFSDetailsKey + pseparator)) {
+			if (meths.trim().toLowerCase().startsWith(
+					SMERFSDetailsKey + pseparator)) {
 				return meths.substring(meths.indexOf(pseparator) + 1)
 						.split(",");
 			}

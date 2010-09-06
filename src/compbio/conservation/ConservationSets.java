@@ -1,8 +1,32 @@
+/*
+ * Copyright (c) 2010 Agnieszka Golicz & Peter Troshin 
+ * 
+ * Amino Acid Conservation @version: 1.0 
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the Apache License version 2 as published by the
+ * Apache Software Foundation This library is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+ * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the Apache
+ * License for more details. A copy of the license is in apache_license.txt. It
+ * is also available here: http://www.apache.org/licenses/LICENSE-2.0.txt 
+ * Any republication or derived work distributed in source code form must 
+ * include this copyright and license notice.
+ * 
+ */
 package compbio.conservation;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
-public class ConservationSets {
+/**
+ * 
+ * @author Agnieszka Golicz
+ * 
+ */
+final class ConservationSets {
 
 	/**
 	 * Holds Mirny sets.
@@ -305,11 +329,13 @@ public class ConservationSets {
 		taySets.put("hydrophilic", tayHydrophilic);
 		taySets.put("chargedOrHydrophilic", chargedOrHydrophilic);
 		taySets.put("chargedOrHydrophilicOrP", chargedOrHydrophilicOrP);
-		taySets.put("polarNonAromaticOrChargedOrP", polarNonAromaticOrChargedOrP);
+		taySets.put("polarNonAromaticOrChargedOrP",
+				polarNonAromaticOrChargedOrP);
 		taySets.put("polar", tayPolar);
 		taySets.put("polarOrP", polarOrP);
 		taySets.put("polarNonAromaticOrCharged", polarNonAromaticOrCharged);
-		taySets.put("polarNonAromaticNonPositiveOrP", polarNonAromaticNonPositiveOrP);
+		taySets.put("polarNonAromaticNonPositiveOrP",
+				polarNonAromaticNonPositiveOrP);
 		taySets.put("polarNoAromaticNonPositive", polarNonAromaticNonPositive);
 		taySets.put("smallPolarOrP", smallPolarOrP);
 		taySets.put("smallPolar", smallPolar);
@@ -317,8 +343,10 @@ public class ConservationSets {
 		taySets.put("tiny", tayTiny);
 		taySets.put("tinyOrSmallOrPolar", tinyOrSmallOrPolar);
 		taySets.put("tinyOrSmallOrPolarOrP", tinyOrSmallOrPolarOrP);
-		taySets.put("tinyOrNegativeHydrophilicOrT", tinyOrNegativeHydrophilicOrT);
-		taySets.put("tinyOrNegativeHydrophilicOrTOrP", tinyOrNegativeHydrophilicOrTOrP);
+		taySets.put("tinyOrNegativeHydrophilicOrT",
+				tinyOrNegativeHydrophilicOrT);
+		taySets.put("tinyOrNegativeHydrophilicOrTOrP",
+				tinyOrNegativeHydrophilicOrTOrP);
 		taySets.put("tinyOrPolarNonAromatic", tinyOrPolarNonAromatic);
 		taySets.put("all", all);
 		TAYLOR = Collections.unmodifiableMap(taySets);
