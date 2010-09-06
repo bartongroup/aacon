@@ -146,6 +146,8 @@ final class ParallelConservationClient {
 						+ " ms");
 				timer.println("Alignment has: " + alignment.numberOfRows()
 						+ " sequences.");
+				timer.println("Alignment length is: "
+						+ alignment.numberOfColumns() + " ");
 
 				Conservation scores = new Conservation(alignment, normalize,
 						ExecutorFactory.getExecutor());
