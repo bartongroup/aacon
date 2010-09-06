@@ -22,6 +22,7 @@ package compbio.conservation;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -386,8 +387,8 @@ final class AminoAcidMatrix {
 	}
 
 	private void calTotalAcidsFreqByCol() {
-		acidsIntMap = new ArrayList<Map<Character, Integer>>(this
-				.numberOfColumns());
+		acidsIntMap = new ArrayList<Map<Character, Integer>>(
+				this.numberOfColumns());
 		for (int i = 0; i < this.numberOfColumns(); i++) {
 			acidsIntMap.add(Alphabet.calculateOccurance(this.inverseMatrix[i]));
 		}
@@ -477,8 +478,8 @@ final class AminoAcidMatrix {
 					if (count == null) {
 						setsFreq.put(setsKey, totalFreq.get(totalFreqKey));
 					} else {
-						setsFreq.put(setsKey, count
-								+ totalFreq.get(totalFreqKey));
+						setsFreq.put(setsKey,
+								count + totalFreq.get(totalFreqKey));
 					}
 				}
 			}
@@ -498,8 +499,8 @@ final class AminoAcidMatrix {
 		double weight = 0.0;
 		for (int i = 0; i < this.numberOfRows(); i++) {
 			if (i != seqNr) {
-				weight += ConservationAccessory.percentIdentity(this
-						.getRow(seqNr), this.getRow(i));
+				weight += ConservationAccessory.percentIdentity(
+						this.getRow(seqNr), this.getRow(i));
 			}
 		}
 		double result = (1.0 / this.numberOfRows()) * weight;
@@ -664,6 +665,38 @@ final class AminoAcidMatrix {
 		SequenceUtil.writeFastaKeepTheStream(out, fastaseqs, 80);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((acidsIntMap == null) ? 0 : acidsIntMap.hashCode());
+		result = prime * result + Arrays.hashCode(matrix);
+		result = prime * result + Arrays.hashCode(sequenceNames);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AminoAcidMatrix other = (AminoAcidMatrix) obj;
+		if (acidsIntMap == null) {
+			if (other.acidsIntMap != null)
+				return false;
+		} else if (!acidsIntMap.equals(other.acidsIntMap))
+			return false;
+		if (!Arrays.equals(matrix, other.matrix))
+			return false;
+		if (!Arrays.equals(sequenceNames, other.sequenceNames))
+			return false;
+		return true;
+	}
+
 	/**
 	 * Splits alignment into provided groups. Groups provided by giving sequence
 	 * index(number) in the alignment. Indexing starts with 0.
@@ -679,4 +712,5 @@ final class AminoAcidMatrix {
 	 *         groups[i].length; j++) { group[j] = matrix[groups[i][j]]; }
 	 *         groupsList.add(group); } return groupsList; }
 	 */
+
 }

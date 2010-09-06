@@ -35,7 +35,7 @@ import compbio.util.Timer;
 /**
  * Command line client for AAconservation methods.
  * 
- * @author Peter Troshin with input from A. Golicz
+ * @author Peter Troshin & Agnieszka Golicz
  */
 final class ParallelConservationClient {
 
@@ -106,25 +106,21 @@ final class ParallelConservationClient {
 			String format = CmdParser.getFormat(cmd);
 			String outFilePath = CmdParser.getOutputFilePath(cmd);
 			if (outFilePath == null) {
-				timer
-						.println("No output file is provided, writing results to the standard output.");
+				timer.println("No output file is provided, writing results to the standard output.");
 			}
 			Format outFormat = Format.RESULT_NO_ALIGNMENT;
 			if (format != null) {
 				Format userFormat = Format.getFormat(format);
 				if (userFormat == null) {
-					timer
-							.println("Cannot recognise format '" + format
-									+ "' Assuming "
-									+ Format.RESULT_NO_ALIGNMENT.toString()
-									+ " format");
+					timer.println("Cannot recognise format '" + format
+							+ "' Assuming "
+							+ Format.RESULT_NO_ALIGNMENT.toString() + " format");
 				} else {
 					outFormat = userFormat;
 					timer.println("Setting output format to " + userFormat);
 				}
 			} else {
-				timer
-						.println("No format is provided assuming RESULT_NO_ALIGNMENT is required");
+				timer.println("No format is provided assuming RESULT_NO_ALIGNMENT is required");
 			}
 
 			String[] SMERFSDetails = CmdParser.getSMERFSDetails(cmd);
@@ -135,8 +131,8 @@ final class ParallelConservationClient {
 			String[] gap = CmdParser.getGapChars(cmd);
 			Character[] gapChars = CmdParser.extractGapChars(gap);
 
-			ExecutorFactory.initExecutor(CmdParser.getThreadNumber(cmd), timer
-					.getStatWriter());
+			ExecutorFactory.initExecutor(CmdParser.getThreadNumber(cmd),
+					timer.getStatWriter());
 			ExecutorService executor = ExecutorFactory.getExecutor();
 
 			List<FastaSequence> sequences = CmdParser

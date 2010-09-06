@@ -31,10 +31,12 @@ import java.util.regex.Pattern;
 import compbio.data.sequence.FastaSequence;
 
 /**
+ * 
+ * This class is NOT IN USE
+ * 
  * TODO to complete
  * 
- * This class has not being used yet
- * 
+ * @author Agnieszka Golicz
  */
 final class ResultReader {
 

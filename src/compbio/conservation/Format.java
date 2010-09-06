@@ -17,12 +17,37 @@
 package compbio.conservation;
 
 /**
+ * Conservation output Format.
  * 
- * @author Agnieszka Golicz
+ * @author Agnieszka Golicz & Peter Troshin
  * 
  */
 public enum Format {
-	RESULT_WITH_ALIGNMENT, RESULT_NO_ALIGNMENT;
+
+	/**
+	 * Output just the conservation scores, but no alignment in the following
+	 * format:
+	 * 
+	 * #Method name scores
+	 * 
+	 * For example:
+	 * 
+	 * #SANDER 0 0.345 0.543 0.667 1 0.2
+	 * 
+	 * #SMERFS 1 1 1 1 1 1 1 1 1 1
+	 * 
+	 */
+	RESULT_WITH_ALIGNMENT,
+
+	/**
+	 * Output the conservation scores and the alignment
+	 * 
+	 * The alignment is saved in FASTA format prior to the conservation scores.
+	 * The scores themselves are saved in the same format as with
+	 * RESULT_WITH_ALIGNMENT
+	 * 
+	 */
+	RESULT_NO_ALIGNMENT;
 
 	static Format getFormat(String format) {
 

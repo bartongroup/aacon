@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -38,9 +38,10 @@ import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 
 /**
- * Calculates conservation
+ * Calculates conservation scores. Immutable and thread safe. Implements equals
+ * and hashCode, can be stored in collections.
  * 
- * @author Agnieszka Golicz & pvtroshin
+ * @author Agnieszka Golicz & Peter Troshin
  */
 public final class Conservation {
 
@@ -61,13 +62,22 @@ public final class Conservation {
 		return alignMatrix;
 	}
 
-	public Map<Method, double[]> calculateScores(final EnumSet<Method> methods) {
+	/**
+	 * Calculate conservation using methods from the methods set
+	 * 
+	 * @param methods
+	 *            the set of the methods to run
+	 * @return the Map of Method name -> double[] amino acid conservation score
+	 */
+	public Map<Method, double[]> calculateScores(final Set<Method> methods) {
 		return calculateConservation(methods);
 	}
 
 	/**
+	 * Calculates the conservation using method Method
+	 * 
 	 * @param method
-	 * @param normalize
+	 *            the method to calculate the conservation
 	 * @return score for the given method
 	 */
 	public double[] calculateScore(final Method method) {
@@ -297,17 +307,27 @@ public final class Conservation {
 	}
 
 	/**
-	 * Read either clustal formatted alignment or list of fasta formatted
-	 * sequences, aligned sequences. Return the Map Method name->double[]
-	 * conservation prediction results
+	 * Reads either Clustal formatted alignment or list of Fasta formatted,
+	 * aligned sequences. Return the Map Method name->double[] conservation
+	 * prediction results
 	 * 
 	 * @param file
-	 * @param methods
-	 * @param normilizeResults
-	 * @return
+	 *            input file can be either fasta formatted or clustal alignement
+	 * @param normalize
+	 *            true if results should be converted to fit in range from 0 to
+	 *            1. Please note that some results cannot be normalized. Such
+	 *            results will be returned as is, that is no conversion will be
+	 *            applied irrespective of this flag!
+	 * @param executor
+	 *            the {@link ExecutorService} to use for the parallel
+	 *            calculations
+	 * @return the instance of the Conservation
 	 * @throws FileNotFoundException
+	 *             throw if the input file is not found
 	 * @throws IOException
+	 *             indicate problems with reading input/writing output
 	 * @throws UnknownFileFormatException
+	 *             throw if the program cannot recognise the input file format
 	 */
 	public static Conservation getConservation(File file, boolean normalize,
 			ExecutorService executor) throws FileNotFoundException,
@@ -337,10 +357,19 @@ public final class Conservation {
 	}
 
 	/**
+	 * Constructs the Conservation the instance
+	 * 
 	 * @param alignment
-	 * @param methods
-	 * @param normilizeResults
-	 * @return
+	 *            the Alignment to calculate the conservation on
+	 * @param normalize
+	 *            true, if the results should be normalized values between 0 and
+	 *            1. Please note that some results cannot be normalized. Such
+	 *            results will be returned as is, that is no conversion will be
+	 *            applied irrespective of this flag!
+	 * @param executor
+	 *            the {@link ExecutorService} to use. Consider using
+	 *            {@link ExecutorFactory} provided for convenience
+	 * @return the new Conservation instance
 	 */
 	public static Conservation getConservation(Alignment alignment,
 			boolean normalize, ExecutorService executor) {
@@ -359,10 +388,19 @@ public final class Conservation {
 	}
 
 	/**
+	 * Constructs the instance of the conservation
+	 * 
 	 * @param sequences
-	 * @param methods
-	 * @param normilizeResults
-	 * @return
+	 *            the input into the conservation algorithm
+	 * @param normalize
+	 *            true if the results should be normalized. Please note that
+	 *            some results cannot be normalized. Such results will be
+	 *            returned as is, that is no conversion will be applied
+	 *            irrespective of this flag!
+	 * @param executor
+	 *            the {@link ExecutorService} to use, please consider using
+	 *            {@link ExecutorFactory} for managing the executors
+	 * @return the instance of the Conservation
 	 */
 	public static Conservation getConservation(List<FastaSequence> sequences,
 			boolean normalize, ExecutorService executor) {
@@ -375,7 +413,7 @@ public final class Conservation {
 	}
 
 	private synchronized Map<Method, double[]> calculateConservation(
-			EnumSet<Method> methods) {
+			Set<Method> methods) {
 		for (Method method : methods) {
 			double[] singleRes = calculateScore(method);
 			assert singleRes != null && singleRes.length > 0;
@@ -384,15 +422,42 @@ public final class Conservation {
 		return Collections.unmodifiableMap(results);
 	}
 
+	/**
+	 * Outputs calculated scores in to the output file in for format
+	 * {@code format}
+	 * 
+	 * @param outFile
+	 *            the file to write the result to
+	 * @param format
+	 *            {@link Format} the format of the results, conservation scores
+	 *            either with or without the alignment
+	 * @throws IOException
+	 *             indicates problems with the output e.g the program cannot
+	 *             write in the outFile
+	 */
 	public void outputResults(File outFile, Format format) throws IOException {
 		ConservationFormatter.formatResults(results, outFile.getAbsolutePath(),
 				format, alignMatrix);
 	}
 
+	/**
+	 * Outputs results of the calculations in the Format specified. The results
+	 * are output to the standard out
+	 * 
+	 * @param format
+	 * @throws IOException
+	 */
 	public void printResults(Format format) throws IOException {
 		ConservationFormatter.formatResults(results, null, format, alignMatrix);
 	}
 
+	/**
+	 * 
+	 * A convenience method. Prints its arguments to the standard out.
+	 * 
+	 * @param results
+	 *            the Map of Method-> conservation values to output
+	 */
 	public static void printResults(Map<Method, double[]> results) {
 		try {
 			ConservationFormatter.formatResults(results, null,
@@ -404,6 +469,14 @@ public final class Conservation {
 		}
 	}
 
+	/**
+	 * A convenience method. Prints its arguments to the standard out.
+	 * 
+	 * @param result
+	 *            the array of conservation values
+	 * @param method
+	 *            the name of the conservation method
+	 */
 	public static void printResults(double[] result, Method method) {
 		Map<Method, double[]> results = new EnumMap<Method, double[]>(
 				Method.class);
@@ -412,20 +485,19 @@ public final class Conservation {
 	}
 
 	/**
-	 * Returns results of SMERFS calculation or null, if parameters provided are
-	 * not appropriate.
+	 * Calculates SMERFS using the custom parameters provided
 	 * 
-	 * @param alignment
-	 *            reference to alignment
 	 * @param width
-	 *            with of the window
+	 *            width of the window for SMERFS algorithm, default is 7
 	 * @param score
 	 *            tells which score given to the column, either the highest
 	 *            score of all the windows it belongs to, or the middle column
-	 *            is given the score of the window.
-	 * @param normalize
-	 *            if true results will be normalized
-	 * @return
+	 *            is given the score of the window for SMERFS algorithm default
+	 *            is {@link SMERFSColumnScore#MID_SCORE}
+	 * @param gapTreshold
+	 *            for SMERFS algorithm default value is 0.1
+	 * 
+	 * @return SMERFS conservation values
 	 */
 	public double[] getSMERFS(int width, SMERFSColumnScore score,
 			double gapTreshold) {
@@ -464,14 +536,52 @@ public final class Conservation {
 		try {
 			result = corr.getCorrelationScore(score, normalize);
 		} catch (InterruptedException e) {
-			throw new RuntimeException("Calculation was interrupted!", e
-					.getCause());
+			throw new RuntimeException("Calculation was interrupted!",
+					e.getCause());
 		} catch (ExecutionException e) {
 			throw new RuntimeException("Error during calculation!"
 					+ e.getLocalizedMessage(), e.getCause());
 		}
 
 		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 7;
+		int result = 1;
+		result = prime * result
+				+ ((alignMatrix == null) ? 0 : alignMatrix.hashCode());
+		result = prime * result + (normalize ? 1231 : 1237);
+		return result;
+	}
+
+	/**
+	 * Compares two objects of Conservation type. Please note that executor and
+	 * results do not participate in equals.
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Conservation other = (Conservation) obj;
+		if (alignMatrix == null) {
+			if (other.alignMatrix != null)
+				return false;
+		} else if (!alignMatrix.equals(other.alignMatrix))
+			return false;
+		if (normalize != other.normalize)
+			return false;
+		return true;
 	}
 
 }

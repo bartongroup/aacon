@@ -33,7 +33,7 @@ import compbio.data.sequence.SequenceUtil;
 /**
  * Makes sense of the command line arguments
  * 
- * @author pvtroshin & Agnieszka Golicz
+ * @author Peter Troshin & Agnieszka Golicz
  * 
  */
 final class CmdParser {
@@ -158,8 +158,8 @@ final class CmdParser {
 
 		for (int i = 0; i < cmd.length; i++) {
 			String meths = cmd[i];
-			if (meths.trim().toLowerCase().startsWith(
-					SMERFSDetailsKey + pseparator)) {
+			if (meths.trim().toLowerCase()
+					.startsWith(SMERFSDetailsKey + pseparator)) {
 				return meths.substring(meths.indexOf(pseparator) + 1)
 						.split(",");
 			}

@@ -24,8 +24,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import compbio.common.ColumnTooWideException;
-
 /**
  * Class has static methods used to create similarity matrices, and correlation
  * matrices.
@@ -68,8 +66,8 @@ final class Correlation {
 					"ColWidth smaller than zero or an even number or largrt tah the number of columns");
 		}
 		if (winWidth > alignment.numberOfColumns()) {
-			throw new ColumnTooWideException(
-					"The width of the window is greater than the length of the allignment.");
+			throw new IllegalArgumentException(
+					"The width of the window is greater than the length of the alignment.");
 		}
 		this.alignment = alignment;
 		this.winWidth = winWidth;
@@ -122,9 +120,7 @@ final class Correlation {
 				numofSequences);
 		// Assume that there are enough memory to store all the tasks
 		for (int i = 0; i < numofSequences; i++) {
-			tasks
-					.add(Executors.callable(new GlobalSimilarityWrapper(i,
-							index)));
+			tasks.add(Executors.callable(new GlobalSimilarityWrapper(i, index)));
 			index += numofSequences - i - 1;
 		}
 		executor.invokeAll(tasks);
@@ -253,14 +249,12 @@ final class Correlation {
 			ExecutionException {
 
 		int nrOfWindows = ((alignment.numberOfColumns() - alignment
-				.numberOfColumns()
-				% winWidth)
+				.numberOfColumns() % winWidth)
 				/ winWidth
 				+ ((alignment.numberOfColumns() - alignment.numberOfColumns()
 						% winWidth)
 						/ winWidth - 1) * (winWidth - 1) + alignment
-				.numberOfColumns()
-				% winWidth);
+				.numberOfColumns() % winWidth);
 
 		coeffs = new double[nrOfWindows];
 		int coeffsIdx = 0;
