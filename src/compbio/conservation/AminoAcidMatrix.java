@@ -71,7 +71,7 @@ final class AminoAcidMatrix {
 	 * Holds the in the indices of Xs changed to gaps. The row number is a key
 	 * and the column number is value
 	 */
-	private Character[] gaps;
+	private char[] gaps;
 	// private List<HashMap<Integer, Integer>> xToGapSubs;
 	/**
 	 * The total occurrence of amino acids in the whole alignment.
@@ -240,21 +240,35 @@ final class AminoAcidMatrix {
 	 */
 	AminoAcidMatrix(Alignment alignment) {
 
-		this(alignment.getSequences(), new Character[] { new Character(
-				alignment.getMetadata().getGapchar()) });
+		this(alignment.getSequences(), new char[] { alignment.getMetadata()
+				.getGapchar() });
 	}
+
+	private static final char[] DEFAULT_GAP_CHARS = { '.', '*', ' ', 'X', '-' };
 
 	/**
 	 * Constructor that reads in a fasta file and creates an amino acid matrix.
 	 * Gaps indicated by any sign are now indicated by a dash. The unknown amino
 	 * acid X is replaced by a dash.
 	 * 
-	 * @param inStream
+	 * @param seqs
+	 *            the alignment
+	 * @param gapChars
+	 *            the set of gap characters
+	 * @throws IllegalArgumentException
+	 *             if alignment contains gap only columns
+	 * @throws SequencesNotEquallyLongException
+	 *             if the length of the sequences in the alignment is different
+	 * @throws NotAnAminoAcidException
+	 *             if sequences contains letters different from AA alphabet
+	 *             {@link Alphabet}
 	 */
-	AminoAcidMatrix(List<FastaSequence> seqs, Character[] gapChars) {
+	AminoAcidMatrix(List<FastaSequence> seqs, char[] gapChars) {
 
 		if (gapChars != null) {
 			this.gaps = gapChars;
+		} else {
+			this.gaps = DEFAULT_GAP_CHARS;
 		}
 		Set<Character> alph = Alphabet.alphabet();
 		int sequenceNr = seqs.size();
@@ -278,15 +292,9 @@ final class AminoAcidMatrix {
 			}
 			for (int j = 0; j < sequenceLength; j++) {
 				char ch = sequenceChars[j];
-				if (gapChars == null) {
-					if (ch == '.' || ch == '*' || ch == ' ' || ch == 'X') {
+				for (int d = 0; d < gaps.length; d++) {
+					if (ch == gaps[d]) {
 						ch = '-';
-					}
-				} else {
-					for (int d = 0; d < gaps.length; d++) {
-						if (ch == gaps[d]) {
-							ch = '-';
-						}
 					}
 				}
 				// if (ch == 'X') {
@@ -311,6 +319,43 @@ final class AminoAcidMatrix {
 			}
 		}
 		this.calTotalAcidsFreqByCol();
+		this.gapOnlyColumnsCheck();
+	}
+
+	private void gapOnlyColumnsCheck() {
+		assert inverseMatrix != null && inverseMatrix[0] != null;
+		for (char[] column : inverseMatrix) {
+			gapOnlyColumnCheck(column, this.gaps);
+		}
+	}
+
+	/**
+	 * 
+	 * @param column
+	 * @param gapchars
+	 * @throws IllegalArgumentException
+	 *             if column contains gapchars only
+	 */
+	static void gapOnlyColumnCheck(char[] column, char[] gapchars) {
+		boolean gaponly = true;
+		Arrays.sort(gapchars);
+		for (char charr : column) {
+			if (Arrays.binarySearch(gapchars, charr) < 0) {
+				gaponly = false;
+				break;
+			}
+		}
+		// Even if only one column contains gaps the whole alignment is
+		// invalid
+		if (gaponly) {
+			String message = "Input has badly aligned sequences with columns "
+					+ "containing nothing but the gaps. "
+					+ "Conservation methods cannot be calculated for "
+					+ "such an alignment !" + " \nGap characters are : "
+					+ Arrays.toString(gapchars);
+			System.err.println(message);
+			throw new IllegalArgumentException(message);
+		}
 	}
 
 	/**

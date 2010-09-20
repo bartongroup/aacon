@@ -40,6 +40,35 @@ public class CorrelationTester {
 	}
 
 	@Test
+	public void gapColumnTester() {
+		AminoAcidMatrix.gapOnlyColumnCheck(new char[] { 'a', ' ', ' ', ' ',
+				' ', ' ' }, new char[] { '-', '.', ' ', ':' });
+		AminoAcidMatrix.gapOnlyColumnCheck(new char[] { '-', ' ', ' ', ' ',
+				' ', ' ' }, new char[] { ' ', ' ', ' ', ' ' });
+
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void gapColumnTesterIllegal() {
+		AminoAcidMatrix.gapOnlyColumnCheck(new char[] { ' ', ' ', ' ', ' ',
+				' ', ' ' }, new char[] { ' ', '-', '*', '.' });
+
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void gapColumnTesterIllegal2() {
+		AminoAcidMatrix.gapOnlyColumnCheck(new char[] { '-', ' ', ' ', ' ',
+				' ', ' ' }, new char[] { ' ', ' ', ' ', '-' });
+
+	}
+
+	@Test()
+	public void gapColumnTesterIllegal3() {
+		AminoAcidMatrix.gapOnlyColumnCheck(new char[] { '-', '.', ' ', 'a',
+				' ', '-' }, new char[] { ' ', '.', '-' });
+
+	}
+
 	void Corr1Tester() throws InterruptedException, ExecutionException {
 
 		String filePath = "/homes/agolicz/alignments/alignment1";

@@ -129,7 +129,7 @@ final class ParallelConservationClient {
 
 			boolean normalize = CmdParser.getNormalize(cmd);
 			String[] gap = CmdParser.getGapChars(cmd);
-			Character[] gapChars = CmdParser.extractGapChars(gap);
+			char[] gapChars = CmdParser.extractGapChars(gap);
 
 			ExecutorFactory.initExecutor(CmdParser.getThreadNumber(cmd),
 					timer.getStatWriter());

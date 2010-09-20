@@ -319,10 +319,10 @@ final class CmdParser {
 		return methods;
 	}
 
-	static Character[] extractGapChars(String[] gap) {
-		Character[] gapChars = null;
+	static char[] extractGapChars(String[] gap) {
+		char[] gapChars = null;
 		if (gap != null) {
-			gapChars = new Character[gap.length];
+			gapChars = new char[gap.length];
 			for (int i = 0; i < gap.length; i++) {
 				if (gap[i].length() == 1) {
 					gapChars[i] = gap[i].charAt(0);

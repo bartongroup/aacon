@@ -156,7 +156,7 @@ public class SlowMethodTester {
 		}
 	}
 
-	@Test()
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void reproduceIssue1() {
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
@@ -166,6 +166,8 @@ public class SlowMethodTester {
 			System.out.println("Loading sequences: " + timer.getStepTime());
 
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
+			System.out.println("! "
+					+ Arrays.toString(alignment.getInverseMatrix()[17]));
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
 
 			Conservation scores = new Conservation(alignment, true,
@@ -189,7 +191,7 @@ public class SlowMethodTester {
 		}
 	}
 
-	@Test()
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void reproduceIssue4() {
 		try {
 			Timer timer = new Timer(TimeUnit.MILLISECONDS);
