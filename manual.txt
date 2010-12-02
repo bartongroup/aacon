@@ -3,9 +3,9 @@ AA Conservation version 1.0b (2 September 2010)
 
 This program allows calculation of conservation of amino acids in
 multiple sequence alignments.
-It implements 15 different conservation scores as described by Valdar in
+It implements 17 different conservation scores as described by Valdar in
 his paper (Scoring Residue Conservation, PROTEINS: Structure, Function
-and Genetics 48:227-241 (2002)) and SMERFS scoring algorithm as described
+and  Bioinformatics 48:227-241 (2002)) and SMERFS scoring algorithm as described
 by Manning, Jefferson and Barton (The contrasting properties of conservation
 and correlated phylogeny in protein functional residue prediction,
 BMC Bioinformatics (2008)).
@@ -85,6 +85,6 @@ As a result of the execution KABAT and SMERFS scores will be calculated.
 Input comes form prot1 file and an output without an alignment is recorded to 
 prot1_results file. 
 
-Authors: Agnieszka Golicz, Peter Troshin, David Martin and Geoff Barton.
+Authors: Peter Troshin, Agnieszka Golicz, David Martin and Geoff Barton.
 Please visit http://www.compbio.dundee.ac.uk for further information.
  

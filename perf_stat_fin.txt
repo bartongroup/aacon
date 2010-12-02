@@ -18,7 +18,7 @@ For other methods (LANDGRAF etc) scale nearly linearly (speed up coefficient is 
 SMERFS actual exec time for 1000x3000 (len) 
 8x 1m 52s 
 sequential 12m 21s 
-about 6.6x faster 
+about 6.6x faster than linear
 
 ALL METHODS 
 

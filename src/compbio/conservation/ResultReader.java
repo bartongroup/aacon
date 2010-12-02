@@ -38,7 +38,7 @@ import compbio.data.sequence.FastaSequence;
  * 
  * @author Agnieszka Golicz
  */
-final class ResultReader {
+public final class ResultReader {
 
 	/**
 	 * Reads printed results from the file.

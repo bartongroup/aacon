@@ -17,14 +17,14 @@
 package compbio.conservation;
 
 /**
- * Enumeration listing all the supported methods.
+ * Enumeration listing of all the supported methods.
  * 
- * @author Agnieszka Golicz
+ * @author Agnieszka Golicz & Peter Troshin
  */
 public enum Method {
 	KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, ZVELIBIL, KARLIN, ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON, LANDGRAF, SANDER, VALDAR, SMERFS;
 
-	static Method getMethod(String meth) {
+	public static Method getMethod(String meth) {
 		meth = meth.trim().toLowerCase();
 		if (meth.equalsIgnoreCase(KABAT.toString())) {
 			return KABAT;
