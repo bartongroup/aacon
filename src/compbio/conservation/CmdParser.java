@@ -356,9 +356,12 @@ final class CmdParser {
 	static List<FastaSequence> openInputStream(String inFilePath)
 			throws IOException, UnknownFileFormatException {
 
+		// This stream gets closed in isValidClustalFile method
+		InputStream inStrForValidation = new FileInputStream(inFilePath);
+		// This stream is closed in the calling methods
 		InputStream inStr = new FileInputStream(inFilePath);
 		List<FastaSequence> fastaSeqs = null;
-		if (ClustalAlignmentUtil.isValidClustalFile(inStr)) {
+		if (ClustalAlignmentUtil.isValidClustalFile(inStrForValidation)) {
 			Alignment al = ClustalAlignmentUtil.readClustalFile(inStr);
 			// alignment cannot be null see
 			// ClustalAlignmentUtil.readClustalFile(inStr);
