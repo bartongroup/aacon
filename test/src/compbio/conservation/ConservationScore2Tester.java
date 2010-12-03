@@ -23,6 +23,8 @@ import java.util.Map;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import compbio.data.sequence.Method;
+
 public class ConservationScore2Tester {
 
 	char a = 'D';
@@ -46,8 +48,8 @@ public class ConservationScore2Tester {
 		ExecutorFactory.initExecutor();
 		alignment = new AminoAcidMatrix(a, b, c, d, e, f, g, h, i);
 
-		scores = new Conservation(alignment, true, ExecutorFactory
-				.getExecutor());
+		scores = new Conservation(alignment, true,
+				ExecutorFactory.getExecutor());
 	}
 
 	static void printScores(double[] results, String tag) {

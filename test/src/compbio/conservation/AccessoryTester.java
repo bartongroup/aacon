@@ -18,6 +18,8 @@ package compbio.conservation;
 
 import org.testng.annotations.Test;
 
+import compbio.data.sequence.Method;
+
 public class AccessoryTester {
 
 	// @Test

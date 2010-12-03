@@ -24,6 +24,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import compbio.data.sequence.Method;
+
 /**
  * Class has static methods used to create similarity matrices, and correlation
  * matrices.

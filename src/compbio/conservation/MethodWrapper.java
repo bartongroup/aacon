@@ -18,6 +18,7 @@ package compbio.conservation;
 
 import java.util.concurrent.Callable;
 
+import compbio.data.sequence.Method;
 import compbio.util.Timer;
 
 /**

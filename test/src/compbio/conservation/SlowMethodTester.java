@@ -31,6 +31,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.Method;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 import compbio.util.Timer;

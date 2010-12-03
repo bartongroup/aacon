@@ -27,8 +27,12 @@ import java.util.List;
 import java.util.Set;
 
 import compbio.common.IllegalGapCharacterException;
+import compbio.data.sequence.Alignment;
+import compbio.data.sequence.ClustalAlignmentUtil;
 import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.Method;
 import compbio.data.sequence.SequenceUtil;
+import compbio.data.sequence.UnknownFileFormatException;
 
 /**
  * Makes sense of the command line arguments
@@ -342,15 +346,26 @@ final class CmdParser {
 	 * @param fastaSeqs
 	 * @param inFilePath
 	 * @throws IOException
-	 * @returnif (statFile != null) { print =
-	 *           ConservationFormatter.openPrintWriter(statFile, false); }
+	 * @throws UnknownFileFormatException
+	 * @return
+	 * 
+	 * 
+	 *         if (statFile != null) { print =
+	 *         ConservationFormatter.openPrintWriter(statFile, false); }
 	 */
 	static List<FastaSequence> openInputStream(String inFilePath)
-			throws IOException {
+			throws IOException, UnknownFileFormatException {
 
 		InputStream inStr = new FileInputStream(inFilePath);
-		List<FastaSequence> fastaSeqs = SequenceUtil.readFasta(inStr);
-
+		List<FastaSequence> fastaSeqs = null;
+		if (ClustalAlignmentUtil.isValidClustalFile(inStr)) {
+			Alignment al = ClustalAlignmentUtil.readClustalFile(inStr);
+			// alignment cannot be null see
+			// ClustalAlignmentUtil.readClustalFile(inStr);
+			fastaSeqs = al.getSequences();
+		} else {
+			fastaSeqs = SequenceUtil.readFasta(inStr);
+		}
 		return fastaSeqs;
 	}
 

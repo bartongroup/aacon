@@ -34,6 +34,7 @@ import java.util.concurrent.Executors;
 import compbio.data.sequence.Alignment;
 import compbio.data.sequence.ClustalAlignmentUtil;
 import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.Method;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 

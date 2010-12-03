@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import compbio.data.sequence.Method;
+
 /**
  * 
  * @author Agnieszka Golicz & Peter Troshin

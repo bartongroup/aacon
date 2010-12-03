@@ -35,10 +35,10 @@ import org.testng.annotations.Test;
 
 import compbio.conservation.Conservation;
 import compbio.conservation.ExecutorFactory;
-import compbio.conservation.Method;
 import compbio.conservation.SMERFSColumnScore;
 import compbio.conservation.SlowMethodTester;
 import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.Method;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 
@@ -73,8 +73,8 @@ public class ConservationTester {
 		EnumSet<Method> set = EnumSet.allOf(Method.class);
 
 		norm_results = scores.calculateScores(set);
-		scores = Conservation.getConservation(sequences, false, ExecutorFactory
-				.getExecutor());
+		scores = Conservation.getConservation(sequences, false,
+				ExecutorFactory.getExecutor());
 		results = scores.calculateScores(set);
 		// Shutdown the executor and complete submitted tasks
 		ExecutorFactory.getExecutor().shutdown();
@@ -91,12 +91,12 @@ public class ConservationTester {
 		ExecutorFactory.initExecutor(0);
 		Conservation cons;
 		try {
-			cons = Conservation.getConservation(input, false, ExecutorFactory
-					.getExecutor());
+			cons = Conservation.getConservation(input, false,
+					ExecutorFactory.getExecutor());
 			double[] result = cons.calculateScore(Method.VALDAR);
 
-			cons = Conservation.getConservation(input, false, ExecutorFactory
-					.getExecutor());
+			cons = Conservation.getConservation(input, false,
+					ExecutorFactory.getExecutor());
 			double[] result2 = cons.calculateScore(Method.VALDAR);
 
 			Assert.assertEquals(results.get(Method.VALDAR).length,
@@ -219,8 +219,8 @@ public class ConservationTester {
 			assertNotNull(apiresults);
 			Assert.assertEquals(apiresults.length,
 					results.get(Method.SMERFS).length);
-			Assert.assertFalse(Arrays.equals(apiresults, results
-					.get(Method.SMERFS)));
+			Assert.assertFalse(Arrays.equals(apiresults,
+					results.get(Method.SMERFS)));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

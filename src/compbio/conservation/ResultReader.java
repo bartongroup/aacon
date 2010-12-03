@@ -29,6 +29,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.Method;
 
 /**
  * 

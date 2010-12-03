@@ -30,6 +30,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.Method;
+import compbio.data.sequence.UnknownFileFormatException;
 import compbio.util.Timer;
 
 /**
@@ -82,7 +84,7 @@ final class ParallelConservationClient {
 	}
 
 	ParallelConservationClient(String[] cmd) throws IOException,
-			InterruptedException {
+			InterruptedException, UnknownFileFormatException {
 
 		Timer timer = Timer.getMilliSecondsTimer();
 
@@ -256,6 +258,13 @@ final class ParallelConservationClient {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			System.err.println("Interrupted!");
+			e.printStackTrace();
+		} catch (UnknownFileFormatException e) {
+			System.err
+					.println("Fail to recognise input file format! Must be "
+							+ "either Clustal formatted alignment or a list of "
+							+ "aligned Fasta formatted sequences separated by a new line."
+							+ e.getLocalizedMessage());
 			e.printStackTrace();
 		}
 	}
