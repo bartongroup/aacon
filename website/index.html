@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="generator" content="HTML Tidy, see www.w3.org" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="Last-modified" content="Mon, 10 Dec 2010 01:03:33 GMT"/>
+<title>Amino Acid Conservation (AACon) service main page</title>
+<link href="ws.css" rel="stylesheet" type="text/css" media="screen, projection, handheld, tv" />
+<link rel="stylesheet" type="text/css" media="print" href="print.css" />
+<script type="text/javascript" src="prototype-1.6.0.3.js"></script>
+</head>
+
+<body>  
+<div id="page">  
+<div id="banner">
+<table> 
+<tr><td style="width:130px;"><a href="http://www.dundee.ac.uk"><img class="logo" src="images/uod_lt.gif"  alt="University of Dundee"  title="University of Dundee" longdesc="http://www.dundee.ac.uk"/></a></td>
+<td class="bg"><h2><span style="color:#1ACC1A" class="headeru">A</span>mino <span style="color:#80B3E6" class="headeru">A</span>cid <span style="color:#AE5439" class="headeru">Con</span>servation Service</h2></td>
+</tr>
+</table>
+<!-- 
+A7BCE2 -bluish
+8FCB4E - greeninh
+Future use?
+<div class="uniicon"><a href="http://www.compbio.dundee.ac.uk"><img src="images/uod.gif"  alt="University of Dundee, The Barton Group"  title="University of Dundee, The Barton Group" longdesc="http://www.compbio.dundee.ac.uk"/></a></div>
+-->
+</div>
+
+<!-- banner end-->
+<div id="wrapper">
+<div id="panel">
+<a class="selected" href="index.html">Home</a> 
+<a href="command.html">Standalone</a>
+<a href="webservice.html">Web Service</a>
+<a href="library.html">Library</a>
+<a href="download.html">Download</a> 
+<a href="http://www.compbio.dundee.ac.uk">Barton Group</a></div>
+
+<!-- panel end-->
+<div id="content">
+<h4>Animo Acid Conservation - AACon</h4>
+<p>AACon is a set of tools implementing 17 conservation scores reviewed by <a href="http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full">Valdar</a> as well as the more complex <a href="http://www.ncbi.nlm.nih.gov/pubmed/18221517">SMERFS  algorithm</a> for predicting protein functional sites. AACon has been written with  efficiency in mind and takes less than a second to calculate conservation by  all 18 methods for an alignment of 350 residues long by 500 sequences on a  single CPU. AACon exploits parallelism for the more demanding methods and  to allow multiple methods to run simultaneously. The parallel code gives close to linear speedup  with the number of processors, thus making it suitable for server applications  or other demanding environments. <br />
+AACon is available as a SOAP web service, a  stand alone Java executable and a Java library with concise API for accessing  all the conservation methods programmatically. The executable runs on all  platforms that support Java version 5 and above (Windows, Unix/Linux, Mac). </p>
+<h4>AACon Web Service</h4>
+<table>
+<tbody>
+<tr>
+<th width="22%">Feature</th>
+<th width="78%">Description</th>
+</tr>
+
+<tr>
+<td><acronym title="Uniform Resource Locator">URL</acronym> </td>
+<td><a href="http://www.compbio.dundee.ac.uk/jabaws" title=
+"http://www.compbio.dundee.ac.uk/jabaws" rel=
+"nofollow">http://www.compbio.dundee.ac.uk/aacon</a></td>
+</tr>
+
+<tr>
+<td>Execution limits</td>
+<td>AAConWS installation is  backed up by the College of
+Life Sciences HPC cluster. Tasks exceeding 1000&times;1000
+(sequences per letters) will not be accepted for alignment. If you
+would like to work with bigger alignments consider installing
+AAConWS in your lab.</td>
+</tr>
+
+<tr>
+<td>Web Services Description</td>
+<td><a href="http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl"
+title="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?" rel=
+"nofollow">http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</a></td>
+</tr>
+</tbody>
+</table>
+
+For programmatic access to AAConWS please refer to the How To section <a href="howto.html#connectto">using AAConWS in your program</a>. 
+<h4>Authors</h4>
+<p>Peter Troshin, Agnieszka Golicz, David Martin and Geoff Barton are the authors of the AACon Web
+Services. </p>
+</div>
+
+<!-- content end-->
+<div id="copyright">Last update: 10 December 2010<br />
+ Peter Troshin and Geoff Barton, The Barton Group, University of
+Dundee, UK</div>
+</div>
+
+<!-- wrapper end-->
+</div>
+<!-- Google analitics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try{
+var pageTracker = _gat._getTracker("UA-5356328-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+<!-- page end-->
+</body>
+</html>
+

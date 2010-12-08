@@ -14,7 +14,7 @@
  * include this copyright and license notice.
  * 
  */
-package compbio.api;
+package compbio.conservation;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
@@ -36,7 +36,6 @@ import org.testng.annotations.Test;
 import compbio.conservation.Conservation;
 import compbio.conservation.ExecutorFactory;
 import compbio.conservation.SMERFSColumnScore;
-import compbio.conservation.SlowMethodTester;
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.Method;
 import compbio.data.sequence.SequenceUtil;

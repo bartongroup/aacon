@@ -16,9 +16,11 @@
  */
 package compbio.conservation;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 import compbio.data.sequence.Method;
+import compbio.util.NullOutputStream;
 import compbio.util.Timer;
 
 /**
@@ -38,7 +40,17 @@ final class MethodWrapper implements Callable<MethodWrapper> {
 	MethodWrapper(Method method, Conservation scores, Timer timer) {
 		this.method = method;
 		this.scores = scores;
-		this.timer = new Timer(timer);
+		if (timer == null) {
+			try {
+				this.timer = new Timer(new NullOutputStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new AssertionError(
+						"Cannot construct Timer with NullOutputStream?!");
+			}
+		} else {
+			this.timer = new Timer(timer);
+		}
 	}
 
 	@Override

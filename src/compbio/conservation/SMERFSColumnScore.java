@@ -27,8 +27,14 @@ package compbio.conservation;
 public enum SMERFSColumnScore {
 	MAX_SCORE, MID_SCORE;
 
+	/**
+	 * Default window size value for SMERFS algorithm
+	 */
 	public static final int DEFAULT_WINDOW_SIZE = 7;
 
+	/**
+	 * Default gap threshold value for SMERFS algorithm
+	 */
 	public static final double DEFAULT_GAP_THRESHOLD = 0.1;
 
 	static SMERFSColumnScore getSMERFSColumnScore(String score) {

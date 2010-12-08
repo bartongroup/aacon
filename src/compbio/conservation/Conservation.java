@@ -44,7 +44,7 @@ import compbio.data.sequence.UnknownFileFormatException;
  * 
  * @author Agnieszka Golicz & Peter Troshin
  */
-public final class Conservation {
+final class Conservation {
 
 	private final AminoAcidMatrix alignMatrix;
 	private final boolean normalize;

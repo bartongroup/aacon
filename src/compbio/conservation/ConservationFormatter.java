@@ -46,92 +46,6 @@ final class ConservationFormatter {
 	}
 
 	/**
-	 * Formats results
-	 * 
-	 * @param <T>
-	 * @param tag
-	 *            any object(usually used for members of enumeration)
-	 * @param result
-	 *            array of results to be printed
-	 * @param resultPrecision
-	 * @param print
-	 *            reference to PrintWriter object
-	 * 
-	 *            private static <T> void formatResult(T tag, double[] result,
-	 *            int resultPrecision, PrintWriter print) {
-	 * 
-	 *            String tagFormat = "%s"; String resultFormat = "%." +
-	 *            resultPrecision + "f"; print.printf(tagFormat, "#" +
-	 *            tag.toString()); for (int i = 0; i < result.length; i++) {
-	 *            print.printf(resultFormat, result[i]); print.print(" "); }
-	 *            print.println(); }
-	 */
-
-	/**
-	 * @param <T>
-	 * @param tag
-	 *            any object(usually used for members of enumeration)
-	 * @param result
-	 *            array of results to be printed
-	 * @param tagWidth
-	 * @param resultWidth
-	 * @param resultPrecision
-	 * @param print
-	 *            reference to PrintWriter object
-	 * 
-	 *            private static <T> void formatResultWithAlignment(T tag,
-	 *            double[] result, int tagWidth, int resultWidth, int
-	 *            resultPrecision, PrintWriter print) {
-	 * 
-	 *            String tagFormat = "%-" + tagWidth + "s"; String resultFormat
-	 *            = "%-" + resultWidth + "." + resultPrecision + "f";
-	 *            print.printf(tagFormat, "#" + tag.toString()); for (int i = 0;
-	 *            i < result.length; i++) { print.printf(resultFormat,
-	 *            result[i]); } print.println(); }
-	 */
-	/**
-	 * @param <T>
-	 * @param alignment
-	 * @param tag
-	 *            any object(usually used for members of enumeration)
-	 * @param result
-	 * @param tagWidth
-	 * @param resultWidth
-	 * @param resultPrecision
-	 * @param outputFile
-	 * @throws IOException
-	 * 
-	 *             static <T> void printResultWithAlignment(AminoAcidMatrix
-	 *             alignment, T tag, double[] result, int tagWidth, int
-	 *             resultWidth, int resultPrecision, String outputFile) throws
-	 *             IOException {
-	 * 
-	 *             PrintWriter print = openPrintWriter(outputFile, true);
-	 * 
-	 *             formatResultWithAlignment(tag, result, tagWidth, resultWidth,
-	 *             resultPrecision, print); print.close(); }
-	 */
-
-	/**
-	 * @param <T>
-	 * @param alignment
-	 * @param tag
-	 *            any object(usually used for members of enumeration)
-	 * @param result
-	 * @param resultPrecision
-	 * @param outputFile
-	 * @param append
-	 * @throws IOException
-	 * 
-	 *             static <T> void printResultNoAlignment(AminoAcidMatrix
-	 *             alignment, T tag, double[] result, int resultPrecision,
-	 *             String outputFile, boolean append) throws IOException {
-	 * 
-	 *             PrintWriter print = openPrintWriter(outputFile, append);
-	 *             formatResult(tag, result, resultPrecision, print);
-	 *             print.close(); }
-	 */
-	/**
 	 * Formats and prints results
 	 * 
 	 * @param scores
@@ -162,7 +76,7 @@ final class ConservationFormatter {
 		out.close();
 	}
 
-	private static void outputScoreLine(Map<Method, double[]> scores,
+	static void outputScoreLine(Map<Method, double[]> scores,
 			OutputStream outStream) {
 		PrintWriter print = new PrintWriter(outStream);
 		Iterator<Method> itr = scores.keySet().iterator();

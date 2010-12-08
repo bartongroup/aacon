@@ -39,7 +39,7 @@ import compbio.data.sequence.Method;
  * 
  * @author Agnieszka Golicz
  */
-public final class ResultReader {
+final class ResultReader {
 
 	/**
 	 * Reads printed results from the file.
