@@ -37,7 +37,7 @@ import compbio.util.NullOutputStream;
  * @author Peter Troshin
  * 
  */
-public final class ExecutorFactory {
+final class ExecutorFactory {
 
 	private enum ExecutorType {
 		SynchroniousCallerRuns, AsynchQueue

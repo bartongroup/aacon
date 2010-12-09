@@ -33,17 +33,19 @@ import compbio.data.sequence.Method;
 /**
  * A public API for conservation calculation methods.
  * 
- * Input in all methods are
- * 
+ * Input in all methods are <br/>
  * 1) The list of FastaSequence objects holding the aligned sequences. All
  * sequences must be of the same length (as this is an alignment). The input can
  * be conveniently loaded from either the Clustal formatted alignment file or
  * the file containing a list of FASTA formatted sequences using the following
  * method:
  * 
- * <code>List<FastaSequence> sequences = CmdParser
-				.openInputStream("PATH_TO_INPUT_FILE");
-   </code>
+ * <pre>
+ * {@code
+ * 	List<FastaSequence> sequences = CmdParser
+ * 			.openInputStream(<PATH_TO_INPUT_FILE>);
+ * }
+ * </pre>
  * 
  * 2) The boolean parameters telling the system whether the results should be
  * normalized or not. Normalized results have values between 0 and 1. Please
@@ -51,40 +53,37 @@ import compbio.data.sequence.Method;
  * system returns not normalized values, and log the issue to the standard error
  * stream. The following formula is used for normalization n = (d - dmin)/(dmax
  * - dmin) Negative results first converted to positive by adding an absolute
- * value of the most negative result.
- * 
+ * value of the most negative result. <br/>
  * 3) The ExecutorService object which is used to parallel the calculations. The
  * ExecutorService initialized with the number of threads equals to the number
- * of cores on the executing machine can be obtained as follows:
+ * of cores on the executing machine can be obtained as follows: <br/>
  * 
- * <code>
-    int corenum = Runtime.getRuntime().availableProcessors();
-	ExecutorService executor = Executors.newFixedThreadPool(corenum);
-	
-	........DO CALCULATIONS.........
-	
-	// shutdown the Executor
-	executor.shutdown();
-	
-   </code>
+ * <pre>
+ * {@code int corenum = Runtime.getRuntime().availableProcessors();
+ *   ExecutorService executor = Executors.newFixedThreadPool(corenum);
+ *   
+ *   ........DO CALCULATIONS.........
+ *   
+ *   // shutdown the Executor 
+ *   executor.shutdown(); 
+ *   }
+ * </pre>
+ * 
  * 
  * Please take care to initialize and pass only one executor to all the methods
  * to avoid the waist of resources. After use, the executor must be disposed of,
- * it can be done as follows:
+ * it can be done as follows: {@code executor.shutdown(); }
  * 
- * <code>
- 	executor.shutdown(); 
-  </code>
+ * An example use of this class for calculating conservation is below: <br/>
  * 
- * An example use of this class for calculating conservation is below:
- * 
- * <code>
+ * <pre>{@code
+ 
  	// Determine the number of CPU cores available on the system.  
  	int corenum = Runtime.getRuntime().availableProcessors();
  	
  	// Initialize the Executor instance with a number of cores
 	ExecutorService executor = Executors.newFixedThreadPool(corenum);
-
+	
 	// Load the data from the file containing either Clustal formatted alignment 
 	// or a list of FASTA formatted sequences
 	List<FastaSequence> sequences = CmdParser
@@ -96,8 +95,8 @@ import compbio.data.sequence.Method;
 	
 	// Print the results to the console.  
 	ConservationFormatter.outputScoreLine(result, System.out);
- 
-  </code>
+ } 
+  </pre>
  * 
  * @author Peter Troshin
  * @version 1.0 October 2010
@@ -117,27 +116,30 @@ public class ConservationCalculator {
 	 * 
 	 * @param methods
 	 *            the methods to be used for the calculation, all {@link Method}
-	 *            but SMERFS can be used. {@link EnumSet} provides a number of
-	 *            convenience methods which can be used to provide a set of
-	 *            methods for an input. For example, to use {@link Method#KABAT}
-	 *            for conservation calculation one could construct a set in the
-	 *            following way: {@link EnumSet#of(Method#KABAT)}) for all the
-	 *            methods, but SMERFS use the following construct:
+	 *            but SMERFS can be used. The {@link EnumSet} class provides a
+	 *            number of convenience methods which can be used to prepare a
+	 *            set of methods for the input. For example, to use
+	 *            {@link Method#KABAT} for conservation calculation one could
+	 *            construct a set in the following way:
+	 *            {@code EnumSet.of(Method.KABAT)}.<br/>
 	 * 
-	 *            <code>EnumSet.complementOf(EnumSet.of(Method.SMERFS))</code>
+	 *            For all the methods, but SMERFS use the following construct:
 	 * 
-	 *            for a set of methods including KABAT, JORES, SCHNEIDER,
+	 * <br/> {@code EnumSet.complementOf(EnumSet.of(Method.SMERFS))} <br/>
+	 * 
+	 *            For a set of methods including KABAT, JORES, SCHNEIDER,
 	 *            SHENKIN, GERSTEIN use the following construct:
 	 * 
-	 *            <code>EnumSet.range(Method.KABAT, Method.GERSTEIN)</code>
+	 * <br/> {@code EnumSet.range(Method.KABAT, Method.GERSTEIN)}<br/>
+	 * 
+	 *            For further details see {@link EnumSet}
 	 * 
 	 * @param executor
-	 *            the {@link ExecutorService} to be used to paralelize the
+	 *            the {@link ExecutorService} to be used to parallelize the
 	 *            calculations
 	 * @return the Map of Method->double[] conservation scores
 	 * @throws InterruptedException
 	 *             if the calculating Thread was interrupted
-	 * @see EnumSet for further help on preparing Method sets
 	 */
 	public static Map<Method, double[]> getConservation(
 			List<FastaSequence> alignment, boolean normalize,

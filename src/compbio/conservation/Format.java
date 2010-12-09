@@ -26,16 +26,14 @@ public enum Format {
 
 	/**
 	 * Output just the conservation scores, but no alignment in the following
-	 * format:
-	 * 
-	 * #Method name scores
-	 * 
+	 * format: <br/>
+	 * #Method name scores <br/>
 	 * For example:
 	 * 
+	 * <pre>{@code
 	 * #SANDER 0 0.345 0.543 0.667 1 0.2
-	 * 
-	 * #SMERFS 1 1 1 1 1 1 1 1 1 1
-	 * 
+	 * #SMERFS 1 1 1 1 1 1 1 1 1 1 
+	 * }</pre>
 	 */
 	RESULT_WITH_ALIGNMENT,
 
