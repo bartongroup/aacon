@@ -20,17 +20,16 @@
 <div id="wrapper">
 <div id="panel">
 	<a href="index.html">Home</a>
-	<a href="command.html">Standalone</a>
-	<a class="selected" href="webservice.html">Web Service</a>
-	<a href="library.html">Library</a>
-	<a href="download.html">Download</a>
+<a href="command.html" title="Click to view more information on the command line version of AACon" >Standalone</a>
+	<a class="selected" href="webservice.html" title="Click to view more information on AACon SOAP web service and how to use it" >Web Service</a>
+	<a title="Click to view more information on AACon Java library" href="library.html">Library</a>	
+	<a href="download.html" title="Click to download AACon" >Download</a>
+
 	<a href="http://www.compbio.dundee.ac.uk">Barton Group</a></div>
 <!-- panel end-->
 <div id="content">
 
-
-
-<h2 align="center">AACon Web Service How To</h2>
+<h2 id="headtitle">AACon Web Service How To</h2>
 <p>This page provides some tips on using AACon web service.</p>
 <h4><a name="wsfunctions" id="wsfunctions"></a>Web services functions overview </h4>
 <p><strong>Functions for initiating the alignment </strong><span class="code"> String id = analize(List&lt;FastaSequence&gt; list)<br />
@@ -107,14 +106,6 @@
   MsaWS msaws = serv.getPort(new QName(qualifiedServiceName, clustal<br />
   + &quot;Port&quot;), MsaWS.class);</p>
 <p>Where Services is enumeration of AAConWS web services. All AAConWS multiple sequence alignment methods confirm to MsaWS specification, thus from the caller point of view all AAConWS web services can be represented by MsaWS interface. The full documentation of MsaWS functions is available from the <a href="file:///D:/workspace/JWS2/website/dm_javadoc/compbio/data/msa/MsaWS.html">javadoc</a>. </p>
-<h4><a name="validnames" id="validnames"></a>Valid AAConWS service names and WSDL files </h4>
-<ul>
-  <li><a href="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?wsdl">ClustalWS</a> (http://www.compbio.dundee.ac.uk/aacon/ClustalWS?wsdl) </li>
-  <li><a href="http://www.compbio.dundee.ac.uk/jabaws/MuscleWS?wsdl">MuscleWS</a> (http://www.compbio.dundee.ac.uk/aacon/MuscleWS?wsdl) </li>
-  <li><a href="http://www.compbio.dundee.ac.uk/jabaws/MafftWS?wsdl">MafftWS</a> (http://www.compbio.dundee.ac.uk/aacon/MafftWS?wsdl) </li>
-  <li><a href="http://www.compbio.dundee.ac.uk/jabaws/TcoffeeWS?wsdl">TcoffeeWS</a> (http://www.compbio.dundee.ac.uk/aacon/TcoffeeWS?wsdl) </li>
-  <li><a href="http://www.compbio.dundee.ac.uk/jabaws/ProbconsWS?wsdl">ProbconsWS</a> (http://www.compbio.dundee.ac.uk/aacon/ProbconsWS?wsdl) </li>
-</ul>
 <h4><a name="defalign" id="defalign"></a>Aligning sequences </h4>
 <p>Given that <span class="hightlight">msaws</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the actual alignment can be obtained as follows: </p>
 <p class="code">1) List&lt;FastaSequence&gt; fastalist = SequenceUtil.readFasta(new FileInputStream(file));<br />

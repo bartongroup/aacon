@@ -460,14 +460,7 @@ final class Conservation {
 	 *            the Map of Method-> conservation values to output
 	 */
 	public static void printResults(Map<Method, double[]> results) {
-		try {
-			ConservationFormatter.formatResults(results, null,
-					Format.RESULT_NO_ALIGNMENT, null);
-		} catch (IOException ignored) {
-			// this will never happen as no writing to real file happens
-			// in the call to the function above
-			ignored.printStackTrace();
-		}
+		ConservationFormatter.formatResults(results, System.out);
 	}
 
 	/**

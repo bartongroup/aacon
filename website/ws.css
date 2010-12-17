@@ -19,9 +19,18 @@ See index.html banner commented out code for an example of use
 			 font-family:Verdana, Arial, Helvetica, sans-serif;
 			 font-size:smaller;
 			 line-height:1em;
- }
+}
+ 
+#browsers {
+			text-align:left; 
+			 color:#999999; 
+			 font-family:Verdana, Arial, Helvetica, sans-serif;
+			 font-size:smaller;
+			 line-height:1em;
 
-#wrapper { background:url("images/panel_bg1.gif") repeat-y left top; }
+}
+
+#wrapper { background:url("images/panel_bg1.gif") repeat-y left top; margin:0; padding:0;}
 
 ul {
 	list-style-type: circle;
@@ -214,6 +223,16 @@ body {
 }
 
 h3 {border-bottom: 1px solid grey; margin-top: 2em; }
+
+
+#headtitle { margin:0; text-align:center; }
+
+#banner h2 { margin: 20px 0; }
+
+#banner td {
+	padding:0;
+	margin:0;
+}
 
 #banner td.bg  {
 	border-collapse: collapse; 

@@ -252,4 +252,23 @@ public class ConservationCalculator {
 				SMERFSColumnScore.DEFAULT_GAP_THRESHOLD);
 	}
 
+	/*
+	 * TODO remove public static void main(String[] args) throws
+	 * InterruptedException, IOException, UnknownFileFormatException { int
+	 * corenum = Runtime.getRuntime().availableProcessors(); // Initialize the
+	 * Executor instance with a number of cores ExecutorService executor =
+	 * Executors.newFixedThreadPool(corenum); // Load the data from the file
+	 * containing either Clustal formatted // alignment // or a list of FASTA
+	 * formatted sequences. Assuming that small.align // file is // in the same
+	 * directory as this program List<FastaSequence> sequences = CmdParser
+	 * .openInputStream("test/data/small.align"); // Calculate conservation
+	 * scores using all the methods available. Map<Method, double[]> result =
+	 * getConservation(sequences, true,
+	 * EnumSet.complementOf(EnumSet.of(Method.SMERFS)), executor); // Print the
+	 * results to the console. FileOutputStream outfile = new
+	 * FileOutputStream("results.txt");
+	 * ConservationFormatter.formatResults(result, outfile); outfile.close();
+	 * ConservationFormatter.formatResults(result, "test.txt",
+	 * Format.RESULT_NO_ALIGNMENT, sequences); executor.shutdown(); }
+	 */
 }

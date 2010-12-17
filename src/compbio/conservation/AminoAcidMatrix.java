@@ -20,7 +20,6 @@ package compbio.conservation;
 // gets fasta sequences and puts them into matrix
 // might have to check if all sequences are equal length(ask)
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,7 +34,6 @@ import compbio.common.NotAnAminoAcidException;
 import compbio.common.SequencesNotEquallyLongException;
 import compbio.data.sequence.Alignment;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.SequenceUtil;
 
 /**
  * This class provides representation of an alignment as a matrix implemented as
@@ -698,7 +696,7 @@ final class AminoAcidMatrix {
 	 *            output file path
 	 * @throws IOException
 	 */
-	void printAlignment(OutputStream out) throws IOException {
+	List<FastaSequence> getAlignment() throws IOException {
 		List<FastaSequence> fastaseqs = new ArrayList<FastaSequence>();
 		for (int i = 0; i < this.numberOfRows(); i++) {
 			StringBuffer sb = new StringBuffer();
@@ -707,7 +705,7 @@ final class AminoAcidMatrix {
 			}
 			fastaseqs.add(new FastaSequence(sequenceNames[i], sb.toString()));
 		}
-		SequenceUtil.writeFastaKeepTheStream(out, fastaseqs, 80);
+		return fastaseqs;
 	}
 
 	@Override

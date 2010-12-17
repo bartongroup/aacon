@@ -19,25 +19,102 @@
 </div><!-- banner end-->
 <div id="wrapper">
 <div id="panel">
-	<a href="index.html">Home</a>
-	<a href="command.html">Standalone</a>
-	<a href="webservice.html">Web Service</a>
-	<a class="selected" href="library.html">Library</a>	
-	<a href="download.html">Download</a>
+	<a href="index.html" >Home</a>
+	<a href="command.html" title="Click to view more information on the command line version of AACon" >Standalone</a>
+	<a href="webservice.html" title="Click to view more information on AACon SOAP web service and how to use it" >Web Service</a>
+	<a class="selected" title="Click to view more information on AACon Java library" href="library.html">Library</a>	
+	<a href="download.html" title="Click to download AACon" >Download</a>
 	<a href="http://www.compbio.dundee.ac.uk">Barton Group</a></div>
 <!-- panel end-->
 <div id="content">
+<h2 id="headtitle">AACon Java Library </h2>
+<p>This page provides information pertaining to AACon Java library usage.</p>
+<h4>Using AACon Java library </h4>
+<p><strong>For impatient:</strong> please find the complete example <a href="#example">below</a> </p>
+<p>To calculate conservation using AACon follow the steps </p>
+<ol>
+  <li> <a href="#loaddata">Load data </a></li>
+  <li> <a href="#initexec">Initialize the executor </a></li>
+  <li><a href="#norm">Decide on normalization</a> </li>
+  <li> <a href="#setmethods">Set conservation methods  </a></li>
+  <li> <a href="#outresults">Output the results</a></li>
+</ol>
+<p>All these steps are discussed in greater details below.  </p>
+<h4><a name="loaddata" id="loaddata"></a>Loading data</h4>
+<p>AACon methods require a List of FastaSequence objects as input. Below is an example of how to load the Fasta formatted sequence file or the Clustal alignment file. For this call to succeed all
+  the sequences must be of the same length (as this is an alignment). <br />
+    <span class="code"> List&lt;FastaSequence&gt; sequences = CmdParser.openInputStream(&lt;PATH_TO_INPUT_FILE&gt;); </span></p>
+<p>For the  examples of the input file please see <a href="command.html#in">AACon standalone executable help page</a>. </p>
+<h4><a name="initexec" id="initexec"></a>Initializing the executor </h4>
+<p>AACon methods require the <a href="http://download.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/ExecutorService.html">ExecutorService</a> object which is used to parallel the calculations. The
+  ExecutorService initialized with the number of threads equals to the number
+  of cores on the executing machine is recommended for a faster calculation and can be obtained as follows: </p>
+<span class="code"> int corenum = Runtime.getRuntime().availableProcessors();
+   <br />
+   ExecutorService executor = Executors.newFixedThreadPool(corenum); </span>
+<p> Please take care to initialize and pass only one executor to all the methods
+  to avoid the waist of resources. After use, the executor must be disposed of,
+  it can be done as follows: <span class="code">executor.shutdown(); </span></p>
+<h4><a name="norm" id="norm"></a>Normalization</h4>
+<p>AACon methods require the boolean parameter telling the system whether the results should be
+  normalized or not. Normalized results have values between 0 and 1. Please
+  note however, that some results cannot be normalized. In such a case, the
+  system returns not normalized values, and log the issue to the standard error
+  stream. The following formula is used for normalization <span class="box">n = (d - dmin)/(dmax
+    - dmin)</span> Negative results first converted to positive by adding an absolute
+  value of the most negative result.</p>
+<h4><a name="setmethods" id="setmethods"></a>Setting the conservation methods </h4>
+<p>AACon ConservationCalculator.getConservation() method requires a Set of conservation Methods to use for calculating the conservation as the input parameter. Below is the list of examples of making such sets. </p>
+<ul>
+  <li>To calculate conservation according to KABAT method             construct a set in the following way -
+    EnumSet.of(Method.KABAT).</li>
+  <li>For all the methods, but SMERFS use the following construct - EnumSet.complementOf(EnumSet.of(Method.SMERFS))</li>
+  <li>For  a set of methods including KABAT, JORES, SCHNEIDER, 	             SHENKIN and GERSTEIN use the following construct - EnumSet.range(Method.KABAT, Method.GERSTEIN)<br />
+  </li>
+  </ul>
+<h4><a name="outresults" id="outresults"></a>Output the results</h4>
+<p>The results can be output using one of the following methods </p>
+<ol>
+  <li>ConservationFormatter.formatResults(Map&lt;Method, double[]&gt; scores, OutputStream outStream)</li>
+  <li> ConservationFormatter.formatResults(Map&lt;Method, double[]&gt; scores,
+    String outFilePath, Format format, List&lt;FastaSequence&gt; alignment)</li>
+</ol>
+<p>Use the first method to output the results of the calculation without an alignment to any OutputStream. Use the second method to output results with the alignment. </p>
+<p>First method usage example </p>
+<p class="code">//  Usage example - printing results to the console <br />
+  ConservationFormatter.outputScoreLine(result, System.out)<br />
+  // printing results to the file <br />
+  FileOutputStream outfile = new FileOutputStream(&quot;results.txt&quot;);<br />
+ConservationFormatter.formatResults(result, outfile);<br />
+outfile.close();</p>
+Second method usage example   
+<p class="code">//  Usage example - printing results with alignment in Fasta format to the file called output.txt <br />
+  ConservationFormatter.formatResults(result, &quot;test.txt&quot;,
+  Format.RESULT_WITH_ALIGNMENT, sequences);</p>
+<p>For more information on the output formats please see <a href="command.html#out">standalone AACon help</a>. </p>
+<h4><a name="example" id="example"></a>An example </h4>
+<p>Using AACon library for calculating conservation</p>
+<pre><span class="code">// Determine the number of CPU cores available on the system.  
+int corenum = Runtime.getRuntime().availableProcessors();
+// Initialize the Executor instance with a number of cores
+ExecutorService executor = Executors.newFixedThreadPool(corenum);
 
+// Load the data from the file containing either Clustal formatted alignment 
+// or a list of FASTA formatted sequences. Assuming that small.align file is
+// in the same directory as this program
+List&lt;FastaSequence&gt; sequences = CmdParser.openInputStream(&quot;small.align&quot;);
+	
+// Calculate conservation scores using all methods apart from SMERFS.
+Map&lt;Method, double[]&gt; result = getConservation(sequences, true,
+EnumSet.complementOf(EnumSet.of(Method.SMERFS)), executor);
 
-
-<h2 align="center">AACon Java Library </h2>
-<p>This page provides information pertaining to AACon Java library.</p>
-<p>&nbsp;</p>
-<h3>&nbsp;</h3>
+// Print the results to the console.  
+ConservationFormatter.formatResults(result, System.out);
+</span></pre>
 </div>
 <!-- content end--> 
-<div id="copyright">Last update: 10 December 2010<br/>
-Peter Troshin and Geoff Barton, The Barton Group, University of Dundee, UK</div>
+<div id="copyright">Last update: 10 December 2010<br />
+   Peter Troshin and Geoff Barton, The Barton Group, University of Dundee, UK</div>
 </div><!-- wrapper end-->
 </div> <!-- page end-->
 <!-- Google analitics -->
