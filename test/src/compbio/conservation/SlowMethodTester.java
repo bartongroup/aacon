@@ -30,8 +30,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.Method;
+import compbio.data.sequence.SMERFSConstraints;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 import compbio.util.Timer;
@@ -70,7 +71,7 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.VALDAR);
+			double[] result = scores.calculateScore(ConservationMethod.VALDAR);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
@@ -105,7 +106,8 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.LANDGRAF);
+			double[] result = scores
+					.calculateScore(ConservationMethod.LANDGRAF);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
@@ -139,7 +141,7 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.getSMERFS(11, SMERFSColumnScore.MID_SCORE,
+			double[] result = scores.getSMERFS(11, SMERFSConstraints.MID_SCORE,
 					0.2);
 			System.out.println("Calculating SMERFS scores: "
 					+ timer.getStepTime());
@@ -176,7 +178,7 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.JORES);
+			double[] result = scores.calculateScore(ConservationMethod.JORES);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
@@ -209,7 +211,7 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.JORES);
+			double[] result = scores.calculateScore(ConservationMethod.JORES);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 
@@ -238,7 +240,7 @@ public class SlowMethodTester {
 			Conservation cons = Conservation.getConservation(input, true,
 					ExecutorFactory.getExecutor());
 
-			double[] results = cons.calculateScore(Method.ARMON);
+			double[] results = cons.calculateScore(ConservationMethod.ARMON);
 
 			AminoAcidMatrix alignment = new AminoAcidMatrix(sequences, null);
 			System.out.println("Converting to Matrix: " + timer.getStepTime());
@@ -248,7 +250,7 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.ARMON);
+			double[] result = scores.calculateScore(ConservationMethod.ARMON);
 			Assert.assertTrue(Arrays.equals(results, result));
 
 			System.out.println("Calculating sadler scores: "
@@ -288,7 +290,7 @@ public class SlowMethodTester {
 			System.out.println("Constructing conservation scores: "
 					+ timer.getStepTime());
 
-			double[] result = scores.calculateScore(Method.JORES);
+			double[] result = scores.calculateScore(ConservationMethod.JORES);
 			System.out.println("Calculating sadler scores: "
 					+ timer.getStepTime());
 

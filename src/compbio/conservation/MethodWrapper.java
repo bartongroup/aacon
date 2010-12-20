@@ -19,7 +19,7 @@ package compbio.conservation;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
-import compbio.data.sequence.Method;
+import compbio.data.sequence.ConservationMethod;
 import compbio.util.NullOutputStream;
 import compbio.util.Timer;
 
@@ -32,12 +32,12 @@ import compbio.util.Timer;
 final class MethodWrapper implements Callable<MethodWrapper> {
 
 	double[] conservation = null;
-	final Method method;
+	final ConservationMethod method;
 	private final Conservation scores;
 
 	final Timer timer;
 
-	MethodWrapper(Method method, Conservation scores, Timer timer) {
+	MethodWrapper(ConservationMethod method, Conservation scores, Timer timer) {
 		this.method = method;
 		this.scores = scores;
 		if (timer == null) {
@@ -55,7 +55,7 @@ final class MethodWrapper implements Callable<MethodWrapper> {
 
 	@Override
 	public MethodWrapper call() throws Exception {
-		assert method != Method.SMERFS : " Must use separate method to calculate "
+		assert method != ConservationMethod.SMERFS : " Must use separate method to calculate "
 				+ "SMERFS to avoid thread contantion";
 
 		timer.getStepTime();

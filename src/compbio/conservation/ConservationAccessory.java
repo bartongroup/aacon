@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import compbio.data.sequence.Method;
+import compbio.data.sequence.ConservationMethod;
 
 final class ConservationAccessory {
 
@@ -212,7 +212,7 @@ final class ConservationAccessory {
 	 * @return array of normalized scores
 	 */
 
-	static double[] normalize01(double[] scores, Method method) {
+	static double[] normalize01(double[] scores, ConservationMethod method) {
 
 		double[] normalized = new double[scores.length];
 		double max = scores[0];
@@ -276,7 +276,8 @@ final class ConservationAccessory {
 	 * 
 	 * @return the array of numbers equal 1 - normalized score.
 	 */
-	static double[] inversedNormalize01(double[] scores, Method method) {
+	static double[] inversedNormalize01(double[] scores,
+			ConservationMethod method) {
 		double[] normalized = normalize01(scores, method);
 		// Can't normalize
 		if (normalized == null) {

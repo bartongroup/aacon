@@ -27,8 +27,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 import compbio.data.sequence.Alignment;
+import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.Method;
+import compbio.data.sequence.SMERFSConstraints;
 
 /**
  * A public API for conservation calculation methods.
@@ -141,12 +142,12 @@ public class ConservationCalculator {
 	 * @throws InterruptedException
 	 *             if the calculating Thread was interrupted
 	 */
-	public static Map<Method, double[]> getConservation(
+	public static Map<ConservationMethod, double[]> getConservation(
 			List<FastaSequence> alignment, boolean normalize,
-			Set<Method> methods, ExecutorService executor)
+			Set<ConservationMethod> methods, ExecutorService executor)
 			throws InterruptedException {
-		final Map<Method, double[]> results = new EnumMap<Method, double[]>(
-				Method.class);
+		final Map<ConservationMethod, double[]> results = new EnumMap<ConservationMethod, double[]>(
+				ConservationMethod.class);
 
 		// Make a matrix out of the alignment
 		AminoAcidMatrix alignMatrix = new AminoAcidMatrix(alignment, null);
@@ -154,11 +155,24 @@ public class ConservationCalculator {
 		Conservation scores = new Conservation(alignMatrix, normalize, executor);
 		List<MethodWrapper> tasks = new ArrayList<MethodWrapper>();
 
-		for (Method method : methods) {
+		for (ConservationMethod method : methods) {
+			// Start SMERFS from the main thread, as it has
+			// its own means of dividing the tasks and executing in
+			// parallel
+			if (method == ConservationMethod.SMERFS) {
+				double[] conservation = scores.getSMERFS(
+						SMERFSConstraints.DEFAULT_WINDOW_SIZE,
+						SMERFSConstraints.MID_SCORE,
+						SMERFSConstraints.DEFAULT_GAP_THRESHOLD);
+				results.put(ConservationMethod.SMERFS, conservation);
+				continue;
+			}
 			// Start other methods capable of running in multiple threads
 			// from the main thread.
-			if (method == Method.LANDGRAF || method == Method.SANDER
-					|| method == Method.KARLIN || method == Method.VALDAR) {
+			if (method == ConservationMethod.LANDGRAF
+					|| method == ConservationMethod.SANDER
+					|| method == ConservationMethod.KARLIN
+					|| method == ConservationMethod.VALDAR) {
 				double[] result = scores.calculateScore(method);
 				results.put(method, result);
 				continue;
@@ -171,7 +185,7 @@ public class ConservationCalculator {
 	}
 
 	private static void waitResults(ExecutorService executor,
-			List<MethodWrapper> tasks, Map<Method, double[]> results)
+			List<MethodWrapper> tasks, Map<ConservationMethod, double[]> results)
 			throws InterruptedException {
 		List<Future<MethodWrapper>> rawResults = executor.invokeAll(tasks);
 		for (Future<MethodWrapper> rawResult : rawResults) {
@@ -208,7 +222,7 @@ public class ConservationCalculator {
 	 *         the alignment
 	 */
 	public static double[] getSMERFSScore(Alignment alignment, int windowWidth,
-			SMERFSColumnScore scoringMethod, float gapTreshold,
+			SMERFSConstraints scoringMethod, float gapTreshold,
 			boolean normalize, ExecutorService service) {
 
 		// Make a matrix out of the alignment
@@ -220,36 +234,6 @@ public class ConservationCalculator {
 		// its own means of dividing the tasks and executing in
 		// parallel
 		return scores.getSMERFS(windowWidth, scoringMethod, gapTreshold);
-	}
-
-	/**
-	 * Calculating the SMERFS score with custom parameters. This method uses
-	 * default parameters for SMERFS algorithm.
-	 * 
-	 * @param alignment
-	 *            the List of FastaSequence objects holding each sequence from
-	 *            the alignment the gap threshold for SMERFS algorithm
-	 * @param normalize
-	 *            the boolean value indicating whether the resulting score
-	 *            should be normalized, true if it does.
-	 * @param service
-	 *            the {@link ExecutorService} to be used to parallel
-	 *            calculations
-	 * @return the array of double values - SMERFS scores for each position in
-	 *         the alignment
-	 * 
-	 * @see SMERFSColumnScore
-	 */
-	public static double[] getSMERFSScore(List<FastaSequence> alignment,
-			boolean normalize, ExecutorService service) {
-
-		// Make a matrix out of the alignment
-		AminoAcidMatrix alignMatrix = new AminoAcidMatrix(alignment, null);
-		Conservation scores = new Conservation(alignMatrix, normalize, service);
-
-		return scores.getSMERFS(SMERFSColumnScore.DEFAULT_WINDOW_SIZE,
-				SMERFSColumnScore.MID_SCORE,
-				SMERFSColumnScore.DEFAULT_GAP_THRESHOLD);
 	}
 
 	/*

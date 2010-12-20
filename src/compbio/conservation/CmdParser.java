@@ -29,8 +29,8 @@ import java.util.Set;
 import compbio.common.IllegalGapCharacterException;
 import compbio.data.sequence.Alignment;
 import compbio.data.sequence.ClustalAlignmentUtil;
+import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.Method;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 
@@ -308,15 +308,16 @@ public final class CmdParser {
 	 *            array of cmd arguments
 	 * @return method name or null if no method name provided
 	 */
-	static Set<Method> getMethodNames(String[] cmd) {
-		Set<Method> methods = EnumSet.noneOf(Method.class);
+	static Set<ConservationMethod> getMethodNames(String[] cmd) {
+		Set<ConservationMethod> methods = EnumSet
+				.noneOf(ConservationMethod.class);
 		for (int i = 0; i < cmd.length; i++) {
 			String meths = cmd[i];
 			if (meths.trim().toLowerCase().startsWith(methodKey + pseparator)) {
 				String[] mets = meths.substring(meths.indexOf(pseparator) + 1)
 						.split(",");
 				for (String method : mets) {
-					methods.add(Method.getMethod(method));
+					methods.add(ConservationMethod.getMethod(method));
 				}
 			}
 		}

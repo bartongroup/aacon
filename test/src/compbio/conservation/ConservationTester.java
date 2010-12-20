@@ -33,19 +33,17 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import compbio.conservation.Conservation;
-import compbio.conservation.ExecutorFactory;
-import compbio.conservation.SMERFSColumnScore;
+import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.Method;
+import compbio.data.sequence.SMERFSConstraints;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 
 public class ConservationTester {
 
 	static ExecutorFactory efactory;
-	private Map<Method, double[]> norm_results = null;
-	private Map<Method, double[]> results = null;
+	private Map<ConservationMethod, double[]> norm_results = null;
+	private Map<ConservationMethod, double[]> results = null;
 
 	private static File input = new File(SlowMethodTester.DATA_PATH
 			+ File.separator + "avg4.aln.fa");
@@ -69,7 +67,8 @@ public class ConservationTester {
 
 		Conservation scores = Conservation.getConservation(sequences, true,
 				ExecutorFactory.getExecutor());
-		EnumSet<Method> set = EnumSet.allOf(Method.class);
+		EnumSet<ConservationMethod> set = EnumSet
+				.allOf(ConservationMethod.class);
 
 		norm_results = scores.calculateScores(set);
 		scores = Conservation.getConservation(sequences, false,
@@ -92,13 +91,13 @@ public class ConservationTester {
 		try {
 			cons = Conservation.getConservation(input, false,
 					ExecutorFactory.getExecutor());
-			double[] result = cons.calculateScore(Method.VALDAR);
+			double[] result = cons.calculateScore(ConservationMethod.VALDAR);
 
 			cons = Conservation.getConservation(input, false,
 					ExecutorFactory.getExecutor());
-			double[] result2 = cons.calculateScore(Method.VALDAR);
+			double[] result2 = cons.calculateScore(ConservationMethod.VALDAR);
 
-			Assert.assertEquals(results.get(Method.VALDAR).length,
+			Assert.assertEquals(results.get(ConservationMethod.VALDAR).length,
 					result.length);
 
 			System.out.println(Arrays.toString(result));
@@ -127,11 +126,11 @@ public class ConservationTester {
 
 			Conservation c = Conservation.getConservation(input, false,
 					ExecutorFactory.getExecutor());
-			Map<Method, double[]> apiresults = c.calculateScores(EnumSet
-					.allOf(Method.class));
+			Map<ConservationMethod, double[]> apiresults = c
+					.calculateScores(EnumSet.allOf(ConservationMethod.class));
 			assertNotNull(results);
-			for (Method method : apiresults.keySet()) {
-				if (method == Method.LANDGRAF) {
+			for (ConservationMethod method : apiresults.keySet()) {
+				if (method == ConservationMethod.LANDGRAF) {
 					// Landgrap results never repeats as they have random
 					// element
 					Assert.assertNotNull(apiresults.get(method));
@@ -172,11 +171,11 @@ public class ConservationTester {
 
 			Conservation c = Conservation.getConservation(input, false,
 					ExecutorFactory.getExecutor());
-			Map<Method, double[]> apiresults = c.calculateScores(EnumSet
-					.allOf(Method.class));
+			Map<ConservationMethod, double[]> apiresults = c
+					.calculateScores(EnumSet.allOf(ConservationMethod.class));
 			assertNotNull(results);
-			for (Method method : apiresults.keySet()) {
-				if (method == Method.LANDGRAF) {
+			for (ConservationMethod method : apiresults.keySet()) {
+				if (method == ConservationMethod.LANDGRAF) {
 					// Landgrap results never repeats as they have random
 					// element
 					Assert.assertNotNull(apiresults.get(method));
@@ -212,14 +211,14 @@ public class ConservationTester {
 
 			Conservation c = Conservation.getConservation(input, false,
 					ExecutorFactory.getExecutor());
-			double[] apiresults = c.getSMERFS(11, SMERFSColumnScore.MID_SCORE,
+			double[] apiresults = c.getSMERFS(11, SMERFSConstraints.MID_SCORE,
 					0.23);
 			assertNotNull(results);
 			assertNotNull(apiresults);
 			Assert.assertEquals(apiresults.length,
-					results.get(Method.SMERFS).length);
+					results.get(ConservationMethod.SMERFS).length);
 			Assert.assertFalse(Arrays.equals(apiresults,
-					results.get(Method.SMERFS)));
+					results.get(ConservationMethod.SMERFS)));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

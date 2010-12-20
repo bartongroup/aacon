@@ -32,7 +32,7 @@
 <h2 id="headtitle">AACon Web Service How To</h2>
 <p>This page provides some tips on using AACon web service.</p>
 <h4><a name="wsfunctions" id="wsfunctions"></a>Web services functions overview </h4>
-<p><strong>Functions for initiating the alignment </strong><span class="code"> String id = analize(List&lt;FastaSequence&gt; list)<br />
+<p><strong>Functions for conservation calculation </strong><span class="code"> String id = analize(List&lt;FastaSequence&gt; list)<br />
   String id = customAnalize(List&lt;FastaSequence&gt; sequenceList, List&lt;Option&gt; optionList)<br />
   String id = presetAnalize(List&lt;FastaSequence&gt; sequenceList, Preset preset)</span></p>
 <p><strong>Functions pertaining to job monitoring and control</strong><br />
@@ -73,64 +73,32 @@
   Please refer to a <a href="dm_javadoc/index.html">data model javadoc</a> for a detailed description of each class and its methods. </p>
 <h4><a name="connectto" id="connectto"></a>Connecting to AAConWS</h4>
 <p class="attention">For a complete working example of AAConWS command line client please see compbio.ws.client.Jws2Client class. AAConWS command line client source code is available from the <a href="download.html">download page</a>. Please note that for now all the examples are in Java other languages will follow given a sufficient demand. </p>
-<p>Download a binary AAConWS <a href="download.html">client</a>. Add the client to the class path. The following code excerpt will connect your program to Clustal web service deployed in the University of Dundee. </p>
-<p class="code"> import java.net.URL;<br />
-  import javax.xml.namespace.QName;<br />
-  import javax.xml.ws.Service;<br />
-  ...............<br />
-  1) String qualifiedName = &quot;http://msa.data.compbio/01/01/2010/&quot;;<br />
-  2) URL url = new URL(&quot;http://www.compbio.dundee.ac.uk/aacon/ClustalWS?wsdl&quot;);<br />
-  3) QName qname = new QName(, &quot;ClustalWS&quot;);<br />
-  4) Service serv = Service.create(url, qname);<br />
-  5) MsaWS msaws = serv.getPort(new QName(qualifiedName, &quot;ClustalWSPort&quot;),
-  MsaWS.class);</p>
-<p>Line 1 makes a qualified name for JABA web services.<br />
-  Line 2 
-  constructs the URL to the web services WSDL. <br />
-  Line 3 makes a qualified name instance for Clustal JABA web service. <br />
-  Line 4 creates a service instance.<br />
-  Line 5 makes a connection to the server. </p>
-<p>A more generic connection method would look like this </p>
-<p class="code"> import java.net.URL;<br />
-  import javax.xml.namespace.QName;<br />
-  import javax.xml.ws.Service;<br />
-  import compbio.ws.client.Services<br />
-  .............. <br />
-  String qualifiedServiceName = &quot;http://msa.data.compbio/01/01/2010/&quot;;<br />
-  String host = &quot;http://www.compbio.dundee.ac.uk/aacon&quot;;<br />
-  // In real life the service name can come from args<br />
-  Services clustal = Services.ClustalWS;<br />
-  URL url = new URL(host + &quot;/&quot; + clustal.toString() + &quot;?wsdl&quot;);<br />
-  QName qname = new QName(qualifiedServiceName, clustal.toString());<br />
-  Service serv = Service.create(url, qname);<br />
-  MsaWS msaws = serv.getPort(new QName(qualifiedServiceName, clustal<br />
-  + &quot;Port&quot;), MsaWS.class);</p>
-<p>Where Services is enumeration of AAConWS web services. All AAConWS multiple sequence alignment methods confirm to MsaWS specification, thus from the caller point of view all AAConWS web services can be represented by MsaWS interface. The full documentation of MsaWS functions is available from the <a href="file:///D:/workspace/JWS2/website/dm_javadoc/compbio/data/msa/MsaWS.html">javadoc</a>. </p>
+<p>Download a binary AAConWS <a href="download.html">client</a>. Add the client to the class path. The following code excerpt will connect your program to AAConWS web service deployed in the University of Dundee. </p>
+<p class="code"> Annotation&lt;AACon&gt; client = (Annotation&lt;AACon&gt;)Jws2Client.connect(&quot;http://www.compbio.dundee.ac.uk/aacon&quot;,<br />
+Services.AAConWS);</p>
 <h4><a name="defalign" id="defalign"></a>Aligning sequences </h4>
-<p>Given that <span class="hightlight">msaws</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the actual alignment can be obtained as follows: </p>
-<p class="code">1) List&lt;FastaSequence&gt; fastalist = SequenceUtil.readFasta(new FileInputStream(file));<br />
-  2) String jobId = msaws.align(fastalist); <br />
-  3) Alignment alignment = msaws.getResult(jobId);</p>
-<p>Line  one loads FASTA sequence from the file<br />
+<p>Given that <span class="hightlight">client</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the actual alignment can be obtained as follows: </p>
+<p class="code">1) List&lt;FastaSequence&gt; fsl = SequenceUtil.readFasta(new FileInputStream(&quot;alignment.fasta&quot;));<br />
+  2) String jobId = msaws.analize(fsl);<br />
+  3) HashSet&lt;Score&gt; result = msaws.getAnnotation(jobId);</p>
+<p>Line  one loads sequence alignment from the file<br />
   Line two submits them to web service represented by msaws proxy <br />
-  Line three retrieves the alignment from a web service. This line will block the execution until the result is available. Use this with caution. In general, you should make sure that the calculation has been completed before attempting retrieving results. This is to avoid keeping the connection to the server on hold for a prolonged periods of time. While this may be ok with your local server, our public server (<a href="http://www.compbio.dundee.ac.uk/jabaws">www.compbio.dundee.ac.uk/aacon</a>) will not let you hold the connection for longer than 10 minutes. This is done to prevent excessive load on the server. The next section describes how to check the status of the calculation.<br />
+  Line three retrieves the conservation scores caclulated according to Shenkin algorithm.  This line blocks the execution until the result is available. Use this with caution. In general, you should make sure that the calculation has been completed before attempting retrieving results. This is to avoid keeping the connection to the server on hold for a prolonged periods of time. While this may be ok with your local server, our public server (<a href="http://www.compbio.dundee.ac.uk/jabaws">www.compbio.dundee.ac.uk/aacon</a>) will not let you hold the connection for longer than 10 minutes. This is done to prevent excessive load on the server. The next section describes how to check the status of the calculation.<br />
   Methods and classes mentioned in the excerpt are available from the AAConWS client library. </p>
 <h4><a name="checkresults" id="checkresults"></a>Checking the status of the calculation </h4>
 <p> You may have noticed that there was no pause between submitting the job and retrieving of the results. This is because <span class="hightlight">getResult(jobId)</span> method block the processing until the calculation is completed. However, taking into account that the connection holds server resources, our public server (<a href="http://www.compbio.dundee.ac.uk/jabaws">www.compbio.dundee.ac.uk/aacon</a>) is configured to reset the connection after 10 minutes of waiting. To work around the connection reset you are encouraged to check whether the calculation has been completed before accessing the results.	You can do it like this: </p>
 <p> <span class="code">while (msaws.getJobStatus(jobId) != JobStatus.FINISHED) {<br />
   &nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(2000); // wait two  seconds, then recheck the status <br />
   }</span></p>
-<h4><a name="presetalign" id="presetalign"></a>Aligning with presets</h4>
-<p class="code">1) PresetManager presetman = msaws.getPresets();<br />
-  2) Preset preset = presetman.getPresetByName(presetName);<br />
-  3) List&lt;FastaSequence&gt; fastalist = SequenceUtil.readFasta(new FileInputStream(file));<br />
-  4) String jobId = msaws.presetAlign(fastalist, preset);<br />
-  5) Alignment alignment = msaws.getResult(jobId);</p>
+<h4><a name="presetalign" id="presetalign"></a>Using presets</h4>
+<p class="code">1) PresetManager&lt;AACon&gt; presets = msaws.getPresets();<br />
+2) String jobId = msaws.presetAnalize(fsl, presets.getPresetByName(&quot;Quick conservation&quot;));<br />
+3) HashSet&lt;Score&gt; result = msaws.getAnnotation(jobId);</p>
 <p>Line one obtains the lists of presets supported by a web service.<br />
   Line two return a particular Preset 
   by its name<br />
-  Lines three to five  are doing the same job as in the first <a href="#defalign"> aligning sequences example</a>.</p>
-<h4><a name="customalign" id="customalign"></a>Aligning with  custom parameters</h4>
+  Lines three retrieves the results.</p>
+<h4><a name="customalign" id="customalign"></a>Using custom parameters</h4>
 <p class="code"> 1) RunnerConfig options = msaws.getRunnerOptions();<br />
   2) Argument matrix = options.getArgument(&quot;MATRIX&quot;);<br />
   3) matrix.setValue(&quot;PAM300&quot;);<br />

@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.Method;
 
 /**
  * 
@@ -51,12 +51,12 @@ final class ResultReader {
 	 *         the alignment.
 	 * @throws IOException
 	 */
-	static Map<Map<Method, double[]>, List<FastaSequence>> readFile(
+	static Map<Map<ConservationMethod, double[]>, List<FastaSequence>> readFile(
 			InputStream inStream) throws IOException {
 
-		Map<Map<Method, double[]>, List<FastaSequence>> result = new HashMap<Map<Method, double[]>, List<FastaSequence>>();
-		Map<Method, double[]> resultMap = new EnumMap<Method, double[]>(
-				Method.class);
+		Map<Map<ConservationMethod, double[]>, List<FastaSequence>> result = new HashMap<Map<ConservationMethod, double[]>, List<FastaSequence>>();
+		Map<ConservationMethod, double[]> resultMap = new EnumMap<ConservationMethod, double[]>(
+				ConservationMethod.class);
 		BufferedReader inResults = new BufferedReader(new InputStreamReader(
 				inStream));
 		List<FastaSequence> seqList = new ArrayList<FastaSequence>();
@@ -86,8 +86,8 @@ final class ResultReader {
 		return result;
 	}
 
-	static void parseResults(String resultStr, Map<Method, double[]> resultMap,
-			Pattern pattern) {
+	static void parseResults(String resultStr,
+			Map<ConservationMethod, double[]> resultMap, Pattern pattern) {
 
 		String resultStrTemp = pattern.matcher(resultStr.trim())
 				.replaceAll(" ");
@@ -99,7 +99,7 @@ final class ResultReader {
 			resultsNum[i] = Double.parseDouble(results[i + 1]);
 			System.out.println(resultsNum[i]);
 		}
-		resultMap.put(Method.getMethod(name), resultsNum);
+		resultMap.put(ConservationMethod.getMethod(name), resultsNum);
 	}
 
 	static void parseSequences(String lineStr, List<FastaSequence> list,

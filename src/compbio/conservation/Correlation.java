@@ -24,7 +24,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import compbio.data.sequence.Method;
+import compbio.data.sequence.ConservationMethod;
+import compbio.data.sequence.SMERFSConstraints;
 
 /**
  * Class has static methods used to create similarity matrices, and correlation
@@ -328,7 +329,7 @@ final class Correlation {
 	 * @throws ExecutionException
 	 * @throws InterruptedException
 	 */
-	double[] getCorrelationScore(SMERFSColumnScore score, boolean normalize)
+	double[] getCorrelationScore(SMERFSConstraints score, boolean normalize)
 			throws InterruptedException, ExecutionException {
 
 		double[] results = null;
@@ -336,7 +337,7 @@ final class Correlation {
 		results = calcPearson();
 
 		double[] columnResults;
-		if (score == SMERFSColumnScore.MAX_SCORE) {
+		if (score == SMERFSConstraints.MAX_SCORE) {
 			columnResults = giveMaxToColumn(results);
 		} else {
 			columnResults = giveMidToColumn(results);
@@ -345,7 +346,7 @@ final class Correlation {
 		double[] normalized = null;
 		if (normalize) {
 			normalized = ConservationAccessory.normalize01(columnResults,
-					Method.SMERFS);
+					ConservationMethod.SMERFS);
 		}
 		if (normalized == null) {
 			return columnResults;

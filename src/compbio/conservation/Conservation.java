@@ -33,8 +33,9 @@ import java.util.concurrent.Executors;
 
 import compbio.data.sequence.Alignment;
 import compbio.data.sequence.ClustalAlignmentUtil;
+import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.Method;
+import compbio.data.sequence.SMERFSConstraints;
 import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 
@@ -48,7 +49,7 @@ final class Conservation {
 
 	private final AminoAcidMatrix alignMatrix;
 	private final boolean normalize;
-	private final Map<Method, double[]> results;
+	private final Map<ConservationMethod, double[]> results;
 	private final ExecutorService executor;
 
 	Conservation(AminoAcidMatrix alignment, boolean normalize,
@@ -56,7 +57,8 @@ final class Conservation {
 		this.alignMatrix = alignment;
 		this.normalize = normalize;
 		this.executor = executor;
-		this.results = new EnumMap<Method, double[]>(Method.class);
+		this.results = new EnumMap<ConservationMethod, double[]>(
+				ConservationMethod.class);
 	}
 
 	AminoAcidMatrix getAlignment() {
@@ -70,7 +72,8 @@ final class Conservation {
 	 *            the set of the methods to run
 	 * @return the Map of Method name -> double[] amino acid conservation score
 	 */
-	public Map<Method, double[]> calculateScores(final Set<Method> methods) {
+	public Map<ConservationMethod, double[]> calculateScores(
+			final Set<ConservationMethod> methods) {
 		return calculateConservation(methods);
 	}
 
@@ -81,7 +84,7 @@ final class Conservation {
 	 *            the method to calculate the conservation
 	 * @return score for the given method
 	 */
-	public double[] calculateScore(final Method method) {
+	public double[] calculateScore(final ConservationMethod method) {
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
 		double[] result = new double[alignMatrix.numberOfColumns()];
 		double[] normalized = null;
@@ -159,8 +162,8 @@ final class Conservation {
 			break;
 		case KARLIN:
 			for (int i = 0; i < alignMatrix.numberOfColumns(); i++) {
-				tasks.add(Executors.callable(new TaskRunner(i, Method.KARLIN,
-						result)));
+				tasks.add(Executors.callable(new TaskRunner(i,
+						ConservationMethod.KARLIN, result)));
 			}
 			executeAndWait(tasks);
 			if (normalize) {
@@ -211,8 +214,8 @@ final class Conservation {
 			break;
 		case LANDGRAF:
 			for (int i = 0; i < alignMatrix.numberOfColumns(); i++) {
-				tasks.add(Executors.callable(new TaskRunner(i, Method.LANDGRAF,
-						result)));
+				tasks.add(Executors.callable(new TaskRunner(i,
+						ConservationMethod.LANDGRAF, result)));
 			}
 			executeAndWait(tasks);
 			if (normalize) {
@@ -222,8 +225,8 @@ final class Conservation {
 			break;
 		case SANDER:
 			for (int i = 0; i < alignMatrix.numberOfColumns(); i++) {
-				tasks.add(Executors.callable(new TaskRunner(i, Method.SANDER,
-						result)));
+				tasks.add(Executors.callable(new TaskRunner(i,
+						ConservationMethod.SANDER, result)));
 			}
 			executeAndWait(tasks);
 			if (normalize) {
@@ -232,8 +235,8 @@ final class Conservation {
 			break;
 		case VALDAR:
 			for (int i = 0; i < alignMatrix.numberOfColumns(); i++) {
-				tasks.add(Executors.callable(new TaskRunner(i, Method.VALDAR,
-						result)));
+				tasks.add(Executors.callable(new TaskRunner(i,
+						ConservationMethod.VALDAR, result)));
 			}
 			executeAndWait(tasks);
 			if (normalize) {
@@ -241,9 +244,9 @@ final class Conservation {
 			}
 			break;
 		case SMERFS:
-			result = getSMERFS(SMERFSColumnScore.DEFAULT_WINDOW_SIZE,
-					SMERFSColumnScore.MID_SCORE,
-					SMERFSColumnScore.DEFAULT_GAP_THRESHOLD);
+			result = getSMERFS(SMERFSConstraints.DEFAULT_WINDOW_SIZE,
+					SMERFSConstraints.DEFAULT_COLUMN_SCORE,
+					SMERFSConstraints.DEFAULT_GAP_THRESHOLD);
 			break;
 		default:
 			throw new RuntimeException("You should never ever get here");
@@ -270,11 +273,12 @@ final class Conservation {
 	private final class TaskRunner implements Runnable {
 
 		private final int iteration;
-		private final Method method;
+		private final ConservationMethod method;
 
 		private final double[] result;
 
-		public TaskRunner(final int i, Method method, double[] result) {
+		public TaskRunner(final int i, ConservationMethod method,
+				double[] result) {
 			this.iteration = i;
 			this.method = method;
 			this.result = result;
@@ -413,9 +417,9 @@ final class Conservation {
 				normalize, executor);
 	}
 
-	private synchronized Map<Method, double[]> calculateConservation(
-			Set<Method> methods) {
-		for (Method method : methods) {
+	private synchronized Map<ConservationMethod, double[]> calculateConservation(
+			Set<ConservationMethod> methods) {
+		for (ConservationMethod method : methods) {
 			double[] singleRes = calculateScore(method);
 			assert singleRes != null && singleRes.length > 0;
 			results.put(method, singleRes);
@@ -459,7 +463,7 @@ final class Conservation {
 	 * @param results
 	 *            the Map of Method-> conservation values to output
 	 */
-	public static void printResults(Map<Method, double[]> results) {
+	public static void printResults(Map<ConservationMethod, double[]> results) {
 		ConservationFormatter.formatResults(results, System.out);
 	}
 
@@ -471,9 +475,9 @@ final class Conservation {
 	 * @param method
 	 *            the name of the conservation method
 	 */
-	public static void printResults(double[] result, Method method) {
-		Map<Method, double[]> results = new EnumMap<Method, double[]>(
-				Method.class);
+	public static void printResults(double[] result, ConservationMethod method) {
+		Map<ConservationMethod, double[]> results = new EnumMap<ConservationMethod, double[]>(
+				ConservationMethod.class);
 		results.put(method, result);
 		printResults(results);
 	}
@@ -493,7 +497,7 @@ final class Conservation {
 	 * 
 	 * @return SMERFS conservation values
 	 */
-	public double[] getSMERFS(int width, SMERFSColumnScore score,
+	public double[] getSMERFS(int width, SMERFSConstraints score,
 			double gapTreshold) {
 
 		if (alignMatrix == null) {
@@ -516,7 +520,7 @@ final class Conservation {
 				throw new IllegalArgumentException(
 						"Column score not privided or the type provided is not supported."
 								+ "Supported scores are: "
-								+ SMERFSColumnScore.values());
+								+ SMERFSConstraints.values());
 			}
 			if (gapTreshold < 0 || gapTreshold > 1) {
 				throw new IllegalArgumentException(

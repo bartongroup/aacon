@@ -29,8 +29,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.Method;
+import compbio.data.sequence.SMERFSConstraints;
 import compbio.data.sequence.UnknownFileFormatException;
 import compbio.util.Timer;
 
@@ -41,14 +42,14 @@ import compbio.util.Timer;
  */
 final class ParallelConservationClient {
 
-	private final Map<Method, double[]> results = new EnumMap<Method, double[]>(
-			Method.class);
+	private final Map<ConservationMethod, double[]> results = new EnumMap<ConservationMethod, double[]>(
+			ConservationMethod.class);
 
 	private static class SMERFSParams {
 
-		private SMERFSColumnScore colScoreSchema = SMERFSColumnScore.MID_SCORE;
-		private double SMERFSGapTreshold = SMERFSColumnScore.DEFAULT_GAP_THRESHOLD;
-		private int SMERFSWidth = SMERFSColumnScore.DEFAULT_WINDOW_SIZE;
+		private SMERFSConstraints colScoreSchema = SMERFSConstraints.MID_SCORE;
+		private double SMERFSGapTreshold = SMERFSConstraints.DEFAULT_GAP_THRESHOLD;
+		private int SMERFSWidth = SMERFSConstraints.DEFAULT_WINDOW_SIZE;
 
 		/**
 		 * 
@@ -63,7 +64,7 @@ final class ParallelConservationClient {
 			try {
 				if (SMERFSargs != null) {
 					SMERFSWidth = Integer.parseInt(SMERFSargs[0]);
-					colScoreSchema = SMERFSColumnScore
+					colScoreSchema = SMERFSConstraints
 							.getSMERFSColumnScore(SMERFSargs[1]);
 					SMERFSGapTreshold = Double.parseDouble(SMERFSargs[2]);
 				}
@@ -95,10 +96,10 @@ final class ParallelConservationClient {
 			timer.setStatOutput(new FileOutputStream(statFile));
 		}
 
-		Set<Method> methods = CmdParser.getMethodNames(cmd);
+		Set<ConservationMethod> methods = CmdParser.getMethodNames(cmd);
 		// assume all methods are required
 		if (methods.isEmpty()) {
-			methods = EnumSet.allOf(Method.class);
+			methods = EnumSet.allOf(ConservationMethod.class);
 			timer.println("No methods are request assuming all are required.");
 		}
 
@@ -157,20 +158,21 @@ final class ParallelConservationClient {
 				MethodWrapper wrapper = null;
 				List<MethodWrapper> tasks = new ArrayList<MethodWrapper>();
 
-				for (Method method : methods) {
+				for (ConservationMethod method : methods) {
 					// Start SMERFS from the main thread, as it has
 					// its own means of dividing the tasks and executing in
 					// parallel
-					if (method == Method.SMERFS) {
+					if (method == ConservationMethod.SMERFS) {
 						double[] result = runSMERFS(scores, smerfsPar, timer);
-						results.put(Method.SMERFS, result);
+						results.put(ConservationMethod.SMERFS, result);
 						continue;
 					}
 					// Start other methods capable of runing in multiple threads
 					// from the main thread.
-					if (method == Method.LANDGRAF || method == Method.SANDER
-							|| method == Method.KARLIN
-							|| method == Method.VALDAR) {
+					if (method == ConservationMethod.LANDGRAF
+							|| method == ConservationMethod.SANDER
+							|| method == ConservationMethod.KARLIN
+							|| method == ConservationMethod.VALDAR) {
 						double[] result = runParallelMethod(scores, method,
 								timer);
 						results.put(method, result);
@@ -233,13 +235,12 @@ final class ParallelConservationClient {
 		timer.getStepTime();
 		double[] conservation = scores.getSMERFS(sparams.SMERFSWidth,
 				sparams.colScoreSchema, sparams.SMERFSGapTreshold);
-		timer.println(Method.SMERFS.toString() + " " + timer.getStepTime()
-				+ " ms");
+		timer.println("SMERFS" + " " + timer.getStepTime() + " ms");
 		return conservation;
 	}
 
-	private double[] runParallelMethod(Conservation scores, Method method,
-			Timer timer) {
+	private double[] runParallelMethod(Conservation scores,
+			ConservationMethod method, Timer timer) {
 		timer.getStepTime();
 		double[] results = scores.calculateScore(method);
 		timer.println(method.toString() + " " + timer.getStepTime() + " ms");

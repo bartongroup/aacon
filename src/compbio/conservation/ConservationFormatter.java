@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.Method;
 import compbio.data.sequence.SequenceUtil;
 
 /**
@@ -59,8 +59,9 @@ public final class ConservationFormatter {
 	 * @param format
 	 * @throws IOException
 	 */
-	static void formatResults(Map<Method, double[]> scores, String outFilePath,
-			Format format, AminoAcidMatrix alignment) throws IOException {
+	static void formatResults(Map<ConservationMethod, double[]> scores,
+			String outFilePath, Format format, AminoAcidMatrix alignment)
+			throws IOException {
 		if (alignment == null) {
 			throw new NullPointerException("Alignment must be provided!");
 		}
@@ -88,7 +89,7 @@ public final class ConservationFormatter {
 	 * @throws NullPointerException
 	 *             if the alignment is null
 	 */
-	public static void formatResults(Map<Method, double[]> scores,
+	public static void formatResults(Map<ConservationMethod, double[]> scores,
 			String outFilePath, Format format, List<FastaSequence> alignment)
 			throws IOException {
 
@@ -133,15 +134,15 @@ public final class ConservationFormatter {
 	 *            method leaves this stream open. It is up to the caller to
 	 *            close it!
 	 */
-	public static void formatResults(Map<Method, double[]> scores,
+	public static void formatResults(Map<ConservationMethod, double[]> scores,
 			OutputStream outStream) {
 		if (outStream == null) {
 			throw new NullPointerException("Output stream must be provided!");
 		}
 		PrintWriter print = new PrintWriter(outStream);
-		Iterator<Method> itr = scores.keySet().iterator();
+		Iterator<ConservationMethod> itr = scores.keySet().iterator();
 		while (itr.hasNext()) {
-			Method key = itr.next();
+			ConservationMethod key = itr.next();
 			print.print("#" + key.toString() + " ");
 			ConservationAccessory.printArrayOfDouble(scores.get(key), print,
 					PRECISION);

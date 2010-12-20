@@ -18,7 +18,7 @@ package compbio.conservation;
 
 import org.testng.annotations.Test;
 
-import compbio.data.sequence.Method;
+import compbio.data.sequence.ConservationMethod;
 
 public class AccessoryTester {
 
@@ -50,7 +50,7 @@ public class AccessoryTester {
 		double[] scores = { 15, 13, 13, -32, 0 };
 
 		double[] normalized = ConservationAccessory.normalize01(scores,
-				Method.KABAT);
+				ConservationMethod.KABAT);
 
 		System.out.println("normal");
 
@@ -66,7 +66,7 @@ public class AccessoryTester {
 		double[] scores = { 15, 13, 13, -32, 0 };
 
 		double[] normalized = ConservationAccessory.inversedNormalize01(scores,
-				Method.KABAT);
+				ConservationMethod.KABAT);
 
 		System.out.println("inversed");
 
