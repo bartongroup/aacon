@@ -135,6 +135,9 @@ public final class ConservationFormatter {
 	 */
 	public static void formatResults(Map<Method, double[]> scores,
 			OutputStream outStream) {
+		if (outStream == null) {
+			throw new NullPointerException("Output stream must be provided!");
+		}
 		PrintWriter print = new PrintWriter(outStream);
 		Iterator<Method> itr = scores.keySet().iterator();
 		while (itr.hasNext()) {

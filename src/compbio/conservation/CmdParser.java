@@ -35,12 +35,12 @@ import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 
 /**
- * Makes sense of the command line arguments
+ * Parses the command line arguments
  * 
  * @author Peter Troshin & Agnieszka Golicz
  * 
  */
-final class CmdParser {
+public final class CmdParser {
 
 	final static DateFormat DATE_FORMAT = new SimpleDateFormat(
 			"yyyy/MM/dd HH:mm:ss");
@@ -340,20 +340,20 @@ final class CmdParser {
 	}
 
 	/**
-	 * Opens input stream
+	 * Reads and parses Fasta or Clustal formatted file into a list of
+	 * FastaSequence objects
 	 * 
-	 * @param inStr
-	 * @param fastaSeqs
 	 * @param inFilePath
+	 *            the path to the input file
 	 * @throws IOException
+	 *             if the file denoted by inFilePath cannot be read
 	 * @throws UnknownFileFormatException
-	 * @return
+	 *             if the inFilePath points to the file which format cannot be
+	 *             recognised
+	 * @return the List of FastaSequence objects
 	 * 
-	 * 
-	 *         if (statFile != null) { print =
-	 *         ConservationFormatter.openPrintWriter(statFile, false); }
 	 */
-	static List<FastaSequence> openInputStream(String inFilePath)
+	public static List<FastaSequence> openInputStream(String inFilePath)
 			throws IOException, UnknownFileFormatException {
 
 		// This stream gets closed in isValidClustalFile method
