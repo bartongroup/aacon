@@ -71,157 +71,141 @@
 </table>
 <p>Additional utility libraries this client depend upon is the compbio-util-1.3.jar and compbio-annotation-1.0.jar. <br />
   Please refer to a <a href="dm_javadoc/index.html">data model javadoc</a> for a detailed description of each class and its methods. </p>
+<h4><a name="buildart" id="buildart"></a>Building web services artifacts</h4>
+<p>AAConWS are the standard <a href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a href="http://www.ws-i.org/">WS-I</a> basic   profile compatible. This means that you could use your favourite programming language to work with AAConWS. Below is how you can generate portable artifacts to work with AAConWS from Java. However,  if programming in Java we recommend using our <a href="#connectto"> client library</a> as it provides a handful of useful methods in addition to plain data types. </p>
+<p class="code">wsimport -keep http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</p>
 <h4><a name="connectto" id="connectto"></a>Connecting to AAConWS</h4>
 <p class="attention">For a complete working example of AAConWS command line client please see compbio.ws.client.Jws2Client class. AAConWS command line client source code is available from the <a href="download.html">download page</a>. Please note that for now all the examples are in Java other languages will follow given a sufficient demand. </p>
 <p>Download a binary AAConWS <a href="download.html">client</a>. Add the client to the class path. The following code excerpt will connect your program to AAConWS web service deployed in the University of Dundee. </p>
 <p class="code"> Annotation&lt;AACon&gt; client = (Annotation&lt;AACon&gt;)Jws2Client.connect(&quot;http://www.compbio.dundee.ac.uk/aacon&quot;,<br />
 Services.AAConWS);</p>
-<h4><a name="defalign" id="defalign"></a>Aligning sequences </h4>
+<h4><a name="defalign" id="defalign"></a>Calculating conservation  </h4>
 <p>Given that <span class="hightlight">client</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the actual alignment can be obtained as follows: </p>
 <p class="code">1) List&lt;FastaSequence&gt; fsl = SequenceUtil.readFasta(new FileInputStream(&quot;alignment.fasta&quot;));<br />
-  2) String jobId = msaws.analize(fsl);<br />
-  3) HashSet&lt;Score&gt; result = msaws.getAnnotation(jobId);</p>
+  2) String jobId = client.analize(fsl);<br />
+  3) HashSet&lt;Score&gt; result = client.getAnnotation(jobId);</p>
 <p>Line  one loads sequence alignment from the file<br />
   Line two submits them to web service represented by msaws proxy <br />
   Line three retrieves the conservation scores caclulated according to Shenkin algorithm.  This line blocks the execution until the result is available. Use this with caution. In general, you should make sure that the calculation has been completed before attempting retrieving results. This is to avoid keeping the connection to the server on hold for a prolonged periods of time. While this may be ok with your local server, our public server (<a href="http://www.compbio.dundee.ac.uk/jabaws">www.compbio.dundee.ac.uk/aacon</a>) will not let you hold the connection for longer than 10 minutes. This is done to prevent excessive load on the server. The next section describes how to check the status of the calculation.<br />
   Methods and classes mentioned in the excerpt are available from the AAConWS client library. </p>
 <h4><a name="checkresults" id="checkresults"></a>Checking the status of the calculation </h4>
-<p> You may have noticed that there was no pause between submitting the job and retrieving of the results. This is because <span class="hightlight">getResult(jobId)</span> method block the processing until the calculation is completed. However, taking into account that the connection holds server resources, our public server (<a href="http://www.compbio.dundee.ac.uk/jabaws">www.compbio.dundee.ac.uk/aacon</a>) is configured to reset the connection after 10 minutes of waiting. To work around the connection reset you are encouraged to check whether the calculation has been completed before accessing the results.	You can do it like this: </p>
-<p> <span class="code">while (msaws.getJobStatus(jobId) != JobStatus.FINISHED) {<br />
+<p> You may have noticed that there was no pause between submitting the job and retrieving the results. This is because <span class="hightlight">getResult(jobId)</span> method block the processing until the calculation is completed. However, taking into account that the connection holds server resources, our public server (<a href="http://www.compbio.dundee.ac.uk/jabaws">www.compbio.dundee.ac.uk/aacon</a>) is configured to reset the connection after 10 minutes of waiting. To work around the connection reset you are encouraged to check whether the calculation has been completed before accessing the results.	You can do it like this: </p>
+<p> <span class="code">while (client.getJobStatus(jobId) != JobStatus.FINISHED) {<br />
   &nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(2000); // wait two  seconds, then recheck the status <br />
   }</span></p>
 <h4><a name="presetalign" id="presetalign"></a>Using presets</h4>
-<p class="code">1) PresetManager&lt;AACon&gt; presets = msaws.getPresets();<br />
-2) String jobId = msaws.presetAnalize(fsl, presets.getPresetByName(&quot;Quick conservation&quot;));<br />
-3) HashSet&lt;Score&gt; result = msaws.getAnnotation(jobId);</p>
+<p class="code">1) PresetManager&lt;AACon&gt; presets = client.getPresets();<br />
+2) String jobId = client.presetAnalize(fsl, presets.getPresetByName(&quot;Quick conservation&quot;));<br />
+3) HashSet&lt;Score&gt; result = client.getAnnotation(jobId);</p>
 <p>Line one obtains the lists of presets supported by a web service.<br />
-  Line two return a particular Preset 
-  by its name<br />
-  Lines three retrieves the results.</p>
+  Line two calls web service presetAnalise method with a chosen preset. This call returns a job identifier.<br />
+  Lines three retrieves the results using job identifier.</p>
+<p>Available presets are </p>
+<ul>
+  <li>&quot;Quick conservation&quot; (a collection of 12 fast conservation algorithms includes KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, ZVELIBIL,ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON)</li>
+  <li>&quot;Slow conservation&quot; (a collection of time consuming conservation algorithms includes LANDGRAF, KARLIN, SANDER, VALDAR and SMERFS) </li>
+  <li>&quot;Complete conservation&quot; (all available algorithms) </li>
+  </ul>
 <h4><a name="customalign" id="customalign"></a>Using custom parameters</h4>
-<p class="code"> 1) RunnerConfig options = msaws.getRunnerOptions();<br />
-  2) Argument matrix = options.getArgument(&quot;MATRIX&quot;);<br />
-  3) matrix.setValue(&quot;PAM300&quot;);<br />
-  4) Argument gapopenpenalty = options.getArgument(&quot;GAPOPEN&quot;);<br />
-  5) gapopenpenalty.setValue(&quot;20&quot;);<br />
-  6) List&lt;Argument&gt; arguments = new ArrayList&lt;Argument&gt;(); <br />
-  7) arguments.add(matrix);
-  arguments.add(gapopenpenalty);<br />
-  8) List&lt;FastaSequence&gt; fastalist = SequenceUtil.readFasta(new FileInputStream(file));<br />
-  9) String jobId = msaws.customAlign(fastalist, arguments);<br />
-  10) Alignment alignment = msaws.getResult(jobId);</p>
+<p>The example below is call for SMERFS with custom parameters. </p>
+<p class="code">// Using options<br />
+1) RunnerConfig&lt;AACon&gt; options = client.getRunnerOptions();<br />
+2) options.getArgument(&quot;Calculation method&quot;).setDefaultValue(&quot;SMERFS&quot;);<br />
+3) options.getArgument(&quot;SMERFS Column Scoring Method&quot;).setDefaultValue(&quot;MAX_SCORE&quot;);<br />
+4) options.getArgument(&quot;SMERFS Gap Threshhold&quot;).setDefaultValue(&quot;1&quot;);<br />
+5) String jobId = client.customAnalize(fsl, options.getArguments());<br />
+6) HashSet&lt;Score&gt; result = client.getAnnotation(jobId);</p>
 <p>Line one obtains the RunnerConfig object that holds information on supported parameters and their values<br />
-  Line two retrieve a particular parameter from the holder by its name<br />
-  Lines three sets a value to this parameter which will be used in the calculation. <br />
-  Line four and five do the same but for another parameter<br />
-  Line 6 makes a List to hold the parameters <br />
-  Line seven puts the parameters into that list<br />
-  Line eight 
-  and ten is the same as in previous examples<br />
-  Line nine submit an alignment request with the sequences and the parameters <br />
-  The names of all the parameters supported by a web service e.g. &quot;PAM300&quot; can be obtained using options.getArguments() method. Further details on the methods available from RunnerConfig object are available from the <a href="dm_javadoc/index.html">javadoc</a>. </p>
-<h4><a name="writingaltofile" id="writingaltofile"></a>Writing alignments to a file</h4>
-<p>There is a utility method in the client library that does exactly that. </p>
-<p> <span class="code">Alignment alignment = align(...) <br />
-  FileOutputStream outStream = new FileOutputStream(file);<br />
-  ClustalAlignmentUtil.writeClustalAlignment(outStream, align);</span></p>
+  Line two retrieve a particular parameter from the holder by its name and sets the new value for this parameter. <br />
+  Lines three and four do the same but for two more parameters<br />
+  Line five submit a job to a web service <br />
+  Line six retrieves the results of the analisys. The names of all the parameters supported by a web service  can be obtained using options.getArguments() method. Further details on the methods available from RunnerConfig object are available from the <a href="dm_javadoc/index.html">javadoc</a>. </p>
 <h4><a name="compex" id="compex"></a>A complete client example </h4>
-<p>Finally, a complete example of the program that connects to AAConWS Clustal service and aligns sequences using one of the  Clustal web service preset. Three is also a <a href="Example_template.pdf">PDF version</a> of this example with syntax highlighted. The text comments are commented by block style comments e.g. /* comment */, the alternatives given in the code are line commented // comment. You may want to remove line style comments to test alternatives of the functions. All you need for this to work is a <a href="download.html">AAConWS binary client</a>. Please make sure that the client is in the Java class path before running this example.</p>
+<p>Finally, a complete example of the program that connects to AAConWS service is below. Three is also a <a href="AAConWSClientExample.pdf">PDF version</a> of this example with syntax highlighted. The text notes are commented by block style comments e.g. /* comment */, the code alternatives are commented out with the line  comments - &quot;//&quot;. You may want to remove line style comments to test alternatives of the functions. All you need for this to work is a <a href="download.html">AAConWS binary client</a>. Please make sure that the client is in the Java class path before running this example.</p>
 <pre class="code" style="line-height:1em;">
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
+import java.util.Set;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-
-import compbio.data.msa.MsaWS;
-import compbio.data.sequence.Alignment;
+import compbio.data.msa.Annotation;
 import compbio.data.sequence.FastaSequence;
+import compbio.data.sequence.Score;
 import compbio.data.sequence.SequenceUtil;
 import compbio.metadata.JobSubmissionException;
-import compbio.metadata.LimitExceededException;
 import compbio.metadata.Preset;
 import compbio.metadata.PresetManager;
 import compbio.metadata.ResultNotAvailableException;
 import compbio.metadata.UnsupportedRuntimeException;
 import compbio.metadata.WrongParameterException;
+import compbio.runner.conservation.AACon;
 
-public class Example {
+
+/**
+ * AAConWS client example
+ */
+public class AAConWSClientExample {
 
 	/*
-	 * Input sequences for alignment
+	 * Input sequences for alignment. For the simplicity keep them in the class
 	 */
-	static final String input = &quot;&gt;Foo\r\n&quot;
-			+ &quot;MTADGPRELLQLRAAVRHRPQDFVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAVARLGR&quot;
-			+ &quot;VRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALEDAGQAEAAAAAYTRAHQLLPEEPYITAQ&quot;
-			+ &quot;LLNWRRRLCDWRALDVLSAQVRAAVAQGVGAVEPFAFLSEDASAAEQLACARTRAQAIAASVRPL&quot;
-			+ &quot;APTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQMHLFATSGDDGSTLRTRLAQA&quot;
-			+ &quot;STLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEVFALRPAPVQVNWLAYPGTSGAPWMD&quot;
-			+ &quot;YVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSRVVAEPPSRTQCGLPEQGVVLCCFNNSYKLN&quot;
-			+ &quot;PQSMARMLAVLREVPDSVLWLLSGPGEADARLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHAD&quot;
-			+ &quot;LFLDTHPYNAHTTASDALWTGCPVLTTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALAS&quot;
-			+ &quot;DPAALTALHARVDVLRRESGVFEMDGFADDFGALLQALARRHGWLGI\r\n&quot;
-			+ &quot;\r\n&quot;
-			+ &quot;&gt;Bar\r\n&quot;
-			+ &quot;MGDTTAGEMAVQRGLALHQQRHAEAAVLLQQASDAAPEHPGIALWLHALEDAGQAEAAAAYTRAH&quot;
-			+ &quot;QLLPEEPYITAQLLNAVAQGVGAVEPFAFLSEDASAAESVRPLAPTRVRSKGPLRVGFVSNGFGA&quot;
-			+ &quot;HPTGLLTVALFEALQRRQPDLQMHLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHG&quot;
-			+ &quot;IDLLFDLRGWGGGGRPEVFALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVL&quot;
-			+ &quot;RLQGAFQPSDTSRVVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLL&quot;
-			+ &quot;SGPGEADARLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGC&quot;
-			+ &quot;PVLTTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRESGV&quot;
-			+ &quot;FEMDGFADDFGALLQALARRHGWLGI\r\n&quot;
-			+ &quot;\r\n&quot;
-			+ &quot;&gt;Friends\r\n&quot;
-			+ &quot;MTADGPRELLQLRAAVRHRPQDVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAVARLGRV&quot;
-			+ &quot;RWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALEDHQLLPEEPYITAQLDVLSAQVRAAVAQG&quot;
-			+ &quot;VGAVEPFAFLSEDASAAEQLACARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLL&quot;
-			+ &quot;TVALFEALQRRQPDLQMHLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFD&quot;
-			+ &quot;LRGWGGGGRPEVFALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAF&quot;
-			+ &quot;QPSDTSRVVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEA&quot;
-			+ &quot;DARLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVLTTP&quot;
-			+ &quot;GETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRESI&quot;;
+	static final String input = ">Foo      \r\n"
+			+ "MTADGPRELLQLRAAVRHRPQDFVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAV\r\n"
+			+ "ARLGRVRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALEDAGQAEAAAAAYTRAHQL\r\n"
+			+ "LPEEPYITAQLLNWRRRLCDWRALDVLSAQVRAAVAQGVGAVEPFAFLSEDASAAEQLAC\r\n"
+			+ "ARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n"
+			+ "HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n"
+			+ "FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n"
+			+ "VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n"
+			+ "RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n"
+			+ "TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n"
+			+ "GVFEMDGFADDFGALLQALARRHGWLGI\r\n"
+			+ "\r\n"
+			+ ">Bar                    \r\n"
+			+ "-----------------------------------MGDTTAGEMAVQRGLALH-------\r\n"
+			+ "---------QQRHAEAAVLLQQASDAAPEHPGIALWL-HALEDAGQAEAAAA-YTRAHQL\r\n"
+			+ "LPEEPYITAQLLN--------------------AVAQGVGAVEPFAFLSEDASAAE----\r\n"
+			+ "----------SVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n"
+			+ "HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n"
+			+ "FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n"
+			+ "VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n"
+			+ "RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n"
+			+ "TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n"
+			+ "GVFEMDGFADDFGALLQALARRHGWLGI\r\n"
+			+ "\r\n"
+			+ ">Noname             \r\n"
+			+ "-MTADGPRELLQLRAAVRHRPQDVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAV\r\n"
+			+ "ARLGRVRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALED--------------HQL\r\n"
+			+ "LPEEPYITAQLDVLSAQVR-------------AAVAQGVGAVEPFAFLSEDASAAEQLAC\r\n"
+			+ "ARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n"
+			+ "HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n"
+			+ "FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n"
+			+ "VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n"
+			+ "RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n"
+			+ "TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n"
+			+ "I---------------------------";
 
 	public static void main(String[] args) throws UnsupportedRuntimeException,
-			LimitExceededException, JobSubmissionException,
-			WrongParameterException, FileNotFoundException, IOException,
-			ResultNotAvailableException, InterruptedException {
-
-		String qualifiedServiceName = &quot;http://msa.data.compbio/01/01/2010/&quot;;
-
-		/* Make a URL pointing to web service WSDL */
-		URL url = new URL(
-				&quot;http://www.compbio.dundee.ac.uk/aacon/ClustalWS?wsdl&quot;);
+			JobSubmissionException, WrongParameterException,
+			FileNotFoundException, IOException, ResultNotAvailableException,
+			InterruptedException {
 
 		/*
-		 * If you are making a client that connects to different web services
-		 * you can use something like this:
+		 * Annotation interface for AAConWS web service instance
 		 */
-		// URL url = new URL(host + &quot;/&quot; + Services.ClustalWS.toString() +
-		// &quot;?wsdl&quot;);
-
-		QName qname = new QName(qualifiedServiceName, &quot;ClustalWS&quot;);
-		Service serv = Service.create(url, qname);
-		/*
-		 * Multiple sequence alignment interface for Clustal web service
-		 * instance
-		 */
-		MsaWS msaws = serv.getPort(new QName(qualifiedServiceName, &quot;ClustalWS&quot;
-				+ &quot;Port&quot;), MsaWS.class);
+		Annotation<AACon> client = (Annotation<AACon>) Jws2Client.connect(
+				"http://localhost:8080/jabaws", Services.AAConWS);
 
 		/* Get the list of available presets */
-		PresetManager presetman = msaws.getPresets();
+		PresetManager presetman = client.getPresets();
 
 		/* Get the Preset object by preset name */
-		Preset preset = presetman
-				.getPresetByName(&quot;Disable gap weighting (Speed-oriented)&quot;);
+		Preset preset = presetman.getPresetByName("Complete conservation");
 
 		/*
 		 * Load sequences in FASTA format from the file You can use something
-		 * like new FileInputStream(<filename>) to load sequence from the file
+		 * like new FileInputStream() to load sequence from the file
 		 */
 		List<FastaSequence> fastalist = SequenceUtil
 				.readFasta(new ByteArrayInputStream(input.getBytes()));
@@ -231,10 +215,10 @@ public class Example {
 		 * identifier is returned by this method, you can retrieve the results
 		 * with it sometime later.
 		 */
-		String jobId = msaws.presetAlign(fastalist, preset);
+		String jobId = client.presetAnalize(fastalist, preset);
 
 		/* This method will block for the duration of the calculation */
-		Alignment alignment = msaws.getResult(jobId);
+		Set<Score> result = client.getAnnotation(jobId);
 
 		/*
 		 * This is a better way of obtaining results, it does not involve
@@ -243,28 +227,22 @@ public class Example {
 		 * connection after 10 minutes of idling, this is the only way to obtain
 		 * the results of long running task from our public server.
 		 */
-		// while (msaws.getJobStatus(jobId) != JobStatus.FINISHED) {
+		// while (client.getJobStatus(jobId) != JobStatus.FINISHED) {
 		// Thread.sleep(1000); // wait a second, then recheck the status
 		// }
 
 		/* Output the alignment to standard out */
-		System.out.println(alignment);
+		Score.write(result, System.out);
 
-		// Alternatively, you can record retrieved alignment into the file in
-		// ClustalW format
-
-		// ClustalAlignmentUtil.writeClustalAlignment(new FileOutputStream(
-		// &quot;output.al&quot;), alignment);
-
+		/* Alternatively, you can record retrieved alignment into the file */
+		// FileOutputStream out = new FileOutputStream("result.txt");
+		// Score.write(result, out);
+		// out.close();
 	}
 }
+
 </pre>
-For a more detailed description of all available types and their functions please refer to the <a href="dm_javadoc/index.html">data model javadoc</a>.
-<h4><a name="buildart" id="buildart"></a>Building web services artifacts</h4>
-<p>AAConWS are the standard <a href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a href="http://www.ws-i.org/">WS-I</a> basic   profile compatible. This means that you could use whatever tool your language has to work with web services. Below is how you can generate portable artifacts to work with AAConWS from Java. However,  if programming in Java we recommend using our <a href="#connectto"> client library</a> as it provides a handful of useful methods in addition to plain data types. </p>
-<p class="code">wsimport -keep http://www.compbio.dundee.ac.uk/aacon/ClustalWS?wsdl</p>
-<p></p>
-</div>
+For a more detailed description of all available types and their functions please refer to the <a href="javadoc/index.html">data model javadoc</a>.</div>
 <!-- content end--> 
 <div id="copyright">Last update: 10 December 2010<br/>
 Peter Troshin and Geoff Barton, The Barton Group, University of Dundee, UK</div>
