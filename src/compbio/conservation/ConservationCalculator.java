@@ -16,6 +16,8 @@
  */
 package compbio.conservation;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -24,12 +26,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import compbio.data.sequence.Alignment;
 import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SMERFSConstraints;
+import compbio.data.sequence.UnknownFileFormatException;
 
 /**
  * A public API for conservation calculation methods.
@@ -236,23 +240,29 @@ public class ConservationCalculator {
 		return scores.getSMERFS(windowWidth, scoringMethod, gapTreshold);
 	}
 
-	/*
-	 * TODO remove public static void main(String[] args) throws
-	 * InterruptedException, IOException, UnknownFileFormatException { int
-	 * corenum = Runtime.getRuntime().availableProcessors(); // Initialize the
-	 * Executor instance with a number of cores ExecutorService executor =
-	 * Executors.newFixedThreadPool(corenum); // Load the data from the file
-	 * containing either Clustal formatted // alignment // or a list of FASTA
-	 * formatted sequences. Assuming that small.align // file is // in the same
-	 * directory as this program List<FastaSequence> sequences = CmdParser
-	 * .openInputStream("test/data/small.align"); // Calculate conservation
-	 * scores using all the methods available. Map<Method, double[]> result =
-	 * getConservation(sequences, true,
-	 * EnumSet.complementOf(EnumSet.of(Method.SMERFS)), executor); // Print the
-	 * results to the console. FileOutputStream outfile = new
-	 * FileOutputStream("results.txt");
-	 * ConservationFormatter.formatResults(result, outfile); outfile.close();
-	 * ConservationFormatter.formatResults(result, "test.txt",
-	 * Format.RESULT_NO_ALIGNMENT, sequences); executor.shutdown(); }
-	 */
+	/* TODO remove */
+	public static void main(String[] args) throws InterruptedException,
+			IOException, UnknownFileFormatException {
+		int corenum = Runtime.getRuntime().availableProcessors();
+		// Initialize the Executor instance with a number of cores
+		ExecutorService executor = Executors.newFixedThreadPool(corenum);
+		// Load the data from the file containing either Clustal formatted //
+		// alignment // or a list of FASTA
+		// formatted sequences. Assuming that small.align // file is // in the
+		// same
+		// directory as this program
+		List<FastaSequence> sequences = CmdParser
+				.openInputStream("test/data/small.align");
+		// Calculate conservation
+		// scores using all the methods available.
+		Map<ConservationMethod, double[]> result = getConservation(sequences,
+				true, EnumSet.allOf(ConservationMethod.class), executor);
+		// Print the results to the console.
+		FileOutputStream outfile = new FileOutputStream("results.txt");
+		ConservationFormatter.formatResults(result, outfile);
+		outfile.close();
+		// ConservationFormatter.formatResults(result, "test.txt",
+		// Format.RESULT_NO_ALIGNMENT, sequences);
+		executor.shutdown();
+	}
 }

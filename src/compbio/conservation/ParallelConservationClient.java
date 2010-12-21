@@ -19,6 +19,7 @@ package compbio.conservation;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
@@ -47,39 +48,46 @@ final class ParallelConservationClient {
 
 	private static class SMERFSParams {
 
-		private SMERFSConstraints colScoreSchema = SMERFSConstraints.MID_SCORE;
+		private final SMERFSConstraints colScoreSchema = SMERFSConstraints.MID_SCORE;
 		private double SMERFSGapTreshold = SMERFSConstraints.DEFAULT_GAP_THRESHOLD;
 		private int SMERFSWidth = SMERFSConstraints.DEFAULT_WINDOW_SIZE;
 
 		/**
+		 * Defaults are reassigned if the custom values were provided.
 		 * 
 		 * @param SMERFSargs
 		 * @throws IllegalArgumentException
 		 */
-		SMERFSParams(String[] SMERFSargs) {
-			parseArguments(SMERFSargs);
-		}
-
-		private void parseArguments(String[] SMERFSargs) {
+		SMERFSParams(String[] args) {
 			try {
-				if (SMERFSargs != null) {
-					SMERFSWidth = Integer.parseInt(SMERFSargs[0]);
-					colScoreSchema = SMERFSConstraints
-							.getSMERFSColumnScore(SMERFSargs[1]);
-					SMERFSGapTreshold = Double.parseDouble(SMERFSargs[2]);
+				String wwidth = CmdParser.getSMERFSWindowWidth(args);
+				if (wwidth != null) {
+					SMERFSWidth = Integer.parseInt(wwidth);
 				}
+				String colScore = CmdParser.getSMERFSColumnScore(args);
+
+				if (colScore != null) {
+					SMERFSConstraints colScoreSchema = SMERFSConstraints
+							.getSMERFSColumnScore(colScore);
+					if (colScoreSchema == null) {
+						throwIllegalSMERFSParamException("Unrecognized parameter for SMERFS: "
+								+ colScore
+								+ "\n Valid values are "
+								+ Arrays.toString(SMERFSConstraints.values()));
+					}
+				}
+				String gapt = CmdParser.getSMERFSGapTreshold(args);
+				if (gapt != null) {
+					SMERFSGapTreshold = Double.parseDouble(gapt);
+				}
+
 			} catch (NumberFormatException e) {
-				throwIllegalSMERFSParamException();
-			} catch (ArrayIndexOutOfBoundsException e) {
-				throwIllegalSMERFSParamException();
+				throwIllegalSMERFSParamException(e.getMessage());
 			}
 		}
 
-		private void throwIllegalSMERFSParamException() {
-			throw new IllegalArgumentException(
-					"To run SMERFS three arguments are"
-							+ " needed, window width, how to give "
-							+ "scores to columns and a gap treshold.");
+		private void throwIllegalSMERFSParamException(String message) {
+			throw new IllegalArgumentException(message);
 		}
 
 	}
@@ -126,9 +134,8 @@ final class ParallelConservationClient {
 				timer.println("No format is provided assuming RESULT_NO_ALIGNMENT is required");
 			}
 
-			String[] SMERFSDetails = CmdParser.getSMERFSDetails(cmd);
 			// This will throw en exception if parameters supplied but not valid
-			SMERFSParams smerfsPar = new SMERFSParams(SMERFSDetails);
+			SMERFSParams smerfsPar = new SMERFSParams(cmd);
 
 			boolean normalize = CmdParser.getNormalize(cmd);
 			String[] gap = CmdParser.getGapChars(cmd);

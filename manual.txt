@@ -24,10 +24,9 @@ possible formats with or without an alignment.
 If format is not specified, the program outputs conservation scores without 
 alignment. The scores are not normalized by default but they can be (see below).
 SMERFS default parameters are window width of 7, column score is set to
-the middle column, gap% cutoff of 0.1. If different values for SMERFS parameters 
-are required than all three parameters must be provided. Details of the program 
-execution can be recorded to a separate file if an appropriate file path is 
-provided.
+the middle column (MID_SCORE), gap% cutoff of 0.1. Different parameters for SMERFS 
+can be provided (see below). Details of the program execution can be recorded to
+a separate file if an appropriate file path is provided.
 
 List of command line arguments:
 
@@ -49,17 +48,6 @@ List of command line arguments:
       RESULT_NO_ALIGNMENT
      Optional, if not specified RESULT_NO_ALIGNMENT is assumed 
 
--s=  precedes a list of three comma separated parameters for SMERFS
-     the order of parameters is as following:
-      1. window width - an integer and an odd number
-      2. how to allocate window scores to columns, two ways are possible:
-	     MID_SCORE - gives the window score to the middle column
-	     MAX_SCORE - gives the column the highest score of all the windows it 
-	     belongs to
-      3. gap percentage cutoff - a float greater than 0 and smaller or equal 1
-     EXAMPLE: -s=5,MID_SCORE,0.1
-     Optional, default values are 7,MID_SCORE,0.1 
-      
 -d=  precedes a full path to a file where program execution details are to be 
      listed. Optional, if not provided, no execution statistics is produced.  
       
@@ -76,7 +64,23 @@ List of command line arguments:
 	 The following formula is used for normalization 
 			n = (d - dmin)/(dmax - dmin)
 	 Negative results first converted to positive by adding an absolute value of
-	 the most negative result. Optional. 
+	 the most negative result. Optional.
+
+SMERFS Only Parameters: 
+
+-smerfsGT=  precedes SMERFS Gap Treshold - a gap percentage cutoff - 
+			a float greater than 0 and smaller or equal 1. Optional defaults 
+			to 0.1
+
+-smerfsCS=  precedes SMERFS Column Score algorithm defines the window scores to 
+			columns	allocation , two methods are possible:
+	        MID_SCORE - gives the window score to the middle column
+	        MAX_SCORE - gives the column the highest score of all the windows it 
+	        belongs to. Optional defaults to MID_SCORE.  
+
+-smerfsWW=  precedes Window Width parameter - an integer and an odd number.
+            Optional, defaults to 7 
+	  
 
 EXAMPLE HOW TO RUN THE PROGRAM:
 java -jar <jar name> -m=KABAT,SMERFS -i=prot1 -o=prot1_results -n
@@ -86,5 +90,5 @@ Input comes form prot1 file and an output without an alignment is recorded to
 prot1_results file. 
 
 Authors: Peter Troshin, Agnieszka Golicz, David Martin and Geoff Barton.
-Please visit http://www.compbio.dundee.ac.uk for further information.
+Please visit http://www.compbio.dundee.ac.uk/aacon for further information.
  

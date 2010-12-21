@@ -52,17 +52,19 @@ public final class CmdParser {
 	final static String formatKey = "-f";
 	final static String inputKey = "-i";
 	final static String outputKey = "-o";
-	final static String SMERFSDetailsKey = "-s";
+	final static String SMERFSWindowWidth = "-smerfsww";
+	final static String SMERFSGapTreshold = "-smerfsgt";
+	final static String SMERFSColumnScore = "-smerfscs";
 	final static String gapKey = "-g";
 	final static String statKey = "-d";
 	final static String CONSERVATION_HELP = "\r\n"
-			+ "AA Conservation version 1.0b (6 September 2010)\r\n"
+			+ "AA Conservation version 1.0b (2 September 2010)\r\n"
 			+ "\r\n"
 			+ "This program allows calculation of conservation of amino acids in\r\n"
 			+ "multiple sequence alignments.\r\n"
-			+ "It implements 15 different conservation scores as described by Valdar in\r\n"
+			+ "It implements 17 different conservation scores as described by Valdar in\r\n"
 			+ "his paper (Scoring Residue Conservation, PROTEINS: Structure, Function\r\n"
-			+ "and Genetics 48:227-241 (2002)) and SMERFS scoring algorithm as described\r\n"
+			+ "and  Bioinformatics 48:227-241 (2002)) and SMERFS scoring algorithm as described\r\n"
 			+ "by Manning, Jefferson and Barton (The contrasting properties of conservation\r\n"
 			+ "and correlated phylogeny in protein functional residue prediction,\r\n"
 			+ "BMC Bioinformatics (2008)).\r\n"
@@ -81,10 +83,9 @@ public final class CmdParser {
 			+ "If format is not specified, the program outputs conservation scores without \r\n"
 			+ "alignment. The scores are not normalized by default but they can be (see below).\r\n"
 			+ "SMERFS default parameters are window width of 7, column score is set to\r\n"
-			+ "the middle column, gap% cutoff of 0.1. If different values for SMERFS parameters \r\n"
-			+ "are required than all three parameters must be provided. Details of the program \r\n"
-			+ "execution can be recorded to a separate file if an appropriate file path is \r\n"
-			+ "provided.\r\n"
+			+ "the middle column (MID_SCORE), gap% cutoff of 0.1. Different parameters for SMERFS \r\n"
+			+ "can be provided (see below). Details of the program execution can be recorded to\r\n"
+			+ "a separate file if an appropriate file path is provided.\r\n"
 			+ "\r\n"
 			+ "List of command line arguments:\r\n"
 			+ "\r\n"
@@ -106,17 +107,6 @@ public final class CmdParser {
 			+ "      RESULT_NO_ALIGNMENT\r\n"
 			+ "     Optional, if not specified RESULT_NO_ALIGNMENT is assumed \r\n"
 			+ "\r\n"
-			+ "-s=  precedes a list of three comma separated parameters for SMERFS\r\n"
-			+ "     the order of parameters is as following:\r\n"
-			+ "      1. window width - an integer and an odd number\r\n"
-			+ "      2. how to allocate window scores to columns, two ways are possible:\r\n"
-			+ "	     MID_SCORE - gives the window score to the middle column\r\n"
-			+ "	     MAX_SCORE - gives the column the highest score of all the windows it \r\n"
-			+ "	     belongs to\r\n"
-			+ "      3. gap percentage cutoff - a float greater than 0 and smaller or equal 1\r\n"
-			+ "     EXAMPLE: -s=5,MID_SCORE,0.1\r\n"
-			+ "     Optional, default values are 7,MID_SCORE,0.1 \r\n"
-			+ "      \r\n"
 			+ "-d=  precedes a full path to a file where program execution details are to be \r\n"
 			+ "     listed. Optional, if not provided, no execution statistics is produced.  \r\n"
 			+ "      \r\n"
@@ -133,7 +123,23 @@ public final class CmdParser {
 			+ "	 The following formula is used for normalization \r\n"
 			+ "			n = (d - dmin)/(dmax - dmin)\r\n"
 			+ "	 Negative results first converted to positive by adding an absolute value of\r\n"
-			+ "	 the most negative result. Optional. \r\n"
+			+ "	 the most negative result. Optional.\r\n"
+			+ "\r\n"
+			+ "SMERFS Only Parameters: \r\n"
+			+ "\r\n"
+			+ "-smerfsGT=  precedes SMERFS Gap Treshold - a gap percentage cutoff - \r\n"
+			+ "			a float greater than 0 and smaller or equal 1. Optional defaults \r\n"
+			+ "			to 0.1\r\n"
+			+ "\r\n"
+			+ "-smerfsCS=  precedes SMERFS Column Score algorithm defines the window scores to \r\n"
+			+ "			columns	allocation , two methods are possible:\r\n"
+			+ "	        MID_SCORE - gives the window score to the middle column\r\n"
+			+ "	        MAX_SCORE - gives the column the highest score of all the windows it \r\n"
+			+ "	        belongs to. Optional defaults to MID_SCORE.  \r\n"
+			+ "\r\n"
+			+ "-smerfsWW=  precedes Window Width parameter - an integer and an odd number.\r\n"
+			+ "            Optional, defaults to 7 \r\n"
+			+ "	  \r\n"
 			+ "\r\n"
 			+ "EXAMPLE HOW TO RUN THE PROGRAM:\r\n"
 			+ "java -jar <jar name> -m=KABAT,SMERFS -i=prot1 -o=prot1_results -n\r\n"
@@ -142,9 +148,9 @@ public final class CmdParser {
 			+ "Input comes form prot1 file and an output without an alignment is recorded to \r\n"
 			+ "prot1_results file. \r\n"
 			+ "\r\n"
-			+ "Authors: Agnieszka Golicz, Peter Troshin, David Martin and Geoff Barton.\r\n"
-			+ "Please visit http://www.compbio.dundee.ac.uk for further information.\r\n"
-			+ "\r\n ";
+			+ "Authors: Peter Troshin, Agnieszka Golicz, David Martin and Geoff Barton.\r\n"
+			+ "Please visit http://www.compbio.dundee.ac.uk/aacon for further information.\r\n"
+			+ " ";
 
 	private CmdParser() {
 		// This is a utility class no instantiation
@@ -157,14 +163,35 @@ public final class CmdParser {
 	 *            array of cmd arguments
 	 * @return method name or null if no method name provided
 	 */
-	static String[] getSMERFSDetails(String[] cmd) {
+	static String getSMERFSColumnScore(String[] cmd) {
 
 		for (int i = 0; i < cmd.length; i++) {
 			String meths = cmd[i];
 			if (meths.trim().toLowerCase()
-					.startsWith(SMERFSDetailsKey + pseparator)) {
-				return meths.substring(meths.indexOf(pseparator) + 1)
-						.split(",");
+					.startsWith(SMERFSColumnScore + pseparator)) {
+				return meths.substring(meths.indexOf(pseparator) + 1).trim();
+			}
+		}
+		return null;
+	}
+
+	static String getSMERFSWindowWidth(String[] cmd) {
+		for (int i = 0; i < cmd.length; i++) {
+			String meths = cmd[i];
+			if (meths.trim().toLowerCase()
+					.startsWith(SMERFSWindowWidth + pseparator)) {
+				return meths.substring(meths.indexOf(pseparator) + 1).trim();
+			}
+		}
+		return null;
+	}
+
+	static String getSMERFSGapTreshold(String[] cmd) {
+		for (int i = 0; i < cmd.length; i++) {
+			String meths = cmd[i];
+			if (meths.trim().toLowerCase()
+					.startsWith(SMERFSGapTreshold + pseparator)) {
+				return meths.substring(meths.indexOf(pseparator) + 1).trim();
 			}
 		}
 		return null;
