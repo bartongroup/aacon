@@ -150,41 +150,41 @@ public class AAConWSClientExample {
 	/*
 	 * Input sequences for alignment. For the simplicity keep them in the class
 	 */
-	static final String input = ">Foo      \r\n"
-			+ "MTADGPRELLQLRAAVRHRPQDFVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAV\r\n"
-			+ "ARLGRVRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALEDAGQAEAAAAAYTRAHQL\r\n"
-			+ "LPEEPYITAQLLNWRRRLCDWRALDVLSAQVRAAVAQGVGAVEPFAFLSEDASAAEQLAC\r\n"
-			+ "ARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n"
-			+ "HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n"
-			+ "FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n"
-			+ "VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n"
-			+ "RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n"
-			+ "TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n"
-			+ "GVFEMDGFADDFGALLQALARRHGWLGI\r\n"
-			+ "\r\n"
-			+ ">Bar                    \r\n"
-			+ "-----------------------------------MGDTTAGEMAVQRGLALH-------\r\n"
-			+ "---------QQRHAEAAVLLQQASDAAPEHPGIALWL-HALEDAGQAEAAAA-YTRAHQL\r\n"
-			+ "LPEEPYITAQLLN--------------------AVAQGVGAVEPFAFLSEDASAAE----\r\n"
-			+ "----------SVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n"
-			+ "HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n"
-			+ "FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n"
-			+ "VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n"
-			+ "RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n"
-			+ "TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n"
-			+ "GVFEMDGFADDFGALLQALARRHGWLGI\r\n"
-			+ "\r\n"
-			+ ">Noname             \r\n"
-			+ "-MTADGPRELLQLRAAVRHRPQDVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAV\r\n"
-			+ "ARLGRVRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALED--------------HQL\r\n"
-			+ "LPEEPYITAQLDVLSAQVR-------------AAVAQGVGAVEPFAFLSEDASAAEQLAC\r\n"
-			+ "ARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n"
-			+ "HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n"
-			+ "FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n"
-			+ "VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n"
-			+ "RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n"
-			+ "TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n"
-			+ "I---------------------------";
+	static final String input = &quot;&gt;Foo      \r\n&quot;
+			+ &quot;MTADGPRELLQLRAAVRHRPQDFVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAV\r\n&quot;
+			+ &quot;ARLGRVRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALEDAGQAEAAAAAYTRAHQL\r\n&quot;
+			+ &quot;LPEEPYITAQLLNWRRRLCDWRALDVLSAQVRAAVAQGVGAVEPFAFLSEDASAAEQLAC\r\n&quot;
+			+ &quot;ARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n&quot;
+			+ &quot;HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n&quot;
+			+ &quot;FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n&quot;
+			+ &quot;VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n&quot;
+			+ &quot;RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n&quot;
+			+ &quot;TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n&quot;
+			+ &quot;GVFEMDGFADDFGALLQALARRHGWLGI\r\n&quot;
+			+ &quot;\r\n&quot;
+			+ &quot;&gt;Bar                    \r\n&quot;
+			+ &quot;-----------------------------------MGDTTAGEMAVQRGLALH-------\r\n&quot;
+			+ &quot;---------QQRHAEAAVLLQQASDAAPEHPGIALWL-HALEDAGQAEAAAA-YTRAHQL\r\n&quot;
+			+ &quot;LPEEPYITAQLLN--------------------AVAQGVGAVEPFAFLSEDASAAE----\r\n&quot;
+			+ &quot;----------SVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n&quot;
+			+ &quot;HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n&quot;
+			+ &quot;FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n&quot;
+			+ &quot;VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n&quot;
+			+ &quot;RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n&quot;
+			+ &quot;TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n&quot;
+			+ &quot;GVFEMDGFADDFGALLQALARRHGWLGI\r\n&quot;
+			+ &quot;\r\n&quot;
+			+ &quot;&gt;Noname             \r\n&quot;
+			+ &quot;-MTADGPRELLQLRAAVRHRPQDVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAV\r\n&quot;
+			+ &quot;ARLGRVRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALED--------------HQL\r\n&quot;
+			+ &quot;LPEEPYITAQLDVLSAQVR-------------AAVAQGVGAVEPFAFLSEDASAAEQLAC\r\n&quot;
+			+ &quot;ARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n&quot;
+			+ &quot;HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n&quot;
+			+ &quot;FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n&quot;
+			+ &quot;VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n&quot;
+			+ &quot;RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n&quot;
+			+ &quot;TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n&quot;
+			+ &quot;I---------------------------&quot;;
 
 	public static void main(String[] args) throws UnsupportedRuntimeException,
 			JobSubmissionException, WrongParameterException,
@@ -194,20 +194,20 @@ public class AAConWSClientExample {
 		/*
 		 * Annotation interface for AAConWS web service instance
 		 */
-		Annotation<AACon> client = (Annotation<AACon>) Jws2Client.connect(
-				"http://localhost:8080/jabaws", Services.AAConWS);
+		Annotation&lt;AACon&gt; client = (Annotation&lt;AACon&gt;) Jws2Client.connect(
+				&quot;http://localhost:8080/jabaws&quot;, Services.AAConWS);
 
 		/* Get the list of available presets */
 		PresetManager presetman = client.getPresets();
 
 		/* Get the Preset object by preset name */
-		Preset preset = presetman.getPresetByName("Complete conservation");
+		Preset preset = presetman.getPresetByName(&quot;Complete conservation&quot;);
 
 		/*
 		 * Load sequences in FASTA format from the file You can use something
 		 * like new FileInputStream() to load sequence from the file
 		 */
-		List<FastaSequence> fastalist = SequenceUtil
+		List&lt;FastaSequence&gt; fastalist = SequenceUtil
 				.readFasta(new ByteArrayInputStream(input.getBytes()));
 
 		/*
@@ -218,7 +218,7 @@ public class AAConWSClientExample {
 		String jobId = client.presetAnalize(fastalist, preset);
 
 		/* This method will block for the duration of the calculation */
-		Set<Score> result = client.getAnnotation(jobId);
+		Set&lt;Score&gt; result = client.getAnnotation(jobId);
 
 		/*
 		 * This is a better way of obtaining results, it does not involve
@@ -235,14 +235,14 @@ public class AAConWSClientExample {
 		Score.write(result, System.out);
 
 		/* Alternatively, you can record retrieved alignment into the file */
-		// FileOutputStream out = new FileOutputStream("result.txt");
+		// FileOutputStream out = new FileOutputStream(&quot;result.txt&quot;);
 		// Score.write(result, out);
 		// out.close();
 	}
 }
 
 </pre>
-For a more detailed description of all available types and their functions please refer to the <a href="javadoc/index.html">data model javadoc</a>.</div>
+For a more detailed description of all available types and their functions please refer to the <a href="dm_javadoc/index.html">data model javadoc</a>.</div>
 <!-- content end--> 
 <div id="copyright">Last update: 10 December 2010<br/>
 Peter Troshin and Geoff Barton, The Barton Group, University of Dundee, UK</div>

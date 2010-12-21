@@ -237,7 +237,6 @@ final class ColumnScores {
 					samePairs++;
 				}
 			}
-			assert OverflowChecker.preAdd(samePairs, differentPairs);
 
 			int totalPairs = samePairs + differentPairs;
 			Iterator<Character> itr2 = acidsIntMapCopy.keySet().iterator();
