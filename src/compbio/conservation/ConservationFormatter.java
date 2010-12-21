@@ -43,9 +43,9 @@ public final class ConservationFormatter {
 	/**
 	 * Number if digits after the comma to print to results output
 	 */
-	public static final int PRECISION = 3;
+	static final int PRECISION = 3;
 
-	public static final NumberFormat NUMBER_FORMAT = NumberFormat
+	static final NumberFormat NUMBER_FORMAT = NumberFormat
 			.getNumberInstance(Locale.UK);
 	static {
 		NUMBER_FORMAT.setGroupingUsed(false);
@@ -81,7 +81,7 @@ public final class ConservationFormatter {
 	 *            used.
 	 * @param format
 	 *            the output format. Optional. Defaults to
-	 *            {@value Format#RESULT_NO_ALIGNMENT}
+	 *            {@link Format#RESULT_NO_ALIGNMENT}
 	 * @param alignment
 	 *            the alignment for which score was calculated
 	 * @throws IOException
@@ -125,10 +125,11 @@ public final class ConservationFormatter {
 	 * this method produce the same results as
 	 * {@link ConservationFormatter#formatResults(Map, String, Format, List)}
 	 * where the first parameter is scores, the second is a name of the file,
-	 * third if {@value Format#RESULT_NO_ALIGNMENT} and the fourth is null.
+	 * third if {@link Format#RESULT_NO_ALIGNMENT} and the fourth is null.
 	 * 
 	 * @param scores
-	 *            the results of the calculation - the Map<Method,double[]>
+	 *            the results of the calculation - the
+	 *            Map<ConservationMethod,double[]>
 	 * @param outStream
 	 *            the stream to write the results to. Please note that the
 	 *            method leaves this stream open. It is up to the caller to

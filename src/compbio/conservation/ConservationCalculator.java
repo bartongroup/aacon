@@ -96,7 +96,7 @@ import compbio.data.sequence.UnknownFileFormatException;
 	
 	// Calculate conservation scores using all the methods available.
 	Map<Method, double[]> result = getConservation(sequences, true,
-	EnumSet.complementOf(EnumSet.of(Method.SMERFS)), executor);
+	EnumSet.allOf(ConservationMethod.class), executor);
 	
 	// Print the results to the console.  
 	ConservationFormatter.outputScoreLine(result, System.out);
@@ -109,8 +109,8 @@ import compbio.data.sequence.UnknownFileFormatException;
 public class ConservationCalculator {
 
 	/**
-	 * Calculates the conservation by all the methods defined by {@link Method}
-	 * enumeration apart from SMERFS.
+	 * Calculates the conservation by all the methods defined by
+	 * {@link ConservationMethod} enumeration apart from SMERFS.
 	 * 
 	 * @param alignment
 	 *            the list of FastaSequence objects holding the alignment. All
@@ -120,29 +120,31 @@ public class ConservationCalculator {
 	 *            otherwise.
 	 * 
 	 * @param methods
-	 *            the methods to be used for the calculation, all {@link Method}
-	 *            but SMERFS can be used. The {@link EnumSet} class provides a
-	 *            number of convenience methods which can be used to prepare a
-	 *            set of methods for the input. For example, to use
-	 *            {@link Method#KABAT} for conservation calculation one could
-	 *            construct a set in the following way:
-	 *            {@code EnumSet.of(Method.KABAT)}.<br/>
+	 *            the methods to be used for the calculation, all
+	 *            {@link ConservationMethod} but SMERFS can be used. The
+	 *            {@link EnumSet} class provides a number of convenience methods
+	 *            which can be used to prepare a set of methods for the input.
+	 *            For example, to use {@link ConservationMethod#KABAT} for
+	 *            conservation calculation one could construct a set in the
+	 *            following way: {@code EnumSet.of(ConservationMethod.KABAT)}.<br/>
 	 * 
 	 *            For all the methods, but SMERFS use the following construct:
 	 * 
-	 * <br/> {@code EnumSet.complementOf(EnumSet.of(Method.SMERFS))} <br/>
+	 * <br/> {@code EnumSet.complementOf(EnumSet.of(ConservationMethod.SMERFS))} <br/>
 	 * 
 	 *            For a set of methods including KABAT, JORES, SCHNEIDER,
 	 *            SHENKIN, GERSTEIN use the following construct:
 	 * 
-	 * <br/> {@code EnumSet.range(Method.KABAT, Method.GERSTEIN)}<br/>
+	 * <br/>
+	 *            {@code EnumSet.range(ConservationMethod.KABAT, ConservationMethod.GERSTEIN)}
+	 * <br/>
 	 * 
 	 *            For further details see {@link EnumSet}
 	 * 
 	 * @param executor
 	 *            the {@link ExecutorService} to be used to parallelize the
 	 *            calculations
-	 * @return the Map of Method->double[] conservation scores
+	 * @return the Map of ConservationMethod->double[] conservation scores
 	 * @throws InterruptedException
 	 *             if the calculating Thread was interrupted
 	 */
@@ -213,7 +215,7 @@ public class ConservationCalculator {
 	 * @param windowWidth
 	 *            the window size parameter for SMERFS algorithm
 	 * @param scoringMethod
-	 *            the {@link SMERFSColumnScore}
+	 *            the {@link SMERFSConstraints}
 	 * @param gapTreshold
 	 *            the gap threshold for SMERFS algorithm
 	 * @param normalize
@@ -241,8 +243,8 @@ public class ConservationCalculator {
 	}
 
 	/* TODO remove */
-	public static void main(String[] args) throws InterruptedException,
-			IOException, UnknownFileFormatException {
+	static void main(String[] args) throws InterruptedException, IOException,
+			UnknownFileFormatException {
 		int corenum = Runtime.getRuntime().availableProcessors();
 		// Initialize the Executor instance with a number of cores
 		ExecutorService executor = Executors.newFixedThreadPool(corenum);

@@ -47,7 +47,14 @@ public enum Format {
 	 */
 	RESULT_NO_ALIGNMENT;
 
-	static Format getFormat(String format) {
+	/**
+	 * Converts from String format name to enum Format
+	 * 
+	 * @param format
+	 *            the format to parse
+	 * @return the Format Enum value
+	 */
+	public static Format getFormat(String format) {
 
 		format = format.trim().toLowerCase();
 		if (format.equalsIgnoreCase(Format.RESULT_WITH_ALIGNMENT.toString())) {
