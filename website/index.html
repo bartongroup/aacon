@@ -30,42 +30,8 @@
 </div><!-- panel end-->
 <div id="content" >
 <h2 id="headtitle">The AACon</h2>
-<p>AACon is a set of tools implementing 17 conservation scores reviewed by <a href="http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full">Valdar</a> as well as the more complex <a href="http://www.ncbi.nlm.nih.gov/pubmed/18221517">SMERFS  algorithm</a> for predicting protein functional sites. AACon has been written with  efficiency in mind and takes less than a second to calculate conservation by  all 18 methods for an alignment of 350 residues long by 500 sequences on a  single CPU. AACon exploits parallelism for the more demanding methods and  to allow multiple methods to run simultaneously. The parallel code gives close to linear speedup  with the number of processors, thus making it suitable for server applications  or other demanding environments. <br/>
+<p>AACon is a set of tools implementing 17 different conservation scores reviewed by <a href="http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full">Valdar</a> as well as the more complex <a href="http://www.ncbi.nlm.nih.gov/pubmed/18221517">SMERFS  algorithm</a> for predicting protein functional sites. AACon has been written with  efficiency in mind and takes less than a second to calculate conservation by  all 18 methods for an alignment of 500 sequences 350 residues long on a  single CPU. AACon exploits parallelism for the more demanding methods and  to allow multiple methods to run simultaneously. The parallel code gives close to linear speedup  with the number of processors, thus making it suitable for server applications  or other demanding environments. <br/>
 AACon is available as a SOAP web service, a  stand alone Java executable and a Java library with concise API for accessing  all the conservation methods programmatically. The executable runs on all  platforms that support Java version 5 and above (Windows, Unix/Linux, Mac). </p>
-<h4>AACon Web Service</h4>
-<table>
-<tbody>
-<tr>
-<th width="22%">Feature</th>
-<th width="78%">Description</th>
-</tr>
-
-<tr>
-<td><acronym title="Uniform Resource Locator">URL</acronym> </td>
-<td><a href="http://www.compbio.dundee.ac.uk/jabaws" title=
-"http://www.compbio.dundee.ac.uk/jabaws" rel=
-"nofollow">http://www.compbio.dundee.ac.uk/aacon</a></td>
-</tr>
-
-<tr>
-<td>Execution limits</td>
-<td>AAConWS installation is  backed up by the College of
-Life Sciences HPC cluster. Tasks exceeding 1000&times;1000
-(sequences per letters) will not be accepted for alignment. If you
-would like to work with bigger alignments consider installing
-AAConWS in your lab.</td>
-</tr>
-
-<tr>
-<td>Web Services Description</td>
-<td><a href="http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl"
-title="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?" rel=
-"nofollow">http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</a></td>
-</tr>
-</tbody>
-</table>
-
-For programmatic access to AAConWS please refer to the <a href="webservice.html">Web Services</a> pages. 
 <h4>Authors</h4>
 <p>Peter Troshin, Agnieszka Golicz, David Martin and Geoff Barton are the authors of the AACon Web
 Services. </p>
