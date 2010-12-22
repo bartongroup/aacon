@@ -88,7 +88,7 @@ title="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?" rel=
       Limit limit = getLimit(String name)<br />
       LimitsManager lm = getLimits()<br />
       PresetManager pm = getPresets()</span></p>
-<p>Please refer to a <a href="dm_javadoc/compbio/data/msa/MsaWS.html">data model  javadoc</a> for a detailed description of each methods. </p>
+<p>Please refer to a <a href="javadoc/dm_javadoc/compbio/data/msa/Annotation.html">data model  javadoc</a> for a detailed description of each methods. </p>
 <h4><a name="templclient" id="templclient"></a>Structure of the template command line client</h4>
 <table width="100%" border="1">
   <tr>
@@ -113,7 +113,7 @@ title="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?" rel=
   </tr>
 </table>
 <p>Additional utility libraries this client depend upon is the compbio-util-1.3.jar and compbio-annotation-1.0.jar. <br />
-  Please refer to a <a href="dm_javadoc/index.html">data model javadoc</a> for a detailed description of each class and its methods. </p>
+  Please refer to a <a href="javadoc/index.html">data model javadoc</a> for a detailed description of each class and its methods. </p>
 <h4><a name="webart" id="webart"></a>Building web services artifacts</h4>
 <p>AAConWS are the standard <a href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a href="http://www.ws-i.org/">WS-I</a> basic   profile compatible. This means that you could use your favourite programming language to work with AAConWS. Below is how you can generate portable artifacts to work with AAConWS from Java. However,  if programming in Java we recommend using our <a href="download.html"> client library</a> as it provides a handful of useful methods in addition to plain data types. </p>
 <p class="code">wsimport -keep http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</p>
@@ -162,7 +162,7 @@ Services.AAConWS);</p>
   Line two retrieve a particular parameter from the holder by its name and sets the new value for this parameter. <br />
   Lines three and four do the same but for two more parameters<br />
   Line five submit a job to a web service <br />
-  Line six retrieves the results of the analisys. The names of all the parameters supported by a web service  can be obtained using options.getArguments() method. Further details on the methods available from RunnerConfig object are available from the <a href="dm_javadoc/index.html">javadoc</a>. </p>
+  Line six retrieves the results of the analisys. The names of all the parameters supported by a web service  can be obtained using options.getArguments() method. Further details on the methods available from RunnerConfig object are available from the <a href="javadoc/index.html">javadoc</a>. </p>
 <h4><a name="complex" id="complex"></a>A complete AAConWS web service client example </h4>
 <p>Finally, a complete example of the program that connects to AAConWS service is below. Three is also a <a href="AAConWSClientExample.pdf">PDF version</a> of this example with syntax highlighted. The text notes are commented by block style comments e.g. /* comment */, the code alternatives are commented out with the line  comments - &quot;//&quot;. You may want to remove line style comments to test alternatives of the functions. All you need for this to work is a <a href="download.html">AAConWS binary client</a>. Please make sure that the client is in the Java class path before running this example.</p>
 <pre class="code" style="line-height:1em;">
@@ -285,7 +285,7 @@ public class AAConWSClientExample {
 }
 
 </pre>
-For a more detailed description of all available types and their functions please refer to the <a href="dm_javadoc/index.html">data model javadoc</a>.</div>
+For a more detailed description of all available types and their functions please refer to the <a href="javadoc/index.html">data model javadoc</a>.</div>
 <!-- content end--> 
 <div id="copyright">Last update: 10 December 2010<br/>
 Peter Troshin and Geoff Barton, The Barton Group, University of Dundee, UK</div>
