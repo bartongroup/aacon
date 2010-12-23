@@ -58,7 +58,7 @@
     </tr>
     <tr>
       <td><acronym title="Uniform Resource Locator">Service web site </acronym> </td>
-      <td><a href="http://www.compbio.dundee.ac.uk/jabaws" title=
+      <td><a href="http://www.compbio.dundee.ac.uk/aacon" title=
 "http://www.compbio.dundee.ac.uk/jabaws" rel=
 "nofollow">http://www.compbio.dundee.ac.uk/aacon</a></td>
     </tr>
@@ -72,7 +72,7 @@
     <tr>
       <td>AACon web service WSDL </td>
       <td><a href="http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl"
-title="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?" rel=
+title="http://www.compbio.dundee.ac.uk/aacon/AAConWS?" rel=
 "nofollow">http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</a></td>
     </tr>
   </tbody>
@@ -80,14 +80,13 @@ title="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?" rel=
 <h4><a name="wsclient" id="wsclient"></a>Using Web Service Command Line Client</h4>
 <p>The command client can be used to calculate conservation using public AACon web service.  The client is operating system independent and supports most of the AACon web service functions. Using this client you could calculate conservation  using web service features such as presets and parameters. Below is the list of options supported by the command line client. </p>
 <span class="code"><strong>Usage:</strong> java -jar &lt;path_to_jar_file&gt; ACTION [OPTIONS]
-<br />
+<br/>
 <strong>ACTIONS:</strong><br />
 -i=&lt;inputFile&gt; - full path to Fasta or Clustal formatted alignment file<br />
 -parameters - lists parameters supported by web service<br />
 -presets - lists presets supported by web service<br />
 -limits - lists web services limits<br />
 Please note that if input file is specified other actions are ignored
-</p>
 <br />
 <strong> OPTIONS:</strong> (only for use with -i action):<br />
 -r=&lt;presetName&gt; - name of the preset to use<br />
@@ -151,23 +150,23 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
       PresetManager pm = getPresets()</span></p>
 <p>Please refer to a <a href="javadoc/dm_javadoc/compbio/data/msa/Annotation.html">data model  javadoc</a> for a detailed description of each methods. </p>
 <h4><a name="webart" id="webart"></a>Building web services artifacts</h4>
-<p>AAConWS are the standard <a href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a href="http://www.ws-i.org/">WS-I</a> basic   profile compatible. This means that you could use your favourite programming language to work with AAConWS. Below is how you can generate portable artifacts to work with AAConWS from Java. However,  if programming in Java we recommend using our <a href="download.html"> client library</a> as it provides a handful of useful methods in addition to plain data types. </p>
+<p>AAConWS are the standard <a href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a href="http://www.ws-i.org/">WS-I</a> basic   profile compatible. This means that you could use your favorite programming language to work with AAConWS. Below is how you can generate portable artifacts to work with AAConWS from Java. However,  if programming in Java we recommend using our <a href="download.html"> client library</a> as it provides a handful of useful methods in addition to plain data types. </p>
 <p class="code">wsimport -keep http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</p>
 <h4><a name="conn" id="conn"></a>Connecting to AAConWS</h4>
 <p>All the examples below assume that AACon web service command line client is in the classpath. You can download it from the <a href="download.html">download page</a>.  The code excerpt below will connect your program to AAConWS web service deployed in the University of Dundee. </p>
 <p class="code"> Annotation&lt;AAConWS&gt; client = AAConWSClient.connect();</p>
-<p>If you want to work with the <a href="#webart">generated artefacts</a> directly you can inspect AAConWS command line client source code and use it as a template for building your own custom AAConWS clients. </p>
+<p>If you want to work with the <a href="#webart">generated artifacts</a> directly you can inspect AAConWS <a href="AAConClient.java">command line client source code</a> and use it as a template for building your own custom AAConWS clients. </p>
 <h4><a name="runconserv" id="runconserv"></a>Calculating conservation  </h4>
 <p>Given that <span class="hightlight">client</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the conservation scores can be obtained as follows: </p>
 <p class="code">1) List&lt;FastaSequence&gt; fsl = SequenceUtil.readFasta(new FileInputStream(&quot;alignment.fasta&quot;));<br />
   2) String jobId = client.analize(fsl);<br />
   3) HashSet&lt;Score&gt; result = client.getAnnotation(jobId);</p>
 <p>Line  one loads sequence alignment from the file<br />
-  Line two submits them to web service represented by msaws proxy <br />
-  Line three retrieves the conservation scores caclulated according to Shenkin algorithm.  This line blocks the execution until the result is available. Use this with caution. In general, you should make sure that the calculation has been completed before attempting retrieving results. This is to avoid keeping the connection to the server on hold for a prolonged periods of time. While this may be ok with your local server, our public server (<a href="http://www.compbio.dundee.ac.uk/jabaws">www.compbio.dundee.ac.uk/aacon</a>) will not let you hold the connection for longer than 10 minutes. This is done to prevent excessive load on the server. The next section describes how to check the status of the calculation.<br />
+  Line two submits them to web service represented by AAConWS proxy <br />
+  Line three retrieves the conservation scores calculated according to Shenkin algorithm.  This line blocks the execution until the result is available. Use this with caution. In general, you should make sure that the calculation has been completed before attempting retrieving results. This is to avoid keeping the connection to the server on hold for a prolonged periods of time. While this may be ok with your local server, our public server (<a href="http://www.compbio.dundee.ac.uk/aacon">www.compbio.dundee.ac.uk/aacon</a>) will not let you hold the connection for longer than 10 minutes. This is done to prevent excessive load on the server. The next section describes how to check the status of the calculation.<br />
   Methods and classes mentioned in the excerpt are available from the AAConWS client library. </p>
 <h4><a name="checkstat" id="checkstat"></a>Checking the status of the calculation </h4>
-<p> You may have noticed that there was no pause between submitting the job and retrieving the results. This is because <span class="hightlight">getResult(jobId)</span> method block the processing until the calculation is completed. However, taking into account that the connection holds server resources, our public server (<a href="http://www.compbio.dundee.ac.uk/jabaws">www.compbio.dundee.ac.uk/aacon</a>) is configured to reset the connection after 10 minutes of waiting. To work around the connection reset you are encouraged to check whether the calculation has been completed before accessing the results.	You can do it like this: </p>
+<p> You may have noticed that there was no pause between submitting the job and retrieving the results. This is because <span class="hightlight">getAnnotation(jobId)</span> method block the processing until the calculation is completed. However, taking into account that the connection holds server resources, our public server (<a href="http://www.compbio.dundee.ac.uk/aacon">www.compbio.dundee.ac.uk/aacon</a>) is configured to reset the connection after 10 minutes of waiting. To work around the connection reset you are encouraged to check whether the calculation has been completed before accessing the results.	You can do it like this: </p>
 <p> <span class="code">while (client.getJobStatus(jobId) != JobStatus.FINISHED) {<br />
   &nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(2000); // wait two  seconds, then recheck the status <br />
   }</span></p>
@@ -197,7 +196,7 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
   Line two retrieve a particular parameter from the holder by its name and sets the new value for this parameter. <br />
   Lines three and four do the same but for two more parameters<br />
   Line five submit a job to a web service <br />
-  Line six retrieves the results of the analisys. The names of all the parameters supported by a web service  can be obtained using options.getArguments() method. Further details on the methods available from RunnerConfig object are available from the <a href="javadoc/index.html">javadoc</a>. </p>
+  Line six retrieves the results of the analysis. The names of all the parameters supported by a web service  can be obtained using options.getArguments() method. Further details on the methods available from RunnerConfig object are available from the <a href="javadoc/index.html">javadoc</a>. </p>
 <h4><a name="complex" id="complex"></a>A complete AAConWS web service client example </h4>
 <p>Finally, a complete example of the program that connects to AAConWS service is below. Three is also a <a href="AAConWSClientExample.pdf">PDF version</a> of this example with syntax highlighted. The text notes are commented by block style comments e.g. /* comment */, the code alternatives are commented out with the line  comments - &quot;//&quot;. You may want to remove line style comments to test alternatives of the functions. All you need for this to work is a <a href="download.html">AAConWS binary client</a>. Please make sure that the client is in the Java class path before running this example.</p>
 <pre class="code" style="line-height:1em;">
