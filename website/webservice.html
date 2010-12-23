@@ -30,7 +30,7 @@
 <div id="content">
 
 <h2 id="headtitle">AACon Web Service How To</h2>
-<p>This page provides some tips on using AACon web service.</p>
+<p>This page provides some tips on using AACon web service. Please note that for now all the examples are in Java. Other languages will follow given a sufficient demand. Please also note that AACon web service client requires Java 6. </p>
 <strong>Outline</strong><ul><li><a href="#wsdl">AACon web service Details </a></li>
   <li><a href="#wsclient">Using web service command line client </a></li>
   <li><a href="#templclient">Structure of the template command line client</a></li>
@@ -154,11 +154,11 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
 <p>AAConWS are the standard <a href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a href="http://www.ws-i.org/">WS-I</a> basic   profile compatible. This means that you could use your favourite programming language to work with AAConWS. Below is how you can generate portable artifacts to work with AAConWS from Java. However,  if programming in Java we recommend using our <a href="download.html"> client library</a> as it provides a handful of useful methods in addition to plain data types. </p>
 <p class="code">wsimport -keep http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</p>
 <h4><a name="conn" id="conn"></a>Connecting to AAConWS</h4>
-<p class="attention">AAConWS command line client can be used as an example template for AAConWS clients. It source code is available from the compbio.ws.client.Jws2Client class. AAConWS command line client source code is available from the <a href="download.html">download page</a>. Please note that for now all the examples are in Java other languages will follow given a sufficient demand. </p>
-<p>Download a binary AAConWS <a href="download.html">client</a>. Add the client to the class path. The following code excerpt will connect your program to AAConWS web service deployed in the University of Dundee. </p>
+<p>All the examples below assume that AACon web service command line client is in the classpath. You can download it from the <a href="download.html">download page</a>.  The code excerpt below will connect your program to AAConWS web service deployed in the University of Dundee. </p>
 <p class="code"> Annotation&lt;AAConWS&gt; client = AAConWSClient.connect();</p>
+<p>If you want to work with the <a href="#webart">generated artefacts</a> directly you can inspect AAConWS command line client source code and use it as a template for building your own custom AAConWS clients. </p>
 <h4><a name="runconserv" id="runconserv"></a>Calculating conservation  </h4>
-<p>Given that <span class="hightlight">client</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the actual alignment can be obtained as follows: </p>
+<p>Given that <span class="hightlight">client</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the conservation scores can be obtained as follows: </p>
 <p class="code">1) List&lt;FastaSequence&gt; fsl = SequenceUtil.readFasta(new FileInputStream(&quot;alignment.fasta&quot;));<br />
   2) String jobId = client.analize(fsl);<br />
   3) HashSet&lt;Score&gt; result = client.getAnnotation(jobId);</p>
@@ -185,7 +185,7 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
   <li>&quot;Complete conservation&quot; (all available algorithms) </li>
   </ul>
 <h4><a name="runconservpar" id="runconservpar"></a>Calculating conservation with custom parameters</h4>
-<p>The example below is call for SMERFS with custom parameters. </p>
+<p>Below is the example of using custom parameters for SMERFS method. </p>
 <p class="code">// Using options<br />
 1) RunnerConfig&lt;AACon&gt; options = client.getRunnerOptions();<br />
 2) options.getArgument(&quot;Calculation method&quot;).setDefaultValue(&quot;SMERFS&quot;);<br />
