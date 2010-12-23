@@ -31,11 +31,10 @@
 
 <h2 id="headtitle">AACon Web Service How To</h2>
 <p>This page provides some tips on using AACon web service.</p>
-<strong>Outline</strong>
-<ul>
-  <li><a href="#wsdl">AACon web service Details </a></li>
-  <li><a href="#wsfunctions">Web services functions overview</a></li>
+<strong>Outline</strong><ul><li><a href="#wsdl">AACon web service Details </a></li>
+  <li><a href="#wsclient">Using web service command line client </a></li>
   <li><a href="#templclient">Structure of the template command line client</a></li>
+  <li><a href="#wsfunctions">AACon web service functions overview</a></li>
   <li><a href="#webart">Building web services artifacts</a></li>
   <li><a href="#conn">Connecting to AAConWS</a></li>
   <li><a href="#runconserv">Calculating conservation </a></li>
@@ -53,42 +52,65 @@
       <th width="76%">Description</th>
     </tr>
     <tr>
-      <td><acronym title="Uniform Resource Locator">URL</acronym> </td>
+      <td>Operated by </td>
+      <td>The University of Dundee, Computational Biology Group headed by Prof Geoff Barton.  It is backed up by the College of
+        Life Sciences HPC cluster. </td>
+    </tr>
+    <tr>
+      <td><acronym title="Uniform Resource Locator">Service web site </acronym> </td>
       <td><a href="http://www.compbio.dundee.ac.uk/jabaws" title=
 "http://www.compbio.dundee.ac.uk/jabaws" rel=
 "nofollow">http://www.compbio.dundee.ac.uk/aacon</a></td>
     </tr>
     <tr>
       <td>Execution limits</td>
-      <td>AAConWS installation is  backed up by the College of
-        Life Sciences HPC cluster. Tasks exceeding 5000&times;1000
+      <td>Tasks exceeding 5000&times;1000
         (sequences per letters) will not be accepted for alignment. If you
         would like to work with bigger alignments consider using a command line version of 
         AACon.</td>
     </tr>
     <tr>
-      <td>AACon web service description</td>
+      <td>AACon web service WSDL </td>
       <td><a href="http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl"
 title="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?" rel=
 "nofollow">http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</a></td>
     </tr>
   </tbody>
 </table>
-<h4><a name="wsfunctions" id="wsfunctions"></a>Web services functions overview </h4>
-<p><strong>Functions for conservation calculation </strong><span class="code"> String id = analize(List&lt;FastaSequence&gt; list)<br />
-  String id = customAnalize(List&lt;FastaSequence&gt; sequenceList, List&lt;Option&gt; optionList)<br />
-  String id = presetAnalize(List&lt;FastaSequence&gt; sequenceList, Preset preset)</span></p>
-<p><strong>Functions pertaining to job monitoring and control</strong><br />
-    <span class="code">JobStatus status = getJobStatus(String id)<br />
-      HashSet&lt;Score&gt; conservation = getConservation(String id)<br />
-      boolean cancelled = cancelJob(String id)<br />
-      ChunkHolder chunk = pullExecStatistics(String id, long marker)</span></p>
-<p><strong>Functions relating to service features discovery</strong><br />
-    <span class="code">RunnerConfig rc = getRunnerOptions()<br />
-      Limit limit = getLimit(String name)<br />
-      LimitsManager lm = getLimits()<br />
-      PresetManager pm = getPresets()</span></p>
-<p>Please refer to a <a href="javadoc/dm_javadoc/compbio/data/msa/Annotation.html">data model  javadoc</a> for a detailed description of each methods. </p>
+<h4><a name="wsclient" id="wsclient"></a>Using Web Service Command Line Client</h4>
+<p>The command client can be used to calculate conservation using public AACon web service.  The client is operating system independent and supports most of the AACon web service functions. Using this client you could calculate conservation  using web service features such as presets and parameters. Below is the list of options supported by the command line client. </p>
+<span class="code"><strong>Usage:</strong> java -jar &lt;path_to_jar_file&gt; ACTION [OPTIONS]
+<br />
+<strong>ACTIONS:</strong><br />
+-i=&lt;inputFile&gt; - full path to Fasta or Clustal formatted alignment file<br />
+-parameters - lists parameters supported by web service<br />
+-presets - lists presets supported by web service<br />
+-limits - lists web services limits<br />
+Please note that if input file is specified other actions are ignored
+</p>
+<br />
+<strong> OPTIONS:</strong> (only for use with -i action):<br />
+-r=&lt;presetName&gt; - name of the preset to use<br />
+-o=&lt;outputFile&gt; - full path to the file where to write the results <br />
+-f=&lt;parameterInputFile&gt; - the name of the file with the list of parameters to use.<br />
+Please note that -r and -f options cannot be used together. Conservation can be calculated with either a preset or  the parameters from the file, but not both!</span>
+<p>Using the command line web service client is easy. For example to calculate conservation for the alignment from <span class="hightlight">input.fasta</span> file using AACon web service with default settings and print the results to the console. By default, the conservation is calculated by SHENKIN method. </p>
+<p class="code">java -jar aacon-client.jar -i=d:\input.fasta</p>
+<p>Content of<span class="hightlight"> input.fasta</span> 
+file is show below (please note sequences has been trimmed for clarity)
+  <span class="code">&gt;QUERY  <br />
+  MEWLKIALVAFSGRGNDVDYPCSILGRVANNDKELVNIL 
+  <br />
+  &gt;Q4VBK1 <br />
+  ---------------PDTDEPVWILGACYNVKTKKSELL 
+  <br />
+  &gt;A7RTH8 <br />
+  ---MDAACVTYEGVSHETEEDVWILGKRYNIDMGYLNTD </span>
+</p>
+Calculate conservation using 12 fast conservation methods (using preset &quot;Quick conservation&quot;), write output results to the result.txt file
+<p><span class="code">java -jar aacon-client.jar -i=d:\input.fasta -o=d:\result.txt -r=&quot;Quick conservation&quot; </span></p>
+<p>Get the list of presets supported by AACon web service  <br />
+    <span class="code"> java -jar aacon-client.jar  -presets</span></p>
 <h4><a name="templclient" id="templclient"></a>Structure of the template command line client</h4>
 <table width="100%" border="1">
   <tr>
@@ -109,19 +131,32 @@ title="http://www.compbio.dundee.ac.uk/jabaws/ClustalWS?" rel=
   </tr>
   <tr>
     <td>compbio.ws.client</td>
-    <td>AAConWS command line client </td>
+    <td>AAConWS command line client package with AAConClient.java class containing the main method  </td>
   </tr>
 </table>
-<p>Additional utility libraries this client depend upon is the compbio-util-1.3.jar and compbio-annotation-1.0.jar. <br />
-  Please refer to a <a href="javadoc/index.html">data model javadoc</a> for a detailed description of each class and its methods. </p>
+<p>  Please refer to a <a href="javadoc/index.html">data model javadoc</a> for a detailed description of each class and its methods. </p>
+<h4><a name="wsfunctions" id="wsfunctions"></a>AACon web service functions overview </h4>
+<p><strong>Functions for conservation calculation </strong><span class="code"> String id = analize(List&lt;FastaSequence&gt; list)<br />
+  String id = customAnalize(List&lt;FastaSequence&gt; sequenceList, List&lt;Option&gt; optionList)<br />
+  String id = presetAnalize(List&lt;FastaSequence&gt; sequenceList, Preset preset)</span></p>
+<p><strong>Functions pertaining to job monitoring and control</strong><br />
+    <span class="code">JobStatus status = getJobStatus(String id)<br />
+      HashSet&lt;Score&gt; conservation = getConservation(String id)<br />
+      boolean cancelled = cancelJob(String id)<br />
+      ChunkHolder chunk = pullExecStatistics(String id, long marker)</span></p>
+<p><strong>Functions relating to service features discovery</strong><br />
+    <span class="code">RunnerConfig rc = getRunnerOptions()<br />
+      Limit limit = getLimit(String name)<br />
+      LimitsManager lm = getLimits()<br />
+      PresetManager pm = getPresets()</span></p>
+<p>Please refer to a <a href="javadoc/dm_javadoc/compbio/data/msa/Annotation.html">data model  javadoc</a> for a detailed description of each methods. </p>
 <h4><a name="webart" id="webart"></a>Building web services artifacts</h4>
 <p>AAConWS are the standard <a href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a href="http://www.ws-i.org/">WS-I</a> basic   profile compatible. This means that you could use your favourite programming language to work with AAConWS. Below is how you can generate portable artifacts to work with AAConWS from Java. However,  if programming in Java we recommend using our <a href="download.html"> client library</a> as it provides a handful of useful methods in addition to plain data types. </p>
 <p class="code">wsimport -keep http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</p>
 <h4><a name="conn" id="conn"></a>Connecting to AAConWS</h4>
-<p class="attention">For a complete working example of AAConWS command line client please see compbio.ws.client.Jws2Client class. AAConWS command line client source code is available from the <a href="download.html">download page</a>. Please note that for now all the examples are in Java other languages will follow given a sufficient demand. </p>
+<p class="attention">AAConWS command line client can be used as an example template for AAConWS clients. It source code is available from the compbio.ws.client.Jws2Client class. AAConWS command line client source code is available from the <a href="download.html">download page</a>. Please note that for now all the examples are in Java other languages will follow given a sufficient demand. </p>
 <p>Download a binary AAConWS <a href="download.html">client</a>. Add the client to the class path. The following code excerpt will connect your program to AAConWS web service deployed in the University of Dundee. </p>
-<p class="code"> Annotation&lt;AACon&gt; client = (Annotation&lt;AACon&gt;)Jws2Client.connect(&quot;http://www.compbio.dundee.ac.uk/aacon&quot;,<br />
-Services.AAConWS);</p>
+<p class="code"> Annotation&lt;AAConWS&gt; client = AAConWSClient.connect();</p>
 <h4><a name="runconserv" id="runconserv"></a>Calculating conservation  </h4>
 <p>Given that <span class="hightlight">client</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the actual alignment can be obtained as follows: </p>
 <p class="code">1) List&lt;FastaSequence&gt; fsl = SequenceUtil.readFasta(new FileInputStream(&quot;alignment.fasta&quot;));<br />
@@ -237,8 +272,7 @@ public class AAConWSClientExample {
 		/*
 		 * Annotation interface for AAConWS web service instance
 		 */
-		Annotation&lt;AACon&gt; client = (Annotation&lt;AACon&gt;) Jws2Client.connect(
-				&quot;http://localhost:8080/jabaws&quot;, Services.AAConWS);
+		Annotation&lt;AACon&gt; client = AAConClient.connect();
 
 		/* Get the list of available presets */
 		PresetManager presetman = client.getPresets();

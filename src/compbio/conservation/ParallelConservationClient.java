@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SMERFSConstraints;
+import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 import compbio.util.Timer;
 
@@ -145,7 +146,7 @@ final class ParallelConservationClient {
 					timer.getStatWriter());
 			ExecutorService executor = ExecutorFactory.getExecutor();
 
-			List<FastaSequence> sequences = CmdParser
+			List<FastaSequence> sequences = SequenceUtil
 					.openInputStream(inFilePath);
 
 			if (sequences != null) {

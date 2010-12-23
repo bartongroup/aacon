@@ -16,23 +16,14 @@
  */
 package compbio.conservation;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
 
 import compbio.common.IllegalGapCharacterException;
-import compbio.data.sequence.Alignment;
-import compbio.data.sequence.ClustalAlignmentUtil;
 import compbio.data.sequence.ConservationMethod;
-import compbio.data.sequence.FastaSequence;
-import compbio.data.sequence.SequenceUtil;
-import compbio.data.sequence.UnknownFileFormatException;
 
 /**
  * Parses the command line arguments
@@ -40,7 +31,7 @@ import compbio.data.sequence.UnknownFileFormatException;
  * @author Peter Troshin & Agnieszka Golicz
  * 
  */
-public final class CmdParser {
+final class CmdParser {
 
 	final static DateFormat DATE_FORMAT = new SimpleDateFormat(
 			"yyyy/MM/dd HH:mm:ss");
@@ -365,39 +356,6 @@ public final class CmdParser {
 			}
 		}
 		return gapChars;
-	}
-
-	/**
-	 * Reads and parses Fasta or Clustal formatted file into a list of
-	 * FastaSequence objects
-	 * 
-	 * @param inFilePath
-	 *            the path to the input file
-	 * @throws IOException
-	 *             if the file denoted by inFilePath cannot be read
-	 * @throws UnknownFileFormatException
-	 *             if the inFilePath points to the file which format cannot be
-	 *             recognised
-	 * @return the List of FastaSequence objects
-	 * 
-	 */
-	public static List<FastaSequence> openInputStream(String inFilePath)
-			throws IOException, UnknownFileFormatException {
-
-		// This stream gets closed in isValidClustalFile method
-		InputStream inStrForValidation = new FileInputStream(inFilePath);
-		// This stream is closed in the calling methods
-		InputStream inStr = new FileInputStream(inFilePath);
-		List<FastaSequence> fastaSeqs = null;
-		if (ClustalAlignmentUtil.isValidClustalFile(inStrForValidation)) {
-			Alignment al = ClustalAlignmentUtil.readClustalFile(inStr);
-			// alignment cannot be null see
-			// ClustalAlignmentUtil.readClustalFile(inStr);
-			fastaSeqs = al.getSequences();
-		} else {
-			fastaSeqs = SequenceUtil.readFasta(inStr);
-		}
-		return fastaSeqs;
 	}
 
 	static String getDateTime() {

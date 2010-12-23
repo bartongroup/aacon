@@ -33,6 +33,7 @@ import compbio.data.sequence.Alignment;
 import compbio.data.sequence.ConservationMethod;
 import compbio.data.sequence.FastaSequence;
 import compbio.data.sequence.SMERFSConstraints;
+import compbio.data.sequence.SequenceUtil;
 import compbio.data.sequence.UnknownFileFormatException;
 
 /**
@@ -253,7 +254,7 @@ public class ConservationCalculator {
 		// formatted sequences. Assuming that small.align // file is // in the
 		// same
 		// directory as this program
-		List<FastaSequence> sequences = CmdParser
+		List<FastaSequence> sequences = SequenceUtil
 				.openInputStream("test/data/small.align");
 		// Calculate conservation
 		// scores using all the methods available.
