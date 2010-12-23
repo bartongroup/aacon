@@ -1,8 +1,3 @@
 Remove main from ConservCalculator
-regenerate javadoc
-pack a jar
-web service related pages to complete
-DONE: CmdParser must be public or method for reading files needs to be take out
-DONE: Add null OutputStream checking for formatResults method
 
-Javadoc reference to DM javadoc does not work 
+ 
