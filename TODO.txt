@@ -1,3 +1,5 @@
 Remove main from ConservCalculator
 
+Maybe - improve AAConClient class doc and java - as its on display
+
  

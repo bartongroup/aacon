@@ -1,0 +1,22 @@
+To add a AACon web service, go to JABA2 project and execute aacon-ws-client build task. 
+put the aacon-ws-client into website folder.
+
+Also if any changes were done to ws.client.AAConWSClient then the whole class must 
+be put into website root. 
+
+Also any changes done to the JABA datamodel, the datamodel javadoc must be 
+regenerated and put into doc folder. Then, AACon javadoc must be regenerated
+and pointed to datamodel javadoc for linkage. 
+
+If any public methods have been updated/moved/renamed AACon javadoc must be updated. 
+
+Finally, javadoc from doc folder must be moved to website/javadoc folder. 
+
+After move but before commit do not forget to remove SVN subfolders and cleanup
+
+parent folder. 
+
+When updating do not update web.xml and sun descriptors in www-aacon tomcat instance!
+ 
+
+   
