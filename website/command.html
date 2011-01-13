@@ -13,7 +13,7 @@
 <div id="page">
 <div id="banner"><table> 
 <tr><td style="width:130px;"><a href="http://www.dundee.ac.uk"><img class="logo" src="images/uod_lt.gif"  alt="University of Dundee"  title="University of Dundee" longdesc="http://www.dundee.ac.uk"/></a></td>
-<td class="bg"><h2><span style="color:#1ACC1A" class="headeru">A</span>mino <span style="color:#80B3E6" class="headeru">A</span>cid <span style="color:#AE5439" class="headeru">Con</span>servation Service</h2></td>
+<td class="bg"><h1><span style="color:#1ACC1A" class="headeru">A</span>mino <span style="color:#80B3E6" class="headeru">A</span>cid <span style="color:#AE5439" class="headeru">Con</span>servation Service</h1></td>
 </tr>
 </table>
 </div><!-- banner end-->
@@ -27,7 +27,7 @@
 	<a href="http://www.compbio.dundee.ac.uk">Barton Group</a></div>
 <!-- panel end-->
 <div id="content">
-<h2 id="headtitle">AACon Standalone Executable How To </h2>
+<h2 id="headtitle">AACon Standalone Executable  </h2>
 <p>This page provides some tips on using AACon command line tool.</p>
 <strong>Outline</strong>
 <ul>
@@ -45,10 +45,10 @@
 </ul>
 <hr />
 <p>&nbsp;</p>
-<h4><a name="exec" id="exec"></a>Executing AACon</h4>
+<h3><a name="exec" id="exec"></a>Executing AACon</h3>
 <p>Type java -jar &lt;AACon jar file name&gt;<span class="code">java -jar aacon.jar </span></p>
 <p>This will print AACon help.  </p>
-<h4><a name="in" id="in"></a>The input</h4>
+<h3><a name="in" id="in"></a>The input</h3>
 <p>Input to AACon can be either </p>
 <ul>
   <li>The list of aligned FASTA formatted sequences </li>
@@ -101,7 +101,7 @@ UniRef90_Q4VBK1/1-294 LLKKRNLRMFELVEKHPSHWPPF-----<br />
 UniRef90_A7RTH8/1-303 IIDGKSRPMFEIAKDRPQHWPVLE----</span> </p>
 <p>The gaps in the alignment can be represented by   
   *, -, space character, X and . (a dot). Other, custom gap characters can also be defined.</p>
-<h4><a name="out" id="out"></a>The output </h4>
+<h3><a name="out" id="out"></a>The output </h3>
 <p>AACon supports two modes of the output the first and the default mode is       
 RESULT_NO_ALIGNMENT. Only the method names and the conservation score for each position in the alignment are presented. The second output format is RESULT_WITH_ALIGNMENT, where the input, in the form of FASTA formatted alignment, is included at the beginning of the file, followed by the same output as RESULT_NO_ALIGNMENT.  </p>
 <p>RESULT_NO_ALIGNMENT example is below: <br />
@@ -149,7 +149,7 @@ RESULT_WITH_ALIGNMENT output example is below:
 <p><span class="code">java -jar compbio-conservation-1.0.jar -i=data.align -m=KABAT -f=RESULT_WITH_ALIGNMENT
 </span></p>
 outputs the input alignment in to the result file. 
-<h4><a name="run" id="run"></a>Calculating conservation</h4>
+<h3><a name="run" id="run"></a>Calculating conservation</h3>
 <p><strong>Calculate conservation using KABAT conservation method </strong></p>
 <p>The alignment is read from the data.align file. </p>
 <p class="code">java -jar compbio-conservation-1.0.jar -i=data.align -m=KABAT</p>
@@ -163,14 +163,14 @@ outputs the input alignment in to the result file.
   #SANDER -72 -72 -72 -36 -48 -51 -42 -66 -36 -45 -27 -48 -33 -54 -45 3 30 </span></p>
 <p><strong>Calculate conservation using all supported conservation methods and make results comparable </strong></p>
 <p><span class="code">java -jar compbio-conservation-1.0.jar -i=data.align -n </span>The results will be printed to the console. Where -n <a href="#normal">normalizes</a> all results.  </p>
-<h4><a name="gap" id="gap"></a>Using custom gap character </h4>
+<h3><a name="gap" id="gap"></a>Using custom gap character </h3>
 <p>Assuming that the gaps in the alignment are represented by # and 1 symbols the following command will interpret them correctly. </p>
 <p><span class="code">java -jar compbio-conservation-1.0.jar -i=data.align -m=KABAT -g=#,1</span></p>
-<h4><a name="cpulim" id="cpulim"></a>Limiting AACon to X number of CPU only. </h4>
+<h3><a name="cpulim" id="cpulim"></a>Limiting AACon to X number of CPU only. </h3>
 <p>By default AACon uses all CPUs available on the computer to perform calculations. This may be undesirable in the server environment. To restrict AACon to X CPU only use <span class="hightlight">-t</span> switch. </p>
 <p class="code">java -jar compbio-conservation-1.0.jar -i=data.align -n -t=1 </p>
 <p>The above command restricts AACon to a single CPU. </p>
-<h4><a name="smerfs" id="smerfs"></a>Running SMERFS with custom parameters </h4>
+<h3><a name="smerfs" id="smerfs"></a>Running SMERFS with custom parameters </h3>
 <p>Unlike other methods, SMERFS supports a few custom parameters, in particular</p>
 <ol>
   <li> The window width - an integer and an odd number</li>
@@ -183,11 +183,11 @@ outputs the input alignment in to the result file.
   </ol>
 <p>For example:  </p>
 <p class="code"> java -jar compbio-conservation-1.0.jar -i=data.align -m=SMERFS -s=5,MID_SCORE,0.1</p>
-<h4><a name="fileout" id="fileout"></a>Recording the output to the file </h4>
+<h3><a name="fileout" id="fileout"></a>Recording the output to the file </h3>
 <p>Use <span class="hightlight">-o</span> option to print the results to the file instead of a console.  For example </p>
 <p><span class="code">java -jar compbio-conservation-1.0.jar -i=data.align -n -o=outfile.txt</span></p>
 <p>will produce output.txt results file. Nothing will be printed to the console. </p>
-<h4><a name="execdet" id="execdet"></a>Execution details </h4>
+<h3><a name="execdet" id="execdet"></a>Execution details </h3>
 <p>Use <span class="hightlight">-d</span> option to tell AACon to output its execution details.</p>
 <p class="code">java -jar compbio-conservation-1.0.jar -i=data.align -n -d=stat.out -f=RESULT_WITH_ALIGNMENT</p>
 <p> The output of the previous command, the context of the <span class="hightlight">stat.out</span> file is below</p>
@@ -219,9 +219,9 @@ outputs the input alignment in to the result file.
   TAYLOR_NO_GAPS 21 ms<br />
   Total calculation time: 0 s<br />
   End time: 2010/12/08 12:02:36</p>
-<h4><a name="normal" id="normal"></a>Results normalization </h4>
+<h3><a name="normal" id="normal"></a>Results normalization </h3>
 Different conservation algorithms produce vastly different values. To compare them meaningfully one need to bring the results into the same range. AACon bring the results to the range between 0 and 1 if <span class="hightlight">-n</span> switch is used.
-<h4><a name="largeal" id="largeal"></a>Conservation for large alignments (Java VM running out of memory) </h4>
+<h3><a name="largeal" id="largeal"></a>Conservation for large alignments (Java VM running out of memory) </h3>
 <p>To enable AACon to deal with large alignments (thousands of sequences) let the Java Virtual Machine use more memory with the flag <span class="hightlight">-Xmx&lt;AMOUNT_OF_MEMORY&gt;</span> to your command line as follows: </p>
 <p class="code">java -Xmx1G -jar aacon.jar &lt;options&gt; </p>
 <p>Where 1G = 1 gigabyte of memory, the same result can be achieved with the following instruction<span class="hightlight"> -Xmx1000M</span> . However, floating point numbers like -Xmx1.5G are not allowed.</p>

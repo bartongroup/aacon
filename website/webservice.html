@@ -13,7 +13,7 @@
 <div id="page">
 <div id="banner"><table> 
 <tr><td style="width:130px;"><a href="http://www.dundee.ac.uk"><img class="logo" src="images/uod_lt.gif"  alt="University of Dundee"  title="University of Dundee" longdesc="http://www.dundee.ac.uk"/></a></td>
-<td class="bg"><h2><span style="color:#1ACC1A" class="headeru">A</span>mino <span style="color:#80B3E6" class="headeru">A</span>cid <span style="color:#AE5439" class="headeru">Con</span>servation Service</h2></td>
+<td class="bg"><h1><span style="color:#1ACC1A" class="headeru">A</span>mino <span style="color:#80B3E6" class="headeru">A</span>cid <span style="color:#AE5439" class="headeru">Con</span>servation Service</h1></td>
 </tr>
 </table>
 </div><!-- banner end-->
@@ -29,7 +29,7 @@
 <!-- panel end-->
 <div id="content">
 
-<h2 id="headtitle">AACon Web Service How To</h2>
+<h2 id="headtitle">AACon Web Service  </h2>
 <p>This page provides some tips on using AACon web service. Please note that for now all the examples are in Java. Other languages will follow given a sufficient demand. Please also note that AACon web service client requires Java 6. </p>
 <strong>Outline</strong><ul><li><a href="#wsdl">AACon web service Details </a></li>
   <li><a href="#wsclient">Using web service command line client </a></li>
@@ -44,7 +44,7 @@
   <li><a href="#complex">A complete AAConWS web service client example </a></li>
   </ul>
 <hr />
-<h4><a name="wsdl" id="wsdl"></a>AACon Web Service Details </h4>
+<h3><a name="wsdl" id="wsdl"></a>AACon Web Service Details </h3>
 <table>
   <tbody>
     <tr>
@@ -77,7 +77,7 @@ title="http://www.compbio.dundee.ac.uk/aacon/AAConWS?" rel=
     </tr>
   </tbody>
 </table>
-<h4><a name="wsclient" id="wsclient"></a>Using Web Service Command Line Client</h4>
+<h3><a name="wsclient" id="wsclient"></a>Using Web Service Command Line Client</h3>
 <p>The command client can be used to calculate conservation using public AACon web service.  The client is operating system independent and supports most of the AACon web service functions. Using this client you could calculate conservation  using web service features such as presets and parameters. Below is the list of options supported by the command line client. </p>
 <span class="code"><strong>Usage:</strong> java -jar &lt;path_to_jar_file&gt; ACTION [OPTIONS]
 <br/>
@@ -110,7 +110,7 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
 <p><span class="code">java -jar aacon-client.jar -i=d:\input.fasta -o=d:\result.txt -r=&quot;Quick conservation&quot; </span></p>
 <p>Get the list of presets supported by AACon web service  <br />
     <span class="code"> java -jar aacon-client.jar  -presets</span></p>
-<h4><a name="templclient" id="templclient"></a>Structure of the template command line client</h4>
+<h3><a name="templclient" id="templclient"></a>Structure of the template command line client</h3>
 <table width="100%" border="1">
   <tr>
     <td width="18%"><strong>Packages</strong></td>
@@ -134,7 +134,7 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
   </tr>
 </table>
 <p>  Please refer to a <a href="javadoc/index.html">data model javadoc</a> for a detailed description of each class and its methods. </p>
-<h4><a name="wsfunctions" id="wsfunctions"></a>AACon web service functions overview </h4>
+<h3><a name="wsfunctions" id="wsfunctions"></a>AACon web service functions overview </h3>
 <p><strong>Functions for conservation calculation </strong><span class="code"> String id = analize(List&lt;FastaSequence&gt; list)<br />
   String id = customAnalize(List&lt;FastaSequence&gt; sequenceList, List&lt;Option&gt; optionList)<br />
   String id = presetAnalize(List&lt;FastaSequence&gt; sequenceList, Preset preset)</span></p>
@@ -149,14 +149,14 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
       LimitsManager lm = getLimits()<br />
       PresetManager pm = getPresets()</span></p>
 <p>Please refer to a <a href="javadoc/dm_javadoc/compbio/data/msa/Annotation.html">data model  javadoc</a> for a detailed description of each methods. </p>
-<h4><a name="webart" id="webart"></a>Building web services artifacts</h4>
+<h3><a name="webart" id="webart"></a>Building web services artifacts</h3>
 <p>AAConWS are the standard <a href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a href="http://www.ws-i.org/">WS-I</a> basic   profile compatible. This means that you could use your favorite programming language to work with AAConWS. Below is how you can generate portable artifacts to work with AAConWS from Java. However,  if programming in Java we recommend using our <a href="download.html"> client library</a> as it provides a handful of useful methods in addition to plain data types. </p>
 <p class="code">wsimport -keep http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</p>
-<h4><a name="conn" id="conn"></a>Connecting to AAConWS</h4>
+<h3><a name="conn" id="conn"></a>Connecting to AAConWS</h3>
 <p>All the examples below assume that AACon web service command line client is in the classpath. You can download it from the <a href="download.html">download page</a>.  The code excerpt below will connect your program to AAConWS web service deployed in the University of Dundee. </p>
 <p class="code"> Annotation&lt;AAConWS&gt; client = AAConWSClient.connect();</p>
 <p>If you want to work with the <a href="#webart">generated artifacts</a> directly you can inspect AAConWS <a href="AAConClient.java">command line client source code</a> and use it as a template for building your own custom AAConWS clients. </p>
-<h4><a name="runconserv" id="runconserv"></a>Calculating conservation  </h4>
+<h3><a name="runconserv" id="runconserv"></a>Calculating conservation  </h3>
 <p>Given that <span class="hightlight">client</span> is web service proxy, created as described in &quot;Connecting to AAConWS&quot; section, the conservation scores can be obtained as follows: </p>
 <p class="code">1) List&lt;FastaSequence&gt; fsl = SequenceUtil.readFasta(new FileInputStream(&quot;alignment.fasta&quot;));<br />
   2) String jobId = client.analize(fsl);<br />
@@ -165,12 +165,12 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
   Line two submits them to web service represented by AAConWS proxy <br />
   Line three retrieves the conservation scores calculated according to Shenkin algorithm.  This line blocks the execution until the result is available. Use this with caution. In general, you should make sure that the calculation has been completed before attempting retrieving results. This is to avoid keeping the connection to the server on hold for a prolonged periods of time. While this may be ok with your local server, our public server (<a href="http://www.compbio.dundee.ac.uk/aacon">www.compbio.dundee.ac.uk/aacon</a>) will not let you hold the connection for longer than 10 minutes. This is done to prevent excessive load on the server. The next section describes how to check the status of the calculation.<br />
   Methods and classes mentioned in the excerpt are available from the AAConWS client library. </p>
-<h4><a name="checkstat" id="checkstat"></a>Checking the status of the calculation </h4>
+<h3><a name="checkstat" id="checkstat"></a>Checking the status of the calculation </h3>
 <p> You may have noticed that there was no pause between submitting the job and retrieving the results. This is because <span class="hightlight">getAnnotation(jobId)</span> method block the processing until the calculation is completed. However, taking into account that the connection holds server resources, our public server (<a href="http://www.compbio.dundee.ac.uk/aacon">www.compbio.dundee.ac.uk/aacon</a>) is configured to reset the connection after 10 minutes of waiting. To work around the connection reset you are encouraged to check whether the calculation has been completed before accessing the results.	You can do it like this: </p>
 <p> <span class="code">while (client.getJobStatus(jobId) != JobStatus.FINISHED) {<br />
   &nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(2000); // wait two  seconds, then recheck the status <br />
   }</span></p>
-<h4><a name="runconservpre" id="runconservpre"></a>Calculating conservation with  presets</h4>
+<h3><a name="runconservpre" id="runconservpre"></a>Calculating conservation with  presets</h3>
 <p class="code">1) PresetManager&lt;AACon&gt; presets = client.getPresets();<br />
 2) String jobId = client.presetAnalize(fsl, presets.getPresetByName(&quot;Quick conservation&quot;));<br />
 3) HashSet&lt;Score&gt; result = client.getAnnotation(jobId);</p>
@@ -183,7 +183,7 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
   <li>&quot;Slow conservation&quot; (a collection of time consuming conservation algorithms includes LANDGRAF, KARLIN, SANDER, VALDAR and SMERFS) </li>
   <li>&quot;Complete conservation&quot; (all available algorithms) </li>
   </ul>
-<h4><a name="runconservpar" id="runconservpar"></a>Calculating conservation with custom parameters</h4>
+<h3><a name="runconservpar" id="runconservpar"></a>Calculating conservation with custom parameters</h3>
 <p>Below is the example of using custom parameters for SMERFS method. </p>
 <p class="code">// Using options<br />
 1) RunnerConfig&lt;AACon&gt; options = client.getRunnerOptions();<br />
@@ -197,7 +197,7 @@ Calculate conservation using 12 fast conservation methods (using preset &quot;Qu
   Lines three and four do the same but for two more parameters<br />
   Line five submit a job to a web service <br />
   Line six retrieves the results of the analysis. The names of all the parameters supported by a web service  can be obtained using options.getArguments() method. Further details on the methods available from RunnerConfig object are available from the <a href="javadoc/index.html">javadoc</a>. </p>
-<h4><a name="complex" id="complex"></a>A complete AAConWS web service client example </h4>
+<h3><a name="complex" id="complex"></a>A complete AAConWS web service client example </h3>
 <p>Finally, a complete example of the program that connects to AAConWS service is below. Three is also a <a href="AAConWSClientExample.pdf">PDF version</a> of this example with syntax highlighted. The text notes are commented by block style comments e.g. /* comment */, the code alternatives are commented out with the line  comments - &quot;//&quot;. You may want to remove line style comments to test alternatives of the functions. All you need for this to work is a <a href="download.html">AAConWS binary client</a>. Please make sure that the client is in the Java class path before running this example.</p>
 <pre class="code" style="line-height:1em;">
 import java.io.ByteArrayInputStream;

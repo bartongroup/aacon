@@ -105,7 +105,7 @@ font-family:"Courier New", Courier, monospace;
 /* .headeru { text-shadow: #CCCCCC 15px -14px 2px;}  font-size-adjust:+0.7 */
 /*.headeru { text-shadow:  1px 0 black, 0 -1px black;}  */
 .headeru { text-shadow: #FCFAF0 0.05em 0.05em 0.01em ;
-			font-size:1.55em;
+			font-size:32pt;
 			color:#000066;} 
 /* .headeru { border-bottom:1px solid white; } */
 
@@ -206,7 +206,10 @@ body {
 	font-size: 9pt;
 	background-color: white;
 	line-height: 2em;
-	min-width:35em;
+	min-width: 780px;
+	max-width: 1100px;
+	margin:0 auto;
+	background-color:white;
 }
 
 
@@ -222,12 +225,16 @@ body {
 	width: 100%;
 }
 
-h3 {border-bottom: 1px solid grey; margin-top: 2em; }
+h3 {margin-top: 2em; } /* border-bottom: 1px solid grey; */
 
 
 #headtitle { margin:0; text-align:left; }
 
-#banner h2 { margin: 20px 0; }
+#banner h1 {
+	font-size:2.5em;
+	white-space:nowrap;
+}
+
 
 #banner td {
 	padding:0;
