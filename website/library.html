@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<meta name="Last-modified" content="Mon, 10 Dec 2010 01:03:33 GMT"/>
+<meta name="Last-modified" content="Mon, 12 Dec 2010 01:03:33 GMT"/>
 <title>Amino Acid Conservation Service (AACon) Java Library</title>
 <link href="ws.css" rel="stylesheet" type="text/css" media="screen,  projection, handheld, tv" />
 <link rel="stylesheet" type="text/css" media="print" href="print.css"/>
@@ -104,7 +103,7 @@ ExecutorService executor = Executors.newFixedThreadPool(corenum);
 List&lt;FastaSequence&gt; sequences = CmdParser.openInputStream(&quot;small.align&quot;);
 	
 // Calculate conservation scores using all methods.
-Map&lt;ConservationMethod, double[]&gt; result = getConservation(sequences, true,EnumSet.allOf(ConservationMethod.class)), executor);
+Map&lt;ConservationMethod, double[]&gt; result = getConservation(sequences, true, <br />                         EnumSet.allOf(ConservationMethod.class)), executor);
 
 // Print the results to the console.  
 ConservationFormatter.formatResults(result, System.out);
