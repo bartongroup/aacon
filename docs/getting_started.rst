@@ -1,0 +1,91 @@
+Getting Started
+===============
+
+`AACon`_ is a set of tools implementing 17 different conservation scores reviewed by `Valdar`_ as well as the more complex `SMERFS`_ algorithm for predicting protein functional sites (`list of included methods`_). AACon has been written with efficiency in mind and takes less than a second to calculate conservation by all 18 methods for an alignment of 500 sequences 350 residues long on a single CPU. AACon exploits parallelism for the more demanding methods and to allow multiple methods to run simultaneously. The parallel code gives close to linear speedup with the number of processors, thus making it suitable for server applications or other demanding environments.
+
+AACon is available as a SOAP web service, a stand alone Java executable and a Java library with concise API for accessing all the conservation methods programmatically. The executable runs on all platforms that support Java version 6 and above (Windows, Unix/Linux, Mac).
+
+------------
+
+.. _benefits:
+
+Benefits
+--------
+
+* Implements 17 different conservation score metrics from Valdar's paper in addition to SMERFS.
+* Can be deployed on most operating systems, as a Tomcat Java Web Application or Standalone executable client.
+* Can be accessed from `Jalview`_ using its graphical client, or using the JABAWS command line client, in addition to the AACon standalone client.
+* Takes advantage of parallelisation techniques to improve the speed of demanding analysis.
+* Local or intranet installation eliminates any security concerns you might have about sending sensitive data over the internet.
+
+
+------------
+
+.. _distributions:
+
+Distributions
+-------------
+
+.. tip:: To help you choose the AACon distribution that better suits your needs and read on the quick-start guides below.
+
+**I want to use AACon for...**
+
+* :ref:`jabaws-jalview-public` - Running AACon services through Jalview via a *public* or *private* JABAWS server
+* :ref:`aacon-cli` - Running AACon from the command line using the AACon Standalone Client
+* :ref:`aacon-web` - Running AACon Web Service Client
+
+
+------------
+
+.. _jabaws-jalview-public:
+
+Jalview and JABAWS
+~~~~~~~~~~~~~~~~~~
+
+`Jalview`_ is a multiple sequence alignment and analysis application that can be used as a graphical AACon client (via `JABAWS`_). Jalview provides the same AACon functionality as the `JABAWS Command Line Interface (CLI)`_ client. Simply launch `Jalview`_ and run any of the methods provided under the 'Web Service >> Conservation' menu. Jalview uses the *public* JABAWS server by default, but by running the `JABAWS Virtual Appliance (VA)`_ or `JABAWS Web Application aRchive (WAR)`_ in your local infrastructure, a *private* server can also be used. Alternatively, AACon can be run using its dedicated Standalone Client or Web Service Client.
+
+.. todo: more about other JABAWS usages
+
+------------
+
+.. _aacon-cli:
+
+Standalone Client
+~~~~~~~~~~~~~~~~~
+
+The standalone executable is for calculating conservation from the command line. The Java library provides simple API for the Java developers who wants to have AACon functionality from their applications. The executable and the library comes from the same jar file and will work on any operation system that supports Java.
+
+Command line executable and the Java library: `download`_
+
+Help with a command line client is available from `standalone executable page`_. The library is described on the `library page`_.
+
+
+------------
+
+.. _aacon-web:
+
+Web service
+~~~~~~~~~~~
+
+The AACon web service, is a standard SOAP web service and thus you can use your favorite programming language to access it. That's more, to simplify the use of web service even further, we offer a Java web service client. This client can submit the tasks to a web service, retrieve the results and thus can be used in place of the command line client. Alternatively, it can serve as an example of coding against AACon web service.
+
+Web service client: `download`_
+
+Please refer to `web service help page`_ for a help on using AACon web service.
+
+
+
+.. links
+.. _list of included methods: methods.html
+.. _AACon: ../
+.. _JABAWS: http://www.compbio.dundee.ac.uk/jabaws
+.. _Jalview: http://www.jalview.org/
+.. _Valdar: http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full
+.. _SMERFS: http://www.ncbi.nlm.nih.gov/pubmed/18221517
+.. _download: ../index.html
+.. _standalone executable page: client.html
+.. _library page: library.html
+.. _web service help page: webservice.html
+.. _JABAWS Virtual Appliance (VA): http://www.compbio.dundee.ac.uk/jabaws/docs/va.html
+.. _JABAWS Web Application aRchive (WAR): http://www.compbio.dundee.ac.uk/jabaws/docs/war.html
+.. _JABAWS Command Line Interface (CLI): http://www.compbio.dundee.ac.uk/jabaws/docs/client.html
