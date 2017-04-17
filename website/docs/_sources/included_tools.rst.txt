@@ -1,0 +1,58 @@
+Included Tools
+==============
+
+.. _msa:
+
+Multiple Sequence Alignment
+---------------------------
+
+* `Clustal Omega`_ (version 1.2.4)
+* `ClustalW`_ (version 2.1)
+* `Mafft`_ (version 7.310)
+* `Muscle`_ (version 3.8.31)
+* `T-coffee`_ (version 11.00.8cbe486)
+* `Probcons`_ (version 1.12)
+* `MSAProbs`_ (version 0.9.7)
+* `GLProbs`_ (version 0.9.7)
+
+
+.. _pdis:
+
+Protein Disorder Prediction
+---------------------------
+
+* `DisEMBL`_ (version 1.5)
+* `IUPred`_ (version 1.0)
+* Jronn - Java implementation of `Ronn`_ (version 3.1)
+* `GlobPlot`_ (version 2.3)
+
+.. _aac:
+
+Amino Acid Conservation
+-----------------------
+
+* `AACon`_ (version 1.0)
+
+
+.. _rnass:
+
+RNA Secondary Structure
+-----------------------
+
+* RNAalifold from `ViennaRNA`_ (version 2.0)
+
+
+.. _Clustal Omega: http://www.clustal.org/omega
+.. _ClustalW: http://www.clustal.org/clustal2
+.. _Mafft: http://align.bmr.kyushu-u.ac.jp/mafft/software/
+.. _Muscle: http://www.drive5.com/muscle
+.. _T-coffee: http://www.tcoffee.org/Projects_home_page/t_coffee_home_page.html
+.. _Probcons: http://probcons.stanford.edu/
+.. _MSAProbs: http://msaprobs.sourceforge.net/
+.. _GLProbs: http://sourceforge.net/projects/glprobs/
+.. _DisEMBL: http://dis.embl.de/
+.. _IUPred: http://iupred.enzim.hu
+.. _Ronn: http://www.strubi.ox.ac.uk/RONN
+.. _GlobPlot: http://globplot.embl.de/
+.. _AACon: http://www.compbio.dundee.ac.uk/aacon
+.. _ViennaRNA: http://www.tbi.univie.ac.at/RNA

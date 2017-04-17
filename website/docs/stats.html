@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Usage Statistics &mdash; AACon 1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="AACon 1.1 documentation" href="index.html"/>
+        <link rel="next" title="Citations" href="citations.html"/>
+        <link rel="prev" title="For Developers" href="develop.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> AACon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="included_tools.html">Included Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html">Command Line Client (CLI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="war.html">Web Application Archive (WAR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="va.html">Virtual Appliance (VA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced.html">Advanced Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="develop.html">For Developers</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage Statistics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#detailed-view">Detailed View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-list">Job List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-directory-contents">Job Directory Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-jabaws-execution-statistics">Configuring JABAWS execution statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-a-privileged-access-for-tomcat-web-application-server">Configuring a privileged access for Tomcat web application server</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="citations.html">Citations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AACon</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Usage Statistics</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/stats.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="usage-statistics">
+<h1>Usage Statistics<a class="headerlink" href="#usage-statistics" title="Permalink to this headline">¶</a></h1>
+<p>JABAWS comes with a web application for visualizing usage statistics. The screenshot below shows the main page of this application. The individual month is linked to detailed usage statistics (described later). Please note, that the links to the detailed monthly statistics are only available for authenticated users in the role admin. There is a link at the bottom of the page that lets you login, if you have not done so.</p>
+<p>If you are using JABAWS VA (Virtual Appliance) then the username is <em>jabaws</em> and password is not defined, i.e. empty.</p>
+<p>If you have deployed a JABAWS WAR file, then please see the <a class="reference external" href="stats.htmll#configuring-a-privileged-access-for-tomcat-web-application-server">configuring privileged access</a> for Tomcat web application server section for further details.</p>
+<a class="reference internal image-reference" href="../website/static/img/usage_statistics_main.gif"><img alt="../website/static/img/usage_statistics_main.gif" class="align-left" src="../website/static/img/usage_statistics_main.gif" style="width: 608.0px; height: 318.0px;" /></a>
+<p>The table contains the number of jobs processed by JABAWS per month, for the whole period when the statistics was collected.</p>
+<p>For each month the table contains the following information.</p>
+<ul class="simple">
+<li>Month - the period of time for which statistics is displayed. For example Jan 2011 means period of time from the first of January to the first of February</li>
+<li>Total - the total number of jobs accepted by JABAWS</li>
+<li>Incomplete - the number of jobs for which the result file was not found or was empty excluding cancelled</li>
+<li>Cancelled - the number of jobs cancelled by the user</li>
+<li>Abandoned - the number of jobs which result(s) were not collected</li>
+</ul>
+<p>The summary for each column is displayed in the last row of the table.</p>
+<hr class="docutils" />
+<div class="section" id="detailed-view">
+<span id="stat-details"></span><h2>Detailed View<a class="headerlink" href="#detailed-view" title="Permalink to this headline">¶</a></h2>
+<p>Detailed execution statistics for each month is available for authenticated users only.</p>
+<a class="reference internal image-reference" href="../website/static/img/usage_statistics_month.gif"><img alt="../website/static/img/usage_statistics_month.gif" class="align-left" src="../website/static/img/usage_statistics_month.gif" style="width: 670.0px; height: 902.0px;" /></a>
+<p>Each table contains the number of jobs processed by JABAWS during the period of time specified in the title:</p>
+<ul class="simple">
+<li>The &#8220;All Jobs&#8221; table contains the summary of all jobs</li>
+<li>&#8220;Local Jobs&#8221; table - contains the summary of the jobs calculated by the local engine</li>
+<li>&#8220;Cluster Jobs&#8221; table - contains the summary of the jobs calculated by the cluster</li>
+</ul>
+<p>Each table contains the following information for each web service:</p>
+<ul class="simple">
+<li>Total - the total number of jobs accepted by a particular JABA service</li>
+<li>Incomplete - the number of jobs for which the result file was not found or was empty excluding cancelled</li>
+<li>Cancelled - the number of jobs cancelled by the user</li>
+<li>Abandoned - the number of jobs which result(s) were not collected</li>
+</ul>
+<hr class="docutils" />
+</div>
+<div class="section" id="job-list">
+<span id="stat-jobs"></span><h2>Job List<a class="headerlink" href="#job-list" title="Permalink to this headline">¶</a></h2>
+<p>Please note that if you deployed JABAWS WAR, in order to be able to navigate to the job directory from this view, the application server may need to be configured. Please see the <a class="reference external" href="stats.html#configuring-jabaws-execution-statistics">Configuring JABAWS execution statistics</a> section for further details.</p>
+<a class="reference internal image-reference" href="../website/static/img/usage_statistics_details.gif"><img alt="../website/static/img/usage_statistics_details.gif" class="align-left" src="../website/static/img/usage_statistics_details.gif" style="width: 917.0px; height: 198.0px;" /></a>
+<p>Columns:</p>
+<ul class="simple">
+<li>JobID - the JABAWS job id, unique for every job</li>
+<li>Cluster JobID - cluster job id</li>
+<li>InputSize - input size in bytes</li>
+<li>ResultSize - result size in bytes</li>
+<li>Runtime (s) - job&#8217;s runtime in seconds</li>
+<li>Start time (s)- job&#8217;s start time and date</li>
+<li>Finish time (s)- job&#8217;s finish time and date</li>
+<li>isCancelled - whether the job was cancelled</li>
+<li>isCollected - whether the job was collected. False for the jobs that has been initiated but which results has never been retrieved</li>
+<li>isFinished - whether the job has finished. This does not necessarily mean that the job has produced the result. The job can sometime finish in failure</li>
+</ul>
+<hr class="docutils" />
+</div>
+<div class="section" id="job-directory-contents">
+<span id="stat-dir-contents"></span><h2>Job Directory Contents<a class="headerlink" href="#job-directory-contents" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="../website/static/img/usage_statistics_job_details.gif"><img alt="../website/static/img/usage_statistics_job_details.gif" class="align-left" src="../website/static/img/usage_statistics_job_details.gif" style="width: 644.4px; height: 378.0px;" /></a>
+<p>STARTED and FINISHED files contain Unix timestamp - when the job was started and completed respectively. STARTED is replaced by SUBMITTED if the job has been submitted to the cluster, as opposed to executed locally, on the server.</p>
+<p>COLLECTED file is empty and indicates that the job results were collected by the user. Due to asynchronous nature of the job it is possible that the job was started and finished, but the results has never been requested.</p>
+<p>RunnerConfig.xml file contains a complete description of the job and JABAWS can restart the job based on this description.</p>
+<p>procError.txt and procOutput.txt files contains the content of the standard out and standard error streams of the process.</p>
+<p>result.txt file contains the results.</p>
+<p>input.txt file contains input into the process.</p>
+<p>There are maybe other files depending on the nature of the job, but the one described above will be present in most cases. In this example, stat.log file stories the execution statistics generated by (clustal executable in this example) process.</p>
+<p>If you have deployed JABAWS WAR file or made changes to JABAWS configuration you may need to make a few changes to the Tomcat configuration to be able to see the content of the job directory. Please see the <a class="reference external" href="stats.html#configuring-jabaws-execution-statistics">Configuring JABAWS execution statistics</a> section for further details.</p>
+</div>
+<div class="section" id="configuring-jabaws-execution-statistics">
+<span id="stat-config"></span><h2>Configuring JABAWS execution statistics<a class="headerlink" href="#configuring-jabaws-execution-statistics" title="Permalink to this headline">¶</a></h2>
+<p>JABAWS execution statistics is a multi-component system. First is a crawler whose job is to collect and preprocess the statistics from the job temporary directories and record the collected statistics into the database. The second part of the system is a web application whose job is to visualise the statistics from the database.</p>
+<p>It is possible to enable/disable the statistics collector by changing the following properties in the <code class="docutils literal"><span class="pre">conf/Cluster.engine.properties</span></code> and <code class="docutils literal"><span class="pre">conf/Local.engine.properties</span></code> files.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Enable/disable cluster statistics collector true = enable, false = disable</span>
+cluster.stat.collector.enable<span class="o">=</span><span class="nb">false</span>
+<span class="c1"># Maximum amount of time the job is considered be running in hours. Optional defaults to 7 days (168h)</span>
+cluster.stat.maxruntime<span class="o">=</span><span class="m">24</span>
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Enable/disable cluster statistics collector true = enable, false = disable</span>
+local.stat.collector.enable<span class="o">=</span><span class="nb">true</span>
+<span class="c1"># Maximum amount of time the job is considered to be running in hours. Optional defaults to 24 hours</span>
+local.stat.maxruntime<span class="o">=</span><span class="m">6</span>
+</pre></div>
+</div>
+<p>If the statistics collector is enabled then the crawler starts automatically soon after (10 minutes for local engine, and 60 minutes for cluster engine) the JABAWS web application and will be collecting the execution statistics every 24 hours after the start.</p>
+<p>The details of the job are only available if the job temporary directory is located within a JABAWS web application. If not, the system administrator can create a symbolic link pointing to the temporary job directories outside of a web application and configure the application server to allow navigation to the links. For the Tomcat application server the context configuration file should be created and copied to the <code class="docutils literal"><span class="pre">&lt;TOMCAT_ROOT&gt;/conf/Catalina/localhost</span></code> directory. The name of the file should be the same as the web application context name, for example <em>jabaws.xml</em> for jabaws. Where the <code class="docutils literal"><span class="pre">TOMCAT_ROOT</span></code> is the location of the Tomcat web application server. Here is an example of such a file:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;Context</span> <span class="na">antiResourceLocking=</span><span class="s">&quot;false&quot;</span> <span class="na">privileged=</span><span class="s">&quot;true&quot;</span> <span class="na">allowLinking=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>The key option here is this: <code class="docutils literal"><span class="pre">allowLinking=&quot;true&quot;</span></code>. Please also make sure that you have defined the user in role <em>admin</em> as described <a class="reference external" href="stats.htmll#configuring-a-privileged-access-for-tomcat-web-application-server">below</a>.</p>
+</div>
+<div class="section" id="configuring-a-privileged-access-for-tomcat-web-application-server">
+<span id="stat-tomcat-users"></span><h2>Configuring a privileged access for Tomcat web application server<a class="headerlink" href="#configuring-a-privileged-access-for-tomcat-web-application-server" title="Permalink to this headline">¶</a></h2>
+<p>Access to configuration files, detailed job execution statistics and job directories are allowed only for authenticated users in role <em>admin</em>.</p>
+<p>If you use Tomcat, then the simplest way to set up privileged access is to use a plain text configuration file <code class="docutils literal"><span class="pre">conf/tomcat-user.xml</span></code>. Here is an example of such configuration file defining user &#8220;peter&#8221; in role <em>admin</em>.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;tomcat-users&gt;</span>
+<span class="nt">&lt;role</span> <span class="na">rolename=</span><span class="s">&quot;admin&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;user</span> <span class="na">username=</span><span class="s">&quot;peter&quot;</span> <span class="na">password=</span><span class="s">&quot;your password here &quot;</span> <span class="na">roles=</span><span class="s">&quot;admin&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tomcat-users&gt;</span>
+</pre></div>
+</div>
+<p>For more information on users and roles please consult Apache-Tomcat help pages.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="citations.html" class="btn btn-neutral float-right" title="Citations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="develop.html" class="btn btn-neutral" title="For Developers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p><a href="../">AACon 1.1</a>
+        &copy; Copyright 2017, Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira and Geoff Barton.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
