@@ -17,6 +17,7 @@
 package compbio.conservation;
 
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -307,6 +308,20 @@ final class ConservationAccessory {
 		}
 		writer.println();
 		writer.flush();
+	}
+	
+	/**
+	 * Rounds doubles to the n decimal place
+	 * One of the preferred solutions at:
+	 * http://stackoverflow.com/questions/153724/how-to-round-a-number-to-n-decimal-places-in-java
+	 * 
+	 * @return rounded number to the n decimal place
+	 */
+	public static double round(double d, int decimalPlace){
+		
+	    BigDecimal bd = new BigDecimal(Double.toString(d));
+	    bd = bd.setScale(decimalPlace,BigDecimal.ROUND_HALF_UP);
+	    return bd.doubleValue();
 	}
 
 }
