@@ -243,11 +243,11 @@ final class ConservationAccessory {
 			max = max + minAbs;
 			min = min + minAbs;
 			for (int i = 0; i < normalized.length; i++) {
-				normalized[i] = ((shifted[i] - min) / (max - min));
+				normalized[i] = round(((shifted[i] - min) / (max - min)), 4);
 			}
 		} else {
 			for (int i = 0; i < scores.length; i++) {
-				normalized[i] = (scores[i] - min) / (max - min);
+				normalized[i] = round((scores[i] - min) / (max - min), 4);
 			}
 		}
 
@@ -286,7 +286,7 @@ final class ConservationAccessory {
 		}
 		double[] inversed = new double[normalized.length];
 		for (int i = 0; i < inversed.length; i++) {
-			inversed[i] = 1 - normalized[i];
+			inversed[i] = round(1 - normalized[i], 4);
 		}
 		return inversed;
 	}
