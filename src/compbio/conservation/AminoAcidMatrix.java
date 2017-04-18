@@ -242,6 +242,120 @@ final class AminoAcidMatrix {
 				.getGapchar() });
 	}
 
+	/**
+	 * Takes characters given and creates a a matrix 5x3. Used for tests only.
+	 */
+	AminoAcidMatrix(char p1, char p2, char p3, char p4, char p5, char p6,
+			char p7, char p8, char p9, char p10, char p11, char p12, 
+			char p13, char p14, char p15) {
+
+		Set<Character> alp = Alphabet.alphabet();
+		if (alp.contains(p1) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p2) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p3) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p4) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p5) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p6) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p7) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p8) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p9) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p10) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p11) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p12) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p13) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p14) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		if (alp.contains(p15) == false) {
+			throw new NotAnAminoAcidException("Illegal chracter in the column");
+		}
+		matrix = new char[3][5];
+		matrix[0][0] = p1;
+		matrix[0][1] = p2;
+		matrix[0][2] = p3;
+		matrix[0][3] = p4;
+		matrix[0][4] = p5;
+		matrix[1][0] = p6;
+		matrix[1][1] = p7;
+		matrix[1][2] = p8;
+		matrix[1][3] = p9;
+		matrix[1][4] = p10;
+		matrix[2][0] = p11;
+		matrix[2][1] = p12;
+		matrix[2][2] = p13;
+		matrix[2][3] = p14;
+		matrix[2][4] = p15;
+		inverseMatrix = new char[5][3];
+		inverseMatrix[0][0] = p1;
+		inverseMatrix[0][1] = p6;
+		inverseMatrix[0][2] = p11;
+		inverseMatrix[1][0] = p2;
+		inverseMatrix[1][1] = p7;
+		inverseMatrix[1][2] = p12;
+		inverseMatrix[2][0] = p3;
+		inverseMatrix[2][1] = p8;
+		inverseMatrix[2][2] = p13;
+		inverseMatrix[3][0] = p4;
+		inverseMatrix[3][1] = p9;
+		inverseMatrix[3][2] = p14;
+		inverseMatrix[4][0] = p5;
+		inverseMatrix[4][1] = p10;
+		inverseMatrix[4][2] = p15;
+		
+		assert inverseMatrix != null && inverseMatrix[0] != null;
+		for (char[] column : inverseMatrix) {
+			char[] gapchars;
+			gapchars = DEFAULT_GAP_CHARS;
+			boolean gaponly = true;
+			Arrays.sort(gapchars);
+			for (char charr : column) {
+				if (Arrays.binarySearch(gapchars, charr) < 0) {
+					gaponly = false;
+					break;
+				}
+			}
+			// Even if only one column contains gaps the whole alignment is
+			// invalid
+			if (gaponly) {
+				String message = "Input has badly aligned sequences with columns "
+						+ "containing nothing but the gaps. "
+						+ "Conservation methods cannot be calculated for "
+						+ "such an alignment !" + " \nGap characters are : "
+						+ Arrays.toString(gapchars);
+				System.err.println(message);
+				throw new IllegalArgumentException(message);
+			}
+		}
+		
+	}
+	
+	
 	private static final char[] DEFAULT_GAP_CHARS = { '.', '*', ' ', 'X', '-' };
 
 	/**
