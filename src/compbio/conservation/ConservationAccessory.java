@@ -317,8 +317,15 @@ final class ConservationAccessory {
 	 * 
 	 * @return rounded number to the n decimal place
 	 */
+
 	public static double round(double d, int decimalPlace){
-		
+
+		// just for double check because NaN breaks the format (or available parsers)
+		// in principle we should never see this
+		if (Double.isNaN(d)) {
+			// FIXME which value should this be?
+			return -1000.0;
+		}
 	    BigDecimal bd = new BigDecimal(Double.toString(d));
 	    bd = bd.setScale(decimalPlace,BigDecimal.ROUND_HALF_UP);
 	    return bd.doubleValue();
