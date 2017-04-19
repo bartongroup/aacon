@@ -181,7 +181,7 @@
 <div class="section" id="executing-aacon">
 <span id="cli-exec"></span><h2>Executing AACon<a class="headerlink" href="#executing-aacon" title="Permalink to this headline">¶</a></h2>
 <p>Type java -jar &lt;AACon jar file name&gt;</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar aacon.jar
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar
 </pre></div>
 </div>
 <p>This will print AACon help.</p>
@@ -298,7 +298,7 @@
 <p class="last">Please note that only a small part of the output is presented in all examples that follow for the sake of simplicity. Therefore the results are for illustration only. Normally each position of the alignment is given a conservation score by each calculation method.</p>
 </div>
 <p><code class="docutils literal"><span class="pre">-f</span></code> option can be used to specify the output format. For example the command</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.0.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>KABAT -f<span class="o">=</span>RESULT_WITH_ALIGNMENT
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>KABAT -f<span class="o">=</span>RESULT_WITH_ALIGNMENT
 </pre></div>
 </div>
 <p>outputs the input alignment into the result file.</p>
@@ -308,7 +308,7 @@
 <span id="cli-calcon"></span><h2>Calculating conservation<a class="headerlink" href="#calculating-conservation" title="Permalink to this headline">¶</a></h2>
 <p><strong>Calculate conservation using KABAT conservation method</strong></p>
 <p>The alignment is read from the data.align file.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.0.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>KABAT
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>KABAT
 </pre></div>
 </div>
 <p>The above command will print the results to the console. You should see something like this:</p>
@@ -317,14 +317,14 @@
 </div>
 <p><strong>Calculate conservation using two or more methods, for example SANDER and KABAT</strong></p>
 <p>Just specify the list of comma separated methods after <code class="docutils literal"><span class="pre">-m</span></code> switch like this:</p>
-<p>java -jar compbio-conservation-1.0.jar -i=data.align -m=SANDER,KABAT</p>
+<p>java -jar compbio-conservation-1.1.jar -i=data.align -m=SANDER,KABAT</p>
 <p>The results will look something like this:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 3 3 3 6 6 6 1.5 6 1.5 6 6 6 1.5 6 6 9 3 3 3 3 3 3 3 1 1 1 9 9 3</span>
 <span class="c1">#SANDER -72 -72 -72 -36 -48 -51 -42 -66 -36 -45 -27 -48 -33 -54 -45 3 30</span>
 </pre></div>
 </div>
 <p><strong>Calculate conservation using all supported conservation methods and make results comparable</strong></p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.0.jar -i<span class="o">=</span>data.align -n
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -n
 </pre></div>
 </div>
 <p>The results will be printed to the console. Where <code class="docutils literal"><span class="pre">-n</span></code> normalizes all results.</p>
@@ -333,7 +333,7 @@
 <div class="section" id="custom-gap-character">
 <span id="cli-custom-gap"></span><h2>Custom gap character<a class="headerlink" href="#custom-gap-character" title="Permalink to this headline">¶</a></h2>
 <p>Assuming that the gaps in the alignment are represented by <em>&#8216;-&#8216;</em>, <em>&#8216;_&#8217;</em> and <em>&#8216;x&#8217;</em> symbols the following command will interpret them correctly.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.0.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>KABAT -g<span class="o">=</span>-,_,x
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>KABAT -g<span class="o">=</span>-,_,x
 </pre></div>
 </div>
 <hr class="docutils" />
@@ -352,7 +352,7 @@
 <li>A gap percentage cutoff - a float greater than 0 and smaller or equal 1</li>
 </ol>
 <p>For example:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.0.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>SMERFS -s<span class="o">=</span><span class="m">5</span>,MID_SCORE,0.1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>SMERFS -s<span class="o">=</span><span class="m">5</span>,MID_SCORE,0.1
 </pre></div>
 </div>
 <hr class="docutils" />
@@ -360,7 +360,7 @@
 <div class="section" id="outputing-to-a-file">
 <span id="cli-file-output"></span><h2>Outputing to a file<a class="headerlink" href="#outputing-to-a-file" title="Permalink to this headline">¶</a></h2>
 <p>Use -o option to print the results to the file instead of a console. For example</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.0.jar -i<span class="o">=</span>data.align -n -o<span class="o">=</span>outfile.txt
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -n -o<span class="o">=</span>outfile.txt
 </pre></div>
 </div>
 <p>will produce output.txt results file. Nothing will be printed to the console.</p>
@@ -369,7 +369,7 @@
 <div class="section" id="execution-details">
 <span id="cli-exec-details"></span><h2>Execution details<a class="headerlink" href="#execution-details" title="Permalink to this headline">¶</a></h2>
 <p>Use -d option to tell AACon to output its execution details.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.0.jar -i<span class="o">=</span>data.align -n -d<span class="o">=</span>stat.out -f<span class="o">=</span>RESULT_WITH_ALIGNMENT
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -n -d<span class="o">=</span>stat.out -f<span class="o">=</span>RESULT_WITH_ALIGNMENT
 </pre></div>
 </div>
 <p>The output of the previous command, the context of the stat.out file is below</p>

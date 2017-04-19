@@ -14,7 +14,7 @@ Type java -jar <AACon jar file name>
 
 .. code-block:: bash
 
-    java -jar aacon.jar
+    java -jar compbio-conservation-1.1.jar
 
 This will print AACon help.
 
@@ -155,7 +155,7 @@ RESULT_WITH_ALIGNMENT output example is below:
 
 .. code-block:: bash
 
-    java -jar compbio-conservation-1.0.jar -i=data.align -m=KABAT -f=RESULT_WITH_ALIGNMENT
+    java -jar compbio-conservation-1.1.jar -i=data.align -m=KABAT -f=RESULT_WITH_ALIGNMENT
 
 outputs the input alignment into the result file.
 
@@ -174,7 +174,7 @@ The alignment is read from the data.align file.
 
 .. code-block:: bash
 
-    java -jar compbio-conservation-1.0.jar -i=data.align -m=KABAT
+    java -jar compbio-conservation-1.1.jar -i=data.align -m=KABAT
 
 
 The above command will print the results to the console. You should see something like this:
@@ -188,7 +188,7 @@ The above command will print the results to the console. You should see somethin
 
 Just specify the list of comma separated methods after ``-m`` switch like this:
 
-java -jar compbio-conservation-1.0.jar -i=data.align -m=SANDER,KABAT
+java -jar compbio-conservation-1.1.jar -i=data.align -m=SANDER,KABAT
 
 The results will look something like this:
 ::
@@ -201,7 +201,7 @@ The results will look something like this:
 
 .. code-block:: bash
 
-    java -jar compbio-conservation-1.0.jar -i=data.align -n
+    java -jar compbio-conservation-1.1.jar -i=data.align -n
 
 The results will be printed to the console. Where ``-n`` normalizes all results.
 
@@ -218,7 +218,7 @@ Assuming that the gaps in the alignment are represented by *'-'*, *'_'* and *'x'
 
 .. code-block:: bash
 
-    java -jar compbio-conservation-1.0.jar -i=data.align -m=KABAT -g=-,_,x
+    java -jar compbio-conservation-1.1.jar -i=data.align -m=KABAT -g=-,_,x
 
 
 ------------
@@ -242,7 +242,7 @@ For example:
 
 .. code-block:: bash
 
-    java -jar compbio-conservation-1.0.jar -i=data.align -m=SMERFS -s=5,MID_SCORE,0.1
+    java -jar compbio-conservation-1.1.jar -i=data.align -m=SMERFS -s=5,MID_SCORE,0.1
 
 
 ------------
@@ -256,7 +256,7 @@ Use -o option to print the results to the file instead of a console. For example
 
 .. code-block:: bash
 
-    java -jar compbio-conservation-1.0.jar -i=data.align -n -o=outfile.txt
+    java -jar compbio-conservation-1.1.jar -i=data.align -n -o=outfile.txt
 
 
 will produce output.txt results file. Nothing will be printed to the console.
@@ -273,7 +273,7 @@ Use -d option to tell AACon to output its execution details.
 
 .. code-block:: bash
 
-    java -jar compbio-conservation-1.0.jar -i=data.align -n -d=stat.out -f=RESULT_WITH_ALIGNMENT
+    java -jar compbio-conservation-1.1.jar -i=data.align -n -d=stat.out -f=RESULT_WITH_ALIGNMENT
 
 The output of the previous command, the context of the stat.out file is below
 
