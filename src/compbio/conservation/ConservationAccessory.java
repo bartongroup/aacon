@@ -302,7 +302,8 @@ final class ConservationAccessory {
 		}
 
 		for (int i = 0; i < arr1.length; i++) {
-			writer.printf(ConservationFormatter.NUMBER_FORMAT.format(arr1[i]));
+//			writer.printf(ConservationFormatter.NUMBER_FORMAT.format(arr1[i]));
+			writer.printf("%.4f", arr1[i]);
 			writer.print(" ");
 		}
 		writer.println();
