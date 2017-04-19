@@ -4,7 +4,7 @@ Changelog
 
 .. _v1.1:
 
-Version 1.1 (Released XX April 2017)
+Version 1.1 (Released 19 April 2017)
 ------------------------------------
 
 The website and documentation were improved:
