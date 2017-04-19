@@ -49,7 +49,7 @@ final class CmdParser {
 	final static String gapKey = "-g";
 	final static String statKey = "-d";
 	final static String CONSERVATION_HELP = "\r\n"
-			+ "AA Conservation version 1.0b (2 September 2010)\r\n"
+			+ "AA Conservation version 1.1 (19 April 2017)\r\n"
 			+ "\r\n"
 			+ "This program allows calculation of conservation of amino acids in\r\n"
 			+ "multiple sequence alignments.\r\n"
@@ -139,7 +139,7 @@ final class CmdParser {
 			+ "Input comes form prot1 file and an output without an alignment is recorded to \r\n"
 			+ "prot1_results file. \r\n"
 			+ "\r\n"
-			+ "Authors: Peter Troshin, Agnieszka Golicz, David Martin and Geoff Barton.\r\n"
+			+ "Authors: Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira and Geoff J. Barton.\r\n"
 			+ "Please visit http://www.compbio.dundee.ac.uk/aacon for further information.\r\n"
 			+ " ";
 
