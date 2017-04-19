@@ -228,9 +228,9 @@ final class ConservationAccessory {
 		}
 
 		if (max == min) {
-			System.err.println("Scores in method: " + method.toString()
-					+ " could not have been normalized properly, "
-					+ "not normalized scores are returned.");
+			System.err.println("Warning: Scores for method " + method.toString()
+					+ " were not normalized properly as maxScore == minScore."
+					+ " Default scores are provided instead.");
 			return null;
 		}
 
