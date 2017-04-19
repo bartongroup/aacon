@@ -1,0 +1,58 @@
+
+/*
+body {
+	padding-top: 70px
+}
+*/
+p.justify {
+	text-align: justify;
+}
+p.people {
+	padding: 2% 0% 0% 2%;
+}
+img.people{
+padding-right: 2%;
+padding-bottom: 2%;
+float: left;
+}
+
+.imgright{
+padding-left: 2%;
+float: right;
+margin: 2%;
+}
+
+.imgleft{
+padding-right: 2%;
+float: left;
+margin: 2%
+}
+
+
+.page-header {
+  padding-bottom: 9px;
+  margin: 0px 0 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.vspace { height: 60px;}
+
+.panel-default .panel-body{
+  margin-top: -20px;
+}
+
+em2 {
+  font-style: italic;
+  font-family: "courier new", courier, monospace;
+  font-size: 14px;
+}
+
+.navbar .navbar-nav {
+    display: inline-block;
+    float: none;
+    vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+    text-align: center;
+}

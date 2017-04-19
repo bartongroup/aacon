@@ -1,60 +1,378 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta name="Last-modified" content="Mon, 12 Dec 2010 01:03:33 GMT"/>
-<title>Amino Acid Conservation (AACon) service main page</title>
-<link href="ws.css" rel="stylesheet" type="text/css" media="screen, projection, handheld, tv"/>
-<link rel="stylesheet" type="text/css" media="print" href="print.css"/>
-<script type="text/javascript" src="prototype-1.6.0.3.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Header for BG group pages - different for each page... -->
+<head id="top">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Amino Acid Conservation (AACon) service at the Barton Group -
+                                        Bioinformatics Research Group in the Division of Computational Biology,
+                                        School of Life Sciences, University of Dundee, UK.">
+    <meta name="author" content="Fábio Madeira (v1.1)">
+
+    <title>AACon | Amino Acid Conservation Service | Home</title>
+
+    <!-- Header section of BG website pages - includes navbar and logos  must be used with an h2-xxxx.html file before -->
+
+    <!-- Google Analytics -->
+    <script>
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] ||
+                function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-5356328-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <!-- End Google Analytics -->
+
+    <link rel="shortcut icon" href="/aacon-dev/static/img/BG_intense2_small.ico">
+    <!-- Bootstrap core CSS -->
+    <link href="/aacon-dev/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/aacon-dev/static/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Barton Group specific CSS -->
+    <link href="/aacon-dev/static/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+    <!--${param.html_custom_css}-->
+    <!--${param.html_custom_js}-->
+
 </head>
+<!--/navbar and header -->
 
-<body>  
-<div id="page">  
-<div id="banner">
-<table> 
-<tr><td style="width:130px;"><a href="http://www.dundee.ac.uk"><img class="logo" src="images/uod_lt.gif"  alt="University of Dundee"  title="University of Dundee" longdesc="http://www.dundee.ac.uk"/></a></td>
-<td class="bg"><h1><span style="color:#1ACC1A" class="headeru">A</span>mino <span style="color:#80B3E6" class="headeru">A</span>cid <span style="color:#AE5439" class="headeru">Con</span>servation Service</h1></td>
-</tr>
-</table>
-</div><!-- banner end-->
-<div id="wrapper">
-<div id="panel">
-<a class="selected" href="index.html">Home</a> 
-	<a href="command.html" title="Click to view more information on the command line version of AACon" >Standalone</a>
-	<a href="webservice.html" title="Click to view more information on AACon SOAP web service and how to use it" >Web Service</a>
-	<a title="Click to view more information on AACon Java library" href="library.html">Library</a>	
-	<a href="download.html" title="Click to download AACon" >Download</a>
-	<a href="http://www.compbio.dundee.ac.uk">Barton Group</a>
-</div><!-- panel end-->
-<div id="content" >
-<h2 id="headtitle">The AACon</h2>
-<p>AACon is a set of tools implementing 17 different conservation scores reviewed by <a href="http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full">Valdar</a> as well as the more complex <a href="http://www.ncbi.nlm.nih.gov/pubmed/18221517">SMERFS  algorithm</a> for predicting protein functional sites. AACon has been written with  efficiency in mind and takes less than a second to calculate conservation by  all 18 methods for an alignment of 500 sequences 350 residues long on a  single CPU. AACon exploits parallelism for the more demanding methods and  to allow multiple methods to run simultaneously. The parallel code gives close to linear speedup  with the number of processors, thus making it suitable for server applications  or other demanding environments. <br/>
-AACon is available as a SOAP web service, a  stand alone Java executable and a Java library with concise API for accessing  all the conservation methods programmatically. The executable runs on all  platforms that support Java version 5 and above (Windows, Unix/Linux, Mac). </p>
-<h2>Contact</h2>
-<p>If you have any issues, questions or suggestions feel free to contact us on 
-<a href='mai&#108;t&#111;&#58;a&#97;&#99;&#111;n&#64;c%6Fm%70&#98;i%6F&#37;2E&#100;&#117;&#110;d%65%65&#46;ac&#46;&#117;%6B'>aacon&#64;comp&#98;io&#46;&#100;undee&#46;&#97;c&#46;&#117;k</a>
-</p>
-<h2>Authors</h2>
-<p>Peter Troshin, Agnieszka Golicz, David Martin and Geoff Barton are the authors of the AACon Web
-Services. </p>
-</div><!-- content end-->
-<div id="copyright">Last update: 10 December 2010<br />
-Site is best viewed from IE8, Firefox 3.6 or Google Chrome browsers.</div>
-</div><!-- wrapper end-->
-</div> <!-- page end-->
 
-<!-- Google analitics -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try{
-var pageTracker = _gat._getTracker("UA-5356328-1");
-pageTracker._trackPageview();
-} catch(err) {}
-</script>
-<!-- page end-->
+<body>
+<hr />
+<!-- BG header part -->
+<div class="container" id="mainpage">
+    <div class="row">
+        <div class="col-md-1 col-xs-1 text-left"></div>
+        <div class="col-md-1 col-xs-1 text-left">
+            <a href="http://www.compbio.dundee.ac.uk/"><img src="/aacon-dev/static/img/BG_with_text.svg" style="width:120%;height:120%" alt="Barton Group Logo"></a>
+        </div>
+        <div class="col-md-1 col-xs-1 text-left">
+            <a href="http://www.dundee.ac.uk"><img src="/aacon-dev/static/img/University_white_logo.svg" style="width:150%;height:150%" alt="University of Dundee Logo"></a>
+        </div>
+        <div class="col-md-8 col-xs-8 text-left">
+            <a href="/aacon-dev/"><img src="/aacon-dev/static/img/aacon1.1.svg" style="width:100%;height:100%" alt="Barton Group Banner"></a>
+        </div>
+        <div class="col-md-1 col-xs-1 text-left"></div>
+        <!--<div class="col-md-1 col-xs-1 text-left"></div>-->
+        <!--<div class="col-md-10 col-xs-10 text-left">-->
+        <!--<img src="static/jabaws2.2_header.svg" style="width:100%;height:100%" alt="Barton Group Banner">-->
+        <!--</div>-->
+        <!--<div class="col-md-2 col-xs-2 text-left"></div>-->
+    </div>
+</div>
+<!--navbar region  -->
+<div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse ">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/aacon-dev/"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                </li>
+                <li>
+                    <a href="/aacon-dev/docs/index.html" ><i class="fa fa-file-text-o" aria-hidden="true"></i> Documentation</a>
+                </li>
+                <li>
+                    <a href="/aacon-dev/docs/getting_started.html" ><i class="fa fa-angle-double-right" aria-hidden="true"></i> Getting Started</a>
+                </li>
+                <li>
+                    <a href="/aacon-dev/docs/methods.html" ><i class="fa fa-angle-double-right" aria-hidden="true"></i> Included Methods</a>
+                </li>
+
+                <li>
+                    <a href="/aacon-dev/docs/client.html" ><i class="fa fa-angle-double-right" aria-hidden="true"></i> Standalone Client</a>
+                </li>
+                <li>
+                    <a href="/aacon-dev/docs/webservice.html" ><i class="fa fa-angle-double-right" aria-hidden="true"></i> Web Service</a>
+                </li>
+                <li>
+                    <a href="/aacon-dev/docs/library.html" ><i class="fa fa-angle-double-right" aria-hidden="true"></i> Java Library</a>
+                </li>
+                <!--Includes funding and contacts (v2.2)-->
+                <li>
+                    <a href="http://www.compbio.dundee.ac.uk/contact.html" ><i class="fa fa-info-circle" aria-hidden="true"></i> Contacts</a>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<!--/navbar and header -->
+
+<!--body -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="center-block">
+                <hidden_loader style="display:none;">
+                    <div class="alert alert-warning" role="alert">
+                        <p style="text-align: center; font-size: 15px">
+                            <img src="/aacon-dev/static/img/loader.gif" style="width:7%;height:7%">
+                            &nbsp;&nbsp;&nbsp;&nbsp;This call may take a while to be served...
+                        </p>
+                    </div>
+                </hidden_loader>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h1 class="panel-title">Welcome to the AACon website</h1>
+            </div>
+            <div class="panel-body">
+
+                <p class="justify">
+                    AACon is a set of tools implementing 17 different conservation scores reviewed by
+                    <a href="http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full">Valdar</a> as well as the more
+                    complex <a href="http://www.ncbi.nlm.nih.gov/pubmed/18221517">SMERFS  algorithm</a> for predicting
+                    protein functional sites. AACon has been written with  efficiency in mind and takes less than a
+                    second to calculate conservation by  all 18 methods for an alignment of 500 sequences 350 residues
+                    long on a  single CPU. AACon exploits parallelism for the more demanding methods and  to allow
+                    multiple methods to run simultaneously. The parallel code gives close to linear speedup  with the
+                    number of processors, thus making it suitable for server applications  or other demanding environments.
+                </p>
+                <p class="justify">
+                    AACon is available as a SOAP web service, a  stand alone Java executable and a Java library with
+                    concise API for accessing all the conservation methods programmatically. The executable runs
+                    on all platforms that support Java version 5 and above (Windows, Unix/Linux, Mac).
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h1 class="panel-title">AACon the standalone executable and the Java Library</h1>
+            </div>
+            <div class="panel-body">
+                <p>The standalone executable is for calculating conservation from the command line. The Java library
+                    provides simple API for the Java developers who want to have AACon functionality from their
+                    applications. The executable and the library comes from the same jar file and will
+                    work on any operation system that supports Java.
+                </p>
+
+                <ul>
+                    <li>Command line executable and the Java library:
+                       <a href="compbio-conservation-1.1.jar">
+                           <i class="fa fa-download" aria-hidden="true"></i> download</a>
+                    </li>
+                </ul>
+
+                <p>Help with a command line client is available from
+                    <a href="docs/client.html">standalone executable </a>page. The library is described on the
+                    <a href="docs/library.html">library page</a>.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h1 class="panel-title">Web service client</h1>
+            </div>
+            <div class="panel-body">
+                <p>The AACon web service, is a standard SOAP web service and thus you can use your favorite
+                    programming language to access it. That's more, to simplify the use of web service even
+                    further, we offer a Java web service client. This client can submit the tasks to a web
+                    service, retrieve the results and thus can be used in place of the command line client.
+                    Alternatively, it can serve as an example of coding against AACon web service.
+                </p>
+                <ul>
+                  <li>Web service client: <a href="aacon-ws-client-1.1.jar">
+                      <i class="fa fa-download" aria-hidden="true"></i> download</a></li>
+                </ul>
+                <p>Please refer to <a href="docs/webservice.html">web service help page</a> for a help on
+                    using AACon web service.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h1 class="panel-title">Source code</h1>
+            </div>
+            <div class="panel-body">
+                <p>AACon is an open source project. If you want to contribute or report an issue have a look at our
+                    <a href="https://github.com/bartongroup/aacon">GitHub</a> repository.</p>
+                <p>If you want to extend AACon download the command line executable and the Java
+                    library source code. AACon source code is licensed under
+                    <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2</a> licence. </p>
+                <ul>
+                  <li>The source code: <a href="aacon-source-1.1.jar">
+                      <i class="fa fa-download" aria-hidden="true"></i> download</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h1 class="panel-title">Contacts</h1>
+            </div>
+            <div class="panel-body">
+                <p>If you have any issues, questions or suggestions feel free to contact us on
+            <a href='mai&#108;t&#111;&#58;a&#97;&#99;&#111;n&#64;c%6Fm%70&#98;i%6F&#37;2E&#100;&#117;&#110;d%65%65&#46;ac&#46;&#117;%6B'>
+                            aacon&#64;comp&#98;io&#46;&#100;undee&#46;&#97;c&#46;&#117;k</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h1 class="panel-title">Reference</h1>
+            </div>
+            <div class="panel-body">
+                <p class="justify">
+                    Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira and Geoffrey J. Barton -
+                    <strong>AACon: Amino Acid Conservation Service.</strong> Paper in preparation. 2017.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<!--/body and footer -->
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="list-unstyled">
+                <li>
+                    <strong><a href="http://www.compbio.dundee.ac.uk/">The Barton Group</a></strong>
+                </li>
+            </ul>
+            <a href="http://www.compbio.dundee.ac.uk/"><img src="/aacon-dev/static/img/BG_with_text.svg" style="width:55%; height:55%"
+                                                            alt="Barton Group Logo with Text at Bottom"></a>
+        </div>
+
+        <div class="col-md-3">
+
+            <ul class="list-unstyled">
+                <li>
+                    <strong><a href="/aacon-dev/index.html">AACon</a></strong>
+                </li>
+                <ul>
+                    <li>
+                        <a href="http://www.jalview.org/">Jalview</a>
+                    </li>
+                    <li>
+                        <a href="http://www.compbio.dundee.ac.uk/jabaws">JABAWS</a>
+                    </li>
+                     <li>
+                        <a href="/aacon-dev/docs/getting_started.html#benefits">Benefits</a>
+                    </li>
+                    <li>
+                        <a href="/aacon-dev/docs/getting_started.html#distributions">Distributions</a>
+                    </li>
+                    <li>
+                        <a href="/aacon-dev/docs/methods.html">Included Methods</a>
+                    </li>
+                    <li>
+                        <a href="/aacon-dev/docs/citations.html">Citations</a>
+                    </li>
+                    <li>
+                        <a href="/aacon-dev/index.html">Downloads</a>
+                    </li>
+                    <li>
+                        <a href="http://www.compbio.dundee.ac.uk/contact.html">Contacts</a>
+                    </li>
+                </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <ul class="list-unstyled">
+                <li>
+                    <strong><a href="/aacon-dev/docs/index.html">Documentation</a></strong>
+                    <ul>
+                        <li>
+                            <a href="/aacon-dev/docs/getting_started.html">Getting Started</a>
+                        </li>
+                        <li>
+                            <a href="/aacon-dev/docs/methods.html">Included Methods</a>
+                        </li>
+                        <li>
+                            <a href="/aacon-dev/docs/client.html">Standalone Client</a>
+                        </li>
+                        <li>
+                            <a href="/aacon-dev/docs/webservice.html">Web Service</a>
+                        </li>
+                        <li>
+                            <a href="/aacon-dev/docs/library.html">Java Library</a>
+                        </li>
+                        <li>
+                            <a href="/aacon-dev/javadoc/index.html">Full JavaDoc</a>
+                        </li>
+                        <li>
+                            <a href="/aacon-dev/docs/changelog.html">Changelog</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-2">
+            <p>
+                <a href="#">Back to top <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+            </p>
+        </div>
+    </div>
+    <hr>
+    <p class="text-right"><small>
+        Site Last updated: 19 April 2017. This site was built using the <a href="http://getbootstrap.com">Bootstrap framework.</a>
+    </small></p>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="/aacon-dev/static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/aacon-dev/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/aacon-dev/static/js/main.js" ></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>
-

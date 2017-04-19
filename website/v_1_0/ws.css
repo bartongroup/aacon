@@ -1,0 +1,260 @@
+
+#banner { background-color:white; }
+
+/*
+See index.html banner commented out code for an example of use 
+.uniicon { overflow: hidden; display:inline; padding:0; margin:0; float:right; position:relative; top:1em; } 
+.uniicon a img {border:none;} 
+*/
+#panel { width:150px; background:url("images/panel_bg1.gif") repeat-y ; float:left;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+ }
+
+#content { margin-left:150px; border-bottom:solid 1px #999; }
+
+#page { margin: 0.5em; }
+
+#copyright { text-align:right; 
+			 color:#999999; 
+			 font-family:Verdana, Arial, Helvetica, sans-serif;
+			 font-size:smaller;
+			 line-height:1em;
+}
+ 
+#browsers {
+			text-align:left; 
+			 color:#999999; 
+			 font-family:Verdana, Arial, Helvetica, sans-serif;
+			 font-size:smaller;
+			 line-height:1em;
+
+}
+
+#wrapper { background:url("images/panel_bg1.gif") repeat-y left top; margin:0; padding:0;}
+
+ul {
+	list-style-type: circle;
+}
+
+#panel a:link, #panel a:visited {
+	    text-decoration: none;
+		display:block;
+		line-height: 1em;
+		padding:10px;
+		color:#000000; 
+	 }
+
+/* Re-style visited to match color scheme*/	 
+a:visited {
+	color:#372B81; 
+}
+	 
+#panel a:hover {
+	    background-color: transparent;
+	    text-decoration: underline;
+	}
+
+#panel a.selected {
+ text-decoration:underline; 
+ font-weight:bolder;
+}
+
+strong {
+	font-weight:bold;
+	color:#003366;
+}
+
+pre {
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+p { 
+	line-height: 1.4em;
+}
+ 
+.hightlight { 
+font-style:italic;
+font-family:"Courier New", Courier, monospace;
+}
+
+.code { 
+	font-size-adjust:0.4;
+	color:black;
+	background-color:#F5F5F5;
+	font-family:"Courier New",Courier,monospace;
+	font-style:normal;
+	margin:1em 0;
+	padding: 0.5em;
+	border: 1px dashed black;
+	display:block;
+}
+
+.box { 
+	color:black;
+	background-color:#F5F5F5;
+	font-family:Arial, Helvetica, sans-serif;
+	font-style:normal;
+	margin:1em 0;
+	font-size:0.9em;
+	padding: 0.5em;
+	border: 1px solid black;
+	display:block;
+}
+
+.u { text-decoration: underline; }
+/* .headeru { text-shadow: #CCCCCC 15px -14px 2px;}  font-size-adjust:+0.7 */
+/*.headeru { text-shadow:  1px 0 black, 0 -1px black;}  */
+.headeru { text-shadow: #FCFAF0 0.05em 0.05em 0.01em ;
+			font-size:32pt;
+			color:#000066;} 
+/* .headeru { border-bottom:1px solid white; } */
+
+/* Table styles */
+
+
+#wrapper table {
+	border-collapse: collapse; 
+	border: 1px solid #999;
+	margin: 20px 0 20px 0;
+	width: 100%;
+}
+#wrapper th, #wrapper td {
+	margin: 2px 4px 2px 4px;
+	padding: 0 5px;
+	text-align: left;
+	vertical-align: top;
+	border: 1px solid #999;
+}
+
+#wrapper table caption {
+	font: 1.5em Georgia, "Times New Roman", Times, serif; 
+	padding: 1em;
+	background-color: #9c9;
+}
+
+
+#wrapper tr {
+	 background-color: #FCFAF0; 
+}
+/* E8FCFF FDF4AC*/
+#wrapper tr:nth-child(odd) {
+	 background-color: #FFFCCF; 
+}
+
+
+span.directory {
+background: transparent url(images/dir.gif) no-repeat scroll left center;
+color:#666666;
+font-family:"Courier New",Courier,monospace;
+font-style:normal;
+padding:0 0 0 15px;
+}
+
+.attention { 
+color:#993333;
+}
+
+/* open/closed box related styles */
+
+.source { 
+	border:1px solid #858789;
+	display:block;
+	margin:26px 0;
+	overflow:visible;
+}
+
+/* OPEN state styles */
+.source .body {
+	background:#F5F5F5 none repeat scroll right 0;
+	color:#434546;
+	padding:7px 15px;
+/*	white-space:pre-wrap; */
+	white-space:normal;
+/*	word-wrap:break-word; # this prop does not exits*/
+}
+
+.source .header {
+	background:#E9EAEC url(images/minus.png) no-repeat scroll 98% center;
+	color:#3B3D3F;
+	cursor:pointer;
+	font-weight:bold;
+	height:30px;
+	line-height:30px;
+	padding:0 15px 0 15px;
+}
+
+/* CLOSED state styles */
+.source .body.collapsed {
+	display:none;
+}
+
+.source .header.collapsed  {
+	background:#E9EAEC url(images/plus.png) no-repeat scroll 98% center;
+	padding:0 15px 0 15px;
+}
+
+.body .code { 
+	margin:0;
+	padding:0;
+	border:0;
+	font-family:"Courier New",Courier,monospace;
+	font-style:normal;
+}
+
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	background-color: white;
+	line-height: 2em;
+	min-width: 760px;
+	max-width: 1100px;
+	margin:0 auto;
+	background-color:white;
+}
+
+
+#banner table {
+	border-collapse: collapse; 
+	border: none;
+	padding:0;
+	margin:0;
+	color:black;
+	text-align:center;
+	vertical-align:middle;
+	line-height:1.5em;
+	width: 100%;
+}
+
+h3 {margin-top: 2em; } /* border-bottom: 1px solid grey; */
+
+
+#headtitle { margin:0; text-align:left; }
+
+#banner h1 {
+	font-size:2.5em;
+	white-space:nowrap;
+}
+
+
+#banner td {
+	padding:0;
+	margin:0;
+}
+
+#banner td.bg  {
+	border-collapse: collapse; 
+	background-image:url("images/banner_bg1.gif");
+	background-repeat: repeat-x; 
+	background-color:transparent;
+	background-position:inherit;
+}
+
+img.logo  {
+	border-top:1px solid #003b62; 
+	border-left:1px solid #003b62; 
+	border-right:none; 
+	border-bottom: none; 
+	margin:0; 
+	padding:0; 
+	display:inline
+}

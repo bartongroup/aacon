@@ -1,0 +1,581 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Web Service &mdash; AACon 1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="AACon 1.1 documentation" href="index.html"/>
+        <link rel="next" title="Java Library" href="library.html"/>
+        <link rel="prev" title="Standalone Client" href="client.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> AACon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="methods.html">Included Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html">Standalone Client</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Web Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#web-service-details">Web Service Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-web-service-cli-client">Using Web Service CLI Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structure-of-the-command-line-client">Structure of the command line client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aacon-web-service-functions-overview">AACon web service functions overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-web-services-artifacts">Building web services artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#connecting-to-aaconws">Connecting to AAConWS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculating-conservation">Calculating conservation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#checking-the-status-of-the-calculation">Checking the status of the calculation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculating-conservation-with-presets">Calculating conservation with presets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculating-conservation-with-custom-parameters">Calculating conservation with custom parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-complete-aaconws-web-service-client-example">A complete AAConWS web service client example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Java Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citations.html">Citations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AACon</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Web Service</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/webservice.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="web-service">
+<h1>Web Service<a class="headerlink" href="#web-service" title="Permalink to this headline">¶</a></h1>
+<p>This page provides some tips on using AACon web service. Please note that for now all the examples are in <a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html">Java</a>. Other languages will follow given a sufficient demand. Please also note that AACon web service client requires <a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html">Java</a> 6 or later.</p>
+<hr class="docutils" />
+<div class="section" id="web-service-details">
+<span id="web-details"></span><h2>Web Service Details<a class="headerlink" href="#web-service-details" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Feature</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Operated by</td>
+<td>The University of Dundee, Computational Biology Group headed by Prof Geoff Barton. It is backed up by the College of Life Sciences HPC cluster.</td>
+</tr>
+<tr class="row-odd"><td>Service web site</td>
+<td><a class="reference external" href="http://www.compbio.dundee.ac.uk/aacon">http://www.compbio.dundee.ac.uk/aacon</a></td>
+</tr>
+<tr class="row-even"><td>Execution limits</td>
+<td>Tasks exceeding 5000×1000 (sequences per letters) will not be accepted for alignment. If you would like to work with bigger alignments consider using a command line version of AACon.</td>
+</tr>
+<tr class="row-odd"><td>AACon web service WSDL</td>
+<td><a class="reference external" href="http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl">http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">For a more detailed description of all available types and their functions please refer to the <a class="reference external" href="../javadoc/index.html">data model javadoc</a>.</p>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="using-web-service-cli-client">
+<span id="web-usage"></span><h2>Using Web Service CLI Client<a class="headerlink" href="#using-web-service-cli-client" title="Permalink to this headline">¶</a></h2>
+<p>The command client can be used to calculate conservation using public AACon web service. The client is operating system independent and supports most of the AACon web service functions. Using this client you could calculate conservation using web service features such as presets and parameters. Below is the list of options supported by the command line client.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Usage: java -jar &lt;path_to_jar_file&gt; ACTION [OPTIONS]
+ACTIONS:
+-i=&lt;inputFile&gt; - full path to Fasta or Clustal formatted alignment file
+-parameters - lists parameters supported by web service
+-presets - lists presets supported by web service
+-limits - lists web services limits
+Please note that if input file is specified other actions are ignored
+OPTIONS: (only for use with -i action):
+-r=&lt;presetName&gt; - name of the preset to use
+-o=&lt;outputFile&gt; - full path to the file where to write the results
+-f=&lt;parameterInputFile&gt; - the name of the file with the list of parameters to use.
+Please note that -r and -f options cannot be used together. Conservation can be calculated with either a preset or the parameters from the file, but not both!
+</pre></div>
+</div>
+<p>Using the command line web service client is easy. For example to calculate conservation for the alignment from input.fasta file using AACon web service with default settings and print the results to the console. By default, the conservation is calculated by <em>SHENKIN</em> method.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar aacon-client.jar -i<span class="o">=</span>d:<span class="se">\i</span>nput.fasta
+</pre></div>
+</div>
+<p>Content of input.fasta file is show below (please note sequences has been trimmed for clarity)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="n">QUERY</span>
+<span class="n">MEWLKIALVAFSGRGNDVDYPCSILGRVANNDKELVNIL</span>
+<span class="o">&gt;</span><span class="n">Q4VBK1</span>
+<span class="o">---------------</span><span class="n">PDTDEPVWILGACYNVKTKKSELL</span>
+<span class="o">&gt;</span><span class="n">A7RTH8</span>
+<span class="o">---</span><span class="n">MDAACVTYEGVSHETEEDVWILGKRYNIDMGYLNTD</span>
+</pre></div>
+</div>
+<p>Calculate conservation using 12 fast conservation methods (using preset &#8220;Quick conservation&#8221;), write output results to the result.txt file</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar aacon-client.jar -i<span class="o">=</span>d:<span class="se">\i</span>nput.fasta -o<span class="o">=</span>d:<span class="se">\r</span>esult.txt -r<span class="o">=</span><span class="s2">&quot;Quick conservation&quot;</span>
+</pre></div>
+</div>
+<p>Get the list of presets supported by AACon web service</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar aacon-client.jar -presets
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="structure-of-the-command-line-client">
+<span id="web-cli"></span><h2>Structure of the command line client<a class="headerlink" href="#structure-of-the-command-line-client" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Packages</th>
+<th class="head">Classes and Interfaces</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>compbio.data.msa</td>
+<td>Annotation interface for all scoring methods</td>
+</tr>
+<tr class="row-odd"><td>compbio.data.sequence</td>
+<td>AAConWS data types</td>
+</tr>
+<tr class="row-even"><td>compbio.metadata</td>
+<td>AAConWS meta data types</td>
+</tr>
+<tr class="row-odd"><td>compbio.ws.client</td>
+<td>AAConWS command line client package with AAConClient.java class containing the main method</td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+</div>
+<div class="section" id="aacon-web-service-functions-overview">
+<span id="web-functions"></span><h2>AACon web service functions overview<a class="headerlink" href="#aacon-web-service-functions-overview" title="Permalink to this headline">¶</a></h2>
+<p>Functions for conservation calculation</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">String</span> <span class="nb">id</span> <span class="o">=</span> <span class="n">analize</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">FastaSequence</span><span class="o">&gt;</span> <span class="nb">list</span><span class="p">)</span>
+<span class="n">String</span> <span class="nb">id</span> <span class="o">=</span> <span class="n">customAnalize</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">FastaSequence</span><span class="o">&gt;</span> <span class="n">sequenceList</span><span class="p">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Option</span><span class="o">&gt;</span> <span class="n">optionList</span><span class="p">)</span>
+<span class="n">String</span> <span class="nb">id</span> <span class="o">=</span> <span class="n">presetAnalize</span><span class="p">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">FastaSequence</span><span class="o">&gt;</span> <span class="n">sequenceList</span><span class="p">,</span> <span class="n">Preset</span> <span class="n">preset</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Functions pertaining to job monitoring and control</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">JobStatus</span> <span class="n">status</span> <span class="o">=</span> <span class="n">getJobStatus</span><span class="p">(</span><span class="n">String</span> <span class="nb">id</span><span class="p">)</span>
+<span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Score</span><span class="o">&gt;</span> <span class="n">conservation</span> <span class="o">=</span> <span class="n">getConservation</span><span class="p">(</span><span class="n">String</span> <span class="nb">id</span><span class="p">)</span>
+<span class="n">boolean</span> <span class="n">cancelled</span> <span class="o">=</span> <span class="n">cancelJob</span><span class="p">(</span><span class="n">String</span> <span class="nb">id</span><span class="p">)</span>
+<span class="n">ChunkHolder</span> <span class="n">chunk</span> <span class="o">=</span> <span class="n">pullExecStatistics</span><span class="p">(</span><span class="n">String</span> <span class="nb">id</span><span class="p">,</span> <span class="n">long</span> <span class="n">marker</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Functions relating to service features discovery</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">RunnerConfig</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">getRunnerOptions</span><span class="p">()</span>
+<span class="n">Limit</span> <span class="n">limit</span> <span class="o">=</span> <span class="n">getLimit</span><span class="p">(</span><span class="n">String</span> <span class="n">name</span><span class="p">)</span>
+<span class="n">LimitsManager</span> <span class="n">lm</span> <span class="o">=</span> <span class="n">getLimits</span><span class="p">()</span>
+<span class="n">PresetManager</span> <span class="n">pm</span> <span class="o">=</span> <span class="n">getPresets</span><span class="p">()</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="building-web-services-artifacts">
+<span id="web-artifacts"></span><h2>Building web services artifacts<a class="headerlink" href="#building-web-services-artifacts" title="Permalink to this headline">¶</a></h2>
+<p>AAConWS are the standard <a class="reference external" href="http://jax-ws.java.net/">JAX-WS</a> SOAP web services, which are <a class="reference external" href="http://www.ws-i.org/">WS-I</a> basic profile compatible. This means that you could use your favorite programming language to work with AAConWS. Below is how you can generate portable artifacts to work with AAConWS from Java. However, if programming in Java we recommend using our <a class="reference external" href="library.html">client library</a> as it provides a handful of useful methods in addition to plain data types.</p>
+<p>wsimport -keep <a class="reference external" href="http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl">http://www.compbio.dundee.ac.uk/aacon/AAConWS?wsdl</a></p>
+<hr class="docutils" />
+</div>
+<div class="section" id="connecting-to-aaconws">
+<span id="web-conn"></span><h2>Connecting to AAConWS<a class="headerlink" href="#connecting-to-aaconws" title="Permalink to this headline">¶</a></h2>
+<p>All the examples below assume that AACon web service command line client is in the classpath. You can download it from the download page. The code excerpt below will connect your program to AAConWS web service deployed in the University of Dundee.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Annotation</span><span class="o">&lt;</span><span class="n">AAConWS</span><span class="o">&gt;</span> <span class="n">client</span> <span class="o">=</span> <span class="n">AAConWSClient</span><span class="o">.</span><span class="n">connect</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>If you want to work with the <a class="reference external" href="web_service.html#building_web_services_artifacts">generated artifacts</a> directly you can inspect AAConWS <a class="reference external" href="../AAConClient.java">command line client source code</a> and use it as a template for building your own custom AAConWS clients.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="calculating-conservation">
+<span id="web-cons"></span><h2>Calculating conservation<a class="headerlink" href="#calculating-conservation" title="Permalink to this headline">¶</a></h2>
+<p>Given that <code class="docutils literal"><span class="pre">client</span></code> is web service proxy, created as described in &#8220;Connecting to AAConWS&#8221; section, the conservation scores can be obtained as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">)</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">FastaSequence</span><span class="o">&gt;</span> <span class="n">fsl</span> <span class="o">=</span> <span class="n">SequenceUtil</span><span class="o">.</span><span class="n">readFasta</span><span class="p">(</span><span class="n">new</span> <span class="n">FileInputStream</span><span class="p">(</span><span class="s2">&quot;alignment.fasta&quot;</span><span class="p">));</span>
+<span class="mi">2</span><span class="p">)</span> <span class="n">String</span> <span class="n">jobId</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">analize</span><span class="p">(</span><span class="n">fsl</span><span class="p">);</span>
+<span class="mi">3</span><span class="p">)</span> <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Score</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">getAnnotation</span><span class="p">(</span><span class="n">jobId</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Line one loads sequence alignment from the file
+Line two submits them to web service represented by AAConWS proxy
+Line three retrieves the conservation scores calculated according to Shenkin algorithm. This line blocks the execution until the result is available. Use this with caution. In general, you should make sure that the calculation has been completed before attempting retrieving results. This is to avoid keeping the connection to the server on hold for a prolonged periods of time. While this may be ok with your local server, our public server (www.compbio.dundee.ac.uk/aacon) will not let you hold the connection for longer than 10 minutes. This is done to prevent excessive load on the server. The next section describes how to check the status of the calculation.
+Methods and classes mentioned in the excerpt are available from the AAConWS client library.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="checking-the-status-of-the-calculation">
+<span id="web-status"></span><h2>Checking the status of the calculation<a class="headerlink" href="#checking-the-status-of-the-calculation" title="Permalink to this headline">¶</a></h2>
+<p>You may have noticed that there was no pause between submitting the job and retrieving the results. This is because getAnnotation(jobId) method block the processing until the calculation is completed. However, taking into account that the connection holds server resources, our public server (www.compbio.dundee.ac.uk/aacon) is configured to reset the connection after 10 minutes of waiting. To work around the connection reset you are encouraged to check whether the calculation has been completed before accessing the results.        You can do it like this:</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="o">(</span><span class="n">client</span><span class="o">.</span><span class="na">getJobStatus</span><span class="o">(</span><span class="n">jobId</span><span class="o">)</span> <span class="o">!=</span> <span class="n">JobStatus</span><span class="o">.</span><span class="na">FINISHED</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">2000</span><span class="o">);</span> <span class="c1">// wait two seconds, then recheck the status</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</div>
+<div class="section" id="calculating-conservation-with-presets">
+<span id="web-cons-presets"></span><h2>Calculating conservation with presets<a class="headerlink" href="#calculating-conservation-with-presets" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">)</span> <span class="n">PresetManager</span><span class="o">&lt;</span><span class="n">AACon</span><span class="o">&gt;</span> <span class="n">presets</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">getPresets</span><span class="p">();</span>
+<span class="mi">2</span><span class="p">)</span> <span class="n">String</span> <span class="n">jobId</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">presetAnalize</span><span class="p">(</span><span class="n">fsl</span><span class="p">,</span> <span class="n">presets</span><span class="o">.</span><span class="n">getPresetByName</span><span class="p">(</span><span class="s2">&quot;Quick conservation&quot;</span><span class="p">));</span>
+<span class="mi">3</span><span class="p">)</span> <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Score</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">getAnnotation</span><span class="p">(</span><span class="n">jobId</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Line one obtains the lists of presets supported by a web service.
+Line two calls web service <code class="docutils literal"><span class="pre">presetAnalise</span></code> method with a chosen preset. This call returns a job identifier.
+Lines three retrieves the results using job identifier.</p>
+<p>Available presets are:</p>
+<ul class="simple">
+<li>&#8220;Quick conservation&#8221; (a collection of 12 fast conservation algorithms includes KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, ZVELIBIL,ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON)</li>
+<li>&#8220;Slow conservation&#8221; (a collection of time consuming conservation algorithms includes LANDGRAF, KARLIN, SANDER, VALDAR and SMERFS)</li>
+<li>&#8220;Complete conservation&#8221; (all available algorithms)</li>
+</ul>
+<hr class="docutils" />
+</div>
+<div class="section" id="calculating-conservation-with-custom-parameters">
+<span id="web-cons-custom"></span><h2>Calculating conservation with custom parameters<a class="headerlink" href="#calculating-conservation-with-custom-parameters" title="Permalink to this headline">¶</a></h2>
+<p>Below is the example of using custom parameters for SMERFS method.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">Using</span> <span class="n">options</span>
+<span class="mi">1</span><span class="p">)</span> <span class="n">RunnerConfig</span><span class="o">&lt;</span><span class="n">AACon</span><span class="o">&gt;</span> <span class="n">options</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">getRunnerOptions</span><span class="p">();</span>
+<span class="mi">2</span><span class="p">)</span> <span class="n">options</span><span class="o">.</span><span class="n">getArgument</span><span class="p">(</span><span class="s2">&quot;Calculation method&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setDefaultValue</span><span class="p">(</span><span class="s2">&quot;SMERFS&quot;</span><span class="p">);</span>
+<span class="mi">3</span><span class="p">)</span> <span class="n">options</span><span class="o">.</span><span class="n">getArgument</span><span class="p">(</span><span class="s2">&quot;SMERFS Column Scoring Method&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setDefaultValue</span><span class="p">(</span><span class="s2">&quot;MAX_SCORE&quot;</span><span class="p">);</span>
+<span class="mi">4</span><span class="p">)</span> <span class="n">options</span><span class="o">.</span><span class="n">getArgument</span><span class="p">(</span><span class="s2">&quot;SMERFS Gap Threshhold&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setDefaultValue</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">);</span>
+<span class="mi">5</span><span class="p">)</span> <span class="n">String</span> <span class="n">jobId</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">customAnalize</span><span class="p">(</span><span class="n">fsl</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">getArguments</span><span class="p">());</span>
+<span class="mi">6</span><span class="p">)</span> <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Score</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">getAnnotation</span><span class="p">(</span><span class="n">jobId</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Line one obtains the RunnerConfig object that holds information on supported parameters and their values
+Line two retrieve a particular parameter from the holder by its name and sets the new value for this parameter.
+Lines three and four do the same but for two more parameters
+Line five submit a job to a web service
+Line six retrieves the results of the analysis. The names of all the parameters supported by a web service can be obtained using options.getArguments() method. Further details on the methods available from RunnerConfig object are available from the javadoc.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="a-complete-aaconws-web-service-client-example">
+<span id="web-cons-example"></span><h2>A complete AAConWS web service client example<a class="headerlink" href="#a-complete-aaconws-web-service-client-example" title="Permalink to this headline">¶</a></h2>
+<p>Finally, a complete example of the program that connects to AAConWS service is below. The text notes are commented by block style comments e.g. /* comment */, the code alternatives are commented out with the line comments - &#8220;//&#8221;. You may want to remove line style comments to test alternatives of the functions. All you need for this to work is a AAConWS binary client. Please make sure that the client is in the Java class path before running this example.</p>
+<div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">java.io.ByteArrayInputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileNotFoundException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Set</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">compbio.data.msa.Annotation</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.data.sequence.FastaSequence</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.data.sequence.Score</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.data.sequence.SequenceUtil</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.metadata.JobSubmissionException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.metadata.Preset</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.metadata.PresetManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.metadata.ResultNotAvailableException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.metadata.UnsupportedRuntimeException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.metadata.WrongParameterException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">compbio.runner.conservation.AACon</span><span class="o">;</span>
+
+
+<span class="cm">/**</span>
+<span class="cm"> * AAConWS client example</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AAConWSClientExample</span> <span class="o">{</span>
+
+    <span class="cm">/*</span>
+<span class="cm">     * Input sequences for alignment. For the simplicity keep them in the class</span>
+<span class="cm">     */</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">input</span> <span class="o">=</span> <span class="s">&quot;&gt;Foo      \r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;MTADGPRELLQLRAAVRHRPQDFVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAV\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;ARLGRVRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALEDAGQAEAAAAAYTRAHQL\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;LPEEPYITAQLLNWRRRLCDWRALDVLSAQVRAAVAQGVGAVEPFAFLSEDASAAEQLAC\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;ARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;GVFEMDGFADDFGALLQALARRHGWLGI\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;&gt;Bar                    \r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;-----------------------------------MGDTTAGEMAVQRGLALH-------\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;---------QQRHAEAAVLLQQASDAAPEHPGIALWL-HALEDAGQAEAAAA-YTRAHQL\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;LPEEPYITAQLLN--------------------AVAQGVGAVEPFAFLSEDASAAE----\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;----------SVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;GVFEMDGFADDFGALLQALARRHGWLGI\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;&gt;Noname             \r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;-MTADGPRELLQLRAAVRHRPQDVAWLMLADAELGMGDTTAGEMAVQRGLALHPGHPEAV\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;ARLGRVRWTQQRHAEAAVLLQQASDAAPEHPGIALWLGHALED--------------HQL\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;LPEEPYITAQLDVLSAQVR-------------AAVAQGVGAVEPFAFLSEDASAAEQLAC\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;ARTRAQAIAASVRPLAPTRVRSKGPLRVGFVSNGFGAHPTGLLTVALFEALQRRQPDLQM\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;HLFATSGDDGSTLRTRLAQASTLHDVTALGHLATAKHIRHHGIDLLFDLRGWGGGGRPEV\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;FALRPAPVQVNWLAYPGTSGAPWMDYVLGDAFALPPALEPFYSEHVLRLQGAFQPSDTSR\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;VVAEPPSRTQCGLPEQGVVLCCFNNSYKLNPQSMARMLAVLREVPDSVLWLLSGPGEADA\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;RLRAFAHAQGVDAQRLVFMPKLPHPQYLARYRHADLFLDTHPYNAHTTASDALWTGCPVL\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;TTPGETFAARVAGSLNHHLGLDEMNVADDAAFVAKAVALASDPAALTALHARVDVLRRES\r\n&quot;</span>
+    <span class="o">+</span> <span class="s">&quot;I---------------------------&quot;</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UnsupportedRuntimeException</span><span class="o">,</span>
+                    <span class="n">JobSubmissionException</span><span class="o">,</span> <span class="n">WrongParameterException</span><span class="o">,</span>
+                    <span class="n">FileNotFoundException</span><span class="o">,</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">ResultNotAvailableException</span><span class="o">,</span>
+                    <span class="n">InterruptedException</span> <span class="o">{</span>
+
+            <span class="cm">/*</span>
+<span class="cm">             * Annotation interface for AAConWS web service instance</span>
+<span class="cm">             */</span>
+            <span class="n">Annotation</span><span class="o">&lt;</span><span class="n">AACon</span><span class="o">&gt;</span> <span class="n">client</span> <span class="o">=</span> <span class="n">AAConClient</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
+
+            <span class="cm">/* Get the list of available presets */</span>
+            <span class="n">PresetManager</span> <span class="n">presetman</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getPresets</span><span class="o">();</span>
+
+            <span class="cm">/* Get the Preset object by preset name */</span>
+            <span class="n">Preset</span> <span class="n">preset</span> <span class="o">=</span> <span class="n">presetman</span><span class="o">.</span><span class="na">getPresetByName</span><span class="o">(</span><span class="s">&quot;Complete conservation&quot;</span><span class="o">);</span>
+
+            <span class="cm">/*</span>
+<span class="cm">             * Load sequences in FASTA format from the file You can use something</span>
+<span class="cm">             * like new FileInputStream() to load sequence from the file</span>
+<span class="cm">             */</span>
+            <span class="n">List</span><span class="o">&lt;</span><span class="n">FastaSequence</span><span class="o">&gt;</span> <span class="n">fastalist</span> <span class="o">=</span> <span class="n">SequenceUtil</span>
+                            <span class="o">.</span><span class="na">readFasta</span><span class="o">(</span><span class="k">new</span> <span class="n">ByteArrayInputStream</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">getBytes</span><span class="o">()));</span>
+
+            <span class="cm">/*</span>
+<span class="cm">             * Submit loaded sequences for an alignment using preset. The job</span>
+<span class="cm">             * identifier is returned by this method, you can retrieve the results</span>
+<span class="cm">             * with it sometime later.</span>
+<span class="cm">             */</span>
+            <span class="n">String</span> <span class="n">jobId</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">presetAnalize</span><span class="o">(</span><span class="n">fastalist</span><span class="o">,</span> <span class="n">preset</span><span class="o">);</span>
+
+            <span class="cm">/* This method will block for the duration of the calculation */</span>
+            <span class="n">Set</span><span class="o">&lt;</span><span class="n">Score</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getAnnotation</span><span class="o">(</span><span class="n">jobId</span><span class="o">);</span>
+
+            <span class="cm">/*</span>
+<span class="cm">             * This is a better way of obtaining results, it does not involve</span>
+<span class="cm">             * holding the connection open for the duration of the calculation,</span>
+<span class="cm">             * Besides, as the University of Dundee public server will reset the</span>
+<span class="cm">             * connection after 10 minutes of idling, this is the only way to obtain</span>
+<span class="cm">             * the results of long running task from our public server.</span>
+<span class="cm">             */</span>
+            <span class="c1">// while (client.getJobStatus(jobId) != JobStatus.FINISHED) {</span>
+            <span class="c1">// Thread.sleep(1000); // wait a second, then recheck the status</span>
+            <span class="c1">// }</span>
+
+            <span class="cm">/* Output the alignment to standard out */</span>
+            <span class="n">Score</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">);</span>
+
+            <span class="cm">/* Alternatively, you can record retrieved alignment into the file */</span>
+            <span class="c1">// FileOutputStream out = new FileOutputStream(&quot;result.txt&quot;);</span>
+            <span class="c1">// Score.write(result, out);</span>
+            <span class="c1">// out.close();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>For a more detailed description of all available types and their functions please refer to the <a class="reference external" href="../javadoc/index.html">data model javadoc</a>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="library.html" class="btn btn-neutral float-right" title="Java Library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="client.html" class="btn btn-neutral" title="Standalone Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p><a href="../">AACon 1.1</a>
+        &copy; Copyright 2017, Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira and Geoff Barton.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

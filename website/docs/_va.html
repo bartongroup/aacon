@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Virtual Appliance (VA) &mdash; AACon 1.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="AACon 1.1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> AACon
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="standalone.html">Standalone Executable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="library.html">Java Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_service.html">Web Service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citations.html">Citations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AACon</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Virtual Appliance (VA)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/_va.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="virtual-appliance-va">
+<h1>Virtual Appliance (VA)<a class="headerlink" href="#virtual-appliance-va" title="Permalink to this headline">¶</a></h1>
+<p>The JABAWS Virtual Appliance is a way to run a JABAWS server locally, without the need to connect to the internet or configure JABAWS. What the appliance provides is a &#8216;virtual server machine&#8217; (or more simply - <em>virtual machine</em> or <em>VM</em>), running an installation of the JABAWS Web Application Archive (WAR) on <a class="reference external" href="https://www.turnkeylinux.org/tomcat">TurnKey Linux</a> 12.1 (Standlone Tomcat). Once this has started up, it displays a message indicating the IP address of the JABAWS server, allowing any JABAWS client (such as Jalview or the JABAWS command line client) to connect to it.</p>
+<p>You can run the appliance with freely available program such as <a class="reference external" href="http://www.vmware.com/products/player">VMware Player</a>, but you will need to install it first. We have tested the JABAWS appliance with VMware Player v 3.1.2 on Windows and Linux, and VMware Fusion on Mac. However, you are not limited to these virtualization systems and can use the JABAWS Appliance with any other virtualization platform. You can use <a class="reference external" href="https://code.vmware.com/web/dp/tool/ovf/4.1.0">VMware OVF</a> tool to prepare JABAWS image for a different virtualization platform e.g. <a class="reference external" href="https://www.virtualbox.org/">VirtualBox</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The appliance best suits users who would like to use the JABAWS web-services locally. This might be because they do not want to access systems over an internet, or just want to keep their data private. It is also the recommended option for users who want to install JABAWS on Windows, which does not support all the bioinformatics programs that JABAWS can run.</p>
+</div>
+<p>For servers that will be used heavily, we recommend that a JABAWS Server WAR distribution is deployed, rather than the Virtual Appliance version of JABAWS. This is because the JABAWS appliance is pre-configured to use only 1 CPU and 512M of memory (where the minimum amount of memory required for a JABAWS server is about 378M), which is unlikely to be sufficient for heavy computation. It is possible to reconfigure the virtual appliance so it uses more computation resources, but for most production environments, the JABAWS WAR distribution will be easier to deploy and fine tune to take advantage of the available resources.</p>
+<hr class="docutils" />
+<div class="section" id="installing">
+<span id="va-installing"></span><h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Check if you are running the recommended version of VWMare.</p>
+</div>
+<p>The free <a class="reference external" href="http://www.vmware.com/products/player">VMware Player</a> can be used to run the JABAWS services from the Windows and Linux host operating systems. <a class="reference external" href="http://www.vmware.com/products/fusion/overview.html">VMware Fusion</a>, a commercial VMware product, offers virtual machine support for Mac.</p>
+<p>To run the JABAWS server on VMware player, unpack the JABAWS VM into one of the folders on your local hard drive. Open VMware Player, click &#8220;Open Virtual Machine&#8221; and point the Player to the location of the JABAWS, then choose the <code class="docutils literal"><span class="pre">JABAWS*.vmx</span></code> file to open an appliance.</p>
+<p>When you play the machine for the first time the Player might ask you whether &#8220;This virtual machine may have been moved or copied.&#8221;, say that you have copied it. That is all.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="usage">
+<span id="va-usage"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>By default, the JABAWS virtual appliance is configured with 512M of memory and 1 CPU, but you are free to change these settings. If you have more than one CPU or CPU core on your computer you can make them available for the JABAWS virtual machine by editing virtual machine settings. Please bear in mind that more CPU power will not make a single calculation go faster, but it will enable the VM to do calculations in parallel. Similarly, you can add more memory to the virtual machine. More memory lets your VM deal with larger tasks, e.g. work with large alignments.</p>
+<a class="reference internal image-reference" href="_images/VMware_cpu.png"><img alt="_images/VMware_cpu.png" class="align-left" src="_images/VMware_cpu.png" style="width: 672.6px; height: 253.64999999999998px;" /></a>
+<p>The VMware Player screen shot above displays JABAWS VM CPU settings.</p>
+<hr class="docutils" />
+</div>
+<div class="section" id="configuration">
+<span id="va-config"></span><h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vm-configuration">
+<span id="va-vm-config"></span><h3>VM configuration<a class="headerlink" href="#vm-configuration" title="Permalink to this headline">¶</a></h3>
+<p><strong>VMware info</strong></p>
+<ul class="simple">
+<li>CPUs : 1</li>
+<li>RAM : 512 MB</li>
+<li>Networking : Host only (the VM has no access to the outside network, nothing from the outside network can access the VM)</li>
+<li>Hard disk : 20 GB (expanding)</li>
+<li>VMware tools : Installed</li>
+</ul>
+<p><strong>OS information</strong></p>
+<ul class="simple">
+<li>OS : TurnKey Linux (v. 14.1, Standalone Tomcat) based on Debian GNU/Linux 8 (Jessie)</li>
+<li>Installation : Oracle Java 7, Tomcat 7, JABAWS v. 2.2</li>
+<li>IPv4 address : dhcp</li>
+<li>IPv6 address : auto</li>
+<li>DNS name : none</li>
+<li>Name server : dhcp</li>
+<li>Route : dhcp</li>
+<li>Keyboard : US_intl</li>
+</ul>
+<p><strong>Login credentials</strong></p>
+<ul class="simple">
+<li>Root password: JabawsAdmin1</li>
+<li>MySQL password: JabawsAdmin1</li>
+<li>Tomcat admin password: JabawsAdmin2</li>
+</ul>
+<p><strong>Services available at the virtial machine IP (e.g. VM_IP = 172.16.232.149)</strong></p>
+<ul class="simple">
+<li>Tomcat Web Server: <a class="reference external" href="http://VM_IP">http://VM_IP</a> (e.g. <a class="reference external" href="http://172.16.232.149">http://172.16.232.149</a>)</li>
+<li>Jabaws URL: <a class="reference external" href="http://VM_IP/jabaws">http://VM_IP/jabaws</a> (e.g. <a class="reference external" href="http://172.16.232.149/jabaws">http://172.16.232.149/jabaws</a>)</li>
+<li>Web Shell: <a class="reference external" href="https://VM_IP:12320/">https://VM_IP:12320/</a> (e.g. <a class="reference external" href="https://172.16.232.149:12320">https://172.16.232.149:12320</a>)</li>
+<li>Webmean: <a class="reference external" href="https://VM_IP:12321/">https://VM_IP:12321/</a> (e.g. <a class="reference external" href="https://172.16.232.149:12321">https://172.16.232.149:12321</a>)</li>
+<li>SSH/SFTP: <a class="reference external" href="mailto:root&#37;&#52;&#48;VM_IP">root<span>&#64;</span>VM_IP</a> (e.g. ssh <a class="reference external" href="mailto:root&#37;&#52;&#48;172&#46;16&#46;232&#46;149">root<span>&#64;</span>172<span>&#46;</span>16<span>&#46;</span>232<span>&#46;</span>149</a>)</li>
+</ul>
+<hr class="docutils" />
+</div>
+<div class="section" id="jabaws-configuration">
+<span id="va-jabaws-config"></span><h3>JABAWS configuration<a class="headerlink" href="#jabaws-configuration" title="Permalink to this headline">¶</a></h3>
+<p>After booting the JABAWS VM, you should see similar screen, however, the IP address of your VM may be different. To enable Jalview to work with your JABAWS appliance you need to go to Jalview-&gt;Tools-&gt;Preferences-&gt;Web Services -&gt; New Service URL, and add JABAWS URL into the box provided. For more information please refer to <a class="reference external" href="http://www.jalview.org/help/html/webServices/JABAWS.html">Jalview help pages</a>.</p>
+<a class="reference internal image-reference" href="_images/vm_welcome_screen.png"><img alt="_images/vm_welcome_screen.png" class="align-left" src="_images/vm_welcome_screen.png" style="width: 697.3px; height: 437.95px;" /></a>
+<p>If you click on Advanced Menu, you will see the configuration console, similar to the one below.</p>
+<a class="reference internal image-reference" href="_images/VMware_booted.png"><img alt="_images/VMware_booted.png" class="align-left" src="_images/VMware_booted.png" style="width: 698.25px; height: 437.95px;" /></a>
+<p>By default the JABAWS VM is configured to use host-only networking. This means that the host can communicate with the VM via a network, but no other machines can. Similarly, the VM cannot communicate with any other computers apart from the host. If you want to connect to the Internet from the VM, configure your VM to use NAT network. However, you will not be able to connect to the VM from the host in such case. If you want to be able to connect to your VM and let VM connect to the internet at the same time you would have to use a Bridged network. In such a case you would have to configure the VM IP address manually (unless of course your network has a DHCP server to do that).</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p><a href="../">AACon 1.1</a>
+        &copy; Copyright 2017, Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira and Geoff Barton.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

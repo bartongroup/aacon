@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="Last-modified" content="Mon, 12 Dec 2010 01:03:33 GMT"/>
+<title>Amino Acid Conservation (AACon) service main page</title>
+<link href="ws.css" rel="stylesheet" type="text/css" media="screen, projection, handheld, tv"/>
+<link rel="stylesheet" type="text/css" media="print" href="print.css"/>
+<script type="text/javascript" src="prototype-1.6.0.3.js"></script>
+</head>
+
+<body>  
+<div id="page">  
+<div id="banner">
+<table> 
+<tr><td style="width:130px;"><a href="http://www.dundee.ac.uk"><img class="logo" src="images/uod_lt.gif"  alt="University of Dundee"  title="University of Dundee" longdesc="http://www.dundee.ac.uk"/></a></td>
+<td class="bg"><h1><span style="color:#1ACC1A" class="headeru">A</span>mino <span style="color:#80B3E6" class="headeru">A</span>cid <span style="color:#AE5439" class="headeru">Con</span>servation Service</h1></td>
+</tr>
+</table>
+</div><!-- banner end-->
+<div id="wrapper">
+<div id="panel">
+<a class="selected" href="index.html">Home</a> 
+	<a href="command.html" title="Click to view more information on the command line version of AACon" >Standalone</a>
+	<a href="webservice.html" title="Click to view more information on AACon SOAP web service and how to use it" >Web Service</a>
+	<a title="Click to view more information on AACon Java library" href="library.html">Library</a>	
+	<a href="download.html" title="Click to download AACon" >Download</a>
+	<a href="http://www.compbio.dundee.ac.uk">Barton Group</a>
+</div><!-- panel end-->
+<div id="content" >
+<h2 id="headtitle">The AACon</h2>
+<p>AACon is a set of tools implementing 17 different conservation scores reviewed by <a href="http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full">Valdar</a> as well as the more complex <a href="http://www.ncbi.nlm.nih.gov/pubmed/18221517">SMERFS  algorithm</a> for predicting protein functional sites. AACon has been written with  efficiency in mind and takes less than a second to calculate conservation by  all 18 methods for an alignment of 500 sequences 350 residues long on a  single CPU. AACon exploits parallelism for the more demanding methods and  to allow multiple methods to run simultaneously. The parallel code gives close to linear speedup  with the number of processors, thus making it suitable for server applications  or other demanding environments. <br/>
+AACon is available as a SOAP web service, a  stand alone Java executable and a Java library with concise API for accessing  all the conservation methods programmatically. The executable runs on all  platforms that support Java version 5 and above (Windows, Unix/Linux, Mac). </p>
+<h2>Contact</h2>
+<p>If you have any issues, questions or suggestions feel free to contact us on 
+<a href='mai&#108;t&#111;&#58;a&#97;&#99;&#111;n&#64;c%6Fm%70&#98;i%6F&#37;2E&#100;&#117;&#110;d%65%65&#46;ac&#46;&#117;%6B'>aacon&#64;comp&#98;io&#46;&#100;undee&#46;&#97;c&#46;&#117;k</a>
+</p>
+<h2>Authors</h2>
+<p>Peter Troshin, Agnieszka Golicz, David Martin and Geoff Barton are the authors of the AACon Web
+Services. </p>
+</div><!-- content end-->
+<div id="copyright">Last update: 10 December 2010<br />
+Site is best viewed from IE8, Firefox 3.6 or Google Chrome browsers.</div>
+</div><!-- wrapper end-->
+</div> <!-- page end-->
+
+<!-- Google analitics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try{
+var pageTracker = _gat._getTracker("UA-5356328-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+<!-- page end-->
+</body>
+</html>
+

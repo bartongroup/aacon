@@ -1,0 +1,35 @@
+.. JABAWS documentation master file, created by
+   sphinx-quickstart on Thu Apr  6 13:57:23 2017.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to AACon's documentation!
+==================================
+
+Read on these documentation pages or go back to the `AACon homepage`_!
+
+AACon documentation is also available in *pdf*. `Download it here`_!
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Contents:
+
+   getting_started
+   methods
+   client
+   webservice
+   library
+   citations
+   changelog
+
+
+------------
+
+.. note:: This is an open source project. If you want to contribute or report an issue have a look at our `Github`_ repository.
+
+
+.. links
+.. _AACon homepage: ../
+.. _Github: https://github.com/bartongroup/aacon
+.. _Download it here: ./aacon_manual.pdf
