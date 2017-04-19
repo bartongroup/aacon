@@ -17,6 +17,7 @@
 package compbio.conservation;
 
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -227,9 +228,9 @@ final class ConservationAccessory {
 		}
 
 		if (max == min) {
-			System.err.println("Scores in method: " + method.toString()
-					+ " could not have been normalized properly, "
-					+ "not normalized scores are returned.");
+			System.err.println("Warning: Scores for method " + method.toString()
+					+ " were not normalized properly as maxScore == minScore."
+					+ " Default scores are provided instead.");
 			return null;
 		}
 
@@ -242,11 +243,11 @@ final class ConservationAccessory {
 			max = max + minAbs;
 			min = min + minAbs;
 			for (int i = 0; i < normalized.length; i++) {
-				normalized[i] = ((shifted[i] - min) / (max - min));
+				normalized[i] = round(((shifted[i] - min) / (max - min)), 4);
 			}
 		} else {
 			for (int i = 0; i < scores.length; i++) {
-				normalized[i] = (scores[i] - min) / (max - min);
+				normalized[i] = round((scores[i] - min) / (max - min), 4);
 			}
 		}
 
@@ -285,7 +286,7 @@ final class ConservationAccessory {
 		}
 		double[] inversed = new double[normalized.length];
 		for (int i = 0; i < inversed.length; i++) {
-			inversed[i] = 1 - normalized[i];
+			inversed[i] = round(1 - normalized[i], 4);
 		}
 		return inversed;
 	}
@@ -307,6 +308,27 @@ final class ConservationAccessory {
 		}
 		writer.println();
 		writer.flush();
+	}
+	
+	/**
+	 * Rounds doubles to the n decimal place
+	 * One of the preferred solutions at:
+	 * http://stackoverflow.com/questions/153724/how-to-round-a-number-to-n-decimal-places-in-java
+	 * 
+	 * @return rounded number to the n decimal place
+	 */
+
+	public static double round(double d, int decimalPlace){
+
+		// just for double check because NaN breaks the format (or available parsers)
+		// in principle we should never see this
+		if (Double.isNaN(d)) {
+			// FIXME which value should this be?
+			return -1000.0;
+		}
+	    BigDecimal bd = new BigDecimal(Double.toString(d));
+	    bd = bd.setScale(decimalPlace,BigDecimal.ROUND_HALF_UP);
+	    return bd.doubleValue();
 	}
 
 }

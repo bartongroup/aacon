@@ -390,15 +390,15 @@ final class Correlation {
 	private double[] giveMaxToColumn(double[] windowScores) {
 		double[] scores = new double[alignment.numberOfColumns()];
 		for (int i = 0; i < winWidth - 1; i++) {
-			scores[i] = findMax(windowScores, 0, i);
+			scores[i] = ConservationAccessory.round(findMax(windowScores, 0, i), 4);
 		}
 		for (int i = winWidth - 1; i < scores.length - (winWidth - 1); i++) {
-			scores[i] = findMax(windowScores, i - (winWidth - 1), i);
+			scores[i] = ConservationAccessory.round(findMax(windowScores, i - (winWidth - 1), i), 4);
 		}
 		int begin = windowScores.length - 1 - (winWidth - 2);
 		int end = windowScores.length - 1;
 		for (int i = scores.length - (winWidth - 1); i < scores.length; i++) {
-			scores[i] = findMax(windowScores, begin, end);
+			scores[i] = ConservationAccessory.round(findMax(windowScores, begin, end), 4);
 			begin++;
 		}
 		return scores;
@@ -414,11 +414,12 @@ final class Correlation {
 		double[] columnResults = new double[alignment.numberOfColumns()];
 		int ends = (winWidth - 1) / 2;
 		for (int i = 0; i < ends; i++) {
-			columnResults[i] = windowScores[0];
-			columnResults[(columnResults.length - 1) - i] = windowScores[windowScores.length - 1];
+			columnResults[i] = ConservationAccessory.round(windowScores[0], 4);
+			columnResults[(columnResults.length - 1) - i] = 
+					ConservationAccessory.round(windowScores[windowScores.length - 1], 4);
 		}
 		for (int i = 0; i < windowScores.length; i++) {
-			columnResults[i + ends] = windowScores[i];
+			columnResults[i + ends] = ConservationAccessory.round(windowScores[i], 4);
 		}
 		return columnResults;
 	}

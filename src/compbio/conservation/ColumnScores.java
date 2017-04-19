@@ -187,7 +187,8 @@ final class ColumnScores {
 		double result = matrix.getInverseMatrix()[columnNumber].length
 				* (double) numberOfAcidsNoGap(columnNumber, matrix)
 				/ mostCommonNumber(columnNumber, matrix);
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 
 	/**
@@ -214,11 +215,13 @@ final class ColumnScores {
 		if (oneRes == true || allButOne == true) {
 			if (oneRes == true) {
 				result = 1.0;
-				return result;
+//				return result;
+				return ConservationAccessory.round(result, 4);
 			} else {
 				int length = matrix.getInverseMatrix().length;
 				result = length * (length - 1) / 2;
-				return result;
+//				return result;
+				return ConservationAccessory.round(result, 4);
 			}
 		} else {
 			int samePairs = 0;
@@ -278,7 +281,8 @@ final class ColumnScores {
 			int length = matrix.getInverseMatrix()[colNr].length;
 			result = ((double) totalPairs / (double) mostFreqNr)
 					* (length * (length - 1) / 2);
-			return result;
+//			return result;
+			return ConservationAccessory.round(result, 4);
 		}
 	}
 
@@ -303,7 +307,8 @@ final class ColumnScores {
 				matrix.getInverseMatrix()[colNr].length)
 				* normal;
 		assert result >= 0 && result <= 1;
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 
 	/**
@@ -324,7 +329,8 @@ final class ColumnScores {
 				.getTotalAcidsFreqByCol().get(colNr),
 				matrix.getInverseMatrix()[colNr].length)) * 6.0;
 		assert result >= 6 && result <= 120;
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 
 	/**
@@ -345,7 +351,8 @@ final class ColumnScores {
 				matrix.numberOfColumns() * matrix.numberOfRows()))
 				- (-ShannonEnthropy.ShannonLn(matrix.getTotalAcidsFreqByCol()
 						.get(colNr), matrix.getInverseMatrix()[colNr].length));
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 
 	/**
@@ -378,7 +385,8 @@ final class ColumnScores {
 		}
 		smallestSetSize = Collections.min(repSets.values());
 		assert smallestSetSize > 0 && smallestSetSize < 25;
-		return smallestSetSize;
+//		return smallestSetSize;
+		return ConservationAccessory.round(smallestSetSize, 4);
 	}
 
 	/**
@@ -413,7 +421,8 @@ final class ColumnScores {
 		}
 		smallestSetSize = Collections.min(repSets.values());
 		assert smallestSetSize > 0 && smallestSetSize < 25;
-		return smallestSetSize;
+//		return smallestSetSize;
+		return ConservationAccessory.round(smallestSetSize, 4);
 	}
 
 	/**
@@ -446,7 +455,8 @@ final class ColumnScores {
 		}
 		assert result >= 0 && result < 11;
 		finalResult = result * 0.1;
-		return finalResult;
+//		return finalResult;
+		return ConservationAccessory.round(finalResult, 4);
 	}
 
 	/**
@@ -492,7 +502,8 @@ final class ColumnScores {
 				* (2.0 / (matrix.getInverseMatrix()[colNr].length * (matrix
 						.getInverseMatrix()[colNr].length - 1)));
 		assert finalSum >= -1 && finalSum <= 1;
-		return finalSum;
+//		return finalSum;
+		return ConservationAccessory.round(finalSum, 4);
 	}
 
 	/**
@@ -537,7 +548,8 @@ final class ColumnScores {
 						+ ConservationMatrices.miyataArmon[pairABIndex];
 			}
 		}
-		return scoreSum;
+//		return scoreSum;
+		return ConservationAccessory.round(scoreSum, 4);
 	}
 
 	/**
@@ -594,7 +606,8 @@ final class ColumnScores {
 		}
 		result = nonGapsFraction * 1.0
 				/ matrix.getInverseMatrix()[colNr].length * distance;
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 
 	// causes some math problem because denominator can be 0, that's a formula
@@ -635,7 +648,8 @@ final class ColumnScores {
 								* (double) acidsInt.get(key2) / curColumn.length)) * blosum);
 			}
 		}
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 
 	/**
@@ -695,7 +709,8 @@ final class ColumnScores {
 					/ (double) matrix.getInverseMatrix()[colNr].length;
 			mirnySum = mirnySum + (pI * Math.log(pI));
 		}
-		return mirnySum;
+//		return mirnySum;
+		return ConservationAccessory.round(mirnySum, 4);
 	}
 
 	/**
@@ -754,7 +769,8 @@ final class ColumnScores {
 					/ matrix.numberOfRows();
 			willSum = willSum + (pI * Math.log(pI / piAve));
 		}
-		return willSum;
+//		return willSum;
+		return ConservationAccessory.round(willSum, 4);
 	}
 
 	/**
@@ -787,7 +803,8 @@ final class ColumnScores {
 			}
 		}
 		result = sum / curColumn.length;
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 
 	/**
@@ -830,7 +847,8 @@ final class ColumnScores {
 		}
 		result = sum * moderator;
 
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 
 	/**
@@ -864,6 +882,7 @@ final class ColumnScores {
 			}
 		}
 		result = sum * moderator;
-		return result;
+//		return result;
+		return ConservationAccessory.round(result, 4);
 	}
 }
