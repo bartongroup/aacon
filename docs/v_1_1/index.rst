@@ -30,6 +30,6 @@ AACon documentation is also available in *pdf*. `Download it here`_!
 
 
 .. links
-.. _AACon homepage: ../
+.. _AACon homepage: ../../
 .. _Github: https://github.com/bartongroup/aacon
 .. _Download it here: ./aacon_manual.pdf
