@@ -47,8 +47,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'AACon'
-copyright = '2017, Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira and Geoff Barton'
-author = 'Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira and Geoff Barton'
+copyright = '2017, Peter V. Troshin, Agnieszka Golicz, David M. A. Martin, Fábio Madeira, James B. Procter and Geoffrey J. Barton'
+author = 'Peter V. Troshin, Agnieszka Golicz, David M. A. Martin, Fábio Madeira, James B. Procter and Geoffrey J. Barton'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

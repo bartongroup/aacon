@@ -6,8 +6,6 @@
 Welcome to AACon's documentation!
 ==================================
 
-Read on these documentation pages or go back to the `AACon homepage`_!
-
 AACon documentation is also available in *pdf*. `Download it here`_!
 
 

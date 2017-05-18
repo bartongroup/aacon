@@ -4,16 +4,33 @@
 rm -rf _build
 # generating the html pages
 make html
-mkdir ../website/docs/v_1_1/
+mkdir ../../website/docs/v_1_1/
 cp -r _build/html/* ../../website/docs/v_1_1/
 rm -rf _build
 
 # # generating the pdf
 # make latex
 # # manual edit to remove unecessary ines in the index page
-# # \begin{sphinxadmonition}{note}{Note:}
-# # Some of the links might not work properly in the pdf version...
-# # \end{sphinxadmonition}
+
+## add the following to the latex and change the date to match the release date
+
+# \author{Peter V. Troshin \and Agnieszka Golicz \and David M. A. Martin \and Fábio Madeira \and James B. Procter \and Geoffrey J. Barton}
+# \authoraddress{
+# The Barton Group
+#
+# Division of Computational Biology
+#
+# School of Life Sciences
+#
+# University of Dundee
+#
+# Dow Street
+#
+# Dundee DD1 5EH
+#
+# Scotland, UK
+# }
+
 # cp _build/latex/aacon.pdf ../../website/docs/v_1_1/aacon_manual.pdf
 # rm -rf _build
 
