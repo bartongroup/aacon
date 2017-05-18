@@ -55,17 +55,18 @@
 <!-- BG header part -->
 <div class="container" id="mainpage">
     <div class="row">
-        <div class="col-md-1 col-xs-1 text-left"></div>
-        <div class="col-md-1 col-xs-1 text-left">
+        <!--<div class="col-md-1 col-xs-1 text-left"></div>-->
+        <div class="col-md-1 col-xs-1 text-left"></br>
             <a href="http://www.compbio.dundee.ac.uk/"><img src="/aacon/static/img/BG_with_text.svg" style="width:120%;height:120%" alt="Barton Group Logo"></a>
         </div>
-        <div class="col-md-1 col-xs-1 text-left">
-            <a href="http://www.dundee.ac.uk"><img src="/aacon/static/img/University_white_logo.svg" style="width:150%;height:150%" alt="University of Dundee Logo"></a>
+        <div class="col-md-1 col-xs-1 text-left"></br>
+            <a href="http://www.dundee.ac.uk"><img src="/aacon/static/img/University_white_logo.svg" style="width:140%;height:140%" alt="University of Dundee Logo"></a>
         </div>
-        <div class="col-md-8 col-xs-8 text-left">
+        <div class="col-md-10 col-xs-10 text-left">
             <a href="/aacon/"><img src="/aacon/static/img/aacon1.1.svg" style="width:100%;height:100%" alt="Barton Group Banner"></a>
         </div>
-        <div class="col-md-1 col-xs-1 text-left"></div>
+
+        <!--<div class="col-md-1 col-xs-1 text-left"></div>-->
         <!--<div class="col-md-1 col-xs-1 text-left"></div>-->
         <!--<div class="col-md-10 col-xs-10 text-left">-->
         <!--<img src="static/jabaws2.2_header.svg" style="width:100%;height:100%" alt="Barton Group Banner">-->
@@ -120,46 +121,36 @@
 
 <!--body -->
 <div class="container">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <div class="center-block">
-                <hidden_loader style="display:none;">
-                    <div class="alert alert-warning" role="alert">
-                        <p style="text-align: center; font-size: 15px">
-                            <img src="/aacon/static/img/loader.gif" style="width:7%;height:7%">
-                            &nbsp;&nbsp;&nbsp;&nbsp;This call may take a while to be served...
-                        </p>
-                    </div>
-                </hidden_loader>
-            </div>
-        </div>
-        <div class="col-md-3"></div>
-    </div>
-
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel panel-heading">
-                <h1 class="panel-title">Welcome to the AACon website</h1>
+                <h1 class="panel-title">Welcome to the AACon 1.1 website</h1>
             </div>
             <div class="panel-body">
-
-                <p class="justify">
-                    AACon is a set of tools implementing 17 different conservation scores reviewed by
-                    <a href="http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full">Valdar</a> as well as the more
-                    complex <a href="http://www.ncbi.nlm.nih.gov/pubmed/18221517">SMERFS  algorithm</a> for predicting
-                    protein functional sites. AACon has been written with  efficiency in mind and takes less than a
-                    second to calculate conservation by  all 18 methods for an alignment of 500 sequences 350 residues
-                    long on a  single CPU. AACon exploits parallelism for the more demanding methods and  to allow
-                    multiple methods to run simultaneously. The parallel code gives close to linear speedup  with the
-                    number of processors, thus making it suitable for server applications  or other demanding environments.
-                </p>
-                <p class="justify">
-                    AACon is available as a SOAP web service, a  stand alone Java executable and a Java library with
-                    concise API for accessing all the conservation methods programmatically. The executable runs
-                    on all platforms that support Java version 5 and above (Windows, Unix/Linux, Mac).
-                </p>
+                <div class="row">
+                 <div class="col-md-6">
+                    <p class="justify">
+                        AACon is a set of tools implementing 17 different conservation scores reviewed by
+                        <a href="http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full">Valdar</a> as well as the more
+                        complex <a href="http://www.ncbi.nlm.nih.gov/pubmed/18221517">SMERFS  algorithm</a> for predicting
+                        protein functional sites. AACon has been written with  efficiency in mind and takes less than a
+                        second to calculate conservation by  all 18 methods for an alignment of 500 sequences 350 residues
+                        long on a  single CPU. AACon exploits parallelism for the more demanding methods and  to allow
+                        multiple methods to run simultaneously. The parallel code gives close to linear speedup  with the
+                        number of processors, thus making it suitable for server applications  or other demanding environments.
+                    </p>
+                    <p class="justify">
+                        AACon is available as a SOAP web service, a  stand alone Java executable and a Java library with
+                        concise API for accessing all the conservation methods programmatically. The executable runs
+                        on all platforms that support Java version 5 and above (Windows, Unix/Linux, Mac).
+                    </p>
+                 </div>
+                 <div class="col-md-6">
+                     <img class="pull-right" src="/aacon/static/img/alignment.png"
+                         style="width:100%;height:100%" alt="Jalview: Sequence Alignment">
+                 </div>
+                </div>
             </div>
         </div>
     </div>
@@ -264,8 +255,8 @@
             </div>
             <div class="panel-body">
                 <p class="justify">
-                    Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira and Geoffrey J. Barton -
-                    <strong>AACon: Amino Acid Conservation Service.</strong> Paper in preparation. 2017.
+                    Peter Troshin, Agnieszka Golicz, David Martin, F&aacute;bio Madeira, James B. Procter and Geoffrey J. Barton (2017)
+                    <strong>AACon: A Fast Amino Acid Conservation Calculation Service</strong> Paper in preparation.
                 </p>
             </div>
         </div>
@@ -362,7 +353,7 @@
     </div>
     <hr>
     <p class="text-right"><small>
-        Site Last updated: 21 April 2017. This site was built using the <a href="http://getbootstrap.com">Bootstrap framework.</a>
+        Site Last updated: 19 May 2017. This site was built using the <a href="http://getbootstrap.com">Bootstrap framework.</a>
     </small></p>
 </div>
 
