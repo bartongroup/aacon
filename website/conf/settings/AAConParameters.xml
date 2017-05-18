@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="US-ASCII" standalone="yes"?>
+<runnerConfig>
+	<runnerClassName>compbio.runner.conservation.AACon</runnerClassName>
+	<options>
+		<name>Normalize</name>
+		<description>Normalize the results.  
+		Normalized results have values between 0 and 1. Please note however, that 
+	 some results cannot be normalized. In such a case, the system returns not 
+	 normalized value. The following formula is used for normalization 
+				n = (d - dmin)/(dmax - dmin)
+	 	Negative results first converted to positive by adding a greatest absolute 
+	 	result value.</description>
+		<optionNames>-n</optionNames>
+		<furtherDetails>http://www.compbio.dundee.ac.uk/jabaws/prog_docs/aacon.txt</furtherDetails>
+	</options>
+	<prmSeparator>=</prmSeparator>
+	<parameters>
+		<name>Calculation method</name>
+		<description>The method of the calculation to use</description>
+		<optionNames>-m</optionNames>
+		<furtherDetails>http://www.compbio.dundee.ac.uk/jabaws/prog_docs/aacon.txt</furtherDetails>
+		<defaultValue>SHENKIN</defaultValue>
+        <possibleValues>KABAT</possibleValues>
+        <possibleValues>JORES</possibleValues>
+		<possibleValues>SCHNEIDER</possibleValues>
+		<possibleValues>SHENKIN</possibleValues>
+		<possibleValues>GERSTEIN</possibleValues>
+		<possibleValues>TAYLOR_GAPS</possibleValues>
+		<possibleValues>TAYLOR_NO_GAPS</possibleValues> 
+        <possibleValues>ZVELIBIL</possibleValues>
+        <possibleValues>KARLIN</possibleValues>
+		<possibleValues>ARMON</possibleValues>
+		<possibleValues>THOMPSON</possibleValues>
+		<possibleValues>NOT_LANCET</possibleValues>
+		<possibleValues>MIRNY</possibleValues>
+		<possibleValues>WILLIAMSON</possibleValues> 
+        <possibleValues>LANDGRAF</possibleValues>
+        <possibleValues>SANDER</possibleValues>
+        <possibleValues>VALDAR</possibleValues>
+        <possibleValues>SMERFS</possibleValues>
+	</parameters>
+	<parameters>
+		<name>SMERFS Window Width</name>
+		<description>The width of the window for SMERFS. Optional, defaults to 7</description>
+		<optionNames>-smerfsWW</optionNames>
+		<furtherDetails>http://www.compbio.dundee.ac.uk/jabaws/prog_docs/aacon.txt</furtherDetails>
+		<defaultValue>7</defaultValue>
+		<validValue>
+        	<type>Integer</type>
+            <min>3</min>
+            <max>100</max>
+        </validValue>
+	</parameters>
+	<parameters>
+		<name>SMERFS Column Scoring Method</name>
+		<description>SMERFS Column Score algorithm defines the window scores to 
+			columns	allocation, two methods are possible:
+	        MID_SCORE - gives the window score to the middle column
+	        MAX_SCORE - gives the column the highest score of all the windows it 
+	        belongs to. Optional defaults to MID_SCORE. </description>
+		<optionNames>-smerfsCS</optionNames>
+		<furtherDetails>http://www.compbio.dundee.ac.uk/jabaws/prog_docs/aacon.txt</furtherDetails>
+		<defaultValue>MID_SCORE</defaultValue>
+		<possibleValues>MAX_SCORE</possibleValues>
+        <possibleValues>MID_SCORE</possibleValues>
+	</parameters>
+	<parameters>
+		<name>SMERFS Gap Threshhold</name>
+		<description>a gap percentage cutoff - a float greater than 0 and smaller or equal 1. Optional defaults to 0.1</description>
+		<optionNames>-smerfsGT</optionNames>
+		<furtherDetails>http://www.compbio.dundee.ac.uk/jabaws/prog_docs/aacon.txt</furtherDetails>
+		<defaultValue>0.1</defaultValue>
+		<validValue>
+        	<type>Float</type>
+            <min>0.001</min>
+            <max>1</max>
+        </validValue>
+	</parameters>
+</runnerConfig>

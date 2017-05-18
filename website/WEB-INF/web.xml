@@ -1,0 +1,76 @@
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+
+    <display-name>AAConWS</display-name>
+    <description>Amino Acid Conservation Web Service</description>
+
+	<listener>
+		<listener-class>compbio.ws.server.ShutdownEngines</listener-class>
+	</listener>
+    <listener>
+        <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+    </listener>
+    
+ 	<!-- Session timeout in minutes -->
+	<session-config>
+   		<session-timeout>20</session-timeout>
+    </session-config>
+    
+     <servlet>
+        <servlet-name>AAConWS</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+   <servlet-mapping>
+    	<servlet-name>AAConWS</servlet-name>
+    	<url-pattern>/AAConWS</url-pattern>
+   </servlet-mapping>
+   
+   <security-constraint>
+    <web-resource-collection>
+    	<web-resource-name>Administrator pages</web-resource-name>
+   		<!-- Prohibit access to any resources -->
+    	<url-pattern>/conf/*</url-pattern>
+   		<url-pattern>/binaries/*</url-pattern>
+   		<url-pattern>/jobsout/*</url-pattern>
+   		<url-pattern>/testsrc/*</url-pattern>
+   		<url-pattern>/lib/*</url-pattern>
+   		<url-pattern>/test-output/*</url-pattern>
+    	<!-- No http-method means all methods are constrained -->
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+   </security-constraint>
+
+  <!-- unsupported HTTP methods -->
+  <security-constraint>
+        <web-resource-collection>
+        <web-resource-name>unsupported HTTP methods</web-resource-name>
+        <url-pattern>/*</url-pattern>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>OPTIONS</http-method>
+        </web-resource-collection>
+        <auth-constraint/>
+  </security-constraint>
+      <!-- Define the Login Configuration for this Application -->
+  <login-config>
+   	 <auth-method>BASIC</auth-method>
+  	 <realm-name>JABAWS administrators</realm-name>
+  </login-config>
+  
+    <!-- Security roles referenced by this web application -->
+  <security-role>
+    <description>
+      The role that is required to log in and view JABAWS internals
+    </description>
+    <role-name>admin</role-name>
+  </security-role>
+  
+</web-app>

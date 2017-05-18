@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="US-ASCII" standalone="yes"?>
+<presets>
+ <runnerClassName>compbio.runner.conservation.AACon</runnerClassName>
+	<preset>
+		<name>Quick conservation</name>
+		<description>Collection of fast conservation methods</description>
+		<optlist>
+			<option>-m=KABAT,JORES,SCHNEIDER,SHENKIN,GERSTEIN,TAYLOR_GAPS,TAYLOR_NO_GAPS,ZVELIBIL,ARMON,THOMPSON,NOT_LANCET,MIRNY,WILLIAMSON</option>
+		</optlist>
+	</preset>
+	<preset>
+		<name>Slow conservation</name>
+		<description>Collection of most expensive (slow) conservation methods</description>
+		<optlist>
+			<option>-m=LANDGRAF,KARLIN,SANDER,VALDAR,SMERFS</option>
+		</optlist>
+	</preset>
+	<preset>
+		<name>Complete conservation</name>
+		<description>Calculate conservation with all supported methods</description>
+		<optlist>
+			<option>-m=KABAT,JORES,SCHNEIDER,SHENKIN,GERSTEIN,TAYLOR_GAPS,TAYLOR_NO_GAPS,ZVELIBIL,ARMON,THOMPSON,NOT_LANCET,MIRNY,WILLIAMSON,LANDGRAF,KARLIN,SANDER,VALDAR,SMERFS</option>
+		</optlist>
+	</preset>
+</presets>
+
+
+
+ 
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="US-ASCII" standalone="yes"?>
+<limits>
+ <runnerClassName>compbio.runner.conservation.AACon</runnerClassName>
+	<limit isDefault="true">
+		<seqNumber>5000</seqNumber>
+		<seqLength>1000</seqLength>
+	</limit>
+	<limit isDefault="false">
+		<preset># LocalEngineExecutionLimit #</preset>
+		<seqNumber>200</seqNumber>
+		<seqLength>400</seqLength>
+	</limit>
+	<limit isDefault="false">
+		<preset>Quick conservation</preset>
+		<seqNumber>10000</seqNumber>
+		<seqLength>10000</seqLength>
+	</limit>
+	<limit isDefault="false">
+		<preset>Slow conservation</preset>
+		<seqNumber>2000</seqNumber>
+		<seqLength>1000</seqLength>
+	</limit>
+	<limit isDefault="false">
+		<preset>Complete conservation</preset>
+		<seqNumber>2000</seqNumber>
+		<seqLength>1000</seqLength>
+	</limit>
+</limits>
