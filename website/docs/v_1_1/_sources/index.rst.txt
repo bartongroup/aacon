@@ -6,7 +6,7 @@
 Welcome to AACon's documentation!
 ==================================
 
-AACon documentation is also available in *pdf*. `Download it here`_!
+AACon's documentation is also available in *pdf*. `Download it here`_!
 
 
 .. toctree::

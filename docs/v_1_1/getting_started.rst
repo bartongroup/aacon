@@ -5,6 +5,9 @@ Getting Started
 
 AACon is available as a SOAP web service, a stand alone Java executable and a Java library with concise API for accessing all the conservation methods programmatically. The executable runs on all platforms that support Java version 6 and above (Windows, Unix/Linux, Mac).
 
+Since December 2011, over 15,000 AACon calculations have been performed through the popular sequence analysis program
+`Jalview`_ and `JABAWS`_ servers.
+
 ------------
 
 .. _benefits:
@@ -26,7 +29,7 @@ Benefits
 Distributions
 -------------
 
-.. tip:: To help you choose the AACon distribution that better suits your needs and read on the quick-start guides below.
+.. tip:: To help you choose the AACon distribution that better suits your needs read on the quick-start guides below.
 
 **I want to use AACon for...**
 
@@ -43,6 +46,12 @@ Jalview and JABAWS
 ~~~~~~~~~~~~~~~~~~
 
 `Jalview`_ is a multiple sequence alignment and analysis application that can be used as a graphical AACon client (via `JABAWS`_). Jalview provides the same AACon functionality as the `JABAWS Command Line Interface (CLI)`_ client. Simply launch `Jalview`_ and run any of the methods provided under the 'Web Service >> Conservation' menu. Jalview uses the *public* JABAWS server by default, but by running the `JABAWS Virtual Appliance (VA)`_ or `JABAWS Web Application aRchive (WAR)`_ in your local infrastructure, a *private* server can also be used. Alternatively, AACon can be run using its dedicated Standalone Client or Web Service Client.
+
+.. image:: ../../website/static/img/alignment.png
+   :height: 318
+   :width: 608
+   :scale: 100 %
+   :align: left
 
 .. todo: more about other JABAWS usages
 
@@ -82,7 +91,7 @@ Please refer to `web service help page`_ for a help on using AACon web service.
 .. _Jalview: http://www.jalview.org/
 .. _Valdar: http://onlinelibrary.wiley.com/doi/10.1002/prot.10146/full
 .. _SMERFS: http://www.ncbi.nlm.nih.gov/pubmed/18221517
-.. _download: ../index.html
+.. _download: ../../index.html
 .. _standalone executable page: client.html
 .. _library page: library.html
 .. _web service help page: webservice.html
