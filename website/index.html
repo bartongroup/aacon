@@ -143,8 +143,13 @@
                     <p class="justify">
                         AACon is available as a SOAP web service, a  stand alone Java executable and a Java library with
                         concise API for accessing all the conservation methods programmatically. The executable runs
-                        on all platforms that support Java version 5 and above (Windows, Unix/Linux, Mac).
+                        on all platforms that support Java version 6 and above (Windows, Unix/Linux, Mac).
                     </p>
+                     <p class="justify">
+                         Since December 2011, over 15,000 AACon calculations have been performed through the popular sequence analysis program
+                         <a href="http://www.jalview.org/">Jalview</a> and
+                         <a href="http://www.compbio.dundee.ac.uk/jabaws/">JABAWS</a> servers.
+                     </p>
                  </div>
                  <div class="col-md-6">
                      <img class="pull-right" src="/aacon/static/img/alignment.png"
@@ -159,9 +164,10 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel panel-heading">
-                <h1 class="panel-title">AACon the standalone executable and the Java Library</h1>
+                <h1 class="panel-title">Downloads</h1>
             </div>
             <div class="panel-body">
+                <h4>AACon the standalone executable and the Java Library</h4>
                 <p>The standalone executable is for calculating conservation from the command line. The Java library
                     provides simple API for the Java developers who want to have AACon functionality from their
                     applications. The executable and the library comes from the same jar file and will
@@ -180,17 +186,8 @@
                     <a href="docs/v_1_1/library.html">library page</a>.
                 </p>
 
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel panel-heading">
-                <h1 class="panel-title">Web service client</h1>
-            </div>
-            <div class="panel-body">
+                <hr>
+                <h4>Web service client</h4>
                 <p>The AACon web service, is a standard SOAP web service and thus you can use your favorite
                     programming language to access it. That's more, to simplify the use of web service even
                     further, we offer a Java web service client. This client can submit the tasks to a web
@@ -205,17 +202,8 @@
                     using AACon web service.
                 </p>
 
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel panel-heading">
-                <h1 class="panel-title">Source code</h1>
-            </div>
-            <div class="panel-body">
+                <hr>
+                <h4>Source code</h4>
                 <p>AACon is an open source project. If you want to contribute or report an issue have a look at our
                     <a href="https://github.com/bartongroup/aacon">GitHub</a> repository.</p>
                 <p>If you want to extend AACon download the command line executable and the Java
@@ -230,7 +218,23 @@
         </div>
     </div>
 </div>
-
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <h1 class="panel-title">New in AACon 1.1</h1>
+            </div>
+            <div class="panel-body">
+                <p>Some minor bugs have been fixed and the website and documentation were improved:</p>
+                <ul>
+                    <li>Conservation scores are now reported as three decimal place numbers, for both method outputs and normalisations.</li>
+                    <li><a href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> is now used to generate our documentation pages.</li>
+                    <li>Documentation was updated to reflect the latest changes introduced in the project.</li>
+            </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -246,7 +250,6 @@
         </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -262,8 +265,6 @@
         </div>
     </div>
 </div>
-
-
 </div>
 
 <!--/body and footer -->
