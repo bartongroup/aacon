@@ -392,10 +392,10 @@ For a more detailed description of all available types and their functions pleas
 
 .. links
 .. _Java: http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html
-.. _data model javadoc: ../javadoc/index.html
-.. _aacon homepage: ../index.html
+.. _data model javadoc: ../../docs/javadoc/index.html
+.. _aacon homepage: ../../index.html
 .. _WS-I: http://www.ws-i.org/
 .. _JAX-WS: http://jax-ws.java.net/
 .. _client library: library.html
 .. _generated artifacts: web_service.html#building_web_services_artifacts
-.. _command line client source code: ../AAConClient.java
+.. _command line client source code: ../../AAConClient.java

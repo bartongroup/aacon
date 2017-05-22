@@ -95,6 +95,6 @@ Please refer to `web service help page`_ for a help on using AACon web service.
 .. _standalone executable page: client.html
 .. _library page: library.html
 .. _web service help page: webservice.html
-.. _JABAWS Virtual Appliance (VA): http://www.compbio.dundee.ac.uk/jabaws/docs/va.html
-.. _JABAWS Web Application aRchive (WAR): http://www.compbio.dundee.ac.uk/jabaws/docs/war.html
-.. _JABAWS Command Line Interface (CLI): http://www.compbio.dundee.ac.uk/jabaws/docs/client.html
+.. _JABAWS Virtual Appliance (VA): http://www.compbio.dundee.ac.uk/jabaws/docs/v_2_2_0/va.html
+.. _JABAWS Web Application aRchive (WAR): http://www.compbio.dundee.ac.uk/jabaws/docs/v_2_2_0/war.html
+.. _JABAWS Command Line Interface (CLI): http://www.compbio.dundee.ac.uk/jabaws/docs/v_2_2_0/client.html
