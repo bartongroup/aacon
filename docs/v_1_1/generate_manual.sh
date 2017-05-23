@@ -32,7 +32,7 @@ rm -rf _build
 # }
 
 # add the note.
-# Note: Some of the hyper-links found in the pdf might not work properly.
+# Note: Some of the hyper-links found in this pdf might not work properly.
 
 # cp _build/latex/aacon.pdf ../../website/docs/v_1_1/aacon_manual.pdf
 # rm -rf _build

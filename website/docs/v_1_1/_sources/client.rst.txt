@@ -98,28 +98,28 @@ Output
 
 AACon supports two modes of the output the first and the default mode is *RESULT_NO_ALIGNMENT*. Only the method names and the conservation score for each position in the alignment are presented. The second output format is *RESULT_WITH_ALIGNMEN*, where the input, in the form of FASTA formatted alignment, is included at the beginning of the file, followed by the same output as *RESULT_NO_ALIGNMENT*.
 
-RESULT_NO_ALIGNMENT example is below:
+RESULT_NO_ALIGNMENT (and normalised) example is below:
 
 ::
 
-    #KABAT 0.75 0.75 0.75 0.375 0.375 0.375 0.938 0.375 0.938 0.375 0.37 0.3
-    #JORES 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-    #SCHNEIDER 0.667 0.667 0.667 0.333 0.333 0.333 0.754 0.333 0.754 0.333 0
-    #SHENKIN 0.779 0.779 0.779 0.46 0.46 0.46 0.845 0.46 0.845 0.46 0.46 0.4
-    #GERSTEIN 0.667 0.667 0.667 0.333 0.333 0.333 0.754 0.333 0.754 0.33 0.3
-    #TAYLOR_GAPS 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.632 1 0 1 0.526 0.842 0 0.5
-    #TAYLOR_NO_GAPS 0 1 0.526 0 0.895 0 0.947 0 0 0.789 0 0.842 0.947 0 0.94
-    #ZVELIBIL 0.1 0.3 0.4 0.1 0.2 0.1 0.3 0.1 0.3 0.2 0.2 0.1 0.3 0 0.2 0.2
-    #KARLIN 0.338 0.338 0.338 0.433 0.31 0.264 0.558 0.288 0.558 0.338 0.431
-    #ARMON 0.617 0.617 0.617 0.208 0.103 0.063 0.617 0.129 0.617 0.177 0.204
-    #THOMPSON 0.719 0.727 0.708 0.451 0.394 0.384 0.471 0.374 0.49 0.428 0.4
-    #NOT_LANCET 0.011 0.005 0.054 0.172 0.14 0.108 0.194 0.145 0.194 0.1 0.2
-    #MIRNY 0.667 0.667 0.667 0.754 0.333 0.754 0.754 0.754 0.754 0.333 0.754
-    #WILLIAMSON 0.884 0.953 0.971 0.503 0.511 0.445 0.645 0.552 0.503 0.522
-    #LANDGRAF 0.752 0.726 0.847 0.539 0.436 0.25 0.433 0.476 0.547 0.308 0.6
-    #SANDER 0 0 0 0.16 0.107 0.093 0.133 0.027 0.16 0.12 0.2 0.107 0.17 0.01
-    #VALDAR 0 0 0 0.187 0.115 0.115 0.256 0.046 0.256 0.164 0.233 0.092 0.25
-    #SMERFS 0.625 0.625 0.625 0.625 0.446 0.3 0.232 0.232 0.232 0.232 0.232
+  #KABAT 0.7500 0.7500 0.7500 0.3750 0.3750 0.3750 0.9375 0.3750 0.9375 0.3750 0.3750 0.3750  ...
+  #JORES 0.0000 0.0000 0.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000  ...
+  #SCHNEIDER 0.6668 0.6668 0.6668 0.3332 0.3332 0.3332 0.7540 0.3332 0.7540 0.3332 0.3332 0.3332  ...
+  #SHENKIN 0.7789 0.7789 0.7789 0.4600 0.4600 0.4600 0.8448 0.4600 0.8448 0.4600 0.4600 0.4600  ...
+  #GERSTEIN 0.6667 0.6667 0.6667 0.3333 0.3333 0.3333 0.7540 0.3333 0.7540 0.3333 0.3333 0.3333  ...
+  #TAYLOR_GAPS 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000  ...
+  #TAYLOR_NO_GAPS 0.0000 1.0000 0.5263 0.0000 0.8947 0.0000 0.9474 0.0000 0.0000 0.7895 0.0000 0.8421  ...
+  #ZVELIBIL 0.1000 0.3000 0.4000 0.1000 0.2000 0.1000 0.3000 0.1000 0.3000 0.2000 0.2000 0.1000  ...
+  #KARLIN 0.3377 0.3377 0.3377 0.4333 0.3099 0.2641 0.5584 0.2877 0.5584 0.3377 0.4308 0.3377  ...
+  #ARMON 0.6171 0.6171 0.6171 0.2080 0.1034 0.0625 0.6171 0.1289 0.6171 0.1768 0.2036 0.1027  ...
+  #THOMPSON 0.7195 0.7269 0.7076 0.4506 0.3942 0.3841 0.4710 0.3744 0.4896 0.4283 0.4041 0.3928  ...
+  #NOT_LANCET 0.0108 0.0054 0.0538 0.1720 0.1398 0.1075 0.1935 0.1452 0.1935 0.1344 0.2097 0.1344  ...
+  #MIRNY 0.6667 0.6667 0.6667 0.7540 0.3333 0.7540 0.7540 0.7540 0.7540 0.3333 0.7540 0.3333  ...
+  #WILLIAMSON 0.8844 0.9531 0.9712 0.5029 0.5109 0.4447 0.6453 0.5525 0.5029 0.5220 0.6764 0.5195  ...
+  #LANDGRAF 0.7531 0.7268 0.8473 0.5329 0.4288 0.2384 0.4247 0.4698 0.5405 0.2981 0.6343 0.3350  ...
+  #SANDER 0.0000 0.0000 0.0000 0.1600 0.1067 0.0933 0.1333 0.0267 0.1600 0.1200 0.2000 0.1067  ...
+  #VALDAR 0.0000 0.0000 0.0000 0.1867 0.1145 0.1145 0.2530 0.0482 0.2530 0.1627 0.2349 0.0904  ...
+  #SMERFS 0.6250 0.6250 0.6250 0.6250 0.4462 0.3005 0.2324 0.2324 0.2324 0.2324 0.2324 0.2324  ...
 
 
 RESULT_WITH_ALIGNMENT output example is below:
@@ -144,8 +144,9 @@ RESULT_WITH_ALIGNMENT output example is below:
     VIIEDISN---WRPLVLFIPLRLGLTEM-NVVYNEPLKACFTFKQSLGIIGGRPNHATYFIGYFGNNLVYLDPHTTQQTV
     N-PDELSRIPDGSFHCVYPCRMNIADVDPSVALGFFCKSEEDFDDLCQQIKKIIDGKSRPMFEIAK--------DRPQHW
     PVLE----
-    #KABAT 3 3 3 6 6 6 1.5 6 1.5 6 6 6 1.5 6 6 9 3 3 3 3 3 3 3 1 1 1 9 9 3 1 9 3 9 9 9 9 3 9 3 9 9 3 3 6 6 6 6 6 9 9 3 3 9 9 9 9 6 6 6 6 6 1.5 1.5 6 9 9 3 9 3 1 1 9 9 1.5 3 3 3 3
-    #SANDER -72 -72 -72 -36 -48 -51 -42 -66 -36 -45 -27 -48 -33 -54 -45 3 30 9 30 -12 12 0 39 45 54 45 -18 -36 -72 -72 -72 -72
+    #KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...
+    (...)
+    #SMERFS 0.2593 0.2593 0.2593 0.2593 -0.0938 -0.3816 -0.5161 -0.5161 -0.5161 -0.5161 -0.5161 ...
 
 
 .. warning:: Please note that only a small part of the output is presented in all examples that follow for the sake of simplicity. Therefore the results are for illustration only. Normally each position of the alignment is given a conservation score by each calculation method.
@@ -181,7 +182,7 @@ The above command will print the results to the console. You should see somethin
 
 ::
 
-    #KABAT 3 3 3 6 6 6 1.5 6 1.5 6 6 6 1.5 6 6 9 3 3 3 3 3 3 3 1 1 1 9 9
+    #KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...
 
 
 **Calculate conservation using two or more methods, for example SANDER and KABAT**
@@ -193,8 +194,8 @@ java -jar compbio-conservation-1.1.jar -i=data.align -m=SANDER,KABAT
 The results will look something like this:
 ::
 
-    #KABAT 3 3 3 6 6 6 1.5 6 1.5 6 6 6 1.5 6 6 9 3 3 3 3 3 3 3 1 1 1 9 9 3
-    #SANDER -72 -72 -72 -36 -48 -51 -42 -66 -36 -45 -27 -48 -33 -54 -45 3 30
+    #KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...
+    #SANDER -72.0000 -72.0000 -72.0000 -36.0000 -48.0000 -51.0000 -42.0000 -66.0000 -36.0000 -45.0000 -27.0000 -48.0000 ...
 
 
 **Calculate conservation using all supported conservation methods and make results comparable**
@@ -282,31 +283,31 @@ The output of the previous command, the context of the stat.out file is below
     No methods are request assuming all are required.
     No output file is provided, writing results to the standard output.
     Setting output format to RESULT_WITH_ALIGNMENT
-    Using 4 CPUs
-    Start time: 2010/12/08 12:02:35
-    Alignment loaded in: 115 ms
+    Using 8 CPUs
+    Start time: 2017/05/23 09:58:13
+    Alignment loaded in: 68 ms
     Alignment has: 3 sequences.
     Alignment length is: 328
-    KARLIN 15 ms
-    LANDGRAF 25 ms
+    KARLIN 17 ms
+    LANDGRAF 17 ms
     SANDER 2 ms
-    VALDAR 2 ms
-    SMERFS 3 ms
-    SCHNEIDER 1 ms
-    KABAT 1 ms
+    VALDAR 4 ms
+    SMERFS 4 ms
+    KABAT 3 ms
     SHENKIN 3 ms
-    JORES 5 ms
-    GERSTEIN 3 ms
-    ARMON 1 ms
-    THOMPSON 4 ms
+    SCHNEIDER 5 ms
+    ARMON 3 ms
+    JORES 6 ms
+    GERSTEIN 8 ms
+    THOMPSON 6 ms
     NOT_LANCET 4 ms
-    ZVELIBIL 13 ms
-    MIRNY 4 ms
-    TAYLOR_GAPS 20 ms
-    WILLIAMSON 4 ms
-    TAYLOR_NO_GAPS 21 ms
+    MIRNY 9 ms
+    WILLIAMSON 11 ms
+    TAYLOR_NO_GAPS 20 ms
+    ZVELIBIL 21 ms
+    TAYLOR_GAPS 23 ms
     Total calculation time: 0 s
-    End time: 2010/12/08 12:02:36
+    End time: 2017/05/23 09:58:13
 
 
 ------------
@@ -318,6 +319,8 @@ Results normalization
 
 Different conservation algorithms produce vastly different values. To compare them meaningfully one need to bring the results into the same range. AACon bring the results to the range between 0 and 1 if ``-n`` switch is used.
 
+.. warning:: Normalization should be used carefully, especially when working with very 'gappy' alignments, where the occupancy of a  single amino acid is observed in aligned columns.
+
 
 ------------
 
@@ -326,7 +329,7 @@ Different conservation algorithms produce vastly different values. To compare th
 Conservation for large alignments
 ---------------------------------
 
-.. attention:: Troubleshooting Java VM running out of memory
+.. .. attention:: Troubleshooting Java VM running out of memory
 
 To enable AACon to deal with large alignments (thousands of sequences) let the Java Virtual Machine use more memory with the flag ``-Xmx<AMOUNT_OF_MEMORY>`` to your command line as follows:
 

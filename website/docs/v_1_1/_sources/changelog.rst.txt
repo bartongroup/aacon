@@ -11,7 +11,7 @@ Some minor bugs have been fixed and the website and documentation were improved:
 
 * `Sphinx`_ is now used to generate our documentation pages.
 * Documentation was updated to reflect the latest changes introduced in the project.
-* Conservation scores are now reported as three decimal place numbers, for both method outputs and normalisations.
+* Conservation scores are now reported as four decimal place numbers, for both method outputs and normalisations.
 
 .. _v1.0:
 

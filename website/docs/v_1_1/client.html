@@ -250,25 +250,25 @@
 <div class="section" id="output">
 <span id="cli-output"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
 <p>AACon supports two modes of the output the first and the default mode is <em>RESULT_NO_ALIGNMENT</em>. Only the method names and the conservation score for each position in the alignment are presented. The second output format is <em>RESULT_WITH_ALIGNMEN</em>, where the input, in the form of FASTA formatted alignment, is included at the beginning of the file, followed by the same output as <em>RESULT_NO_ALIGNMENT</em>.</p>
-<p>RESULT_NO_ALIGNMENT example is below:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 0.75 0.75 0.75 0.375 0.375 0.375 0.938 0.375 0.938 0.375 0.37 0.3</span>
-<span class="c1">#JORES 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span>
-<span class="c1">#SCHNEIDER 0.667 0.667 0.667 0.333 0.333 0.333 0.754 0.333 0.754 0.333 0</span>
-<span class="c1">#SHENKIN 0.779 0.779 0.779 0.46 0.46 0.46 0.845 0.46 0.845 0.46 0.46 0.4</span>
-<span class="c1">#GERSTEIN 0.667 0.667 0.667 0.333 0.333 0.333 0.754 0.333 0.754 0.33 0.3</span>
-<span class="c1">#TAYLOR_GAPS 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.632 1 0 1 0.526 0.842 0 0.5</span>
-<span class="c1">#TAYLOR_NO_GAPS 0 1 0.526 0 0.895 0 0.947 0 0 0.789 0 0.842 0.947 0 0.94</span>
-<span class="c1">#ZVELIBIL 0.1 0.3 0.4 0.1 0.2 0.1 0.3 0.1 0.3 0.2 0.2 0.1 0.3 0 0.2 0.2</span>
-<span class="c1">#KARLIN 0.338 0.338 0.338 0.433 0.31 0.264 0.558 0.288 0.558 0.338 0.431</span>
-<span class="c1">#ARMON 0.617 0.617 0.617 0.208 0.103 0.063 0.617 0.129 0.617 0.177 0.204</span>
-<span class="c1">#THOMPSON 0.719 0.727 0.708 0.451 0.394 0.384 0.471 0.374 0.49 0.428 0.4</span>
-<span class="c1">#NOT_LANCET 0.011 0.005 0.054 0.172 0.14 0.108 0.194 0.145 0.194 0.1 0.2</span>
-<span class="c1">#MIRNY 0.667 0.667 0.667 0.754 0.333 0.754 0.754 0.754 0.754 0.333 0.754</span>
-<span class="c1">#WILLIAMSON 0.884 0.953 0.971 0.503 0.511 0.445 0.645 0.552 0.503 0.522</span>
-<span class="c1">#LANDGRAF 0.752 0.726 0.847 0.539 0.436 0.25 0.433 0.476 0.547 0.308 0.6</span>
-<span class="c1">#SANDER 0 0 0 0.16 0.107 0.093 0.133 0.027 0.16 0.12 0.2 0.107 0.17 0.01</span>
-<span class="c1">#VALDAR 0 0 0 0.187 0.115 0.115 0.256 0.046 0.256 0.164 0.233 0.092 0.25</span>
-<span class="c1">#SMERFS 0.625 0.625 0.625 0.625 0.446 0.3 0.232 0.232 0.232 0.232 0.232</span>
+<p>RESULT_NO_ALIGNMENT (and normalised) example is below:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 0.7500 0.7500 0.7500 0.3750 0.3750 0.3750 0.9375 0.3750 0.9375 0.3750 0.3750 0.3750  ...</span>
+<span class="c1">#JORES 0.0000 0.0000 0.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000  ...</span>
+<span class="c1">#SCHNEIDER 0.6668 0.6668 0.6668 0.3332 0.3332 0.3332 0.7540 0.3332 0.7540 0.3332 0.3332 0.3332  ...</span>
+<span class="c1">#SHENKIN 0.7789 0.7789 0.7789 0.4600 0.4600 0.4600 0.8448 0.4600 0.8448 0.4600 0.4600 0.4600  ...</span>
+<span class="c1">#GERSTEIN 0.6667 0.6667 0.6667 0.3333 0.3333 0.3333 0.7540 0.3333 0.7540 0.3333 0.3333 0.3333  ...</span>
+<span class="c1">#TAYLOR_GAPS 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000  ...</span>
+<span class="c1">#TAYLOR_NO_GAPS 0.0000 1.0000 0.5263 0.0000 0.8947 0.0000 0.9474 0.0000 0.0000 0.7895 0.0000 0.8421  ...</span>
+<span class="c1">#ZVELIBIL 0.1000 0.3000 0.4000 0.1000 0.2000 0.1000 0.3000 0.1000 0.3000 0.2000 0.2000 0.1000  ...</span>
+<span class="c1">#KARLIN 0.3377 0.3377 0.3377 0.4333 0.3099 0.2641 0.5584 0.2877 0.5584 0.3377 0.4308 0.3377  ...</span>
+<span class="c1">#ARMON 0.6171 0.6171 0.6171 0.2080 0.1034 0.0625 0.6171 0.1289 0.6171 0.1768 0.2036 0.1027  ...</span>
+<span class="c1">#THOMPSON 0.7195 0.7269 0.7076 0.4506 0.3942 0.3841 0.4710 0.3744 0.4896 0.4283 0.4041 0.3928  ...</span>
+<span class="c1">#NOT_LANCET 0.0108 0.0054 0.0538 0.1720 0.1398 0.1075 0.1935 0.1452 0.1935 0.1344 0.2097 0.1344  ...</span>
+<span class="c1">#MIRNY 0.6667 0.6667 0.6667 0.7540 0.3333 0.7540 0.7540 0.7540 0.7540 0.3333 0.7540 0.3333  ...</span>
+<span class="c1">#WILLIAMSON 0.8844 0.9531 0.9712 0.5029 0.5109 0.4447 0.6453 0.5525 0.5029 0.5220 0.6764 0.5195  ...</span>
+<span class="c1">#LANDGRAF 0.7531 0.7268 0.8473 0.5329 0.4288 0.2384 0.4247 0.4698 0.5405 0.2981 0.6343 0.3350  ...</span>
+<span class="c1">#SANDER 0.0000 0.0000 0.0000 0.1600 0.1067 0.0933 0.1333 0.0267 0.1600 0.1200 0.2000 0.1067  ...</span>
+<span class="c1">#VALDAR 0.0000 0.0000 0.0000 0.1867 0.1145 0.1145 0.2530 0.0482 0.2530 0.1627 0.2349 0.0904  ...</span>
+<span class="c1">#SMERFS 0.6250 0.6250 0.6250 0.6250 0.4462 0.3005 0.2324 0.2324 0.2324 0.2324 0.2324 0.2324  ...</span>
 </pre></div>
 </div>
 <p>RESULT_WITH_ALIGNMENT output example is below:</p>
@@ -290,8 +290,9 @@
 <span class="n">VIIEDISN</span><span class="o">---</span><span class="n">WRPLVLFIPLRLGLTEM</span><span class="o">-</span><span class="n">NVVYNEPLKACFTFKQSLGIIGGRPNHATYFIGYFGNNLVYLDPHTTQQTV</span>
 <span class="n">N</span><span class="o">-</span><span class="n">PDELSRIPDGSFHCVYPCRMNIADVDPSVALGFFCKSEEDFDDLCQQIKKIIDGKSRPMFEIAK</span><span class="o">--------</span><span class="n">DRPQHW</span>
 <span class="n">PVLE</span><span class="o">----</span>
-<span class="c1">#KABAT 3 3 3 6 6 6 1.5 6 1.5 6 6 6 1.5 6 6 9 3 3 3 3 3 3 3 1 1 1 9 9 3 1 9 3 9 9 9 9 3 9 3 9 9 3 3 6 6 6 6 6 9 9 3 3 9 9 9 9 6 6 6 6 6 1.5 1.5 6 9 9 3 9 3 1 1 9 9 1.5 3 3 3 3</span>
-<span class="c1">#SANDER -72 -72 -72 -36 -48 -51 -42 -66 -36 -45 -27 -48 -33 -54 -45 3 30 9 30 -12 12 0 39 45 54 45 -18 -36 -72 -72 -72 -72</span>
+<span class="c1">#KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
+<span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="c1">#SMERFS 0.2593 0.2593 0.2593 0.2593 -0.0938 -0.3816 -0.5161 -0.5161 -0.5161 -0.5161 -0.5161 ...</span>
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -313,15 +314,15 @@
 </pre></div>
 </div>
 <p>The above command will print the results to the console. You should see something like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 3 3 3 6 6 6 1.5 6 1.5 6 6 6 1.5 6 6 9 3 3 3 3 3 3 3 1 1 1 9 9</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
 </pre></div>
 </div>
 <p><strong>Calculate conservation using two or more methods, for example SANDER and KABAT</strong></p>
 <p>Just specify the list of comma separated methods after <code class="docutils literal"><span class="pre">-m</span></code> switch like this:</p>
 <p>java -jar compbio-conservation-1.1.jar -i=data.align -m=SANDER,KABAT</p>
 <p>The results will look something like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 3 3 3 6 6 6 1.5 6 1.5 6 6 6 1.5 6 6 9 3 3 3 3 3 3 3 1 1 1 9 9 3</span>
-<span class="c1">#SANDER -72 -72 -72 -36 -48 -51 -42 -66 -36 -45 -27 -48 -33 -54 -45 3 30</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
+<span class="c1">#SANDER -72.0000 -72.0000 -72.0000 -36.0000 -48.0000 -51.0000 -42.0000 -66.0000 -36.0000 -45.0000 -27.0000 -48.0000 ...</span>
 </pre></div>
 </div>
 <p><strong>Calculate conservation using all supported conservation methods and make results comparable</strong></p>
@@ -377,31 +378,31 @@
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">No</span> <span class="n">methods</span> <span class="n">are</span> <span class="n">request</span> <span class="n">assuming</span> <span class="nb">all</span> <span class="n">are</span> <span class="n">required</span><span class="o">.</span>
 <span class="n">No</span> <span class="n">output</span> <span class="n">file</span> <span class="ow">is</span> <span class="n">provided</span><span class="p">,</span> <span class="n">writing</span> <span class="n">results</span> <span class="n">to</span> <span class="n">the</span> <span class="n">standard</span> <span class="n">output</span><span class="o">.</span>
 <span class="n">Setting</span> <span class="n">output</span> <span class="nb">format</span> <span class="n">to</span> <span class="n">RESULT_WITH_ALIGNMENT</span>
-<span class="n">Using</span> <span class="mi">4</span> <span class="n">CPUs</span>
-<span class="n">Start</span> <span class="n">time</span><span class="p">:</span> <span class="mi">2010</span><span class="o">/</span><span class="mi">12</span><span class="o">/</span><span class="mi">08</span> <span class="mi">12</span><span class="p">:</span><span class="mi">02</span><span class="p">:</span><span class="mi">35</span>
-<span class="n">Alignment</span> <span class="n">loaded</span> <span class="ow">in</span><span class="p">:</span> <span class="mi">115</span> <span class="n">ms</span>
+<span class="n">Using</span> <span class="mi">8</span> <span class="n">CPUs</span>
+<span class="n">Start</span> <span class="n">time</span><span class="p">:</span> <span class="mi">2017</span><span class="o">/</span><span class="mi">05</span><span class="o">/</span><span class="mi">23</span> <span class="mi">09</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mi">13</span>
+<span class="n">Alignment</span> <span class="n">loaded</span> <span class="ow">in</span><span class="p">:</span> <span class="mi">68</span> <span class="n">ms</span>
 <span class="n">Alignment</span> <span class="n">has</span><span class="p">:</span> <span class="mi">3</span> <span class="n">sequences</span><span class="o">.</span>
 <span class="n">Alignment</span> <span class="n">length</span> <span class="ow">is</span><span class="p">:</span> <span class="mi">328</span>
-<span class="n">KARLIN</span> <span class="mi">15</span> <span class="n">ms</span>
-<span class="n">LANDGRAF</span> <span class="mi">25</span> <span class="n">ms</span>
+<span class="n">KARLIN</span> <span class="mi">17</span> <span class="n">ms</span>
+<span class="n">LANDGRAF</span> <span class="mi">17</span> <span class="n">ms</span>
 <span class="n">SANDER</span> <span class="mi">2</span> <span class="n">ms</span>
-<span class="n">VALDAR</span> <span class="mi">2</span> <span class="n">ms</span>
-<span class="n">SMERFS</span> <span class="mi">3</span> <span class="n">ms</span>
-<span class="n">SCHNEIDER</span> <span class="mi">1</span> <span class="n">ms</span>
-<span class="n">KABAT</span> <span class="mi">1</span> <span class="n">ms</span>
+<span class="n">VALDAR</span> <span class="mi">4</span> <span class="n">ms</span>
+<span class="n">SMERFS</span> <span class="mi">4</span> <span class="n">ms</span>
+<span class="n">KABAT</span> <span class="mi">3</span> <span class="n">ms</span>
 <span class="n">SHENKIN</span> <span class="mi">3</span> <span class="n">ms</span>
-<span class="n">JORES</span> <span class="mi">5</span> <span class="n">ms</span>
-<span class="n">GERSTEIN</span> <span class="mi">3</span> <span class="n">ms</span>
-<span class="n">ARMON</span> <span class="mi">1</span> <span class="n">ms</span>
-<span class="n">THOMPSON</span> <span class="mi">4</span> <span class="n">ms</span>
+<span class="n">SCHNEIDER</span> <span class="mi">5</span> <span class="n">ms</span>
+<span class="n">ARMON</span> <span class="mi">3</span> <span class="n">ms</span>
+<span class="n">JORES</span> <span class="mi">6</span> <span class="n">ms</span>
+<span class="n">GERSTEIN</span> <span class="mi">8</span> <span class="n">ms</span>
+<span class="n">THOMPSON</span> <span class="mi">6</span> <span class="n">ms</span>
 <span class="n">NOT_LANCET</span> <span class="mi">4</span> <span class="n">ms</span>
-<span class="n">ZVELIBIL</span> <span class="mi">13</span> <span class="n">ms</span>
-<span class="n">MIRNY</span> <span class="mi">4</span> <span class="n">ms</span>
-<span class="n">TAYLOR_GAPS</span> <span class="mi">20</span> <span class="n">ms</span>
-<span class="n">WILLIAMSON</span> <span class="mi">4</span> <span class="n">ms</span>
-<span class="n">TAYLOR_NO_GAPS</span> <span class="mi">21</span> <span class="n">ms</span>
+<span class="n">MIRNY</span> <span class="mi">9</span> <span class="n">ms</span>
+<span class="n">WILLIAMSON</span> <span class="mi">11</span> <span class="n">ms</span>
+<span class="n">TAYLOR_NO_GAPS</span> <span class="mi">20</span> <span class="n">ms</span>
+<span class="n">ZVELIBIL</span> <span class="mi">21</span> <span class="n">ms</span>
+<span class="n">TAYLOR_GAPS</span> <span class="mi">23</span> <span class="n">ms</span>
 <span class="n">Total</span> <span class="n">calculation</span> <span class="n">time</span><span class="p">:</span> <span class="mi">0</span> <span class="n">s</span>
-<span class="n">End</span> <span class="n">time</span><span class="p">:</span> <span class="mi">2010</span><span class="o">/</span><span class="mi">12</span><span class="o">/</span><span class="mi">08</span> <span class="mi">12</span><span class="p">:</span><span class="mi">02</span><span class="p">:</span><span class="mi">36</span>
+<span class="n">End</span> <span class="n">time</span><span class="p">:</span> <span class="mi">2017</span><span class="o">/</span><span class="mi">05</span><span class="o">/</span><span class="mi">23</span> <span class="mi">09</span><span class="p">:</span><span class="mi">58</span><span class="p">:</span><span class="mi">13</span>
 </pre></div>
 </div>
 <hr class="docutils" />
@@ -409,14 +410,14 @@
 <div class="section" id="results-normalization">
 <span id="cli-results-norm"></span><h2>Results normalization<a class="headerlink" href="#results-normalization" title="Permalink to this headline">¶</a></h2>
 <p>Different conservation algorithms produce vastly different values. To compare them meaningfully one need to bring the results into the same range. AACon bring the results to the range between 0 and 1 if <code class="docutils literal"><span class="pre">-n</span></code> switch is used.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Normalization should be used carefully, especially when working with very &#8216;gappy&#8217; alignments, where the occupancy of a  single amino acid is observed in aligned columns.</p>
+</div>
 <hr class="docutils" />
 </div>
 <div class="section" id="conservation-for-large-alignments">
 <span id="cli-large-aln"></span><h2>Conservation for large alignments<a class="headerlink" href="#conservation-for-large-alignments" title="Permalink to this headline">¶</a></h2>
-<div class="admonition attention">
-<p class="first admonition-title">Attention</p>
-<p class="last">Troubleshooting Java VM running out of memory</p>
-</div>
 <p>To enable AACon to deal with large alignments (thousands of sequences) let the Java Virtual Machine use more memory with the flag <code class="docutils literal"><span class="pre">-Xmx&lt;AMOUNT_OF_MEMORY&gt;</span></code> to your command line as follows:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>java -Xmx1G -jar aacon.jar &lt;options&gt;
 </pre></div>
