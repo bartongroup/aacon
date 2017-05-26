@@ -4,8 +4,8 @@
 rm -rf _build
 # generating the html pages
 make html
-mkdir ../../website/docs/v_1_1/
-cp -r _build/html/* ../../website/docs/v_1_1/
+mkdir ../../website/docs/
+cp -r _build/html/* ../../website/docs/
 rm -rf _build
 
 # # generating the pdf
@@ -32,9 +32,11 @@ rm -rf _build
 # }
 
 # add the note.
-# Note: Some of the hyper-links found in this pdf might not work properly.
+# # \begin{sphinxadmonition}{note}{Note:}
+# # Some of the hyper-links found in this pdf might not work properly.
+# # \end{sphinxadmonition}
 
-# cp _build/latex/aacon.pdf ../../website/docs/v_1_1/aacon_manual.pdf
+# cp _build/latex/aacon.pdf ../../website/docs/aacon_manual.pdf
 # rm -rf _build
 
 # for multiple versions of this manual we need to implement some solution
