@@ -6,7 +6,7 @@ AACon is a set of tools implementing 17 different conservation scores reviewed b
 AACon is available as a SOAP web service, a stand alone Java executable and a Java library with concise API for accessing all the conservation methods programmatically. The executable runs on all platforms that support Java version 5 and above (Windows, Unix/Linux, Mac).
 
 Downloads and more information how to use AACon at http://www.compbio.dundee.ac.uk/aacon/  
-Full documentation pages at http://www.compbio.dundee.ac.uk/aacon/docs/v_1_1/index.html  
+Full documentation pages at http://www.compbio.dundee.ac.uk/aacon/docs/index.html  
 
 
 Contributions and Issues
