@@ -144,7 +144,9 @@ public final class ConservationFormatter {
 		Iterator<ConservationMethod> itr = scores.keySet().iterator();
 		while (itr.hasNext()) {
 			ConservationMethod key = itr.next();
-			print.print("#" + key.toString() + " ");
+			// the longest of the methods' name length is 14
+			print.print("#" + key.toString() + String.format("%0" +
+					(14 - key.toString().length() + 1) + "d", 0).replace("0", " "));
 			ConservationAccessory.printArrayOfDouble(scores.get(key), print,
 					PRECISION);
 		}
