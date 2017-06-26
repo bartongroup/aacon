@@ -251,24 +251,24 @@
 <span id="cli-output"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
 <p>AACon supports two modes of the output the first and the default mode is <em>RESULT_NO_ALIGNMENT</em>. Only the method names and the conservation score for each position in the alignment are presented. The second output format is <em>RESULT_WITH_ALIGNMEN</em>, where the input, in the form of FASTA formatted alignment, is included at the beginning of the file, followed by the same output as <em>RESULT_NO_ALIGNMENT</em>.</p>
 <p>RESULT_NO_ALIGNMENT (and normalised) example is below:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 0.7500 0.7500 0.7500 0.3750 0.3750 0.3750 0.9375 0.3750 0.9375 0.3750 0.3750 0.3750  ...</span>
-<span class="c1">#JORES 0.0000 0.0000 0.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000  ...</span>
-<span class="c1">#SCHNEIDER 0.6668 0.6668 0.6668 0.3332 0.3332 0.3332 0.7540 0.3332 0.7540 0.3332 0.3332 0.3332  ...</span>
-<span class="c1">#SHENKIN 0.7789 0.7789 0.7789 0.4600 0.4600 0.4600 0.8448 0.4600 0.8448 0.4600 0.4600 0.4600  ...</span>
-<span class="c1">#GERSTEIN 0.6667 0.6667 0.6667 0.3333 0.3333 0.3333 0.7540 0.3333 0.7540 0.3333 0.3333 0.3333  ...</span>
-<span class="c1">#TAYLOR_GAPS 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000  ...</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT          0.7500 0.7500 0.7500 0.3750 0.3750 0.3750 0.9375 0.3750 0.9375 0.3750 0.3750 0.3750  ...</span>
+<span class="c1">#JORES          0.0000 0.0000 0.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000  ...</span>
+<span class="c1">#SCHNEIDER      0.6668 0.6668 0.6668 0.3332 0.3332 0.3332 0.7540 0.3332 0.7540 0.3332 0.3332 0.3332  ...</span>
+<span class="c1">#SHENKIN        0.7789 0.7789 0.7789 0.4600 0.4600 0.4600 0.8448 0.4600 0.8448 0.4600 0.4600 0.4600  ...</span>
+<span class="c1">#GERSTEIN       0.6667 0.6667 0.6667 0.3333 0.3333 0.3333 0.7540 0.3333 0.7540 0.3333 0.3333 0.3333  ...</span>
+<span class="c1">#TAYLOR_GAPS    0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000 0.0000  ...</span>
 <span class="c1">#TAYLOR_NO_GAPS 0.0000 1.0000 0.5263 0.0000 0.8947 0.0000 0.9474 0.0000 0.0000 0.7895 0.0000 0.8421  ...</span>
-<span class="c1">#ZVELIBIL 0.1000 0.3000 0.4000 0.1000 0.2000 0.1000 0.3000 0.1000 0.3000 0.2000 0.2000 0.1000  ...</span>
-<span class="c1">#KARLIN 0.3377 0.3377 0.3377 0.4333 0.3099 0.2641 0.5584 0.2877 0.5584 0.3377 0.4308 0.3377  ...</span>
-<span class="c1">#ARMON 0.6171 0.6171 0.6171 0.2080 0.1034 0.0625 0.6171 0.1289 0.6171 0.1768 0.2036 0.1027  ...</span>
-<span class="c1">#THOMPSON 0.7195 0.7269 0.7076 0.4506 0.3942 0.3841 0.4710 0.3744 0.4896 0.4283 0.4041 0.3928  ...</span>
-<span class="c1">#NOT_LANCET 0.0108 0.0054 0.0538 0.1720 0.1398 0.1075 0.1935 0.1452 0.1935 0.1344 0.2097 0.1344  ...</span>
-<span class="c1">#MIRNY 0.6667 0.6667 0.6667 0.7540 0.3333 0.7540 0.7540 0.7540 0.7540 0.3333 0.7540 0.3333  ...</span>
-<span class="c1">#WILLIAMSON 0.8844 0.9531 0.9712 0.5029 0.5109 0.4447 0.6453 0.5525 0.5029 0.5220 0.6764 0.5195  ...</span>
-<span class="c1">#LANDGRAF 0.7531 0.7268 0.8473 0.5329 0.4288 0.2384 0.4247 0.4698 0.5405 0.2981 0.6343 0.3350  ...</span>
-<span class="c1">#SANDER 0.0000 0.0000 0.0000 0.1600 0.1067 0.0933 0.1333 0.0267 0.1600 0.1200 0.2000 0.1067  ...</span>
-<span class="c1">#VALDAR 0.0000 0.0000 0.0000 0.1867 0.1145 0.1145 0.2530 0.0482 0.2530 0.1627 0.2349 0.0904  ...</span>
-<span class="c1">#SMERFS 0.6250 0.6250 0.6250 0.6250 0.4462 0.3005 0.2324 0.2324 0.2324 0.2324 0.2324 0.2324  ...</span>
+<span class="c1">#ZVELIBIL       0.1000 0.3000 0.4000 0.1000 0.2000 0.1000 0.3000 0.1000 0.3000 0.2000 0.2000 0.1000  ...</span>
+<span class="c1">#KARLIN         0.3377 0.3377 0.3377 0.4333 0.3099 0.2641 0.5584 0.2877 0.5584 0.3377 0.4308 0.3377  ...</span>
+<span class="c1">#ARMON          0.6171 0.6171 0.6171 0.2080 0.1034 0.0625 0.6171 0.1289 0.6171 0.1768 0.2036 0.1027  ...</span>
+<span class="c1">#THOMPSON       0.7195 0.7269 0.7076 0.4506 0.3942 0.3841 0.4710 0.3744 0.4896 0.4283 0.4041 0.3928  ...</span>
+<span class="c1">#NOT_LANCET     0.0108 0.0054 0.0538 0.1720 0.1398 0.1075 0.1935 0.1452 0.1935 0.1344 0.2097 0.1344  ...</span>
+<span class="c1">#MIRNY          0.6667 0.6667 0.6667 0.7540 0.3333 0.7540 0.7540 0.7540 0.7540 0.3333 0.7540 0.3333  ...</span>
+<span class="c1">#WILLIAMSON     0.8844 0.9531 0.9712 0.5029 0.5109 0.4447 0.6453 0.5525 0.5029 0.5220 0.6764 0.5195  ...</span>
+<span class="c1">#LANDGRAF       0.7531 0.7268 0.8473 0.5329 0.4288 0.2384 0.4247 0.4698 0.5405 0.2981 0.6343 0.3350  ...</span>
+<span class="c1">#SANDER         0.0000 0.0000 0.0000 0.1600 0.1067 0.0933 0.1333 0.0267 0.1600 0.1200 0.2000 0.1067  ...</span>
+<span class="c1">#VALDAR         0.0000 0.0000 0.0000 0.1867 0.1145 0.1145 0.2530 0.0482 0.2530 0.1627 0.2349 0.0904  ...</span>
+<span class="c1">#SMERFS         0.6250 0.6250 0.6250 0.6250 0.4462 0.3005 0.2324 0.2324 0.2324 0.2324 0.2324 0.2324  ...</span>
 </pre></div>
 </div>
 <p>RESULT_WITH_ALIGNMENT output example is below:</p>
@@ -290,9 +290,9 @@
 <span class="n">VIIEDISN</span><span class="o">---</span><span class="n">WRPLVLFIPLRLGLTEM</span><span class="o">-</span><span class="n">NVVYNEPLKACFTFKQSLGIIGGRPNHATYFIGYFGNNLVYLDPHTTQQTV</span>
 <span class="n">N</span><span class="o">-</span><span class="n">PDELSRIPDGSFHCVYPCRMNIADVDPSVALGFFCKSEEDFDDLCQQIKKIIDGKSRPMFEIAK</span><span class="o">--------</span><span class="n">DRPQHW</span>
 <span class="n">PVLE</span><span class="o">----</span>
-<span class="c1">#KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
+<span class="c1">#KABAT          3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
 <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="c1">#SMERFS 0.2593 0.2593 0.2593 0.2593 -0.0938 -0.3816 -0.5161 -0.5161 -0.5161 -0.5161 -0.5161 ...</span>
+<span class="c1">#SMERFS         0.2593 0.2593 0.2593 0.2593 -0.0938 -0.3816 -0.5161 -0.5161 -0.5161 -0.5161 -0.5161 ...</span>
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -314,15 +314,15 @@
 </pre></div>
 </div>
 <p>The above command will print the results to the console. You should see something like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT          3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
 </pre></div>
 </div>
 <p><strong>Calculate conservation using two or more methods, for example SANDER and KABAT</strong></p>
 <p>Just specify the list of comma separated methods after <code class="docutils literal"><span class="pre">-m</span></code> switch like this:</p>
 <p>java -jar compbio-conservation-1.1.jar -i=data.align -m=SANDER,KABAT</p>
 <p>The results will look something like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT 3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
-<span class="c1">#SANDER -72.0000 -72.0000 -72.0000 -36.0000 -48.0000 -51.0000 -42.0000 -66.0000 -36.0000 -45.0000 -27.0000 -48.0000 ...</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#KABAT          3.0000 3.0000 3.0000 6.0000 6.0000 6.0000 1.5000 6.0000 1.5000 6.0000 6.0000 6.0000 ...</span>
+<span class="c1">#SANDER         -72.0000 -72.0000 -72.0000 -36.0000 -48.0000 -51.0000 -42.0000 -66.0000 -36.0000 -45.0000 -27.0000 -48.0000 ...</span>
 </pre></div>
 </div>
 <p><strong>Calculate conservation using all supported conservation methods and make results comparable</strong></p>
@@ -354,7 +354,7 @@
 <li>A gap percentage cutoff - a float greater than 0 and smaller or equal 1</li>
 </ol>
 <p>For example:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>SMERFS -s<span class="o">=</span>5,MID_SCORE,0.1
+<div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>SMERFS -s<span class="o">=</span><span class="m">5</span>,MID_SCORE,0.1
 </pre></div>
 </div>
 <hr class="docutils" />
