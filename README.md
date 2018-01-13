@@ -18,7 +18,7 @@ Issue Tracker: https://github.com/bartongroup/aacon/issues
 Authors and Citation
 --------------------
 
-Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira, James B. Procter and Geoffrey J. Barton (2017) **AACon: A Fast Amino Acid Conservation Calculation Service.** Paper in preparation.
+Peter Troshin, Agnieszka Golicz, David Martin, Fábio Madeira, James B. Procter and Geoffrey J. Barton (2017) **AACon: A Fast Amino Acid Conservation Calculation Service.** Submitted Paper.
 
 
 Contacts and Support
