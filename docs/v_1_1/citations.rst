@@ -6,4 +6,4 @@ Citations
 
 .. _citations:
 
-Peter V. Troshin, Agnieszka Golicz, David M. A. Martin, Fábio Madeira, James B. Procter and Geoffrey J. Barton (2007) **AACon: A Fast Amino Acid Conservation Calculation Service** *Paper in preparation.*
+Agnieszka Golicz, Peter V. Troshin, Fábio Madeira, David M. A. Martin, James B. Procter and Geoffrey J. Barton (2018) **AACon: A Fast Amino Acid Conservation Calculation Service** *Submitted paper.*

@@ -334,7 +334,7 @@
 </div>
 <div class="section" id="custom-gap-character">
 <span id="cli-custom-gap"></span><h2>Custom gap character<a class="headerlink" href="#custom-gap-character" title="Permalink to this headline">¶</a></h2>
-<p>Assuming that the gaps in the alignment are represented by <em>&#8216;-&#8216;</em>, <em>&#8216;_&#8217;</em> and <em>&#8216;x&#8217;</em> symbols the following command will interpret them correctly.</p>
+<p>Assuming that the gaps in the alignment are represented by <em>‘-‘</em>, <em>‘_’</em> and <em>‘x’</em> symbols the following command will interpret them correctly.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar compbio-conservation-1.1.jar -i<span class="o">=</span>data.align -m<span class="o">=</span>KABAT -g<span class="o">=</span>-,_,x
 </pre></div>
 </div>
@@ -412,7 +412,7 @@
 <p>Different conservation algorithms produce vastly different values. To compare them meaningfully one need to bring the results into the same range. AACon bring the results to the range between 0 and 1 if <code class="docutils literal"><span class="pre">-n</span></code> switch is used.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Normalization should be used carefully, especially when working with very &#8216;gappy&#8217; alignments, where the occupancy of a  single amino acid is observed in aligned columns.</p>
+<p class="last">Normalization should be used carefully, especially when working with very ‘gappy’ alignments, where the occupancy of a  single amino acid is observed in aligned columns.</p>
 </div>
 <hr class="docutils" />
 </div>

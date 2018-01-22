@@ -14,7 +14,7 @@ rm -rf _build
 
 ## add the following to the latex and change the date to match the release date
 
-# \author{Peter V. Troshin \and Agnieszka Golicz \and David M. A. Martin \and Fábio Madeira \and James B. Procter \and Geoffrey J. Barton}
+# \author{Agnieszka Golicz \and Peter V. Troshin \and Fábio Madeira \and David M. A. Martin \and James B. Procter \and Geoffrey J. Barton}
 # \authoraddress{
 # The Barton Group
 #

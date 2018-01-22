@@ -243,7 +243,7 @@ Please note that -r and -f options cannot be used together. Conservation can be 
 <span class="o">---</span><span class="n">MDAACVTYEGVSHETEEDVWILGKRYNIDMGYLNTD</span>
 </pre></div>
 </div>
-<p>Calculate conservation using 12 fast conservation methods (using preset &#8220;Quick conservation&#8221;), write output results to the result.txt file</p>
+<p>Calculate conservation using 12 fast conservation methods (using preset “Quick conservation”), write output results to the result.txt file</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>java -jar aacon-client.jar -i<span class="o">=</span>d:<span class="se">\i</span>nput.fasta -o<span class="o">=</span>d:<span class="se">\r</span>esult.txt -r<span class="o">=</span><span class="s2">&quot;Quick conservation&quot;</span>
 </pre></div>
 </div>
@@ -323,7 +323,7 @@ Please note that -r and -f options cannot be used together. Conservation can be 
 </div>
 <div class="section" id="calculating-conservation">
 <span id="web-cons"></span><h2>Calculating conservation<a class="headerlink" href="#calculating-conservation" title="Permalink to this headline">¶</a></h2>
-<p>Given that <code class="docutils literal"><span class="pre">client</span></code> is web service proxy, created as described in &#8220;Connecting to AAConWS&#8221; section, the conservation scores can be obtained as follows:</p>
+<p>Given that <code class="docutils literal"><span class="pre">client</span></code> is web service proxy, created as described in “Connecting to AAConWS” section, the conservation scores can be obtained as follows:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">)</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">FastaSequence</span><span class="o">&gt;</span> <span class="n">fsl</span> <span class="o">=</span> <span class="n">SequenceUtil</span><span class="o">.</span><span class="n">readFasta</span><span class="p">(</span><span class="n">new</span> <span class="n">FileInputStream</span><span class="p">(</span><span class="s2">&quot;alignment.fasta&quot;</span><span class="p">));</span>
 <span class="mi">2</span><span class="p">)</span> <span class="n">String</span> <span class="n">jobId</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">analize</span><span class="p">(</span><span class="n">fsl</span><span class="p">);</span>
 <span class="mi">3</span><span class="p">)</span> <span class="n">HashSet</span><span class="o">&lt;</span><span class="n">Score</span><span class="o">&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">getAnnotation</span><span class="p">(</span><span class="n">jobId</span><span class="p">);</span>
@@ -357,9 +357,9 @@ Line two calls web service <code class="docutils literal"><span class="pre">pres
 Lines three retrieves the results using job identifier.</p>
 <p>Available presets are:</p>
 <ul class="simple">
-<li>&#8220;Quick conservation&#8221; (a collection of 12 fast conservation algorithms includes KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, ZVELIBIL,ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON)</li>
-<li>&#8220;Slow conservation&#8221; (a collection of time consuming conservation algorithms includes LANDGRAF, KARLIN, SANDER, VALDAR and SMERFS)</li>
-<li>&#8220;Complete conservation&#8221; (all available algorithms)</li>
+<li>“Quick conservation” (a collection of 12 fast conservation algorithms includes KABAT, JORES, SCHNEIDER, SHENKIN, GERSTEIN, TAYLOR_GAPS, TAYLOR_NO_GAPS, ZVELIBIL,ARMON, THOMPSON, NOT_LANCET, MIRNY, WILLIAMSON)</li>
+<li>“Slow conservation” (a collection of time consuming conservation algorithms includes LANDGRAF, KARLIN, SANDER, VALDAR and SMERFS)</li>
+<li>“Complete conservation” (all available algorithms)</li>
 </ul>
 <hr class="docutils" />
 </div>
@@ -384,7 +384,7 @@ Line six retrieves the results of the analysis. The names of all the parameters 
 </div>
 <div class="section" id="a-complete-aaconws-web-service-client-example">
 <span id="web-cons-example"></span><h2>A complete AAConWS web service client example<a class="headerlink" href="#a-complete-aaconws-web-service-client-example" title="Permalink to this headline">¶</a></h2>
-<p>Finally, a complete example of the program that connects to AAConWS service is below. The text notes are commented by block style comments e.g. /* comment */, the code alternatives are commented out with the line comments - &#8220;//&#8221;. You may want to remove line style comments to test alternatives of the functions. All you need for this to work is a AAConWS binary client. Please make sure that the client is in the Java class path before running this example.</p>
+<p>Finally, a complete example of the program that connects to AAConWS service is below. The text notes are commented by block style comments e.g. /* comment */, the code alternatives are commented out with the line comments - “//”. You may want to remove line style comments to test alternatives of the functions. All you need for this to work is a AAConWS binary client. Please make sure that the client is in the Java class path before running this example.</p>
 <div class="highlight-java"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">java.io.ByteArrayInputStream</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.io.FileNotFoundException</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
